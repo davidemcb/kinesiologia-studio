@@ -28,6 +28,120 @@
             height: 100vh;
         }
 
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group > label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .modal-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .modal-button:active {
+            transform: scale(0.98);
+        }
+
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -44,6 +158,12 @@
         .header .subtitle {
             font-size: 12px;
             opacity: 0.9;
+        }
+
+        .header .user-name {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 8px;
         }
 
         .nav-tabs {
@@ -85,7 +205,7 @@
             display: block;
         }
 
-        .advice-card, .article-card, .exercise-card {
+        .post-card, .advice-card, .article-card, .exercise-card {
             background: white;
             padding: 20px;
             margin-bottom: 15px;
@@ -94,16 +214,34 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
-        .advice-title, .article-title, .exercise-title {
+        .topic-tag {
+            display: inline-block;
+            background: #f0f4ff;
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .post-date {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 6px;
+        }
+
+        .post-title, .advice-title, .article-title, .exercise-title {
             font-weight: 600;
             font-size: 16px;
             margin-bottom: 10px;
         }
 
-        .advice-text, .article-text, .exercise-text {
+        .post-text, .advice-text, .article-text, .exercise-text {
             font-size: 14px;
             color: #666;
             line-height: 1.6;
+            white-space: pre-line;
         }
 
         .timer-section {
@@ -159,46 +297,6 @@
             border-left: 3px solid #764ba2;
         }
 
-        .prenota-container {
-            text-align: center;
-        }
-
-        .prenota-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .prenota-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .prenota-text {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .prenota-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            padding: 16px 32px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-        }
-
-        .prenota-button:active {
-            transform: scale(0.98);
-        }
-
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -231,13 +329,86 @@
             display: block;
             margin-bottom: 4px;
         }
+
+        .edit-button {
+            display: inline-block;
+            background: none;
+            color: #667eea;
+            border: 1px solid #667eea;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 20px 0 10px;
+        }
+
+        .loading, .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div class="app-container">
+        <!-- ONBOARDING -->
+        <div class="modal-overlay hidden" id="onboardingModal">
+            <div class="modal-content">
+                <h2>👋 Benvenuto!</h2>
+                <p>Inserisci il tuo nome, la data dell'ultimo trattamento e gli argomenti che ti interessano.</p>
+
+                <div class="form-group">
+                    <label>Il tuo nome</label>
+                    <input type="text" id="clientName" placeholder="Es: Mario">
+                </div>
+
+                <div class="form-group">
+                    <label>Data ultimo trattamento</label>
+                    <input type="date" id="lastTreatmentDate">
+                </div>
+
+                <div class="checkbox-group">
+                    <label>Argomenti che ti interessano:</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="topic-stress" value="stress">
+                        <label for="topic-stress">🧘 Stress e rilassamento</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="topic-atm" value="temporo-mandibolare">
+                        <label for="topic-atm">😬 Temporo-mandibolare</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="topic-schiena" value="schiena">
+                        <label for="topic-schiena">🔙 Schiena</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="topic-cervicale" value="cervicale">
+                        <label for="topic-cervicale">🧠 Cervicale</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="topic-sport" value="sport">
+                        <label for="topic-sport">⚽ Sport</label>
+                    </div>
+                </div>
+
+                <button class="modal-button" onclick="saveOnboarding()">Inizia</button>
+            </div>
+        </div>
+
         <div class="header">
             <h1>Kinesiologia Studio</h1>
             <p class="subtitle">Il Tuo Alleato del Benessere</p>
+            <p class="user-name" id="headerName"></p>
         </div>
 
         <div class="nav-tabs">
@@ -251,18 +422,19 @@
             <div class="tab-content active" id="tab-oggi">
                 <div class="timer-section">
                     <div>PROSSIMO CONTROLLO</div>
-                    <div class="timer-days">90</div>
-                    <div>giorni dal tuo ultimo trattamento</div>
+                    <div class="timer-days" id="timerDays">--</div>
+                    <div id="timerText">giorni dal tuo ultimo trattamento</div>
                 </div>
 
-                <div class="advice-card">
-                    <div class="advice-title">Bevi acqua ogni ora</div>
-                    <div class="advice-text">I muscoli lavorano male se disidratati. Una bottiglia d'acqua vicino alla scrivania. Non aspettare di aver sete.</div>
-                </div>
+                <button class="edit-button" onclick="resetOnboarding()">✏️ Aggiorna i miei dati</button>
 
+                <div class="section-label">Novità per te</div>
+                <div id="postsContainer" class="loading">Caricamento...</div>
+
+                <div class="section-label">Consiglio del giorno</div>
                 <div class="advice-card">
-                    <div class="advice-title">Perché funziona</div>
-                    <div class="advice-text">Piccoli gesti quotidiani evitano che il problema torni. Non aspettare il dolore — costruisci prevenzione ogni giorno.</div>
+                    <div class="advice-title" id="dailyAdviceTitle"></div>
+                    <div class="advice-text" id="dailyAdviceText"></div>
                 </div>
             </div>
 
@@ -324,6 +496,90 @@
     </div>
 
     <script src="https://assets.calendly.com/assets/external/widget.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+        // Configurazione pubblica dell'app web: la protezione dei dati
+        // e' garantita dalle Security Rules di Firestore, non da questa chiave.
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPhrjVUolDP1Y17NvMACUVYZZ_c8TDBQ",
+            authDomain: "kinesiologia-studio.firebaseapp.com",
+            projectId: "kinesiologia-studio",
+            storageBucket: "kinesiologia-studio.firebasestorage.app",
+            messagingSenderId: "1038494797123",
+            appId: "1:1038494797123:web:6266b996adfe252c6e73f6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const topicEmojis = {
+            'stress': '🧘 Stress',
+            'temporo-mandibolare': '😬 Temporo-mandibolare',
+            'schiena': '🔙 Schiena',
+            'cervicale': '🧠 Cervicale',
+            'sport': '⚽ Sport'
+        };
+
+        window.loadPosts = async function() {
+            const topics = JSON.parse(localStorage.getItem('selectedTopics') || '[]');
+            const container = document.getElementById('postsContainer');
+
+            try {
+                const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'), limit(30));
+                const snapshot = await getDocs(q);
+                const posts = [];
+
+                snapshot.forEach(doc => {
+                    const post = doc.data();
+                    if (topics.length === 0 || topics.includes(post.topic)) {
+                        posts.push(post);
+                    }
+                });
+
+                if (posts.length === 0) {
+                    container.innerHTML = '<div class="empty-state">Nessuna novità al momento. Torna presto!</div>';
+                    return;
+                }
+
+                let html = '';
+                posts.forEach(post => {
+                    let dateStr = '';
+                    if (post.createdAt && post.createdAt.toDate) {
+                        dateStr = post.createdAt.toDate().toLocaleDateString('it-IT');
+                    } else if (post.createdAt) {
+                        dateStr = new Date(post.createdAt).toLocaleDateString('it-IT');
+                    }
+                    const tag = topicEmojis[post.topic] || post.topic || '';
+                    html += `
+                        <div class="post-card">
+                            <div class="post-date">${dateStr}</div>
+                            ${tag ? `<div class="topic-tag">${tag}</div>` : ''}
+                            <div class="post-title">${escapeHtml(post.title || '')}</div>
+                            <div class="post-text">${escapeHtml(post.text || '')}</div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Errore caricamento post:', error);
+                container.innerHTML = '<div class="empty-state">Contenuti non disponibili al momento.</div>';
+            }
+        };
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        if (localStorage.getItem('clientName')) {
+            window.loadPosts();
+        }
+    </script>
+
     <script>
         const exercises = {
             schiena: {
@@ -368,6 +624,16 @@
             }
         };
 
+        const dailyAdvices = [
+            { title: "Bevi acqua ogni ora", text: "I muscoli lavorano male se disidratati. Una bottiglia d'acqua vicino alla scrivania. Non aspettare di aver sete." },
+            { title: "Alzati ogni 45 minuti", text: "La schiena non è fatta per stare seduta a lungo. Due minuti in piedi ogni 45 minuti valgono più di un'ora di stretching la sera." },
+            { title: "Respira con la pancia", text: "Tre respiri profondi con la pancia abbassano la tensione del collo e delle spalle. Provalo adesso: inspira 4 secondi, espira 6." },
+            { title: "Cammina dopo mangiato", text: "Dieci minuti di camminata dopo i pasti aiutano la digestione e sciolgono le anche. Non serve di più." },
+            { title: "Controlla la posizione del telefono", text: "Porta il telefono all'altezza degli occhi invece di piegare il collo. La cervicale ringrazia ogni singola volta." },
+            { title: "Scalda prima di sforzare", text: "Prima di sollevare pesi o fare sport, due minuti di movimenti lenti preparano i tessuti. A freddo si fanno i danni." },
+            { title: "Il sonno ripara", text: "È di notte che i tessuti si riparano davvero. Dormire poco rallenta ogni recupero, anche il migliore." }
+        ];
+
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
@@ -392,6 +658,81 @@
             html += `</div>`;
             document.getElementById('exercise-display').innerHTML = html;
         }
+
+        function saveOnboarding() {
+            const name = document.getElementById('clientName').value.trim();
+            const date = document.getElementById('lastTreatmentDate').value;
+            const topics = [];
+
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]:checked').forEach(el => {
+                topics.push(el.value);
+            });
+
+            if (!name || !date) {
+                alert('Inserisci nome e data del trattamento');
+                return;
+            }
+            if (topics.length === 0) {
+                alert('Scegli almeno un argomento');
+                return;
+            }
+
+            localStorage.setItem('clientName', name);
+            localStorage.setItem('lastTreatmentDate', date);
+            localStorage.setItem('selectedTopics', JSON.stringify(topics));
+
+            document.getElementById('onboardingModal').classList.add('hidden');
+            updateUI();
+            if (window.loadPosts) window.loadPosts();
+        }
+
+        function resetOnboarding() {
+            document.getElementById('clientName').value = localStorage.getItem('clientName') || '';
+            document.getElementById('lastTreatmentDate').value = localStorage.getItem('lastTreatmentDate') || '';
+            const topics = JSON.parse(localStorage.getItem('selectedTopics') || '[]');
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(el => {
+                el.checked = topics.includes(el.value);
+            });
+            document.getElementById('onboardingModal').classList.remove('hidden');
+        }
+
+        function updateUI() {
+            const name = localStorage.getItem('clientName');
+            if (name) {
+                document.getElementById('headerName').textContent = `Ciao, ${name}!`;
+            }
+
+            const lastDate = localStorage.getItem('lastTreatmentDate');
+            if (lastDate) {
+                const days = calculateDaysSince(lastDate);
+                document.getElementById('timerDays').textContent = days;
+                document.getElementById('timerText').textContent = days === 1 ? 'giorno dal tuo ultimo trattamento' : 'giorni dal tuo ultimo trattamento';
+            }
+        }
+
+        function calculateDaysSince(dateString) {
+            const lastDate = new Date(dateString);
+            const today = new Date();
+            const diff = today - lastDate;
+            return Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        }
+
+        function showDailyAdvice() {
+            const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % dailyAdvices.length;
+            const advice = dailyAdvices[dayIndex];
+            document.getElementById('dailyAdviceTitle').textContent = advice.title;
+            document.getElementById('dailyAdviceText').textContent = advice.text;
+        }
+
+        window.addEventListener('load', () => {
+            showDailyAdvice();
+
+            if (!localStorage.getItem('clientName')) {
+                document.getElementById('onboardingModal').classList.remove('hidden');
+            } else {
+                updateUI();
+            }
+        });
     </script>
 </body>
 </html>
