@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <title>Kinesiologia Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            gap: 0;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 13px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            color: #999;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .advice-card, .article-card, .exercise-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .advice-title, .article-title, .exercise-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .advice-text, .article-text, .exercise-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .timer-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .timer-days {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .zone-button {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .zone-button:active {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .zone-emoji {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .exercise-step {
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            border-left: 3px solid #764ba2;
+        }
+
+        .prenota-container {
+            text-align: center;
+        }
+
+        .prenota-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .prenota-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .prenota-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .prenota-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .prenota-button:active {
+            transform: scale(0.98);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .bottom-nav-button {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border: none;
+            background: white;
+            cursor: pointer;
+            font-size: 11px;
+            color: #999;
+        }
+
+        .bottom-nav-button.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>Kinesiologia Studio</h1>
+            <p class="subtitle">Il Tuo Alleato del Benessere</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('oggi')">☀️ Oggi</button>
+            <button class="nav-tab" onclick="switchTab('corpo')">💪 Corpo</button>
+            <button class="nav-tab" onclick="switchTab('sapere')">📚 Sapere</button>
+            <button class="nav-tab" onclick="switchTab('prenota')">📅 Prenota</button>
+        </div>
+
+        <div class="content">
+            <div class="tab-content active" id="tab-oggi">
+                <div class="timer-section">
+                    <div>PROSSIMO CONTROLLO</div>
+                    <div class="timer-days">90</div>
+                    <div>giorni dal tuo ultimo trattamento</div>
+                </div>
+
+                <div class="advice-card">
+                    <div class="advice-title">Bevi acqua ogni ora</div>
+                    <div class="advice-text">I muscoli lavorano male se disidratati. Una bottiglia d'acqua vicino alla scrivania. Non aspettare di aver sete.</div>
+                </div>
+
+                <div class="advice-card">
+                    <div class="advice-title">Perché funziona</div>
+                    <div class="advice-text">Piccoli gesti quotidiani evitano che il problema torni. Non aspettare il dolore — costruisci prevenzione ogni giorno.</div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-corpo">
+                <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Seleziona la zona dove senti tensione.</p>
+
+                <div class="zones-grid">
+                    <button class="zone-button" onclick="selectZone('schiena')"><span class="zone-emoji">🔙</span>Schiena</button>
+                    <button class="zone-button" onclick="selectZone('cervicale')"><span class="zone-emoji">🧠</span>Cervicale</button>
+                    <button class="zone-button" onclick="selectZone('spalla')"><span class="zone-emoji">💪</span>Spalla</button>
+                    <button class="zone-button" onclick="selectZone('anca')"><span class="zone-emoji">⚡</span>Anca</button>
+                </div>
+
+                <div id="exercise-display"></div>
+            </div>
+
+            <div class="tab-content" id="tab-sapere">
+                <div class="article-card">
+                    <div class="article-title">Non Sono Io Che Ti Guarisco</div>
+                    <div class="article-text">Un tessuto si ripara da solo, con tempi biologici suoi. Quello che si può fare è toglierti la protezione che ti blocca e darti lo stimolo per cambiare in modo stabile.</div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-title">Il Dolore Non Misura Il Danno</div>
+                    <div class="article-text">Il dolore è una risposta del sistema nervoso, non un sensore del danno. Per questo un dolore forte non sempre significa danno grave.</div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-title">Prevenzione — Il Valore del Check-Up</div>
+                    <div class="article-text">Il check-up scopre cosa sta per diventare un male, quando il corpo è ancora sano. Trovarlo adesso è infinitamente più economico che aspettare il dolore.</div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-prenota">
+                <div style="padding: 20px 0;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <span style="font-size: 48px; display: block; margin-bottom: 10px;">📅</span>
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">Prenota Il Tuo Controllo</div>
+                    </div>
+                    <div class="calendly-inline-widget" data-url="https://calendly.com/infokinesiologia/consulenza" style="min-width: 280px; height: 600px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="bottom-nav-button active" onclick="switchTab('oggi')">
+                <span class="nav-icon">☀️</span>Oggi
+            </button>
+            <button class="bottom-nav-button" onclick="switchTab('corpo')">
+                <span class="nav-icon">💪</span>Corpo
+            </button>
+            <button class="bottom-nav-button" onclick="switchTab('sapere')">
+                <span class="nav-icon">📚</span>Sapere
+            </button>
+            <button class="bottom-nav-button" onclick="switchTab('prenota')">
+                <span class="nav-icon">📅</span>Prenota
+            </button>
+        </div>
+    </div>
+
+    <script src="https://assets.calendly.com/assets/external/widget.js"></script>
+    <script>
+        const exercises = {
+            schiena: {
+                title: "Esercizio: Mobilità Lombare",
+                text: "Rinforza i muscoli della schiena.",
+                steps: [
+                    "1. Distenditi sulla schiena con le ginocchia piegate.",
+                    "2. Porta i due piedi verso il petto.",
+                    "3. Mantieni 20 secondi, poi rilascia.",
+                    "4. Ripeti 3 volte, 2-3 volte al giorno."
+                ]
+            },
+            cervicale: {
+                title: "Esercizio: Mobilità Cervicale",
+                text: "Allarga il petto e rilascia la tensione del collo.",
+                steps: [
+                    "1. Siediti dritto con le spalle rilassate.",
+                    "2. Incrocia le mani dietro la schiena.",
+                    "3. Tira gli avambracci verso il basso.",
+                    "4. Mantieni 15 secondi, ripeti 3 volte."
+                ]
+            },
+            spalla: {
+                title: "Esercizio: Stabilità Scapolare",
+                text: "Rinforza i muscoli della spalla.",
+                steps: [
+                    "1. Stai in piedi con i piedi a larghezza spalla.",
+                    "2. Alza le braccia lateralmente fino all'altezza delle spalle.",
+                    "3. Mantieni 10 secondi, poi abbassa.",
+                    "4. Ripeti 15 volte, ogni giorno."
+                ]
+            },
+            anca: {
+                title: "Esercizio: Mobilità dell'Anca",
+                text: "Migliora la fluidità del movimento.",
+                steps: [
+                    "1. Stai in piedi su una gamba.",
+                    "2. Porta l'altra gamba in avanti, poi indietro, poi laterale.",
+                    "3. Fai 10 ripetizioni per ogni direzione.",
+                    "4. Cambia gamba e ripeti."
+                ]
+            }
+        };
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav-button').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            const tabs = document.querySelectorAll('.nav-tab');
+            const buttons = document.querySelectorAll('.bottom-nav-button');
+
+            const index = ['oggi', 'corpo', 'sapere', 'prenota'].indexOf(tabName);
+            tabs[index].classList.add('active');
+            buttons[index].classList.add('active');
+        }
+
+        function selectZone(zone) {
+            const exercise = exercises[zone];
+            let html = `<div class="exercise-card"><div class="exercise-title">${exercise.title}</div><div class="exercise-text">${exercise.text}</div>`;
+            exercise.steps.forEach(step => {
+                html += `<div class="exercise-step">${step}</div>`;
+            });
+            html += `</div>`;
+            document.getElementById('exercise-display').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
