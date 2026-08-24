@@ -1,0 +1,1 @@
+# kinesiologia-studio
