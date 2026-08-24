@@ -420,10 +420,11 @@
 
         <div class="content">
             <div class="tab-content active" id="tab-oggi">
-                <div class="timer-section">
-                    <div>PROSSIMO CONTROLLO</div>
+                <div class="timer-section" onclick="switchTab('prenota')" style="cursor: pointer;">
+                    <div id="timerLabel">PROSSIMO CONTROLLO</div>
                     <div class="timer-days" id="timerDays">--</div>
-                    <div id="timerText">giorni dal tuo ultimo trattamento</div>
+                    <div id="timerText">completa i tuoi dati per attivare il conteggio</div>
+                    <div id="timerSub" style="font-size: 11px; opacity: 0.8; margin-top: 8px;"></div>
                 </div>
 
                 <button class="edit-button" onclick="resetOnboarding()">✏️ Aggiorna i miei dati</button>
@@ -704,9 +705,23 @@
 
             const lastDate = localStorage.getItem('lastTreatmentDate');
             if (lastDate) {
-                const days = calculateDaysSince(lastDate);
-                document.getElementById('timerDays').textContent = days;
-                document.getElementById('timerText').textContent = days === 1 ? 'giorno dal tuo ultimo trattamento' : 'giorni dal tuo ultimo trattamento';
+                const elapsed = calculateDaysSince(lastDate);
+                const remaining = 90 - elapsed;
+                const daysEl = document.getElementById('timerDays');
+                const textEl = document.getElementById('timerText');
+                const labelEl = document.getElementById('timerLabel');
+                const subEl = document.getElementById('timerSub');
+
+                if (remaining > 0) {
+                    labelEl.textContent = 'PROSSIMO CONTROLLO TRA';
+                    daysEl.textContent = remaining;
+                    textEl.textContent = remaining === 1 ? 'giorno' : 'giorni';
+                } else {
+                    labelEl.textContent = 'È ORA DEL CONTROLLO';
+                    daysEl.textContent = '✓';
+                    textEl.textContent = 'tocca qui per prenotare';
+                }
+                subEl.textContent = `Ultimo trattamento: ${elapsed} ${elapsed === 1 ? 'giorno' : 'giorni'} fa`;
             }
         }
 
