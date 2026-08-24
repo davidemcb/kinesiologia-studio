@@ -747,6 +747,32 @@
             } else {
                 updateUI();
             }
+
+            checkForUpdate();
+        });
+
+        // --- Aggiornamento automatico ---
+        // Al ritorno in primo piano l'app confronta la propria versione con
+        // version.json sul server: se ne esiste una piu' nuova si ricarica
+        // da sola con un URL diverso, che scavalca ogni cache del telefono.
+        const APP_VERSION = 4;
+
+        async function checkForUpdate() {
+            try {
+                const res = await fetch('version.json?t=' + Date.now(), { cache: 'no-store' });
+                const data = await res.json();
+                if (data.v > APP_VERSION) {
+                    location.replace(location.pathname + '?v=' + data.v);
+                }
+            } catch (e) { /* offline: si riprova alla prossima apertura */ }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                checkForUpdate();
+                updateUI();
+                showDailyAdvice();
+            }
         });
     </script>
 </body>
