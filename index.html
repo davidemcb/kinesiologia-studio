@@ -175,9 +175,9 @@
 
         .nav-tab {
             flex: 1;
-            padding: 12px 8px;
+            padding: 12px 4px;
             text-align: center;
-            font-size: 13px;
+            font-size: 11px;
             border: none;
             background: white;
             cursor: pointer;
@@ -415,6 +415,7 @@
             <button class="nav-tab active" onclick="switchTab('oggi')">☀️ Oggi</button>
             <button class="nav-tab" onclick="switchTab('corpo')">💪 Corpo</button>
             <button class="nav-tab" onclick="switchTab('sapere')">📚 Sapere</button>
+            <button class="nav-tab" onclick="switchTab('recensioni')">⭐ Recensioni</button>
             <button class="nav-tab" onclick="switchTab('prenota')">📅 Prenota</button>
         </div>
 
@@ -436,6 +437,11 @@
                 <div class="advice-card">
                     <div class="advice-title" id="dailyAdviceTitle"></div>
                     <div class="advice-text" id="dailyAdviceText"></div>
+                </div>
+
+                <div class="advice-card" style="cursor: pointer;" onclick="shareApp()">
+                    <div class="advice-title">💝 Conosci qualcuno che soffre?</div>
+                    <div class="advice-text">Regalagli questa app: tocca qui e mandagliela con un messaggio.</div>
                 </div>
             </div>
 
@@ -469,6 +475,54 @@
                 </div>
             </div>
 
+            <div class="tab-content" id="tab-recensioni">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 28px;">⭐⭐⭐⭐⭐</div>
+                    <div style="font-size: 18px; font-weight: 700; margin-top: 6px;">5,0 su Google</div>
+                    <div style="font-size: 13px; color: #666;">128 recensioni</div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-text">«Schiena bloccata e dolorante da ieri sera tanto da non riuscire a stare sdraiata o seduta. Davide mi ha trattata e ora riesco a fare tutti i movimenti e il dolore è quasi scomparso, e questo in una sola seduta.»</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Manuela P., naturopata</div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-text">«Ottimo professionista: dopo aver provato vari fisiatri e osteopati è stato l'unico con cui ho avuto dei grossi benefici.»</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Stefano S.</div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-text">«Mi sono fatta una torsione alla caviglia il giorno prima di un torneo di padel. Sono andata da lui e il giorno dopo ho potuto giocare tutto il torneo. Non mi fa più male!»</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Alba N.</div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-text">«Ha intuito subito quale fosse il mio problema e il trattamento è stato risolutivo. Sono rimasta soddisfatta oltre le aspettative!»</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Virginia V.</div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-text">«Sono uscita completamente libera e sbloccata da tutte le tensioni. Un senso di leggerezza unico. Stupefacente.»</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Nicoletta G.</div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-text">«Ho avuto problemi di contratture alla schiena, al collo e blocchi intestinali, tutti risolti nel giro di breve tempo. Se tu non ci fossi bisognerebbe inventarti.»</div>
+                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Monica G.</div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kinesiologia+Studio+Modena+Toscanini" target="_blank" rel="noopener" style="color: #667eea; font-size: 14px; font-weight: 600; text-decoration: none;">Leggi tutte le recensioni su Google →</a>
+                </div>
+
+                <div class="timer-section" style="margin-top: 25px; cursor: pointer;" onclick="shareApp()">
+                    <div style="font-size: 28px; margin-bottom: 8px;">💝</div>
+                    <div style="font-size: 16px; font-weight: 600;">Conosci qualcuno che soffre?</div>
+                    <div style="font-size: 13px; opacity: 0.9; margin-top: 8px;">Regalagli questa app: tocca qui e mandagliela.</div>
+                </div>
+            </div>
+
             <div class="tab-content" id="tab-prenota">
                 <div style="padding: 20px 0;">
                     <div style="text-align: center; margin-bottom: 20px;">
@@ -489,6 +543,9 @@
             </button>
             <button class="bottom-nav-button" onclick="switchTab('sapere')">
                 <span class="nav-icon">📚</span>Sapere
+            </button>
+            <button class="bottom-nav-button" onclick="switchTab('recensioni')">
+                <span class="nav-icon">⭐</span>Recensioni
             </button>
             <button class="bottom-nav-button" onclick="switchTab('prenota')">
                 <span class="nav-icon">📅</span>Prenota
@@ -645,7 +702,7 @@
             const tabs = document.querySelectorAll('.nav-tab');
             const buttons = document.querySelectorAll('.bottom-nav-button');
 
-            const index = ['oggi', 'corpo', 'sapere', 'prenota'].indexOf(tabName);
+            const index = ['oggi', 'corpo', 'sapere', 'recensioni', 'prenota'].indexOf(tabName);
             tabs[index].classList.add('active');
             buttons[index].classList.add('active');
         }
@@ -732,6 +789,18 @@
             return Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
         }
 
+        function shareApp() {
+            const url = 'https://davidemcb.github.io/kinesiologia-studio/';
+            const name = localStorage.getItem('clientName') || '';
+            const message = `Ciao! Ti mando l'app del mio kinesiologo, Davide di Kinesiologia Studio (Modena). Ci trovi consigli, esercizi e puoi prenotare un controllo direttamente. ${url}`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'Kinesiologia Studio', text: message }).catch(() => {});
+            } else {
+                window.open('https://wa.me/?text=' + encodeURIComponent(message), '_blank');
+            }
+        }
+
         function showDailyAdvice() {
             const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % dailyAdvices.length;
             const advice = dailyAdvices[dayIndex];
@@ -755,7 +824,7 @@
         // Al ritorno in primo piano l'app confronta la propria versione con
         // version.json sul server: se ne esiste una piu' nuova si ricarica
         // da sola con un URL diverso, che scavalca ogni cache del telefono.
-        const APP_VERSION = 4;
+        const APP_VERSION = 5;
 
         async function checkForUpdate() {
             try {
