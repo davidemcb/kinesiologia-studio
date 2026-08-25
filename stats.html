@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Statistiche — Kinesiologia Studio</title>
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Instrument+Sans:wght@400;600;700&display=swap">
+  <style>
+    /* Pagina riservata allo studio: tema unico chiaro */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Instrument Sans', -apple-system, sans-serif;
+      background: #F4F3EC; color: #22302B;
+      min-height: 100vh; padding: 24px 16px 48px;
+      font-size: 15px; line-height: 1.5;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; }
+    h1 { font-family: 'Fraunces', Georgia, serif; font-size: 24px; font-weight: 600; }
+    .sub { color: #5C6B64; font-size: 14px; margin: 4px 0 22px; }
+    .card {
+      background: #FFFFFF; border: 1px solid #DDE0D2; border-radius: 14px;
+      padding: 18px; margin-bottom: 14px;
+      box-shadow: 0 2px 10px rgba(34,48,43,0.07);
+    }
+    .card h2 { font-family: 'Fraunces', Georgia, serif; font-size: 17px; font-weight: 600; margin-bottom: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-weight: 700; font-size: 15px; border: none; border-radius: 12px;
+      cursor: pointer; padding: 14px 24px; width: 100%;
+      background: #2F5D51; color: #F2F7F3; font-family: inherit;
+    }
+    .kpis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .kpi { background: #FFFFFF; border: 1px solid #DDE0D2; border-radius: 12px; padding: 14px 10px; text-align: center; }
+    .kpi .n { font-family: 'Fraunces', Georgia, serif; font-size: 26px; font-weight: 700; color: #24493F; font-variant-numeric: tabular-nums; }
+    .kpi .l { font-size: 11px; color: #5C6B64; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #5C6B64; padding: 6px 4px; border-bottom: 1px solid #DDE0D2; }
+    th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    td { padding: 8px 4px; border-bottom: 1px solid #ECEDE3; }
+    tr:last-child td { border-bottom: none; }
+    .muted { color: #5C6B64; font-size: 13px; }
+    .err { color: #AC4530; font-size: 14px; margin-top: 10px; }
+    #dash { display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Statistiche dell'app</h1>
+    <p class="sub">Riservate allo studio · dati anonimi, nessun nome dei pazienti</p>
+
+    <div class="card" id="login-card">
+      <h2>Accesso riservato</h2>
+      <p class="muted">Entra con l'account Google dello studio per vedere i numeri.</p>
+      <div style="margin-top:14px"><button class="btn" id="login-btn">Accedi con Google</button></div>
+      <p class="err" id="login-err"></p>
+    </div>
+
+    <div id="dash">
+      <div class="kpis">
+        <div class="kpi"><div class="n" id="k-devices">–</div><div class="l">dispositivi 30gg</div></div>
+        <div class="kpi"><div class="n" id="k-shares">–</div><div class="l">condivisioni 30gg</div></div>
+        <div class="kpi"><div class="n" id="k-gifts">–</div><div class="l">click regali 30gg</div></div>
+      </div>
+      <div class="card"><h2>Azioni — ultimi 7 e 30 giorni</h2><table id="t-actions"></table></div>
+      <div class="card"><h2>Regali più cliccati (30 giorni)</h2><table id="t-gifts"></table></div>
+      <div class="card"><h2>Condivisioni per contenuto (30 giorni)</h2><table id="t-shares"></table></div>
+      <p class="muted" id="foot"></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const app = initializeApp({
+      apiKey: "AIzaSyDbPhrjVUolDP1Y17NvMACUVYZZ_c8TDBQ",
+      authDomain: "kinesiologia-studio.firebaseapp.com",
+      projectId: "kinesiologia-studio"
+    });
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const LABELS = {
+      view: 'Schermate aperte (prime visite)',
+      share: 'Condivisioni WhatsApp',
+      gift_click: 'Click sui regali',
+      book_click: 'Click su Prenota (catalogo)',
+      treated: 'Trattamenti segnati',
+      review_click: 'Click "lascia recensione"',
+      test_done: 'Test del corpo completati',
+      challenge_start: 'Sfide 7 giorni iniziate',
+      challenge_done: 'Sfide 7 giorni completate',
+      habit_done: 'Micro-abitudini fatte',
+      diary_log: 'Giorni di diario registrati',
+      reward_unlock: 'Premi sbloccati',
+      reward_used: 'Buoni usati in studio',
+      voucher_created: 'Voucher regalo generati',
+      install: 'Installazioni app'
+    };
+
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      try {
+        await signInWithPopup(auth, new GoogleAuthProvider());
+      } catch (e) {
+        document.getElementById('login-err').textContent = 'Accesso non riuscito: ' + (e.code || e.message);
+      }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return;
+      try {
+        const snap = await getDocs(query(collection(db, 'events'), orderBy('day', 'desc'), limit(5000)));
+        render(snap);
+        document.getElementById('login-card').style.display = 'none';
+        document.getElementById('dash').style.display = 'block';
+      } catch (e) {
+        document.getElementById('login-err').textContent =
+          'Questo account non è autorizzato a leggere le statistiche (' + (e.code || e.message) + ').';
+      }
+    });
+
+    function daysAgo(n) { return new Date(Date.now() - n * 86400000).toISOString().slice(0, 10); }
+
+    function render(snap) {
+      const d7 = daysAgo(7), d30 = daysAgo(30);
+      const by7 = {}, by30 = {}, gifts = {}, shares = {}, devices = new Set();
+      let total = 0, oldest = null;
+
+      snap.forEach(doc => {
+        const e = doc.data();
+        total++;
+        if (!oldest || e.day < oldest) oldest = e.day;
+        if (e.day >= d30) {
+          by30[e.t] = (by30[e.t] || 0) + 1;
+          if (e.did) devices.add(e.did);
+          if (e.t === 'gift_click' && e.d) gifts[e.d] = (gifts[e.d] || 0) + 1;
+          if (e.t === 'share' && e.d) shares[e.d] = (shares[e.d] || 0) + 1;
+        }
+        if (e.day >= d7) by7[e.t] = (by7[e.t] || 0) + 1;
+      });
+
+      document.getElementById('k-devices').textContent = devices.size;
+      document.getElementById('k-shares').textContent = by30['share'] || 0;
+      document.getElementById('k-gifts').textContent = by30['gift_click'] || 0;
+
+      const order = Object.keys(LABELS).filter(k => by30[k] || by7[k]);
+      let rows = '<tr><th>Azione</th><th class="num">7 gg</th><th class="num">30 gg</th></tr>';
+      if (order.length === 0) rows += '<tr><td colspan="3" class="muted">Ancora nessun dato: arriveranno con l\'uso dell\'app.</td></tr>';
+      order.forEach(k => {
+        rows += '<tr><td>' + LABELS[k] + '</td><td class="num">' + (by7[k] || 0) + '</td><td class="num">' + (by30[k] || 0) + '</td></tr>';
+      });
+      document.getElementById('t-actions').innerHTML = rows;
+
+      function topTable(el, data, emptyMsg) {
+        const keys = Object.keys(data).sort((a, b) => data[b] - data[a]);
+        let h = '';
+        if (keys.length === 0) h = '<tr><td class="muted">' + emptyMsg + '</td></tr>';
+        keys.forEach(k => { h += '<tr><td>' + k + '</td><td class="num">' + data[k] + '</td></tr>'; });
+        document.getElementById(el).innerHTML = h;
+      }
+      topTable('t-gifts', gifts, 'Nessun click sui regali negli ultimi 30 giorni.');
+      const shareNames = { tip: 'Consiglio del giorno', myth: 'Falso mito', referral: 'Porta un amico', 'referral-2': 'Porta un amico (recensioni)', ch: 'Traguardo sfida' };
+      const sharesNamed = {};
+      Object.keys(shares).forEach(k => { sharesNamed[shareNames[k] || k] = shares[k]; });
+      topTable('t-shares', sharesNamed, 'Nessuna condivisione negli ultimi 30 giorni.');
+
+      document.getElementById('foot').textContent =
+        total + ' eventi totali' + (oldest ? ' · dati dal ' + oldest : '') + ' · si aggiorna ricaricando la pagina';
+    }
+  </script>
+</body>
+</html>

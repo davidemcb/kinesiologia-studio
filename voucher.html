@@ -190,5 +190,26 @@
       updateShare();
     })();
   </script>
+  <script type="module">
+    // statistica anonima: quanti voucher vengono generati
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+    try {
+      const db = getFirestore(initializeApp({
+        apiKey: "AIzaSyDbPhrjVUolDP1Y17NvMACUVYZZ_c8TDBQ",
+        authDomain: "kinesiologia-studio.firebaseapp.com",
+        projectId: "kinesiologia-studio"
+      }));
+      let did = 'anon';
+      try {
+        did = localStorage.getItem('ks_did') || ('d' + Math.random().toString(36).slice(2, 10));
+        localStorage.setItem('ks_did', did);
+      } catch (e) {}
+      addDoc(collection(db, 'events'), {
+        t: 'voucher_created', d: '', did: did,
+        day: new Date().toISOString().slice(0, 10)
+      }).catch(() => {});
+    } catch (e) {}
+  </script>
 </body>
 </html>

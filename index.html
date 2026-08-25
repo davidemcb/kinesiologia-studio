@@ -18,6 +18,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Kinesiologia">
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
@@ -490,6 +491,13 @@
       <div style="margin-top:8px; text-align:center"><button class="text-btn" id="review-later">Più tardi</button></div>
     </div>
 
+    <div class="card" id="push-card" style="display:none">
+      <div class="eyebrow">Non perderti niente</div>
+      <h2>🔔 Attiva le notifiche</h2>
+      <p>Il promemoria del check-up, il consiglio della settimana e i tuoi buoni in scadenza: arrivano da soli, anche se non apri l'app.</p>
+      <div style="margin-top:12px"><button class="btn btn-primary" id="push-btn">Attiva le notifiche</button></div>
+    </div>
+
     <div class="card" id="install-card" style="display:none">
       <div class="eyebrow">Sempre con te</div>
       <h2>Aggiungi l'app alla schermata Home</h2>
@@ -800,6 +808,7 @@
   };
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function track(t, d) { if (window.ksTrack) window.ksTrack(t, d); }
 
   /* ---------- Navigation ---------- */
   var views = ['oggi', 'corpo', 'sapere', 'recensioni', 'prenota'];
@@ -811,12 +820,14 @@
   document.querySelectorAll('[data-goto]').forEach(function (btn) {
     btn.addEventListener('click', function () { switchView(btn.dataset.goto); });
   });
+  var seenViews = {};
   function switchView(name) {
     views.forEach(function (v) {
       document.getElementById('view-' + v).classList.toggle('active', v === name);
     });
     navBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.view === name); });
     window.scrollTo({ top: 0 });
+    if (!seenViews[name]) { seenViews[name] = true; track('view', name); }
     if (name === 'prenota' && !calendlyLoaded) {
       calendlyLoaded = true;
       var s = document.createElement('script');
@@ -879,6 +890,7 @@
   document.getElementById('btn-treated').addEventListener('click', function () {
     set(LS.last, new Date().toISOString());
     renderTimer();
+    track('treated', '');
     if (!get(LS.review)) document.getElementById('review-card').style.display = 'block';
     // tessera fedeltà: un timbro per giorno di trattamento
     var today = new Date().toISOString().slice(0, 10);
@@ -890,6 +902,7 @@
   });
   document.getElementById('review-link').addEventListener('click', function () {
     set(LS.review, 'true');
+    track('review_click', '');
     document.getElementById('review-card').style.display = 'none';
   });
   document.getElementById('review-later').addEventListener('click', function () {
@@ -1015,6 +1028,7 @@
     streak = (last === yesterday) ? streak + 1 : 1;
     set(LS.streak, String(streak));
     set(LS.streakDate, today);
+    track('habit_done', '');
     challengeTick(today);
     renderHabit();
     renderChallenge();
@@ -1032,7 +1046,7 @@
     days = (lastD === yesterday || days === 0) ? days + 1 : 1;
     set(LS.chDays, String(days));
     set(LS.chDate, today);
-    if (days >= 7) set(LS.ch, 'done');
+    if (days >= 7) { set(LS.ch, 'done'); track('challenge_done', ''); }
   }
 
   function renderChallenge() {
@@ -1093,6 +1107,7 @@
       set(LS.ch, 'active');
       set(LS.chDays, '0');
       try { localStorage.removeItem(LS.chDate); } catch (e) {}
+      track('challenge_start', '');
     }
     renderChallenge();
   });
@@ -1160,6 +1175,7 @@
     var b = e.target.closest('.diary-btn');
     if (!b) return;
     var data = diaryData();
+    if (typeof data[todayKey()] !== 'number') track('diary_log', '');
     data[todayKey()] = parseInt(b.dataset.val, 10);
     // conserva al massimo 60 giorni
     var keys = Object.keys(data).sort();
@@ -1202,6 +1218,7 @@
       set(LS.testScore, String(pct));
       set(LS.testDate, todayKey());
       document.getElementById('test-sub').textContent = 'Risultato';
+      track('test_done', String(pct));
       var msg = '🧪 Ho appena fatto il Test del corpo: ' + pct + '/100!\n' + testVerdict(pct) +
         '\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE;
       body.innerHTML =
@@ -1476,6 +1493,27 @@
     });
   }
 
+  /* ---------- Notifiche push (OneSignal v16) ---------- */
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function (OneSignal) {
+    await OneSignal.init({
+      appId: '159d2224-7069-463a-9029-bda8d7731b53',
+      serviceWorkerPath: 'sw.js',
+      serviceWorkerParam: { scope: '/kinesiologia-studio/' }
+    });
+    // mostra l'invito solo a chi non ha ancora deciso
+    if (OneSignal.Notifications.permission === false &&
+        typeof Notification !== 'undefined' && Notification.permission === 'default') {
+      document.getElementById('push-card').style.display = 'block';
+    }
+  });
+  document.getElementById('push-btn').addEventListener('click', function () {
+    window.OneSignalDeferred.push(async function (OneSignal) {
+      await OneSignal.Notifications.requestPermission();
+      document.getElementById('push-card').style.display = 'none';
+    });
+  });
+
   /* ---------- Premi ---------- */
   function rwData() {
     try { return JSON.parse(get('ks_rewards')) || {}; } catch (e) { return {}; }
@@ -1494,13 +1532,13 @@
     var changed = false;
 
     // Benvenuto: si sblocca completando il benvenuto (onboarding)
-    if (get(LS.onboarded) && !d.welcome) { d.welcome = { u: new Date().toISOString() }; changed = true; }
+    if (get(LS.onboarded) && !d.welcome) { d.welcome = { u: new Date().toISOString() }; changed = true; track('reward_unlock', 'welcome'); }
 
     // Gran Premio: test fatto + sfida completata + 7 giorni di diario
     var diaryDays = Object.keys(diaryData()).length;
     var testDone = get(LS.testScore) !== null;
     var chDone = get(LS.ch) === 'done';
-    if (testDone && chDone && diaryDays >= 7 && !d.grand) { d.grand = { u: new Date().toISOString() }; changed = true; }
+    if (testDone && chDone && diaryDays >= 7 && !d.grand) { d.grand = { u: new Date().toISOString() }; changed = true; track('reward_unlock', 'grand'); }
     if (changed) rwSave(d);
 
     function pill(r) {
@@ -1515,7 +1553,7 @@
     var now = new Date();
     var todayMD = ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
     var bdayKey = 'bday' + now.getFullYear();
-    if (bday && bday === todayMD && !d[bdayKey]) { d[bdayKey] = { u: new Date().toISOString() }; rwSave(d); }
+    if (bday && bday === todayMD && !d[bdayKey]) { d[bdayKey] = { u: new Date().toISOString() }; rwSave(d); track('reward_unlock', 'bday'); }
 
     var grandProgress = 'Test ' + (testDone ? '✓' : '·') + ' — Sfida 7 giorni ' + (chDone ? '✓' : '·') + ' — Diario ' + Math.min(diaryDays, 7) + '/7';
     var shares = shareCount();
@@ -1560,6 +1598,7 @@
   document.getElementById('rw-buoni').addEventListener('click', function (e) {
     var b = e.target.closest('[data-rwuse]');
     if (!b) return;
+    track('reward_used', b.dataset.rwuse);
     if (b.dataset.rwuse === 'stamps') {
       set('ks_stamps', '0');
       renderRewards();
@@ -1574,6 +1613,7 @@
     var el = document.getElementById(id);
     if (el) el.addEventListener('click', function () {
       set('ks_shareCount', String(shareCount() + 1));
+      track('share', id.replace('-btn', '').replace('-share', ''));
       renderRewards();
     });
   });
@@ -1684,6 +1724,19 @@
     var gList = document.getElementById('gifts-list');
     gList.innerHTML = gHtml;
     accToggle(gList);
+
+    function trackCatalog(container, primaryType) {
+      container.addEventListener('click', function (e) {
+        var a = e.target.closest('a.btn');
+        if (!a) return;
+        var item = a.closest('.acc-item');
+        var name = item ? item.querySelector('.acc-name').textContent : '';
+        if (a.classList.contains('btn-accent')) track('gift_click', name);
+        else if (a.classList.contains('btn-primary')) track(primaryType, name);
+      });
+    }
+    trackCatalog(tList, 'book_click');
+    trackCatalog(gList, 'book_click');
   })();
 
   /* ---------- Init ---------- */
@@ -1706,7 +1759,7 @@
 // pubblica dell'app web: la protezione dei dati sta nelle Security Rules
 // (lettura libera dei soli post, scrittura vietata dal client).
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { getFirestore, collection, query, orderBy, limit, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDbPhrjVUolDP1Y17NvMACUVYZZ_c8TDBQ",
@@ -1719,6 +1772,30 @@ const firebaseConfig = {
 
 const db = getFirestore(initializeApp(firebaseConfig));
 const SITE = 'https://davidemcb.github.io/kinesiologia-studio/';
+
+// ---- Tracciamento anonimo delle azioni (statistiche per lo studio) ----
+// Nessun dato personale: solo tipo di azione, giorno e un codice casuale per dispositivo.
+function deviceId() {
+  try {
+    let id = localStorage.getItem('ks_did');
+    if (!id) {
+      id = 'd' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6);
+      localStorage.setItem('ks_did', id);
+    }
+    return id;
+  } catch (e) { return 'anon'; }
+}
+window.ksTrack = function (type, detail) {
+  try {
+    addDoc(collection(db, 'events'), {
+      t: String(type).slice(0, 39),
+      d: String(detail == null ? '' : detail).slice(0, 79),
+      did: deviceId(),
+      day: new Date().toISOString().slice(0, 10)
+    }).catch(function () {});
+  } catch (e) {}
+};
+window.addEventListener('appinstalled', function () { window.ksTrack('install', ''); });
 const topicLabels = {
   'stress': 'Stress',
   'temporo-mandibolare': 'Mandibola',
