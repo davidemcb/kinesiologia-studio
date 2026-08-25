@@ -1,4 +1,4 @@
-var CACHE = 'ks-v6';
+var CACHE = 'ks-v7';
 var ASSETS = [
   './',
   './index.html',

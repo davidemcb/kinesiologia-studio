@@ -416,6 +416,8 @@
         <span class="streak" id="streak-label"></span>
       </div>
     </div>
+
+    <div id="news-list"></div>
   </section>
 
   <!-- ============ CORPO ============ -->
@@ -444,31 +446,7 @@
 
   <!-- ============ SAPERE ============ -->
   <section class="view" id="view-sapere">
-    <div class="card article">
-      <div class="eyebrow">Come lavoro</div>
-      <h2>Non sono io che ti guarisco</h2>
-      <p>Un tessuto si ripara da solo, con tempi biologici suoi. Nessuna manovra li accorcia. Quello che posso fare è toglierti la protezione che ti blocca e darti lo stimolo giusto per cambiare in modo stabile.</p>
-    </div>
-    <div class="card article">
-      <div class="eyebrow">Capire il dolore</div>
-      <h2>Il dolore non misura il danno</h2>
-      <p>Il dolore è una risposta del sistema nervoso, non un sensore del danno. Per questo un dolore forte non sempre significa danno grave — e un problema silenzioso può crescere senza far male.</p>
-    </div>
-    <div class="card article">
-      <div class="eyebrow">Prevenzione</div>
-      <h2>Il valore del check-up</h2>
-      <p>Il check-up scopre cosa sta per diventare un male, quando il corpo è ancora sano. Trovarlo adesso, ogni 3–6 mesi, costa infinitamente meno che aspettare il dolore.</p>
-    </div>
-    <div class="card article">
-      <div class="eyebrow">Onestà</div>
-      <h2>A volte passa da solo</h2>
-      <p>Una buona parte dei mal di schiena migliora anche senza fare niente. Il problema sono le recidive. Il mio lavoro non è farti passare il dolore più in fretta: è capire perché torna.</p>
-    </div>
-    <div class="card article">
-      <div class="eyebrow">Il corpo è uno</div>
-      <h2>Tutto è collegato</h2>
-      <p>Una spalla che fa male può nascere da un appoggio del piede, una cervicale rigida da come respiri. Per questo la valutazione guarda tutto il corpo, non solo dove senti il sintomo.</p>
-    </div>
+    <div id="articles-list"></div>
     <div class="card">
       <h2>Hai una domanda sul tuo caso?</h2>
       <p>La prima consulenza serve esattamente a questo: capire da dove partire.</p>
@@ -514,6 +492,56 @@
     </div>
   </section>
 
+  <!-- ============ RECENSIONI ============ -->
+  <section class="view" id="view-recensioni">
+    <div class="card" style="text-align:center">
+      <div style="font-size:26px; letter-spacing:2px">★★★★★</div>
+      <h2 style="margin-top:6px">5,0 su Google</h2>
+      <p>128 recensioni verificate</p>
+    </div>
+
+    <div class="card article">
+      <p>«Schiena bloccata e dolorante da ieri sera, tanto da non riuscire a stare sdraiata o seduta. Davide mi ha trattata e ora riesco a fare tutti i movimenti e il dolore è quasi scomparso — e questo in una sola seduta.»</p>
+      <p style="margin-top:10px; font-size:12.5px; font-weight:600; color:var(--brand)">Manuela P., naturopata</p>
+    </div>
+
+    <div class="card article">
+      <p>«Ottimo professionista: dopo aver provato vari fisiatri e osteopati è stato l'unico con cui ho avuto dei grossi benefici.»</p>
+      <p style="margin-top:10px; font-size:12.5px; font-weight:600; color:var(--brand)">Stefano S.</p>
+    </div>
+
+    <div class="card article">
+      <p>«Mi sono fatta una torsione alla caviglia il giorno prima di un torneo di padel. Sono andata da lui e il giorno dopo ho potuto giocare tutto il torneo. Non mi fa più male!»</p>
+      <p style="margin-top:10px; font-size:12.5px; font-weight:600; color:var(--brand)">Alba N.</p>
+    </div>
+
+    <div class="card article">
+      <p>«Ha intuito subito quale fosse il mio problema e il trattamento è stato risolutivo. Sono rimasta soddisfatta oltre le aspettative!»</p>
+      <p style="margin-top:10px; font-size:12.5px; font-weight:600; color:var(--brand)">Virginia V.</p>
+    </div>
+
+    <div class="card article">
+      <p>«Sono uscita completamente libera e sbloccata da tutte le tensioni. Un senso di leggerezza unico. Stupefacente.»</p>
+      <p style="margin-top:10px; font-size:12.5px; font-weight:600; color:var(--brand)">Nicoletta G.</p>
+    </div>
+
+    <div class="card article">
+      <p>«Ho avuto problemi di contratture alla schiena, al collo e blocchi intestinali, tutti risolti nel giro di breve tempo. Se tu non ci fossi bisognerebbe inventarti.»</p>
+      <p style="margin-top:10px; font-size:12.5px; font-weight:600; color:var(--brand)">Monica G.</p>
+    </div>
+
+    <div style="text-align:center; margin:18px 0">
+      <a class="text-btn" href="https://www.google.com/maps/search/?api=1&query=Kinesiologia+Studio+Modena+Via+Capilupi" target="_blank" rel="noopener" style="text-decoration:underline">Leggi tutte le recensioni su Google →</a>
+    </div>
+
+    <div class="card referral">
+      <div class="eyebrow">Porta un amico</div>
+      <h2>Conosci qualcuno che soffre?</h2>
+      <p>Regalagli questa app: consigli, esercizi e la possibilità di prenotare un controllo.</p>
+      <a class="btn btn-accent" id="referral-btn-2" href="#" target="_blank" rel="noopener">Invia l'app su WhatsApp</a>
+    </div>
+  </section>
+
   <!-- ============ NAV ============ -->
   <nav class="nav" aria-label="Navigazione principale">
     <button class="nav-btn active" data-view="oggi" aria-label="Oggi">
@@ -527,6 +555,10 @@
     <button class="nav-btn" data-view="sapere" aria-label="Sapere">
       <svg viewBox="0 0 24 24"><path d="M12 5.5C10.4 4 8 3.4 5 3.5v14.6c3-.1 5.4.5 7 2 1.6-1.5 4-2.1 7-2V3.5c-3-.1-5.4.5-7 2z"/><path d="M12 5.5v14.6"/></svg>
       Sapere
+    </button>
+    <button class="nav-btn" data-view="recensioni" aria-label="Recensioni">
+      <svg viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>
+      Recensioni
     </button>
     <button class="nav-btn" data-view="prenota" aria-label="Prenota">
       <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4M9 14l2 2 4-4"/></svg>
@@ -557,6 +589,15 @@
       <button class="chip" data-ago="-1">Mai / non ricordo</button>
     </div>
 
+    <div class="field-label">Di cosa vuoi ricevere i contenuti dello studio?</div>
+    <div class="chips" id="topic-chips">
+      <button class="chip selected" data-topic="stress">Stress</button>
+      <button class="chip selected" data-topic="temporo-mandibolare">Mandibola</button>
+      <button class="chip selected" data-topic="schiena">Schiena</button>
+      <button class="chip selected" data-topic="cervicale">Cervicale</button>
+      <button class="chip selected" data-topic="sport">Sport</button>
+    </div>
+
     <button class="btn btn-primary" id="ob-confirm" disabled>Inizia</button>
   </div>
 </div>
@@ -577,7 +618,7 @@
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
   /* ---------- Navigation ---------- */
-  var views = ['oggi', 'corpo', 'sapere', 'prenota'];
+  var views = ['oggi', 'corpo', 'sapere', 'recensioni', 'prenota'];
   var navBtns = document.querySelectorAll('.nav-btn');
   var calendlyLoaded = false;
   navBtns.forEach(function (btn) {
@@ -672,7 +713,23 @@
     { t: 'Scale invece dell\'ascensore', x: 'Due piani di scale al giorno sono un allenamento gratuito per gambe, cuore ed equilibrio.' },
     { t: 'La schiena ama i carichi, non i pesi improvvisi', x: 'Piegati sulle gambe e tieni il carico vicino al corpo: la schiena è forte quando la usi bene.' },
     { t: 'Sbadiglia e allunga la mandibola', x: 'Se stringi i denti quando sei concentrato, ogni tanto lascia la mascella morbida: collo e testa si alleggeriscono.' },
-    { t: 'Il divano non è un letto', x: 'Addormentarsi storti sul divano regala rigidità al risveglio. Se hai sonno, vai a letto davvero.' }
+    { t: 'Il divano non è un letto', x: 'Addormentarsi storti sul divano regala rigidità al risveglio. Se hai sonno, vai a letto davvero.' },
+    { t: 'Il monitor all\'altezza degli occhi', x: 'Alza lo schermo con dei libri: se guardi in basso per ore, il collo lavora al posto tuo.' },
+    { t: 'Scalda i tessuti prima dello sport', x: 'Due minuti di movimenti lenti prima di correre o sollevare. A freddo si fanno i danni.' },
+    { t: 'Dormi le tue ore', x: 'È di notte che i tessuti si riparano davvero. Dormire poco rallenta ogni recupero, anche il migliore.' },
+    { t: 'Espira quando sollevi', x: 'Trattenere il respiro sotto sforzo alza la pressione e irrigidisce tutto. Butta fuori l\'aria mentre spingi.' },
+    { t: 'Piedi nudi in casa', x: 'Il piede è pieno di sensori: camminare scalzo lo tiene sveglio e allena l\'equilibrio senza sforzo.' },
+    { t: 'Col freddo muoviti di più, non di meno', x: 'La rigidità arriva da fermi. Il freddo non è il nemico: l\'immobilità sì.' },
+    { t: 'Zaino su due spalle', x: 'Portato su una spalla sola, il peso diventa una torsione che la schiena compensa tutto il giorno.' },
+    { t: 'Ascolta i segnali piccoli', x: 'Un fastidio che torna sempre nello stesso punto sta dicendo qualcosa. Non aspettare che urli.' },
+    { t: 'Pausa attiva, non passiva', x: 'Nella pausa alzati e cammina, invece di scorrere il telefono da seduto. Il corpo si ricarica muovendosi.' },
+    { t: 'Mastica da entrambi i lati', x: 'Masticare sempre dallo stesso lato affatica mandibola e collo. Cambia lato: la tensione si distribuisce.' },
+    { t: 'Dividi la spesa in due buste', x: 'Due buste leggere, una per mano, valgono più di una pesante da un lato solo. Il corpo ama la simmetria.' },
+    { t: 'Siediti sugli appoggi giusti', x: 'Spostati sul bordo della sedia e senti le due ossa sotto i glutei: la schiena si raddrizza da sola.' },
+    { t: 'Un bicchiere d\'acqua appena sveglio', x: 'Di notte perdi liquidi, e anche i dischi della colonna si reidratano. Prima del caffè, l\'acqua.' },
+    { t: 'Apri le mani ogni tanto', x: 'Dieci secondi di apertura delle dita dopo ore di telefono o mouse: tendini e polsi ringraziano.' },
+    { t: 'Spalle giù quando guidi', x: 'Al semaforo controllati: spalle basse, mani morbide sul volante. La cervicale accumula ogni viaggio.' },
+    { t: 'Il dolore che passa non è sempre risolto', x: 'Se un fastidio va e viene da mesi, il corpo sta compensando. Un controllo dice il perché.' }
   ];
 
   function dayIndex() { return Math.floor(Date.now() / 86400000); }
@@ -779,6 +836,81 @@
     'Se ti porti dietro un fastidio da un po\', una valutazione di 60 minuti può dirti da dove viene.\n\n' +
     'Prenoti direttamente da qui: ' + CALENDLY + '\n📍 Via Capilupi 21, Modena';
   document.getElementById('referral-btn').href = 'https://wa.me/?text=' + encodeURIComponent(refMsg);
+  var refMsg2 = 'Ciao! Ti mando l\'app del mio kinesiologo, il Dott. Davide Scuderi di Modena. ' +
+    'Ci trovi consigli quotidiani, esercizi di prevenzione e puoi prenotare un controllo direttamente.\n\n' + SITE;
+  var ref2 = document.getElementById('referral-btn-2');
+  if (ref2) ref2.href = 'https://wa.me/?text=' + encodeURIComponent(refMsg2);
+
+  /* ---------- Articoli Sapere ---------- */
+  var articles = [
+    {
+      cat: 'Come lavoro',
+      title: 'Non sono io che ti guarisco',
+      preview: 'Un tessuto si ripara da solo, con tempi biologici suoi. Nessuna manovra li accorcia. Quello che posso fare è toglierti la protezione che ti blocca e darti lo stimolo giusto per cambiare in modo stabile.',
+      full: 'La riparazione di un tessuto ha fasi precise: prima l\'infiammazione (giorni), poi la ricostruzione (settimane), poi il rimodellamento (mesi). Nessun terapista al mondo ripara un tessuto: lo ripara il corpo, ed è l\'unica cosa che sa farlo davvero.\n\nAllora a cosa servo io? A tre cose. Tolgo i freni: riduco dolore e protezione quel tanto che basta perché il movimento torni possibile. Restituisco il movimento: perché è lo stimolo con cui il corpo si adatta e cambia. E tolgo quello che continua a irritare: un carico sbagliato, un compenso, un\'abitudine.\n\nC\'è una quarta cosa che vale quanto le altre tre: spiegare. Quando capisci cosa sta succedendo nel tuo corpo, il sistema nervoso percepisce meno minaccia — e la minaccia percepita è uno degli ingredienti del dolore.'
+    },
+    {
+      cat: 'Capire il dolore',
+      title: 'Il dolore non misura il danno',
+      preview: 'Il dolore è una risposta del sistema nervoso, non un sensore del danno. Per questo un dolore forte non sempre significa danno grave — e un problema silenzioso può crescere senza far male.',
+      full: 'Il dolore non è un sensore che registra il danno: è una risposta che il sistema nervoso produce quando valuta che serva protezione. E la può amplificare o ridurre, a seconda di quanto pericolo percepisce.\n\nPer questo un dolore fortissimo può nascere da un danno piccolo — e un problema serio può crescere in silenzio, senza far male. E per questo a volte il dolore cala già in una seduta: non perché il tessuto si sia riparato in trenta minuti (biologicamente impossibile), ma perché è cambiata la risposta protettiva.\n\nSe un dolore ti spaventa, la prima cosa utile non è il riposo assoluto: è capire cosa lo tiene acceso. Quasi sempre fa meno paura da vicino che da lontano.'
+    },
+    {
+      cat: 'Lo stimolo giusto',
+      title: 'Perché ti do gli esercizi',
+      preview: 'Le cellule di muscoli, tendini e ossa sentono il carico e modificano il tessuto di conseguenza. L\'esercizio non è un compito a casa: è lo stimolo con cui il corpo cambia.',
+      full: 'Esiste un meccanismo preciso, si chiama meccanotrasduzione: le cellule di muscoli, tendini e ossa percepiscono il carico meccanico e modificano il tessuto di conseguenza.\n\nFunziona in tre modi. Carico assente: il tessuto si indebolisce. Carico eccessivo: si irrita. Carico giusto: si rinforza. Tutta la differenza sta nella dose — per questo gli esercizi che ti do sono pochi, precisi e con le ripetizioni scritte.\n\nQuando li salti non stai saltando un compito: stai togliendo al corpo lo stimolo con cui si stava rinforzando. Il trattamento apre la porta. L\'esercizio è quello che ci passa attraverso.'
+    },
+    {
+      cat: 'Prevenzione',
+      title: 'Il valore del check-up',
+      preview: 'Il check-up scopre cosa sta per diventare un male, quando il corpo è ancora sano. Trovarlo adesso, ogni 3–6 mesi, costa infinitamente meno che aspettare il dolore.',
+      full: 'Quando il dolore arriva, il problema di solito è lì da tempo: il corpo compensa a lungo prima di arrendersi. Il fastidio è l\'ultimo avviso, non il primo.\n\nIl check-up serve a leggere i segnali prima: come ti muovi, dove il corpo compensa, quali zone stanno lavorando al posto di altre. Trovare adesso quello che sta per diventare un problema costa infinitamente meno — in tempo, denaro e fatica — che aspettare che faccia male.\n\nOgni 3–6 mesi è la frequenza giusta per la maggior parte delle persone. Come il tagliando dell\'auto, ma per l\'unico mezzo che non puoi sostituire.'
+    },
+    {
+      cat: 'Onestà',
+      title: 'A volte passa da solo',
+      preview: 'Una buona parte dei mal di schiena migliora anche senza fare niente. Il problema sono le recidive. Il mio lavoro non è farti passare il dolore più in fretta: è capire perché torna.',
+      full: 'Te lo dico prima che tu lo scopra da solo: una buona parte dei mal di schiena migliora in poche settimane anche senza fare niente. È la storia naturale del disturbo, ed è documentata.\n\nAllora perché venire in studio? Perché "è passato" e "è risolto" non sono la stessa cosa. Le recidive sono frequentissime: il dolore se ne va, il motivo per cui è arrivato resta. E ogni volta torna un po\' più volentieri.\n\nIl mio lavoro non è farti passare il dolore più in fretta possibile: è capire cosa lo tiene in piedi, e togliere quello. Chi ti promette guarigioni sta vendendo. Chi ti spiega la differenza sta lavorando.'
+    },
+    {
+      cat: 'Il corpo è uno',
+      title: 'Tutto è collegato',
+      preview: 'Una spalla che fa male può nascere da un appoggio del piede, una cervicale rigida da come respiri. Per questo la valutazione guarda tutto il corpo, non solo dove senti il sintomo.',
+      full: 'Il corpo non è fatto a compartimenti: muscoli, fasce e articolazioni formano catene che si passano il carico l\'una con l\'altra. Quando un anello non fa il suo lavoro, un altro lo fa al posto suo — e prima o poi presenta il conto.\n\nPer questo una spalla che fa male può nascere dall\'appoggio di un piede, una cervicale rigida da come respiri, un mal di schiena da un\'anca che non ruota più. Il punto che duole è spesso la vittima, non il colpevole.\n\nÈ il motivo per cui la valutazione in studio guarda tutto il corpo e non solo dove senti il sintomo: trattare la vittima dà sollievo. Trovare il colpevole dà risultati che restano.'
+    }
+  ];
+
+  function renderArticles() {
+    var wrap = document.getElementById('articles-list');
+    var html = '';
+    articles.forEach(function (a, i) {
+      var shareMsg = '📖 *' + a.title + '*\n\n' + a.preview +
+        '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nL\'articolo completo è nell\'app: ' + SITE;
+      html += '<div class="card article" id="article-' + i + '">' +
+        '<div class="eyebrow">' + a.cat + '</div>' +
+        '<h2>' + a.title + '</h2>' +
+        '<p>' + a.preview + '</p>' +
+        '<div class="article-full" id="article-full-' + i + '" style="display:none; margin-top:10px">' +
+          a.full.split('\n\n').map(function (p) { return '<p style="margin-bottom:10px">' + p + '</p>'; }).join('') +
+        '</div>' +
+        '<div style="margin-top:12px; display:flex; gap:18px; flex-wrap:wrap">' +
+          '<button class="text-btn" data-expand="' + i + '">Leggi tutto</button>' +
+          '<a class="text-btn" href="https://wa.me/?text=' + encodeURIComponent(shareMsg) + '" target="_blank" rel="noopener">Condividi su WhatsApp</a>' +
+        '</div>' +
+        '</div>';
+    });
+    wrap.innerHTML = html;
+    wrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-expand]');
+      if (!btn) return;
+      var full = document.getElementById('article-full-' + btn.dataset.expand);
+      var open = full.style.display !== 'none';
+      full.style.display = open ? 'none' : 'block';
+      btn.textContent = open ? 'Leggi tutto' : 'Chiudi';
+    });
+  }
+  renderArticles();
 
   /* ---------- Install prompt ---------- */
   var deferredPrompt = null;
@@ -819,6 +951,13 @@
       c.classList.toggle('selected', parseInt(c.dataset.days, 10) === obInterval);
     });
     document.querySelectorAll('#last-chips .chip').forEach(function (c) { c.classList.remove('selected'); });
+    var savedTopics = null;
+    try { savedTopics = JSON.parse(get('ks_topics') || 'null'); } catch (e) {}
+    if (savedTopics) {
+      document.querySelectorAll('#topic-chips .chip').forEach(function (c) {
+        c.classList.toggle('selected', savedTopics.indexOf(c.dataset.topic) !== -1);
+      });
+    }
     updateObButton();
     modal.classList.add('open');
   }
@@ -838,6 +977,10 @@
     document.querySelectorAll('#last-chips .chip').forEach(function (x) { x.classList.toggle('selected', x === c); });
     updateObButton();
   });
+  document.getElementById('topic-chips').addEventListener('click', function (e) {
+    var c = e.target.closest('.chip'); if (!c) return;
+    c.classList.toggle('selected');
+  });
   document.getElementById('ob-confirm').addEventListener('click', function () {
     if (!obInterval) return;
     set(LS.interval, String(obInterval));
@@ -846,9 +989,13 @@
     } else if (obAgo === -1) {
       try { localStorage.removeItem(LS.last); } catch (e) {}
     }
+    var topics = [];
+    document.querySelectorAll('#topic-chips .chip.selected').forEach(function (c) { topics.push(c.dataset.topic); });
+    set('ks_topics', JSON.stringify(topics));
     set(LS.onboarded, 'true');
     modal.classList.remove('open');
     renderTimer();
+    if (window.loadNews) window.loadNews();
   });
 
   /* ---------- Service worker ---------- */
@@ -864,6 +1011,78 @@
   renderTimer();
   if (!get(LS.onboarded)) { openOnboarding(); }
 })();
+</script>
+
+<script type="module">
+// Novità dallo studio: legge i post pubblicati su Firestore, filtrati sugli
+// argomenti scelti nell'onboarding. La chiave qui sotto è la configurazione
+// pubblica dell'app web: la protezione dei dati sta nelle Security Rules
+// (lettura libera dei soli post, scrittura vietata dal client).
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDbPhrjVUolDP1Y17NvMACUVYZZ_c8TDBQ",
+  authDomain: "kinesiologia-studio.firebaseapp.com",
+  projectId: "kinesiologia-studio",
+  storageBucket: "kinesiologia-studio.firebasestorage.app",
+  messagingSenderId: "1038494797123",
+  appId: "1:1038494797123:web:6266b996adfe252c6e73f6"
+};
+
+const db = getFirestore(initializeApp(firebaseConfig));
+const SITE = 'https://davidemcb.github.io/kinesiologia-studio/';
+const topicLabels = {
+  'stress': 'Stress',
+  'temporo-mandibolare': 'Mandibola',
+  'schiena': 'Schiena',
+  'cervicale': 'Cervicale',
+  'sport': 'Sport'
+};
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+window.loadNews = async function () {
+  const wrap = document.getElementById('news-list');
+  let topics = null;
+  try { topics = JSON.parse(localStorage.getItem('ks_topics') || 'null'); } catch (e) {}
+
+  try {
+    const snap = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc'), limit(20)));
+    const posts = [];
+    snap.forEach(doc => {
+      const p = doc.data();
+      if (!topics || topics.length === 0 || topics.includes(p.topic)) posts.push(p);
+    });
+
+    if (posts.length === 0) { wrap.innerHTML = ''; return; }
+
+    let html = '';
+    posts.forEach(p => {
+      let dateStr = '';
+      if (p.createdAt && p.createdAt.toDate) dateStr = p.createdAt.toDate().toLocaleDateString('it-IT');
+      const label = topicLabels[p.topic] || p.topic || 'Novità';
+      const shareMsg = '📖 *' + (p.title || '') + '*\n\n' + (p.text || '') +
+        '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nTutti i contenuti nell\'app: ' + SITE;
+      html += '<div class="card article">' +
+        '<div class="eyebrow">Dallo studio · ' + esc(label) + (dateStr ? ' · ' + dateStr : '') + '</div>' +
+        '<h2>' + esc(p.title) + '</h2>' +
+        '<p style="white-space:pre-line">' + esc(p.text) + '</p>' +
+        '<div style="margin-top:12px">' +
+          '<a class="text-btn" style="text-decoration:underline" href="https://wa.me/?text=' + encodeURIComponent(shareMsg) + '" target="_blank" rel="noopener">Condividi su WhatsApp</a>' +
+        '</div></div>';
+    });
+    wrap.innerHTML = html;
+  } catch (e) {
+    wrap.innerHTML = '';
+  }
+};
+
+window.loadNews();
 </script>
 </body>
 </html>
