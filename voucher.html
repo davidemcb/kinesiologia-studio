@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Voucher Regalo — Kinesiologia Studio</title>
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    /* Pagina volutamente a tema unico chiaro: è un documento da stampare/regalare */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif;
+      background: #E9EAE0;
+      color: #22302B;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+    }
+    .wrap { max-width: 480px; margin: 0 auto; }
+    .intro { text-align: center; margin-bottom: 18px; }
+    .intro h1 { font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 600; }
+    .intro p { font-size: 14px; color: #5C6B64; margin-top: 6px; }
+
+    .voucher {
+      background: #FDFDFB;
+      border: 2px solid #2F5D51;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(34, 48, 43, 0.15);
+    }
+    .v-head {
+      background: #2F5D51;
+      color: #F2F7F3;
+      padding: 22px 24px;
+      text-align: center;
+    }
+    .v-head .small { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; }
+    .v-head h2 { font-family: 'Fraunces', Georgia, serif; font-size: 26px; font-weight: 700; margin-top: 6px; }
+    .v-body { padding: 24px; }
+    .v-what {
+      text-align: center;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: #24493F;
+      margin-bottom: 4px;
+    }
+    .v-sub { text-align: center; font-size: 13px; color: #5C6B64; margin-bottom: 20px; }
+    .v-field { margin-bottom: 14px; }
+    .v-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5C6B64; margin-bottom: 4px; }
+    .v-field input {
+      width: 100%;
+      border: none;
+      border-bottom: 1.5px dashed #B9C2B4;
+      background: transparent;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 18px;
+      color: #22302B;
+      padding: 4px 2px;
+      outline: none;
+    }
+    .v-code-row {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #E2ECE5;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin: 20px 0 14px;
+    }
+    .v-code-row .lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #24493F; }
+    .v-code { font-family: 'Fraunces', Georgia, serif; font-size: 18px; font-weight: 700; color: #24493F; letter-spacing: 0.04em; }
+    .v-how { font-size: 13px; color: #5C6B64; line-height: 1.6; }
+    .v-how strong { color: #22302B; }
+    .v-fine { font-size: 11px; color: #8B968F; margin-top: 14px; line-height: 1.5; }
+    .v-foot {
+      border-top: 1px solid #DDE0D2;
+      padding: 14px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: #5C6B64;
+    }
+    .v-foot .brand { font-family: 'Fraunces', Georgia, serif; font-weight: 600; color: #24493F; font-size: 13px; }
+
+    .actions { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-weight: 700; font-size: 15px;
+      border: none; border-radius: 12px; cursor: pointer;
+      padding: 15px 24px; width: 100%;
+      text-decoration: none; text-align: center;
+      font-family: 'Instrument Sans', sans-serif;
+    }
+    .btn-primary { background: #2F5D51; color: #F2F7F3; }
+    .btn-accent { background: #C98632; color: #26190A; }
+    .btn:focus-visible { outline: 3px solid #C98632; outline-offset: 2px; }
+    .hint { text-align: center; font-size: 12.5px; color: #5C6B64; }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .intro, .actions, .hint { display: none; }
+      .voucher { box-shadow: none; border-radius: 0; }
+      .v-field input { border-bottom-color: #999; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="intro">
+      <h1>Grazie! 🎁</h1>
+      <p>Il pagamento è andato a buon fine. Ecco il tuo voucher: compila i nomi, poi stampalo o invialo direttamente su WhatsApp.</p>
+    </div>
+
+    <div class="voucher" id="voucher">
+      <div class="v-head">
+        <div class="small">Voucher Regalo</div>
+        <h2>Un'ora per il tuo corpo</h2>
+      </div>
+      <div class="v-body">
+        <div class="v-what">Trattamento di kinesiologia · 60 minuti</div>
+        <div class="v-sub">con il Dott. Davide Scuderi</div>
+
+        <div class="v-field">
+          <label for="v-to">Per</label>
+          <input id="v-to" type="text" placeholder="Nome di chi lo riceve" autocomplete="off">
+        </div>
+        <div class="v-field">
+          <label for="v-from">Da parte di</label>
+          <input id="v-from" type="text" placeholder="Il tuo nome" autocomplete="off">
+        </div>
+
+        <div class="v-code-row">
+          <span class="lbl">Codice</span>
+          <span class="v-code" id="v-code">—</span>
+        </div>
+
+        <p class="v-how">
+          <strong>Come si usa:</strong> prenota il tuo appuntamento su
+          <strong>calendly.com/infokinesiologia</strong> (o scrivi al 348&nbsp;151&nbsp;4382)
+          e comunica il codice del voucher al momento della visita.
+        </p>
+        <p class="v-fine" id="v-fine">Voucher emesso il — · valido 6 mesi dalla data di emissione, previa verifica del pagamento. Non convertibile in denaro.</p>
+      </div>
+      <div class="v-foot">
+        <span class="brand">Kinesiologia Studio</span>
+        <span>Via Capilupi 21, Modena</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-accent" id="v-share" href="#" target="_blank" rel="noopener">Invia il voucher su WhatsApp</a>
+      <button class="btn btn-primary" onclick="window.print()">Stampa o salva in PDF</button>
+      <p class="hint">Conserva il codice: servirà in studio.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // codice voucher leggibile: data + 4 caratteri casuali
+      var d = new Date();
+      var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+      var stamp = String(d.getFullYear()).slice(2) + pad(d.getMonth() + 1) + pad(d.getDate());
+      var alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+      var rand = '';
+      for (var i = 0; i < 4; i++) rand += alphabet[Math.floor(Math.random() * alphabet.length)];
+      var code = 'KS-' + stamp + '-' + rand;
+
+      // se il link di pagamento passa un riferimento, lo agganciamo al codice
+      var params = new URLSearchParams(location.search);
+      var ref = params.get('ref') || params.get('session_id');
+      if (ref) code += '-' + String(ref).replace(/[^A-Za-z0-9]/g, '').slice(-4).toUpperCase();
+
+      document.getElementById('v-code').textContent = code;
+      document.getElementById('v-fine').textContent =
+        'Voucher emesso il ' + pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() +
+        ' · valido 6 mesi dalla data di emissione, previa verifica del pagamento. Non convertibile in denaro.';
+
+      function updateShare() {
+        var to = document.getElementById('v-to').value.trim();
+        var from = document.getElementById('v-from').value.trim();
+        var msg = '🎁 ' + (to ? to + ', questo' : 'Questo') + ' è per te: un trattamento di kinesiologia di 60 minuti con il Dott. Davide Scuderi (Kinesiologia Studio, Modena)' +
+          (from ? ', da parte di ' + from : '') + '!\n\n' +
+          'Codice voucher: ' + code + '\n' +
+          'Prenota quando vuoi: https://calendly.com/infokinesiologia/consulenza\n' +
+          '📍 Via Capilupi 21, Modena — 348 151 4382';
+        document.getElementById('v-share').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+      }
+      document.getElementById('v-to').addEventListener('input', updateShare);
+      document.getElementById('v-from').addEventListener('input', updateShare);
+      updateShare();
+    })();
+  </script>
+</body>
+</html>

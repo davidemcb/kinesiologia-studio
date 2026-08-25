@@ -298,6 +298,47 @@
   .referral p { color: var(--brand-ink); opacity: 0.85; }
   .referral .btn { margin-top: 14px; }
 
+  /* ---------- Diario ---------- */
+  .diary-scale { display: grid; grid-template-columns: repeat(11, 1fr); gap: 4px; margin-top: 12px; }
+  .diary-btn {
+    padding: 8px 0; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--surface-2);
+    font: 600 12.5px var(--font-body); color: var(--ink); cursor: pointer;
+    text-align: center;
+  }
+  .diary-btn.sel { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+  #diary-chart svg { width: 100%; height: 64px; margin-top: 12px; display: block; }
+  .diary-note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  /* ---------- Sfida 7 giorni ---------- */
+  .challenge { border-top: 1px dashed var(--line); margin-top: 14px; padding-top: 12px; }
+  .ch-dots { display: flex; gap: 6px; margin-bottom: 8px; }
+  .ch-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1.5px solid var(--line); background: var(--surface-2);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--muted);
+  }
+  .ch-dot.on { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .ch-text { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+
+  /* ---------- Test del corpo ---------- */
+  .test-opt {
+    display: block; width: 100%; text-align: left; margin-bottom: 8px;
+    background: var(--surface-2); border: 1.5px solid var(--line);
+    color: var(--ink);
+    border-radius: 10px; padding: 12px 14px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 600;
+    cursor: pointer;
+  }
+  .test-opt:active { border-color: var(--brand); background: var(--brand-soft); }
+  .test-score {
+    font-family: var(--font-display); font-weight: 700; font-size: 54px;
+    text-align: center; margin: 10px 0 4px; color: var(--brand-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  .test-verdict { text-align: center; font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+
   /* ---------- Bottom nav ---------- */
   .nav {
     position: fixed; bottom: 0; left: 0; right: 0;
@@ -389,6 +430,25 @@
       </div>
     </div>
 
+    <div class="card" id="review-card" style="display:none">
+      <div class="eyebrow">Un favore da 30 secondi</div>
+      <h2>Com'è andata oggi?</h2>
+      <p>La tua esperienza può aiutare chi sta cercando una soluzione al suo problema. Una recensione onesta vale più di mille pubblicità.</p>
+      <div style="margin-top:12px">
+        <a class="btn btn-accent" id="review-link" href="https://www.google.com/maps/search/?api=1&query=Kinesiologia+Studio+Via+Capilupi+21+Modena" target="_blank" rel="noopener">⭐ Lascia una recensione su Google</a>
+      </div>
+      <div style="margin-top:8px; text-align:center"><button class="text-btn" id="review-later">Più tardi</button></div>
+    </div>
+
+    <div class="card" id="diary-card">
+      <div class="eyebrow">Diario del corpo</div>
+      <h2>Come sta il tuo corpo oggi?</h2>
+      <p>0 = benissimo · 10 = fastidio forte. Un tocco al giorno: il grafico lo porti in studio.</p>
+      <div class="diary-scale" id="diary-scale"></div>
+      <div id="diary-chart"></div>
+      <div class="diary-note" id="diary-note"></div>
+    </div>
+
     <div class="card" id="install-card" style="display:none">
       <div class="eyebrow">Sempre con te</div>
       <h2>Aggiungi l'app alla schermata Home</h2>
@@ -415,6 +475,12 @@
         <button class="btn btn-primary" id="habit-btn" style="width:auto; padding:11px 20px; font-size:13.5px">Fatto ✓</button>
         <span class="streak" id="streak-label"></span>
       </div>
+      <div class="challenge">
+        <div class="ch-dots" id="ch-dots" style="display:none"></div>
+        <div class="ch-text" id="ch-text">7 micro-abitudini in 7 giorni di fila. Ce la fai?</div>
+        <button class="text-btn" id="ch-btn">Inizia la Sfida dei 7 Giorni</button>
+        <a class="btn btn-accent" id="ch-share" href="#" target="_blank" rel="noopener" style="display:none; margin-top:10px; padding:11px 16px; font-size:13.5px">Condividi il traguardo 🏅</a>
+      </div>
     </div>
 
     <div id="news-list"></div>
@@ -425,6 +491,13 @@
     <p style="color:var(--muted); font-size:14px; margin:6px 2px 14px">
       Dove senti tensione? Tocca una zona: trovi esercizi di prevenzione da fare a casa.
     </p>
+    <div class="card">
+      <div class="eyebrow">Test del corpo</div>
+      <h2>Quanto è pronto il tuo corpo? Scoprilo in 2 minuti</h2>
+      <p id="test-last">5 mini-prove da fare in casa, un punteggio finale e cosa significa.</p>
+      <div style="margin-top:12px"><button class="btn btn-primary" id="test-start">🧪 Inizia il test</button></div>
+    </div>
+
     <div class="zones" id="zones">
       <button class="zone" data-zone="schiena"><span class="z-ico">🧍</span>Schiena</button>
       <button class="zone" data-zone="cervicale"><span class="z-ico">💆</span>Cervicale</button>
@@ -446,6 +519,15 @@
 
   <!-- ============ SAPERE ============ -->
   <section class="view" id="view-sapere">
+    <div class="card" style="border-left:4px solid var(--danger)">
+      <div class="eyebrow" style="color:var(--danger)">Falso mito della settimana</div>
+      <h2 id="myth-title">…</h2>
+      <p id="myth-text">…</p>
+      <div class="tip-share">
+        <a class="btn btn-ghost" id="myth-share-btn" href="#" target="_blank" rel="noopener">Sfata il mito su WhatsApp</a>
+      </div>
+    </div>
+
     <div id="articles-list"></div>
     <div class="card">
       <h2>Hai una domanda sul tuo caso?</h2>
@@ -474,6 +556,7 @@
         <li><span class="f-ico">👤</span><span>Dott. Davide Scuderi — Kinesiologo</span></li>
         <li><span class="f-ico">📍</span><span><a href="https://www.google.com/maps/search/?api=1&query=Via+Capilupi+21%2C+Modena" target="_blank" rel="noopener">Via Capilupi 21, Modena</a> — suonare a "Studio Olistico"</span></li>
         <li><span class="f-ico">⏱️</span><span>La consulenza dura 60 minuti</span></li>
+        <li><span class="f-ico">📞</span><span><a href="tel:+393481514382">348 151 4382</a> · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">scrivici su WhatsApp</a></span></li>
         <li><span class="f-ico">✉️</span><span><a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></span></li>
       </ul>
       <ol class="steps-list" style="margin-top:12px">
@@ -489,6 +572,13 @@
       <h2>Conosci qualcuno che si trascina un fastidio da mesi?</h2>
       <p>Il regalo più utile è fargli scoprire il perché. Mandagli il link della consulenza: due tocchi e ha il suo appuntamento.</p>
       <a class="btn btn-accent" id="referral-btn" href="#" target="_blank" rel="noopener">Invia a un amico su WhatsApp</a>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">Regala un trattamento</div>
+      <h2>🎁 Il regalo che si sente addosso</h2>
+      <p>Un'ora dedicata a chi vuoi bene: paghi online, ricevi subito il voucher regalo da stampare o inviare, e chi lo riceve prenota quando vuole.</p>
+      <div style="margin-top:12px" id="gift-cta"></div>
     </div>
   </section>
 
@@ -602,6 +692,15 @@
   </div>
 </div>
 
+<!-- ============ TEST DEL CORPO ============ -->
+<div class="modal" id="test-modal" role="dialog" aria-modal="true" aria-labelledby="test-title">
+  <div class="modal-card">
+    <h2 id="test-title">Test del corpo</h2>
+    <p class="sub" id="test-sub"></p>
+    <div id="test-body"></div>
+  </div>
+</div>
+
 <script>
 (function () {
   var CALENDLY = 'https://calendly.com/infokinesiologia/consulenza';
@@ -612,7 +711,14 @@
     onboarded: 'ks_onboarded',
     streak: 'ks_streak',
     streakDate: 'ks_streakDate',
-    installDismissed: 'ks_installDismissed'
+    installDismissed: 'ks_installDismissed',
+    ch: 'ks_challenge',
+    chDays: 'ks_chDays',
+    chDate: 'ks_chDate',
+    review: 'ks_reviewDone',
+    diary: 'ks_diary',
+    testScore: 'ks_testScore',
+    testDate: 'ks_testDate'
   };
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
@@ -695,6 +801,14 @@
   document.getElementById('btn-treated').addEventListener('click', function () {
     set(LS.last, new Date().toISOString());
     renderTimer();
+    if (!get(LS.review)) document.getElementById('review-card').style.display = 'block';
+  });
+  document.getElementById('review-link').addEventListener('click', function () {
+    set(LS.review, 'true');
+    document.getElementById('review-card').style.display = 'none';
+  });
+  document.getElementById('review-later').addEventListener('click', function () {
+    document.getElementById('review-card').style.display = 'none';
   });
   document.getElementById('btn-settings').addEventListener('click', function () { openOnboarding(); });
 
@@ -732,10 +846,42 @@
     { t: 'Il dolore che passa non è sempre risolto', x: 'Se un fastidio va e viene da mesi, il corpo sta compensando. Un controllo dice il perché.' }
   ];
 
+  // Consigli stagionali: si aggiungono alla rotazione in base al mese
+  var seasonalTips = {
+    inverno: [
+      { t: 'Copri collo e schiena quando esci', x: 'Il freddo improvviso fa contrarre i muscoli in difesa. Sciarpa e maglia lunga sono prevenzione, non solo comfort.' },
+      { t: 'Occhio al ghiaccio: passi corti', x: 'Sui marciapiedi gelati accorcia il passo e tieni le mani fuori dalle tasche: l\'equilibrio ringrazia.' },
+      { t: 'Serata divano? Cambia posizione', x: 'Un film intero nella stessa posa regala rigidità. Un cuscino dietro la zona lombare aiuta.' }
+    ],
+    primavera: [
+      { t: 'Giardinaggio in ginocchio, non piegato', x: 'Lavora vicino a terra con un ginocchio appoggiato invece di piegare la schiena: stessi fiori, zero strappi.' },
+      { t: 'Pulizie di primavera: alterna i lati', x: 'Finestre e pavimenti sempre con lo stesso braccio caricano sempre le stesse catene. Cambia mano ogni tanto.' },
+      { t: 'Riprendi lo sport per gradi', x: 'Dopo l\'inverno il corpo vuole progressione: la prima settimana fai la metà di quello che ti senti di fare.' }
+    ],
+    estate: [
+      { t: 'Valigie: piega le gambe', x: 'Il bagagliaio è il luogo classico del colpo della strega. Avvicinati, piega le gambe, tieni il peso vicino al corpo.' },
+      { t: 'Aria condizionata lontana dal collo', x: 'Il getto freddo diretto su collo e spalle è un classico generatore di torcicollo. Sposta la bocchetta.' },
+      { t: 'Infradito con moderazione', x: 'Zero sostegno e dita che si aggrappano: alternale con scarpe vere, il tuo appoggio ringrazia.' }
+    ],
+    autunno: [
+      { t: 'Rientro alla scrivania: schermo ad altezza occhi', x: 'Dopo l\'estate si torna a ore di monitor. Alza lo schermo: la cervicale segue gli occhi.' },
+      { t: 'Zaino su due spalle', x: 'Vale per i figli a scuola e vale per te: il peso distribuito è il migliore amico della colonna.' },
+      { t: 'Riscaldati prima degli sforzi', x: 'Con il primo freddo i muscoli partono più rigidi: due minuti di movimento prima di sforzi e allenamenti.' }
+    ]
+  };
+  function seasonPool() {
+    var m = new Date().getMonth();
+    if (m >= 2 && m <= 4) return seasonalTips.primavera;
+    if (m >= 5 && m <= 7) return seasonalTips.estate;
+    if (m >= 8 && m <= 10) return seasonalTips.autunno;
+    return seasonalTips.inverno;
+  }
+
   function dayIndex() { return Math.floor(Date.now() / 86400000); }
 
   function renderTip() {
-    var tip = tips[dayIndex() % tips.length];
+    var allTips = tips.concat(seasonPool());
+    var tip = allTips[dayIndex() % allTips.length];
     document.getElementById('tip-title').textContent = tip.t;
     document.getElementById('tip-text').textContent = tip.x;
     var msg = '💡 Consiglio del giorno dal mio kinesiologo:\n\n*' + tip.t + '*\n' + tip.x +
@@ -784,7 +930,225 @@
     streak = (last === yesterday) ? streak + 1 : 1;
     set(LS.streak, String(streak));
     set(LS.streakDate, today);
+    challengeTick(today);
     renderHabit();
+    renderChallenge();
+  });
+
+  /* ---------- Sfida dei 7 giorni ---------- */
+  function challengeTick(today) {
+    if (get(LS.ch) !== 'active') return;
+    var lastD = get(LS.chDate);
+    if (lastD === today) return;
+    var days = parseInt(get(LS.chDays), 10) || 0;
+    var yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    days = (lastD === yesterday || days === 0) ? days + 1 : 1;
+    set(LS.chDays, String(days));
+    set(LS.chDate, today);
+    if (days >= 7) set(LS.ch, 'done');
+  }
+
+  function renderChallenge() {
+    var state = get(LS.ch);
+    var days = parseInt(get(LS.chDays), 10) || 0;
+    var dots = document.getElementById('ch-dots');
+    var text = document.getElementById('ch-text');
+    var btn = document.getElementById('ch-btn');
+    var share = document.getElementById('ch-share');
+
+    // serie interrotta: si riparte, senza drammi
+    if (state === 'active' && days > 0) {
+      var lastD = get(LS.chDate);
+      var yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+      if (lastD && lastD < yesterday) {
+        days = 0;
+        set(LS.chDays, '0');
+      }
+    }
+
+    function drawDots(n) {
+      var html = '';
+      for (var i = 0; i < 7; i++) {
+        html += '<span class="ch-dot' + (i < n ? ' on' : '') + '">' + (i < n ? '✓' : (i + 1)) + '</span>';
+      }
+      dots.innerHTML = html;
+      dots.style.display = 'flex';
+    }
+
+    if (state === 'done') {
+      drawDots(7);
+      text.textContent = 'Sfida completata! 🏅 Sette giorni di fila: il tuo corpo se n\'è accorto.';
+      btn.textContent = 'Ripeti la sfida';
+      share.style.display = 'inline-flex';
+      var msg = '🏅 Ho completato la Sfida dei 7 Giorni: una micro-abitudine al giorno per il mio corpo, per una settimana di fila!\n\nProvala anche tu nell\'app del Dott. Davide Scuderi (Kinesiologia Studio, Modena): ' + SITE;
+      share.href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    } else if (state === 'active') {
+      drawDots(days);
+      text.textContent = days === 0
+        ? 'Si parte! Segna la micro-abitudine di oggi con "Fatto ✓" per accendere il primo giorno.'
+        : days + ' su 7. Continua così: domani il prossimo.';
+      btn.textContent = 'Abbandona la sfida';
+      share.style.display = 'none';
+    } else {
+      dots.style.display = 'none';
+      text.textContent = '7 micro-abitudini in 7 giorni di fila. Ce la fai?';
+      btn.textContent = 'Inizia la Sfida dei 7 Giorni';
+      share.style.display = 'none';
+    }
+  }
+
+  document.getElementById('ch-btn').addEventListener('click', function () {
+    var state = get(LS.ch);
+    if (state === 'active') {
+      set(LS.ch, '');
+      set(LS.chDays, '0');
+    } else {
+      set(LS.ch, 'active');
+      set(LS.chDays, '0');
+      try { localStorage.removeItem(LS.chDate); } catch (e) {}
+    }
+    renderChallenge();
+  });
+
+  /* ---------- Falso mito della settimana ---------- */
+  var myths = [
+    { m: '«Il crack sistema le vertebre»', r: 'Quel rumore è solo gas che cambia pressione dentro l\'articolazione. Nessuna vertebra "torna a posto": il beneficio vero viene dal movimento e dal sistema nervoso che si rilassa.' },
+    { m: '«La risonanza dice tutto»', r: 'Tantissime persone senza alcun dolore hanno ernie o protrusioni nelle immagini. La foto non è il dolore: conta come funziona il tuo corpo, non solo come appare.' },
+    { m: '«Esiste la postura perfetta»', r: 'Non c\'è una postura giusta per tutti e per sempre: la migliore postura è la prossima. Il corpo soffre l\'immobilità, non le posizioni.' },
+    { m: '«Se fa male, riposo assoluto»', r: 'Oltre i primissimi giorni, il riposo totale spesso allunga i tempi. Il movimento giusto, dosato bene, è quasi sempre parte della soluzione.' },
+    { m: '«Il mal di schiena è colpa dell\'età»', r: 'L\'età da sola non spiega perché certe schiene di 70 anni stanno meglio di certe schiene di 40. Contano forza, movimento e abitudini più degli anni.' },
+    { m: '«Più il trattamento fa male, più funziona»', r: 'Il dolore durante un trattamento non è un segnale di efficacia. Il corpo cambia meglio quando non è in difesa.' },
+    { m: '«Ho la cervicale»', r: 'La cervicale ce l\'hanno tutti: è un tratto della colonna. La domanda giusta non è se ce l\'hai, ma perché la tua si fa sentire.' },
+    { m: '«Lo strappo si cura solo col riposo»', r: 'I muscoli guariscono con un carico progressivo e ben dosato. Fermarsi del tutto li fa solo arrivare più deboli al momento del rientro.' }
+  ];
+
+  function renderMyth() {
+    var myth = myths[Math.floor(dayIndex() / 7) % myths.length];
+    document.getElementById('myth-title').textContent = myth.m;
+    document.getElementById('myth-text').textContent = myth.r;
+    var msg = '❌ FALSO MITO: ' + myth.m + '\n\n✅ LA VERITÀ: ' + myth.r +
+      '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nOgni settimana un mito da sfatare nell\'app: ' + SITE;
+    document.getElementById('myth-share-btn').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+  }
+
+  /* ---------- Diario del corpo ---------- */
+  function diaryData() {
+    try { return JSON.parse(get(LS.diary)) || {}; } catch (e) { return {}; }
+  }
+
+  function renderDiary() {
+    var data = diaryData();
+    var today = todayKey();
+    var scale = document.getElementById('diary-scale');
+    var html = '';
+    for (var v = 0; v <= 10; v++) {
+      html += '<button class="diary-btn' + (data[today] === v ? ' sel' : '') + '" data-val="' + v + '">' + v + '</button>';
+    }
+    scale.innerHTML = html;
+
+    // grafico ultimi 14 giorni
+    var W = 280, H = 64, bw = W / 14;
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">';
+    var logged = 0;
+    for (var i = 13; i >= 0; i--) {
+      var d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
+      var x = (13 - i) * bw + 2;
+      if (typeof data[d] === 'number') {
+        logged++;
+        var h = Math.max(3, (data[d] / 10) * (H - 6));
+        var col = data[d] <= 3 ? 'var(--ok)' : (data[d] <= 6 ? 'var(--accent)' : 'var(--danger)');
+        svg += '<rect x="' + x + '" y="' + (H - h) + '" width="' + (bw - 4) + '" height="' + h + '" rx="2" fill="' + col + '"/>';
+      } else {
+        svg += '<rect x="' + x + '" y="' + (H - 3) + '" width="' + (bw - 4) + '" height="3" rx="1.5" fill="var(--line)"/>';
+      }
+    }
+    svg += '</svg>';
+    document.getElementById('diary-chart').innerHTML = logged > 0 ? svg : '';
+    document.getElementById('diary-note').textContent = logged > 1
+      ? 'Ultimi 14 giorni. Verde = bene, ambra = così così, rosso = fastidio forte.'
+      : (logged === 1 ? 'Primo giorno segnato! Torna domani: il grafico cresce con te.' : '');
+  }
+
+  document.getElementById('diary-scale').addEventListener('click', function (e) {
+    var b = e.target.closest('.diary-btn');
+    if (!b) return;
+    var data = diaryData();
+    data[todayKey()] = parseInt(b.dataset.val, 10);
+    // conserva al massimo 60 giorni
+    var keys = Object.keys(data).sort();
+    while (keys.length > 60) { delete data[keys.shift()]; }
+    set(LS.diary, JSON.stringify(data));
+    renderDiary();
+  });
+
+  /* ---------- Test del corpo ---------- */
+  var TESTS = [
+    { q: 'Equilibrio', d: 'Stai in piedi su una gamba sola, senza appoggiarti. Quanto resisti?', o: [['Meno di 10 secondi', 0], ['Tra 10 e 30 secondi', 1], ['Più di 30 secondi', 2]] },
+    { q: 'Flessibilità', d: 'In piedi, gambe tese: piegati in avanti verso le punte dei piedi.', o: [['Arrivo poco sotto il ginocchio', 0], ['Sfioro le caviglie', 1], ['Tocco le punte o il pavimento', 2]] },
+    { q: 'Collo', d: 'Da seduto, busto fermo: gira la testa come per guardare dietro la spalla.', o: [['Giro poco e sento tirare', 0], ['Arrivo quasi alla spalla', 1], ['Vedo bene dietro, senza fastidio', 2]] },
+    { q: 'Forza gambe', d: 'Prova uno squat completo, con i talloni che restano a terra.', o: [['Non riesco a scendere', 0], ['Scendo circa a metà', 1], ['Squat completo, talloni a terra', 2]] },
+    { q: 'Respiro', d: 'Una mano sul petto, una sulla pancia: fai 3 respiri normali. Quale mano si muove di più?', o: [['Quasi solo il petto', 0], ['Un po\' tutte e due', 1], ['Soprattutto la pancia', 2]] }
+  ];
+  var testStep = 0, testScore = 0;
+  var testModal = document.getElementById('test-modal');
+
+  function testVerdict(pct) {
+    if (pct >= 80) return 'Ottima base! Il tuo corpo risponde bene. Un check-up ogni tanto serve a mantenerlo così.';
+    if (pct >= 50) return 'Buona base, ma con qualche segnale da ascoltare. Vale la pena capirli adesso, prima che diventino fastidi.';
+    return 'Il tuo corpo sta chiedendo attenzione. Niente panico: un check-up ti dice esattamente da dove partire.';
+  }
+
+  function renderTestStep() {
+    var body = document.getElementById('test-body');
+    if (testStep < TESTS.length) {
+      var t = TESTS[testStep];
+      document.getElementById('test-sub').textContent = 'Prova ' + (testStep + 1) + ' di 5 — ' + t.q;
+      var html = '<p style="margin-bottom:14px">' + t.d + '</p>';
+      t.o.forEach(function (opt, i) {
+        html += '<button class="test-opt" data-pts="' + opt[1] + '">' + opt[0] + '</button>';
+      });
+      html += '<div style="text-align:center; margin-top:6px"><button class="text-btn" id="test-quit">Esci dal test</button></div>';
+      body.innerHTML = html;
+    } else {
+      var pct = testScore * 10;
+      set(LS.testScore, String(pct));
+      set(LS.testDate, todayKey());
+      document.getElementById('test-sub').textContent = 'Risultato';
+      var msg = '🧪 Ho appena fatto il Test del corpo: ' + pct + '/100!\n' + testVerdict(pct) +
+        '\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE;
+      body.innerHTML =
+        '<div class="test-score">' + pct + '<span style="font-size:22px">/100</span></div>' +
+        '<p class="test-verdict">' + testVerdict(pct) + '</p>' +
+        '<button class="btn btn-accent" id="test-book">Porta il risultato in studio: prenota</button>' +
+        '<a class="btn btn-ghost" style="margin-top:10px" href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Condividi il punteggio</a>' +
+        '<div style="text-align:center; margin-top:12px"><button class="text-btn" id="test-quit">Chiudi</button></div>';
+      renderTestEntry();
+    }
+  }
+
+  function renderTestEntry() {
+    var pct = get(LS.testScore);
+    if (pct !== null) {
+      document.getElementById('test-last').textContent = 'Ultimo risultato: ' + pct + '/100 (' + (get(LS.testDate) === todayKey() ? 'oggi' : get(LS.testDate)) + '). Rifallo tra qualche settimana per vedere i progressi.';
+      document.getElementById('test-start').textContent = '🧪 Rifai il test';
+    }
+  }
+
+  document.getElementById('test-start').addEventListener('click', function () {
+    testStep = 0; testScore = 0;
+    testModal.classList.add('open');
+    renderTestStep();
+  });
+  document.getElementById('test-body').addEventListener('click', function (e) {
+    var opt = e.target.closest('.test-opt');
+    if (opt) {
+      testScore += parseInt(opt.dataset.pts, 10);
+      testStep++;
+      renderTestStep();
+      return;
+    }
+    if (e.target.closest('#test-quit')) testModal.classList.remove('open');
+    if (e.target.closest('#test-book')) { testModal.classList.remove('open'); switchView('prenota'); }
   });
 
   /* ---------- Corpo ---------- */
@@ -834,7 +1198,7 @@
   /* ---------- Referral ---------- */
   var refMsg = 'Ciao! Ti giro il contatto del mio kinesiologo a Modena, il Dott. Davide Scuderi. ' +
     'Se ti porti dietro un fastidio da un po\', una valutazione di 60 minuti può dirti da dove viene.\n\n' +
-    'Prenoti direttamente da qui: ' + CALENDLY + '\n📍 Via Capilupi 21, Modena';
+    'Prenoti direttamente da qui: ' + CALENDLY + '\n📍 Via Capilupi 21, Modena\n\nQuando prenoti, scrivi nel modulo che ti mando io 😉';
   document.getElementById('referral-btn').href = 'https://wa.me/?text=' + encodeURIComponent(refMsg);
   var refMsg2 = 'Ciao! Ti mando l\'app del mio kinesiologo, il Dott. Davide Scuderi di Modena. ' +
     'Ci trovi consigli quotidiani, esercizi di prevenzione e puoi prenotare un controllo direttamente.\n\n' + SITE;
@@ -1005,10 +1369,29 @@
     });
   }
 
+  /* ---------- Regala un trattamento ---------- */
+  // Quando il link di pagamento è pronto, inserirlo qui: il bottone cambia da solo.
+  var GIFT_PAYMENT_LINK = '';
+  (function renderGift() {
+    var box = document.getElementById('gift-cta');
+    if (GIFT_PAYMENT_LINK) {
+      box.innerHTML = '<a class="btn btn-accent" href="' + GIFT_PAYMENT_LINK + '" target="_blank" rel="noopener">🎁 Regala ora — paga online</a>' +
+        '<p style="font-size:12.5px; margin-top:8px; text-align:center">Dopo il pagamento ricevi subito il voucher da regalare.</p>';
+    } else {
+      var giftMsg = 'Ciao Davide! Vorrei regalare un trattamento a una persona a cui tengo. Come faccio?';
+      box.innerHTML = '<a class="btn btn-accent" href="https://wa.me/393481514382?text=' + encodeURIComponent(giftMsg) + '" target="_blank" rel="noopener">🎁 Regala ora — scrivici su WhatsApp</a>' +
+        '<p style="font-size:12.5px; margin-top:8px; text-align:center">Ti rispondiamo in giornata con tutto il necessario.</p>';
+    }
+  })();
+
   /* ---------- Init ---------- */
   renderTip();
   renderHabit();
   renderTimer();
+  renderMyth();
+  renderDiary();
+  renderChallenge();
+  renderTestEntry();
   if (!get(LS.onboarded)) { openOnboarding(); }
 })();
 </script>
