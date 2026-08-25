@@ -1643,6 +1643,9 @@ window.loadNews = async function () {
 
     if (posts.length === 0) { wrap.innerHTML = ''; return; }
 
+    // in Oggi mostriamo solo gli ultimi 3 post, per tenere la schermata leggera
+    posts = posts.slice(0, 3);
+
     let html = '';
     posts.forEach(p => {
       let dateStr = '';
