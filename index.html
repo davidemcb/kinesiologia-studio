@@ -492,10 +492,10 @@
     </div>
 
     <div class="card" id="push-card" style="display:none">
-      <div class="eyebrow">Non perderti niente</div>
-      <h2>🔔 Attiva le notifiche</h2>
-      <p>Il promemoria del check-up, il consiglio della settimana e i tuoi buoni in scadenza: arrivano da soli, anche se non apri l'app.</p>
-      <div style="margin-top:12px"><button class="btn btn-primary" id="push-btn">Attiva le notifiche</button></div>
+      <div class="eyebrow">Vale un buono</div>
+      <h2>🔔 Attiva le notifiche: −5 € subito</h2>
+      <p>Il promemoria del check-up, il consiglio della settimana e i tuoi buoni in scadenza arrivano da soli. E appena le attivi, si sblocca un buono da 5 € sul prossimo trattamento.</p>
+      <div style="margin-top:12px"><button class="btn btn-accent" id="push-btn">Attiva e prendi il buono</button></div>
     </div>
 
     <div class="card" id="install-card" style="display:none">
@@ -1483,6 +1483,7 @@
     modal.classList.remove('open');
     renderTimer();
     renderRewards();
+    maybeShowPushCard();
     if (window.loadNews) window.loadNews();
   });
 
@@ -1494,6 +1495,14 @@
   }
 
   /* ---------- Notifiche push (OneSignal v16) ---------- */
+  var oneSignalReady = false;
+  function maybeShowPushCard() {
+    // l'invito appare solo dopo il benvenuto completato, e solo a chi non ha ancora deciso
+    if (oneSignalReady && get(LS.onboarded) &&
+        typeof Notification !== 'undefined' && Notification.permission === 'default') {
+      document.getElementById('push-card').style.display = 'block';
+    }
+  }
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function (OneSignal) {
     await OneSignal.init({
@@ -1501,16 +1510,15 @@
       serviceWorkerPath: 'sw.js',
       serviceWorkerParam: { scope: '/kinesiologia-studio/' }
     });
-    // mostra l'invito solo a chi non ha ancora deciso
-    if (OneSignal.Notifications.permission === false &&
-        typeof Notification !== 'undefined' && Notification.permission === 'default') {
-      document.getElementById('push-card').style.display = 'block';
-    }
+    oneSignalReady = true;
+    maybeShowPushCard();
+    renderRewards(); // se le notifiche sono già attive, verifica e sblocca il buono
   });
   document.getElementById('push-btn').addEventListener('click', function () {
     window.OneSignalDeferred.push(async function (OneSignal) {
       await OneSignal.Notifications.requestPermission();
       document.getElementById('push-card').style.display = 'none';
+      renderRewards(); // permesso concesso → il buono si sblocca all'istante
     });
   });
 
@@ -1539,6 +1547,10 @@
     var testDone = get(LS.testScore) !== null;
     var chDone = get(LS.ch) === 'done';
     if (testDone && chDone && diaryDays >= 7 && !d.grand) { d.grand = { u: new Date().toISOString() }; changed = true; track('reward_unlock', 'grand'); }
+
+    // Notifiche: premio verificato — si sblocca solo se il permesso è davvero concesso
+    var pushGranted = (typeof Notification !== 'undefined' && Notification.permission === 'granted');
+    if (pushGranted && !d.push) { d.push = { u: new Date().toISOString() }; changed = true; track('reward_unlock', 'push'); }
     if (changed) rwSave(d);
 
     function pill(r) {
@@ -1567,6 +1579,7 @@
     var rows =
       '<div class="rw-row"><span class="rw-ico">🎁</span><div class="rw-info"><div class="rw-name">Benvenuto</div><div class="rw-sub">Hai attivato l\'app: 10 € sul prossimo trattamento</div></div>' + pill(d.welcome) + '</div>' +
       '<div class="rw-row"><span class="rw-ico">🏆</span><div class="rw-info"><div class="rw-name">Gran Premio</div><div class="rw-sub">' + grandProgress + ' → altri 10 €</div></div>' + pill(d.grand) + '</div>' +
+      '<div class="rw-row"><span class="rw-ico">🔔</span><div class="rw-info"><div class="rw-name">Notifiche attive</div><div class="rw-sub">' + (d.push ? 'Verificato: le notifiche sono attive' : 'Attiva le notifiche e sblocchi −5 € subito') + '</div></div>' + pill(d.push) + '</div>' +
       '<div class="rw-row"><span class="rw-ico">🎂</span><div class="rw-info"><div class="rw-name">Compleanno</div><div class="rw-sub">' + bdaySub + '</div></div>' + pill(d[bdayKey]) + '</div>' +
       '<div class="rw-row"><span class="rw-ico">🖐</span><div class="rw-info"><div class="rw-name">Tessera fedeltà</div><div class="rw-sub">' + stampDots + ' — al 5° trattamento, mezz\'ora in omaggio</div></div>' +
         (stamps >= 5 ? '<span class="rw-pill won">Completa! 🎉</span>' : '<span class="rw-pill locked">' + Math.min(stamps, 5) + '/5</span>') + '</div>' +
@@ -1584,6 +1597,7 @@
     }
     var buoni =
       buonoHtml('welcome', d.welcome, 'BENV10', '−10 €', 'Sul prossimo trattamento') +
+      buonoHtml('push', d.push, 'NOTIF5', '−5 €', 'Notifiche attivate! Sul prossimo trattamento') +
       buonoHtml('grand', d.grand, 'GRAN10', '−10 €', 'Sul prossimo trattamento') +
       buonoHtml(bdayKey, d[bdayKey], 'COMP15', '−15 €', 'Buon compleanno! Sul prossimo trattamento');
     if (stamps >= 5) {

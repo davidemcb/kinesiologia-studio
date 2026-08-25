@@ -1,6 +1,6 @@
 importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
 
-var CACHE = 'ks-v12';
+var CACHE = 'ks-v13';
 var ASSETS = [
   './',
   './index.html',
