@@ -339,6 +339,26 @@
   }
   .test-verdict { text-align: center; font-size: 14px; color: var(--muted); margin-bottom: 16px; }
 
+  /* ---------- Premi ---------- */
+  .rw-row { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .rw-row:last-child { border-bottom: none; }
+  .rw-ico { font-size: 22px; width: 30px; text-align: center; flex: 0 0 auto; }
+  .rw-info { flex: 1; }
+  .rw-name { font-weight: 700; font-size: 14px; }
+  .rw-sub { font-size: 12px; color: var(--muted); }
+  .rw-pill { font-size: 11px; font-weight: 700; border-radius: 999px; padding: 3px 10px; white-space: nowrap; flex: 0 0 auto; }
+  .rw-pill.locked { background: var(--surface-2); color: var(--muted); }
+  .rw-pill.won { background: var(--accent); color: var(--accent-ink); }
+  .rw-pill.used { background: var(--surface-2); color: var(--ok); }
+  .buono {
+    background: var(--accent); color: var(--accent-ink);
+    border-radius: 12px; padding: 14px 16px; margin-top: 12px; text-align: center;
+  }
+  .buono .b-amount { font-family: var(--font-display); font-size: 26px; font-weight: 700; }
+  .buono .b-code { font-weight: 700; letter-spacing: 0.06em; margin-top: 2px; }
+  .buono .b-note { font-size: 11px; margin-top: 6px; opacity: 0.85; }
+  .buono .text-btn { color: var(--accent-ink); }
+
   /* ---------- Trattamenti & regali ---------- */
   .price-pill {
     display: inline-block;
@@ -454,15 +474,6 @@
       <div style="margin-top:8px; text-align:center"><button class="text-btn" id="review-later">Più tardi</button></div>
     </div>
 
-    <div class="card" id="diary-card">
-      <div class="eyebrow">Diario del corpo</div>
-      <h2>Come sta il tuo corpo oggi?</h2>
-      <p>0 = benissimo · 10 = fastidio forte. Un tocco al giorno: il grafico lo porti in studio.</p>
-      <div class="diary-scale" id="diary-scale"></div>
-      <div id="diary-chart"></div>
-      <div class="diary-note" id="diary-note"></div>
-    </div>
-
     <div class="card" id="install-card" style="display:none">
       <div class="eyebrow">Sempre con te</div>
       <h2>Aggiungi l'app alla schermata Home</h2>
@@ -495,6 +506,23 @@
         <button class="text-btn" id="ch-btn">Inizia la Sfida dei 7 Giorni</button>
         <a class="btn btn-accent" id="ch-share" href="#" target="_blank" rel="noopener" style="display:none; margin-top:10px; padding:11px 16px; font-size:13.5px">Condividi il traguardo 🏅</a>
       </div>
+    </div>
+
+    <div class="card" id="diary-card">
+      <div class="eyebrow">Diario del corpo</div>
+      <h2>Come sta il tuo corpo oggi?</h2>
+      <p>0 = benissimo · 10 = fastidio forte. Un tocco al giorno: il grafico lo porti in studio.</p>
+      <div class="diary-scale" id="diary-scale"></div>
+      <div id="diary-chart"></div>
+      <div class="diary-note" id="diary-note"></div>
+    </div>
+
+    <div class="card" id="rewards-card">
+      <div class="eyebrow">I tuoi premi</div>
+      <h2>Usa l'app, risparmia sul trattamento</h2>
+      <div id="rw-list"></div>
+      <div id="rw-buoni"></div>
+      <p class="disclaimer" style="margin:10px 0 0">Buoni validi 60 giorni dallo sblocco, uno per trattamento, non cumulabili con altri buoni. Mostra questa schermata in studio.</p>
     </div>
 
     <div id="news-list"></div>
@@ -954,6 +982,7 @@
     challengeTick(today);
     renderHabit();
     renderChallenge();
+    renderRewards();
   });
 
   /* ---------- Sfida dei 7 giorni ---------- */
@@ -1100,6 +1129,7 @@
     while (keys.length > 60) { delete data[keys.shift()]; }
     set(LS.diary, JSON.stringify(data));
     renderDiary();
+    renderRewards();
   });
 
   /* ---------- Test del corpo ---------- */
@@ -1144,6 +1174,7 @@
         '<a class="btn btn-ghost" style="margin-top:10px" href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Condividi il punteggio</a>' +
         '<div style="text-align:center; margin-top:12px"><button class="text-btn" id="test-quit">Chiudi</button></div>';
       renderTestEntry();
+      renderRewards();
     }
   }
 
@@ -1380,6 +1411,7 @@
     set(LS.onboarded, 'true');
     modal.classList.remove('open');
     renderTimer();
+    renderRewards();
     if (window.loadNews) window.loadNews();
   });
 
@@ -1389,6 +1421,78 @@
       navigator.serviceWorker.register('sw.js').catch(function () {});
     });
   }
+
+  /* ---------- Premi ---------- */
+  function rwData() {
+    try { return JSON.parse(get('ks_rewards')) || {}; } catch (e) { return {}; }
+  }
+  function rwSave(d) { set('ks_rewards', JSON.stringify(d)); }
+  function shareCount() { return parseInt(get('ks_shareCount'), 10) || 0; }
+
+  function fmtDate(iso) {
+    var d = new Date(iso);
+    return ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2);
+  }
+  function rwExpired(iso) { return (Date.now() - new Date(iso).getTime()) > 60 * 86400000; }
+
+  function renderRewards() {
+    var d = rwData();
+    var changed = false;
+
+    // Benvenuto: si sblocca completando il benvenuto (onboarding)
+    if (get(LS.onboarded) && !d.welcome) { d.welcome = { u: new Date().toISOString() }; changed = true; }
+
+    // Gran Premio: test fatto + sfida completata + 7 giorni di diario
+    var diaryDays = Object.keys(diaryData()).length;
+    var testDone = get(LS.testScore) !== null;
+    var chDone = get(LS.ch) === 'done';
+    if (testDone && chDone && diaryDays >= 7 && !d.grand) { d.grand = { u: new Date().toISOString() }; changed = true; }
+    if (changed) rwSave(d);
+
+    function pill(r) {
+      if (!r) return '<span class="rw-pill locked">Da sbloccare</span>';
+      if (r.used) return '<span class="rw-pill used">Usato ✓</span>';
+      if (rwExpired(r.u)) return '<span class="rw-pill locked">Scaduto</span>';
+      return '<span class="rw-pill won">Vinto! 🎉</span>';
+    }
+
+    var grandProgress = 'Test ' + (testDone ? '✓' : '·') + ' — Sfida 7 giorni ' + (chDone ? '✓' : '·') + ' — Diario ' + Math.min(diaryDays, 7) + '/7';
+    var shares = shareCount();
+
+    var rows =
+      '<div class="rw-row"><span class="rw-ico">🎁</span><div class="rw-info"><div class="rw-name">Benvenuto</div><div class="rw-sub">Hai attivato l\'app: 10 € sul prossimo trattamento</div></div>' + pill(d.welcome) + '</div>' +
+      '<div class="rw-row"><span class="rw-ico">🏆</span><div class="rw-info"><div class="rw-name">Gran Premio</div><div class="rw-sub">' + grandProgress + ' → altri 10 €</div></div>' + pill(d.grand) + '</div>' +
+      '<div class="rw-row"><span class="rw-ico">📣</span><div class="rw-info"><div class="rw-name">Ambasciatore</div><div class="rw-sub">' + (shares >= 3 ? 'Grazie per far girare la prevenzione!' : 'Condividi 3 contenuti (' + Math.min(shares, 3) + '/3)') + '</div></div>' +
+        (shares >= 3 ? '<span class="rw-pill won">Badge 🌿</span>' : '<span class="rw-pill locked">Da sbloccare</span>') + '</div>';
+    document.getElementById('rw-list').innerHTML = rows;
+
+    function buonoHtml(key, r, label) {
+      if (!r || r.used || rwExpired(r.u)) return '';
+      var code = 'APP10-' + label + '-' + fmtDate(r.u).replace('/', '');
+      return '<div class="buono"><div class="b-amount">−10 €</div>' +
+        '<div class="b-code">' + code + '</div>' +
+        '<div class="b-note">Sul prossimo trattamento · sbloccato il ' + fmtDate(r.u) + '</div>' +
+        '<div style="margin-top:8px"><button class="text-btn" data-rwuse="' + key + '">Segna come usato (si fa in studio)</button></div></div>';
+    }
+    document.getElementById('rw-buoni').innerHTML =
+      buonoHtml('welcome', d.welcome, 'BENV') + buonoHtml('grand', d.grand, 'GRAN');
+  }
+
+  document.getElementById('rw-buoni').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-rwuse]');
+    if (!b) return;
+    var d = rwData();
+    if (d[b.dataset.rwuse]) { d[b.dataset.rwuse].used = true; rwSave(d); renderRewards(); }
+  });
+
+  // Contatore condivisioni per il badge Ambasciatore
+  ['tip-share-btn', 'myth-share-btn', 'referral-btn', 'referral-btn-2', 'ch-share'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', function () {
+      set('ks_shareCount', String(shareCount() + 1));
+      renderRewards();
+    });
+  });
 
   /* ---------- Trattamenti & regali ---------- */
   // sumup: quando arriva il link di pagamento, inserirlo e il bottone si collega da solo.
@@ -1452,6 +1556,7 @@
   renderDiary();
   renderChallenge();
   renderTestEntry();
+  renderRewards();
   if (!get(LS.onboarded)) { openOnboarding(); }
 })();
 </script>
