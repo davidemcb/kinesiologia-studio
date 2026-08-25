@@ -1,848 +1,869 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#667eea">
-    <title>Kinesiologia Studio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2F5D51">
+  <title>Kinesiologia Studio — Dott. Davide Scuderi, Modena</title>
+  <meta name="description" content="L'app dello studio di kinesiologia del Dott. Davide Scuderi a Modena: promemoria per il check-up, esercizi di prevenzione, consigli quotidiani e prenotazione online.">
+  <link rel="canonical" href="https://davidemcb.github.io/kinesiologia-studio/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kinesiologia Studio — Dott. Davide Scuderi">
+  <meta property="og:description" content="Promemoria check-up, esercizi di prevenzione e prenotazione online. Via Capilupi 21, Modena.">
+  <meta property="og:url" content="https://davidemcb.github.io/kinesiologia-studio/">
+  <meta property="og:image" content="https://davidemcb.github.io/kinesiologia-studio/icons/icon-512.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Kinesiologia">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #F4F3EC;
+    --surface: #FFFFFF;
+    --surface-2: #ECEDE3;
+    --ink: #22302B;
+    --muted: #5C6B64;
+    --line: #DDE0D2;
+    --brand: #2F5D51;
+    --brand-strong: #24493F;
+    --brand-ink: #F2F7F3;
+    --brand-soft: #E2ECE5;
+    --accent: #C98632;
+    --accent-ink: #26190A;
+    --danger: #AC4530;
+    --danger-soft: #F4E2DC;
+    --ok: #3E7A5E;
+    --ring-track: #DFE3D6;
+    --shadow: 0 2px 10px rgba(34, 48, 43, 0.07);
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A17;
+      --surface: #1D2521;
+      --surface-2: #242D28;
+      --ink: #E8ECE6;
+      --muted: #9AA79F;
+      --line: #2E3833;
+      --brand: #7FB5A3;
+      --brand-strong: #93C4B4;
+      --brand-ink: #10201A;
+      --brand-soft: #24352E;
+      --accent: #DFA24C;
+      --accent-ink: #26190A;
+      --danger: #E07B63;
+      --danger-soft: #3A241E;
+      --ok: #79B694;
+      --ring-track: #2E3833;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A17;
+    --surface: #1D2521;
+    --surface-2: #242D28;
+    --ink: #E8ECE6;
+    --muted: #9AA79F;
+    --line: #2E3833;
+    --brand: #7FB5A3;
+    --brand-strong: #93C4B4;
+    --brand-ink: #10201A;
+    --brand-soft: #24352E;
+    --accent: #DFA24C;
+    --accent-ink: #26190A;
+    --danger: #E07B63;
+    --danger-soft: #3A241E;
+    --ok: #79B694;
+    --ring-track: #2E3833;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  }
 
-        html, body {
-            height: 100%;
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f8f9fa;
-            color: #333;
-        }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
 
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 88px;
+  }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            overflow-y: auto;
-        }
+  /* ---------- Header ---------- */
+  .header {
+    padding: 22px 20px 14px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .header h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 21px;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+  .header .who {
+    font-size: 11.5px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.35;
+  }
 
-        .modal-overlay.hidden {
-            display: none;
-        }
+  /* ---------- Views ---------- */
+  .view { display: none; padding: 4px 16px 24px; }
+  .view.active { display: block; animation: rise 0.25s ease; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .view.active { animation: none; }
+  }
 
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            margin: 20px auto;
-        }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
 
-        .modal-content h2 {
-            margin-bottom: 10px;
-            color: #667eea;
-        }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 8px;
+  }
 
-        .modal-content p {
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
+  .card h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 8px;
+    text-wrap: balance;
+  }
+  .card p { color: var(--muted); font-size: 14px; }
 
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
+  /* ---------- Timer ---------- */
+  .timer-card { text-align: center; padding: 24px 18px 20px; }
+  .ring-wrap { position: relative; width: 168px; height: 168px; margin: 10px auto 12px; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-track { stroke: var(--ring-track); }
+  .ring-fill { stroke: var(--brand); transition: stroke-dashoffset 0.6s ease, stroke 0.3s; }
+  .ring-fill.warn { stroke: var(--accent); }
+  .ring-fill.due { stroke: var(--danger); }
+  .ring-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+  }
+  .ring-days {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .ring-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+  .timer-status { font-size: 14px; color: var(--muted); max-width: 30ch; margin: 0 auto; }
+  .timer-status strong { color: var(--ink); }
+  .timer-links { margin-top: 14px; display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+  .text-btn {
+    background: none; border: none; cursor: pointer;
+    font-family: var(--font-body); font-size: 12.5px; font-weight: 600;
+    color: var(--brand); text-decoration: underline; text-underline-offset: 3px;
+  }
 
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
+  .due-banner {
+    background: var(--danger-soft);
+    border: 1px solid var(--danger);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    display: none;
+  }
+  .due-banner.show { display: block; }
+  .due-banner strong { color: var(--danger); }
 
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: var(--font-body); font-weight: 700; font-size: 15px;
+    border: none; border-radius: 12px; cursor: pointer;
+    padding: 15px 24px; width: 100%;
+    text-decoration: none; text-align: center;
+    transition: transform 0.1s ease;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn:focus-visible, .text-btn:focus-visible, .nav-btn:focus-visible, .chip:focus-visible, .zone:focus-visible {
+    outline: 3px solid var(--accent); outline-offset: 2px;
+  }
+  .btn-primary { background: var(--brand); color: var(--brand-ink); }
+  .btn-accent { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { background: var(--surface); color: var(--brand); border: 1.5px solid var(--brand); }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+  /* ---------- Consiglio / habit ---------- */
+  .tip-share { margin-top: 12px; display: flex; gap: 10px; }
+  .tip-share .btn { padding: 11px 16px; font-size: 13.5px; }
 
-        .checkbox-group {
-            text-align: left;
-            margin-bottom: 15px;
-        }
+  .habit-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+  .streak { font-size: 13px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .habit-done { color: var(--ok); font-weight: 700; font-size: 14px; }
 
-        .checkbox-group > label {
-            display: block;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
+  /* ---------- Corpo ---------- */
+  .zones {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px;
+  }
+  .zone {
+    background: var(--surface);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 6px;
+    text-align: center;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 12.5px; font-weight: 600; color: var(--ink);
+  }
+  .zone .z-ico { display: block; font-size: 22px; margin-bottom: 6px; }
+  .zone.selected { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-strong); }
 
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+  .step {
+    background: var(--surface-2);
+    border-left: 3px solid var(--brand);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .disclaimer { font-size: 12px; color: var(--muted); margin: 4px 2px 14px; }
 
-        .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-            cursor: pointer;
-        }
+  /* ---------- Sapere ---------- */
+  .article h2 { font-size: 16.5px; }
 
-        .checkbox-item label {
-            margin: 0;
-            cursor: pointer;
-            font-size: 14px;
-        }
+  /* ---------- Prenota ---------- */
+  .studio-facts { list-style: none; margin-top: 10px; }
+  .studio-facts li {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 9px 0; border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .studio-facts li:last-child { border-bottom: none; }
+  .studio-facts .f-ico { flex: 0 0 auto; width: 22px; text-align: center; }
+  .studio-facts a { color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
-        .modal-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-        }
+  .steps-list { counter-reset: s; list-style: none; margin-top: 6px; }
+  .steps-list li {
+    counter-increment: s;
+    display: flex; gap: 12px; align-items: baseline;
+    padding: 7px 0; font-size: 14px; color: var(--muted);
+  }
+  .steps-list li::before {
+    content: counter(s);
+    flex: 0 0 24px; height: 24px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--brand-soft); color: var(--brand-strong);
+    border-radius: 50%; font-size: 12px; font-weight: 700;
+    align-self: center;
+  }
 
-        .modal-button:active {
-            transform: scale(0.98);
-        }
+  .calendly-box {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 14px;
+    background: var(--surface);
+  }
+  .calendly-inline-widget { min-width: 280px; height: 640px; }
+  .calendly-fallback { font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 10px; }
+  .calendly-fallback a { color: var(--brand); font-weight: 600; }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px 20px;
-            text-align: center;
-        }
+  .referral { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+  .referral .eyebrow { color: var(--brand-ink); opacity: 0.75; }
+  .referral h2 { color: var(--brand-ink); }
+  .referral p { color: var(--brand-ink); opacity: 0.85; }
+  .referral .btn { margin-top: 14px; }
 
-        .header h1 {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
+  /* ---------- Bottom nav ---------- */
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    display: flex;
+    max-width: 480px; margin: 0 auto;
+    padding-bottom: env(safe-area-inset-bottom);
+    z-index: 50;
+  }
+  .nav-btn {
+    flex: 1; padding: 10px 4px 12px;
+    background: none; border: none; cursor: pointer;
+    font-family: var(--font-body); font-size: 11px; font-weight: 600;
+    color: var(--muted);
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+  }
+  .nav-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-btn.active { color: var(--brand-strong); }
+  .nav-btn.active::after {
+    content: ""; width: 16px; height: 3px; border-radius: 2px;
+    background: var(--brand); margin-top: 1px;
+  }
 
-        .header .subtitle {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-
-        .header .user-name {
-            font-size: 11px;
-            opacity: 0.8;
-            margin-top: 8px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            background: white;
-            border-bottom: 1px solid #e0e0e0;
-            gap: 0;
-        }
-
-        .nav-tab {
-            flex: 1;
-            padding: 12px 4px;
-            text-align: center;
-            font-size: 11px;
-            border: none;
-            background: white;
-            cursor: pointer;
-            color: #999;
-            border-bottom: 3px solid transparent;
-        }
-
-        .nav-tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            padding-bottom: 80px;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .post-card, .advice-card, .article-card, .exercise-card {
-            background: white;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .topic-tag {
-            display: inline-block;
-            background: #f0f4ff;
-            color: #667eea;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .post-date {
-            font-size: 11px;
-            color: #999;
-            margin-bottom: 6px;
-        }
-
-        .post-title, .advice-title, .article-title, .exercise-title {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        .post-text, .advice-text, .article-text, .exercise-text {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-            white-space: pre-line;
-        }
-
-        .timer-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .timer-days {
-            font-size: 48px;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-
-        .zones-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .zone-button {
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .zone-button:active {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
-
-        .zone-emoji {
-            font-size: 28px;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .exercise-step {
-            background: #f8f9fa;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            border-left: 3px solid #764ba2;
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .bottom-nav-button {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            border: none;
-            background: white;
-            cursor: pointer;
-            font-size: 11px;
-            color: #999;
-        }
-
-        .bottom-nav-button.active {
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .nav-icon {
-            font-size: 20px;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .edit-button {
-            display: inline-block;
-            background: none;
-            color: #667eea;
-            border: 1px solid #667eea;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .section-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 20px 0 10px;
-        }
-
-        .loading, .empty-state {
-            text-align: center;
-            color: #999;
-            padding: 20px;
-            font-size: 14px;
-        }
-    </style>
+  /* ---------- Modal ---------- */
+  .modal {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(20, 26, 23, 0.55);
+    display: none; align-items: flex-end; justify-content: center;
+  }
+  .modal.open { display: flex; }
+  .modal-card {
+    background: var(--surface);
+    border-radius: 18px 18px 0 0;
+    padding: 26px 22px 30px;
+    width: 100%; max-width: 480px;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-card h2 { font-family: var(--font-display); font-size: 20px; margin-bottom: 6px; }
+  .modal-card .sub { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+  .field-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 14px 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    background: var(--surface-2); border: 1.5px solid var(--line);
+    color: var(--ink);
+    border-radius: 999px; padding: 9px 16px;
+    font-family: var(--font-body); font-size: 13.5px; font-weight: 600;
+    cursor: pointer;
+  }
+  .chip.selected { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+  .modal-card .btn { margin-top: 20px; }
+  .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+</style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- ONBOARDING -->
-        <div class="modal-overlay hidden" id="onboardingModal">
-            <div class="modal-content">
-                <h2>👋 Benvenuto!</h2>
-                <p>Inserisci il tuo nome, la data dell'ultimo trattamento e gli argomenti che ti interessano.</p>
 
-                <div class="form-group">
-                    <label>Il tuo nome</label>
-                    <input type="text" id="clientName" placeholder="Es: Mario">
-                </div>
+<div class="app">
+  <header class="header">
+    <h1>Kinesiologia Studio</h1>
+    <div class="who">Dott. Davide Scuderi<br>Kinesiologo · Modena</div>
+  </header>
 
-                <div class="form-group">
-                    <label>Data ultimo trattamento</label>
-                    <input type="date" id="lastTreatmentDate">
-                </div>
-
-                <div class="checkbox-group">
-                    <label>Argomenti che ti interessano:</label>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="topic-stress" value="stress">
-                        <label for="topic-stress">🧘 Stress e rilassamento</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="topic-atm" value="temporo-mandibolare">
-                        <label for="topic-atm">😬 Temporo-mandibolare</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="topic-schiena" value="schiena">
-                        <label for="topic-schiena">🔙 Schiena</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="topic-cervicale" value="cervicale">
-                        <label for="topic-cervicale">🧠 Cervicale</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="topic-sport" value="sport">
-                        <label for="topic-sport">⚽ Sport</label>
-                    </div>
-                </div>
-
-                <button class="modal-button" onclick="saveOnboarding()">Inizia</button>
-            </div>
-        </div>
-
-        <div class="header">
-            <h1>Kinesiologia Studio</h1>
-            <p class="subtitle">Il Tuo Alleato del Benessere</p>
-            <p class="user-name" id="headerName"></p>
-        </div>
-
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="switchTab('oggi')">☀️ Oggi</button>
-            <button class="nav-tab" onclick="switchTab('corpo')">💪 Corpo</button>
-            <button class="nav-tab" onclick="switchTab('sapere')">📚 Sapere</button>
-            <button class="nav-tab" onclick="switchTab('recensioni')">⭐ Recensioni</button>
-            <button class="nav-tab" onclick="switchTab('prenota')">📅 Prenota</button>
-        </div>
-
-        <div class="content">
-            <div class="tab-content active" id="tab-oggi">
-                <div class="timer-section" onclick="switchTab('prenota')" style="cursor: pointer;">
-                    <div id="timerLabel">PROSSIMO CONTROLLO</div>
-                    <div class="timer-days" id="timerDays">--</div>
-                    <div id="timerText">completa i tuoi dati per attivare il conteggio</div>
-                    <div id="timerSub" style="font-size: 11px; opacity: 0.8; margin-top: 8px;"></div>
-                </div>
-
-                <button class="edit-button" onclick="resetOnboarding()">✏️ Aggiorna i miei dati</button>
-
-                <div class="section-label">Novità per te</div>
-                <div id="postsContainer" class="loading">Caricamento...</div>
-
-                <div class="section-label">Consiglio del giorno</div>
-                <div class="advice-card">
-                    <div class="advice-title" id="dailyAdviceTitle"></div>
-                    <div class="advice-text" id="dailyAdviceText"></div>
-                </div>
-
-                <div class="advice-card" style="cursor: pointer;" onclick="shareApp()">
-                    <div class="advice-title">💝 Conosci qualcuno che soffre?</div>
-                    <div class="advice-text">Regalagli questa app: tocca qui e mandagliela con un messaggio.</div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="tab-corpo">
-                <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Seleziona la zona dove senti tensione.</p>
-
-                <div class="zones-grid">
-                    <button class="zone-button" onclick="selectZone('schiena')"><span class="zone-emoji">🔙</span>Schiena</button>
-                    <button class="zone-button" onclick="selectZone('cervicale')"><span class="zone-emoji">🧠</span>Cervicale</button>
-                    <button class="zone-button" onclick="selectZone('spalla')"><span class="zone-emoji">💪</span>Spalla</button>
-                    <button class="zone-button" onclick="selectZone('anca')"><span class="zone-emoji">⚡</span>Anca</button>
-                </div>
-
-                <div id="exercise-display"></div>
-            </div>
-
-            <div class="tab-content" id="tab-sapere">
-                <div class="article-card">
-                    <div class="article-title">Non Sono Io Che Ti Guarisco</div>
-                    <div class="article-text">Un tessuto si ripara da solo, con tempi biologici suoi. Quello che si può fare è toglierti la protezione che ti blocca e darti lo stimolo per cambiare in modo stabile.</div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-title">Il Dolore Non Misura Il Danno</div>
-                    <div class="article-text">Il dolore è una risposta del sistema nervoso, non un sensore del danno. Per questo un dolore forte non sempre significa danno grave.</div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-title">Prevenzione — Il Valore del Check-Up</div>
-                    <div class="article-text">Il check-up scopre cosa sta per diventare un male, quando il corpo è ancora sano. Trovarlo adesso è infinitamente più economico che aspettare il dolore.</div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="tab-recensioni">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="font-size: 28px;">⭐⭐⭐⭐⭐</div>
-                    <div style="font-size: 18px; font-weight: 700; margin-top: 6px;">5,0 su Google</div>
-                    <div style="font-size: 13px; color: #666;">128 recensioni</div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-text">«Schiena bloccata e dolorante da ieri sera tanto da non riuscire a stare sdraiata o seduta. Davide mi ha trattata e ora riesco a fare tutti i movimenti e il dolore è quasi scomparso, e questo in una sola seduta.»</div>
-                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Manuela P., naturopata</div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-text">«Ottimo professionista: dopo aver provato vari fisiatri e osteopati è stato l'unico con cui ho avuto dei grossi benefici.»</div>
-                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Stefano S.</div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-text">«Mi sono fatta una torsione alla caviglia il giorno prima di un torneo di padel. Sono andata da lui e il giorno dopo ho potuto giocare tutto il torneo. Non mi fa più male!»</div>
-                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Alba N.</div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-text">«Ha intuito subito quale fosse il mio problema e il trattamento è stato risolutivo. Sono rimasta soddisfatta oltre le aspettative!»</div>
-                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Virginia V.</div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-text">«Sono uscita completamente libera e sbloccata da tutte le tensioni. Un senso di leggerezza unico. Stupefacente.»</div>
-                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Nicoletta G.</div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-text">«Ho avuto problemi di contratture alla schiena, al collo e blocchi intestinali, tutti risolti nel giro di breve tempo. Se tu non ci fossi bisognerebbe inventarti.»</div>
-                    <div style="font-size: 12px; color: #999; margin-top: 10px;">— Monica G.</div>
-                </div>
-
-                <div style="text-align: center; margin-top: 20px;">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Kinesiologia+Studio+Modena+Toscanini" target="_blank" rel="noopener" style="color: #667eea; font-size: 14px; font-weight: 600; text-decoration: none;">Leggi tutte le recensioni su Google →</a>
-                </div>
-
-                <div class="timer-section" style="margin-top: 25px; cursor: pointer;" onclick="shareApp()">
-                    <div style="font-size: 28px; margin-bottom: 8px;">💝</div>
-                    <div style="font-size: 16px; font-weight: 600;">Conosci qualcuno che soffre?</div>
-                    <div style="font-size: 13px; opacity: 0.9; margin-top: 8px;">Regalagli questa app: tocca qui e mandagliela.</div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="tab-prenota">
-                <div style="padding: 20px 0;">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <span style="font-size: 48px; display: block; margin-bottom: 10px;">📅</span>
-                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">Prenota Il Tuo Controllo</div>
-                    </div>
-                    <div class="calendly-inline-widget" data-url="https://calendly.com/infokinesiologia/consulenza" style="min-width: 280px; height: 600px;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom-nav">
-            <button class="bottom-nav-button active" onclick="switchTab('oggi')">
-                <span class="nav-icon">☀️</span>Oggi
-            </button>
-            <button class="bottom-nav-button" onclick="switchTab('corpo')">
-                <span class="nav-icon">💪</span>Corpo
-            </button>
-            <button class="bottom-nav-button" onclick="switchTab('sapere')">
-                <span class="nav-icon">📚</span>Sapere
-            </button>
-            <button class="bottom-nav-button" onclick="switchTab('recensioni')">
-                <span class="nav-icon">⭐</span>Recensioni
-            </button>
-            <button class="bottom-nav-button" onclick="switchTab('prenota')">
-                <span class="nav-icon">📅</span>Prenota
-            </button>
-        </div>
+  <!-- ============ OGGI ============ -->
+  <section class="view active" id="view-oggi">
+    <div class="due-banner" id="due-banner">
+      <strong>È passato il tempo che avevi scelto.</strong> Il tuo corpo merita un controllo: bastano 60 minuti.
+      <div style="margin-top:10px">
+        <button class="btn btn-accent" data-goto="prenota">Prenota il check-up</button>
+      </div>
     </div>
 
-    <script src="https://assets.calendly.com/assets/external/widget.js"></script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+    <div class="card timer-card">
+      <div class="eyebrow">Prossimo controllo</div>
+      <div class="ring-wrap">
+        <svg width="168" height="168" viewBox="0 0 168 168" aria-hidden="true">
+          <circle class="ring-track" cx="84" cy="84" r="74" stroke-width="10" fill="none"/>
+          <circle class="ring-fill" id="ring-fill" cx="84" cy="84" r="74" stroke-width="10" fill="none"
+                  stroke-dasharray="465" stroke-dashoffset="0"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-days" id="ring-days">–</div>
+          <div class="ring-label" id="ring-unit">giorni</div>
+        </div>
+      </div>
+      <p class="timer-status" id="timer-status">Caricamento…</p>
+      <div class="timer-links">
+        <button class="text-btn" id="btn-treated">Ho fatto il trattamento oggi</button>
+        <button class="text-btn" id="btn-settings">Cambia promemoria</button>
+      </div>
+    </div>
 
-        // Configurazione pubblica dell'app web: la protezione dei dati
-        // e' garantita dalle Security Rules di Firestore, non da questa chiave.
-        const firebaseConfig = {
-            apiKey: "AIzaSyDbPhrjVUolDP1Y17NvMACUVYZZ_c8TDBQ",
-            authDomain: "kinesiologia-studio.firebaseapp.com",
-            projectId: "kinesiologia-studio",
-            storageBucket: "kinesiologia-studio.firebasestorage.app",
-            messagingSenderId: "1038494797123",
-            appId: "1:1038494797123:web:6266b996adfe252c6e73f6"
-        };
+    <div class="card" id="install-card" style="display:none">
+      <div class="eyebrow">Sempre con te</div>
+      <h2>Aggiungi l'app alla schermata Home</h2>
+      <p id="install-hint">Un tocco e la trovi tra le tue app, con l'icona dello studio. Funziona anche offline.</p>
+      <div style="margin-top:12px" id="install-btn-wrap">
+        <button class="btn btn-primary" id="install-btn">📲 Installa l'app</button>
+      </div>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    <div class="card">
+      <div class="eyebrow">Consiglio del giorno</div>
+      <h2 id="tip-title">…</h2>
+      <p id="tip-text">…</p>
+      <div class="tip-share">
+        <a class="btn btn-ghost" id="tip-share-btn" href="#" target="_blank" rel="noopener">Condividilo su WhatsApp</a>
+      </div>
+    </div>
 
-        const topicEmojis = {
-            'stress': '🧘 Stress',
-            'temporo-mandibolare': '😬 Temporo-mandibolare',
-            'schiena': '🔙 Schiena',
-            'cervicale': '🧠 Cervicale',
-            'sport': '⚽ Sport'
-        };
+    <div class="card">
+      <div class="eyebrow">Micro-abitudine</div>
+      <h2 id="habit-title">…</h2>
+      <p id="habit-text">…</p>
+      <div class="habit-row">
+        <button class="btn btn-primary" id="habit-btn" style="width:auto; padding:11px 20px; font-size:13.5px">Fatto ✓</button>
+        <span class="streak" id="streak-label"></span>
+      </div>
+    </div>
+  </section>
 
-        window.loadPosts = async function() {
-            const topics = JSON.parse(localStorage.getItem('selectedTopics') || '[]');
-            const container = document.getElementById('postsContainer');
+  <!-- ============ CORPO ============ -->
+  <section class="view" id="view-corpo">
+    <p style="color:var(--muted); font-size:14px; margin:6px 2px 14px">
+      Dove senti tensione? Tocca una zona: trovi esercizi di prevenzione da fare a casa.
+    </p>
+    <div class="zones" id="zones">
+      <button class="zone" data-zone="schiena"><span class="z-ico">🧍</span>Schiena</button>
+      <button class="zone" data-zone="cervicale"><span class="z-ico">💆</span>Cervicale</button>
+      <button class="zone" data-zone="spalla"><span class="z-ico">🏋️</span>Spalla</button>
+      <button class="zone" data-zone="anca"><span class="z-ico">🚶</span>Anca</button>
+      <button class="zone" data-zone="gambe"><span class="z-ico">🦵</span>Gambe</button>
+      <button class="zone" data-zone="atm"><span class="z-ico">😮</span>Mandibola</button>
+    </div>
+    <div id="exercise-display"></div>
+    <p class="disclaimer">Questi esercizi sono di prevenzione generale e non sostituiscono una valutazione. In caso di dolore acuto o persistente, sospendi e contatta lo studio.</p>
+    <div class="card" id="corpo-cta" style="display:none">
+      <h2>Il fastidio non passa?</h2>
+      <p>Un esercizio aiuta, ma non dice il <em>perché</em>. In studio lo cerchiamo insieme, con calma.</p>
+      <div style="margin-top:12px">
+        <button class="btn btn-primary" data-goto="prenota">Prenota una valutazione</button>
+      </div>
+    </div>
+  </section>
 
-            try {
-                const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'), limit(30));
-                const snapshot = await getDocs(q);
-                const posts = [];
+  <!-- ============ SAPERE ============ -->
+  <section class="view" id="view-sapere">
+    <div class="card article">
+      <div class="eyebrow">Come lavoro</div>
+      <h2>Non sono io che ti guarisco</h2>
+      <p>Un tessuto si ripara da solo, con tempi biologici suoi. Nessuna manovra li accorcia. Quello che posso fare è toglierti la protezione che ti blocca e darti lo stimolo giusto per cambiare in modo stabile.</p>
+    </div>
+    <div class="card article">
+      <div class="eyebrow">Capire il dolore</div>
+      <h2>Il dolore non misura il danno</h2>
+      <p>Il dolore è una risposta del sistema nervoso, non un sensore del danno. Per questo un dolore forte non sempre significa danno grave — e un problema silenzioso può crescere senza far male.</p>
+    </div>
+    <div class="card article">
+      <div class="eyebrow">Prevenzione</div>
+      <h2>Il valore del check-up</h2>
+      <p>Il check-up scopre cosa sta per diventare un male, quando il corpo è ancora sano. Trovarlo adesso, ogni 3–6 mesi, costa infinitamente meno che aspettare il dolore.</p>
+    </div>
+    <div class="card article">
+      <div class="eyebrow">Onestà</div>
+      <h2>A volte passa da solo</h2>
+      <p>Una buona parte dei mal di schiena migliora anche senza fare niente. Il problema sono le recidive. Il mio lavoro non è farti passare il dolore più in fretta: è capire perché torna.</p>
+    </div>
+    <div class="card article">
+      <div class="eyebrow">Il corpo è uno</div>
+      <h2>Tutto è collegato</h2>
+      <p>Una spalla che fa male può nascere da un appoggio del piede, una cervicale rigida da come respiri. Per questo la valutazione guarda tutto il corpo, non solo dove senti il sintomo.</p>
+    </div>
+    <div class="card">
+      <h2>Hai una domanda sul tuo caso?</h2>
+      <p>La prima consulenza serve esattamente a questo: capire da dove partire.</p>
+      <div style="margin-top:12px">
+        <button class="btn btn-primary" data-goto="prenota">Prenota la consulenza</button>
+      </div>
+    </div>
+  </section>
 
-                snapshot.forEach(doc => {
-                    const post = doc.data();
-                    if (topics.length === 0 || topics.includes(post.topic)) {
-                        posts.push(post);
-                    }
-                });
+  <!-- ============ PRENOTA ============ -->
+  <section class="view" id="view-prenota">
+    <div class="card">
+      <div class="eyebrow">Consulenza in studio</div>
+      <h2>Prenota il tuo controllo</h2>
+      <p>Scegli giorno e ora qui sotto: ricevi subito la conferma via email, con promemoria automatico prima dell'appuntamento.</p>
+      <div class="calendly-box">
+        <div class="calendly-inline-widget" data-url="https://calendly.com/infokinesiologia/consulenza?hide_gdpr_banner=1&primary_color=2f5d51"></div>
+      </div>
+      <p class="calendly-fallback">Il calendario non si carica? <a href="https://calendly.com/infokinesiologia/consulenza" target="_blank" rel="noopener">Aprilo in una nuova pagina</a>.</p>
+    </div>
 
-                if (posts.length === 0) {
-                    container.innerHTML = '<div class="empty-state">Nessuna novità al momento. Torna presto!</div>';
-                    return;
-                }
+    <div class="card">
+      <div class="eyebrow">Lo studio</div>
+      <ul class="studio-facts">
+        <li><span class="f-ico">👤</span><span>Dott. Davide Scuderi — Kinesiologo</span></li>
+        <li><span class="f-ico">📍</span><span><a href="https://www.google.com/maps/search/?api=1&query=Via+Capilupi+21%2C+Modena" target="_blank" rel="noopener">Via Capilupi 21, Modena</a> — suonare a "Studio Olistico"</span></li>
+        <li><span class="f-ico">⏱️</span><span>La consulenza dura 60 minuti</span></li>
+        <li><span class="f-ico">✉️</span><span><a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></span></li>
+      </ul>
+      <ol class="steps-list" style="margin-top:12px">
+        <li>Scegli data e ora dal calendario</li>
+        <li>Inserisci nome, email e telefono</li>
+        <li>Ricevi la conferma via email</li>
+        <li>Vieni in studio: pensiamo a tutto noi</li>
+      </ol>
+    </div>
 
-                let html = '';
-                posts.forEach(post => {
-                    let dateStr = '';
-                    if (post.createdAt && post.createdAt.toDate) {
-                        dateStr = post.createdAt.toDate().toLocaleDateString('it-IT');
-                    } else if (post.createdAt) {
-                        dateStr = new Date(post.createdAt).toLocaleDateString('it-IT');
-                    }
-                    const tag = topicEmojis[post.topic] || post.topic || '';
-                    html += `
-                        <div class="post-card">
-                            <div class="post-date">${dateStr}</div>
-                            ${tag ? `<div class="topic-tag">${tag}</div>` : ''}
-                            <div class="post-title">${escapeHtml(post.title || '')}</div>
-                            <div class="post-text">${escapeHtml(post.text || '')}</div>
-                        </div>
-                    `;
-                });
+    <div class="card referral">
+      <div class="eyebrow">Porta un amico</div>
+      <h2>Conosci qualcuno che si trascina un fastidio da mesi?</h2>
+      <p>Il regalo più utile è fargli scoprire il perché. Mandagli il link della consulenza: due tocchi e ha il suo appuntamento.</p>
+      <a class="btn btn-accent" id="referral-btn" href="#" target="_blank" rel="noopener">Invia a un amico su WhatsApp</a>
+    </div>
+  </section>
 
-                container.innerHTML = html;
-            } catch (error) {
-                console.error('Errore caricamento post:', error);
-                container.innerHTML = '<div class="empty-state">Contenuti non disponibili al momento.</div>';
-            }
-        };
+  <!-- ============ NAV ============ -->
+  <nav class="nav" aria-label="Navigazione principale">
+    <button class="nav-btn active" data-view="oggi" aria-label="Oggi">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/></svg>
+      Oggi
+    </button>
+    <button class="nav-btn" data-view="corpo" aria-label="Corpo">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.6"/><path d="M12 8v6M12 14l-3.4 6M12 14l3.4 6M7 10.2h10"/></svg>
+      Corpo
+    </button>
+    <button class="nav-btn" data-view="sapere" aria-label="Sapere">
+      <svg viewBox="0 0 24 24"><path d="M12 5.5C10.4 4 8 3.4 5 3.5v14.6c3-.1 5.4.5 7 2 1.6-1.5 4-2.1 7-2V3.5c-3-.1-5.4.5-7 2z"/><path d="M12 5.5v14.6"/></svg>
+      Sapere
+    </button>
+    <button class="nav-btn" data-view="prenota" aria-label="Prenota">
+      <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4M9 14l2 2 4-4"/></svg>
+      Prenota
+    </button>
+  </nav>
+</div>
 
-        function escapeHtml(str) {
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
+<!-- ============ ONBOARDING / SETTINGS ============ -->
+<div class="modal" id="onboarding" role="dialog" aria-modal="true" aria-labelledby="ob-title">
+  <div class="modal-card">
+    <h2 id="ob-title">Benvenuto 👋</h2>
+    <p class="sub">Due domande veloci, e l'app si prende cura dei tuoi promemoria.</p>
 
-        if (localStorage.getItem('clientName')) {
-            window.loadPosts();
-        }
-    </script>
+    <div class="field-label">Ogni quanto vuoi il richiamo per il controllo?</div>
+    <div class="chips" id="interval-chips">
+      <button class="chip" data-days="30">30 giorni</button>
+      <button class="chip" data-days="45">45 giorni</button>
+      <button class="chip" data-days="60">60 giorni</button>
+      <button class="chip" data-days="90">90 giorni</button>
+    </div>
 
-    <script>
-        const exercises = {
-            schiena: {
-                title: "Esercizio: Mobilità Lombare",
-                text: "Rinforza i muscoli della schiena.",
-                steps: [
-                    "1. Distenditi sulla schiena con le ginocchia piegate.",
-                    "2. Porta i due piedi verso il petto.",
-                    "3. Mantieni 20 secondi, poi rilascia.",
-                    "4. Ripeti 3 volte, 2-3 volte al giorno."
-                ]
-            },
-            cervicale: {
-                title: "Esercizio: Mobilità Cervicale",
-                text: "Allarga il petto e rilascia la tensione del collo.",
-                steps: [
-                    "1. Siediti dritto con le spalle rilassate.",
-                    "2. Incrocia le mani dietro la schiena.",
-                    "3. Tira gli avambracci verso il basso.",
-                    "4. Mantieni 15 secondi, ripeti 3 volte."
-                ]
-            },
-            spalla: {
-                title: "Esercizio: Stabilità Scapolare",
-                text: "Rinforza i muscoli della spalla.",
-                steps: [
-                    "1. Stai in piedi con i piedi a larghezza spalla.",
-                    "2. Alza le braccia lateralmente fino all'altezza delle spalle.",
-                    "3. Mantieni 10 secondi, poi abbassa.",
-                    "4. Ripeti 15 volte, ogni giorno."
-                ]
-            },
-            anca: {
-                title: "Esercizio: Mobilità dell'Anca",
-                text: "Migliora la fluidità del movimento.",
-                steps: [
-                    "1. Stai in piedi su una gamba.",
-                    "2. Porta l'altra gamba in avanti, poi indietro, poi laterale.",
-                    "3. Fai 10 ripetizioni per ogni direzione.",
-                    "4. Cambia gamba e ripeti."
-                ]
-            }
-        };
+    <div class="field-label">Quando è stato il tuo ultimo trattamento?</div>
+    <div class="chips" id="last-chips">
+      <button class="chip" data-ago="0">Oggi</button>
+      <button class="chip" data-ago="7">Circa una settimana fa</button>
+      <button class="chip" data-ago="30">Circa un mese fa</button>
+      <button class="chip" data-ago="-1">Mai / non ricordo</button>
+    </div>
 
-        const dailyAdvices = [
-            { title: "Bevi acqua ogni ora", text: "I muscoli lavorano male se disidratati. Una bottiglia d'acqua vicino alla scrivania. Non aspettare di aver sete." },
-            { title: "Alzati ogni 45 minuti", text: "La schiena non è fatta per stare seduta a lungo. Due minuti in piedi ogni 45 minuti valgono più di un'ora di stretching la sera." },
-            { title: "Respira con la pancia", text: "Tre respiri profondi con la pancia abbassano la tensione del collo e delle spalle. Provalo adesso: inspira 4 secondi, espira 6." },
-            { title: "Cammina dopo mangiato", text: "Dieci minuti di camminata dopo i pasti aiutano la digestione e sciolgono le anche. Non serve di più." },
-            { title: "Controlla la posizione del telefono", text: "Porta il telefono all'altezza degli occhi invece di piegare il collo. La cervicale ringrazia ogni singola volta." },
-            { title: "Scalda prima di sforzare", text: "Prima di sollevare pesi o fare sport, due minuti di movimenti lenti preparano i tessuti. A freddo si fanno i danni." },
-            { title: "Il sonno ripara", text: "È di notte che i tessuti si riparano davvero. Dormire poco rallenta ogni recupero, anche il migliore." }
-        ];
+    <button class="btn btn-primary" id="ob-confirm" disabled>Inizia</button>
+  </div>
+</div>
 
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.bottom-nav-button').forEach(el => el.classList.remove('active'));
+<script>
+(function () {
+  var CALENDLY = 'https://calendly.com/infokinesiologia/consulenza';
+  var SITE = 'https://davidemcb.github.io/kinesiologia-studio/';
+  var LS = {
+    interval: 'ks_interval',
+    last: 'ks_lastTreatment',
+    onboarded: 'ks_onboarded',
+    streak: 'ks_streak',
+    streakDate: 'ks_streakDate',
+    installDismissed: 'ks_installDismissed'
+  };
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
-            document.getElementById('tab-' + tabName).classList.add('active');
+  /* ---------- Navigation ---------- */
+  var views = ['oggi', 'corpo', 'sapere', 'prenota'];
+  var navBtns = document.querySelectorAll('.nav-btn');
+  var calendlyLoaded = false;
+  navBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () { switchView(btn.dataset.view); });
+  });
+  document.querySelectorAll('[data-goto]').forEach(function (btn) {
+    btn.addEventListener('click', function () { switchView(btn.dataset.goto); });
+  });
+  function switchView(name) {
+    views.forEach(function (v) {
+      document.getElementById('view-' + v).classList.toggle('active', v === name);
+    });
+    navBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.view === name); });
+    window.scrollTo({ top: 0 });
+    if (name === 'prenota' && !calendlyLoaded) {
+      calendlyLoaded = true;
+      var s = document.createElement('script');
+      s.src = 'https://assets.calendly.com/assets/external/widget.js';
+      s.async = true;
+      document.body.appendChild(s);
+    }
+  }
 
-            const tabs = document.querySelectorAll('.nav-tab');
-            const buttons = document.querySelectorAll('.bottom-nav-button');
+  /* ---------- Timer ---------- */
+  var CIRC = 2 * Math.PI * 74;
+  function daysBetween(a, b) { return Math.floor((b - a) / 86400000); }
 
-            const index = ['oggi', 'corpo', 'sapere', 'recensioni', 'prenota'].indexOf(tabName);
-            tabs[index].classList.add('active');
-            buttons[index].classList.add('active');
-        }
+  function renderTimer() {
+    var interval = parseInt(get(LS.interval), 10) || 90;
+    var lastRaw = get(LS.last);
+    var daysEl = document.getElementById('ring-days');
+    var unitEl = document.getElementById('ring-unit');
+    var statusEl = document.getElementById('timer-status');
+    var fill = document.getElementById('ring-fill');
+    var banner = document.getElementById('due-banner');
+    fill.setAttribute('stroke-dasharray', CIRC.toFixed(1));
 
-        function selectZone(zone) {
-            const exercise = exercises[zone];
-            let html = `<div class="exercise-card"><div class="exercise-title">${exercise.title}</div><div class="exercise-text">${exercise.text}</div>`;
-            exercise.steps.forEach(step => {
-                html += `<div class="exercise-step">${step}</div>`;
-            });
-            html += `</div>`;
-            document.getElementById('exercise-display').innerHTML = html;
-        }
+    if (!lastRaw) {
+      daysEl.textContent = '?';
+      unitEl.textContent = 'primo passo';
+      statusEl.innerHTML = 'Non hai ancora fatto il primo check-up. <strong>Il momento migliore è adesso.</strong>';
+      fill.setAttribute('stroke-dashoffset', CIRC.toFixed(1));
+      fill.classList.add('warn');
+      banner.classList.remove('show');
+      return;
+    }
 
-        function saveOnboarding() {
-            const name = document.getElementById('clientName').value.trim();
-            const date = document.getElementById('lastTreatmentDate').value;
-            const topics = [];
+    var elapsed = daysBetween(new Date(lastRaw).getTime(), Date.now());
+    var remaining = interval - elapsed;
+    fill.classList.remove('warn', 'due');
 
-            document.querySelectorAll('.checkbox-item input[type="checkbox"]:checked').forEach(el => {
-                topics.push(el.value);
-            });
+    if (remaining <= 0) {
+      daysEl.textContent = '0';
+      unitEl.textContent = 'giorni';
+      statusEl.innerHTML = 'Sono passati <strong>' + elapsed + ' giorni</strong> dal tuo ultimo trattamento. È ora del controllo.';
+      fill.setAttribute('stroke-dashoffset', '0');
+      fill.classList.add('due');
+      banner.classList.add('show');
+    } else {
+      daysEl.textContent = remaining;
+      unitEl.textContent = remaining === 1 ? 'giorno' : 'giorni';
+      var frac = remaining / interval;
+      fill.setAttribute('stroke-dashoffset', (CIRC * (1 - frac)).toFixed(1));
+      banner.classList.remove('show');
+      if (remaining <= 7) {
+        fill.classList.add('warn');
+        statusEl.innerHTML = 'Manca <strong>meno di una settimana</strong> al richiamo: prenota ora e scegli l\'orario migliore.';
+      } else {
+        statusEl.innerHTML = 'Sei in regola: il prossimo richiamo è tra <strong>' + remaining + ' giorni</strong>. Continua con le micro-abitudini!';
+      }
+    }
+  }
 
-            if (!name || !date) {
-                alert('Inserisci nome e data del trattamento');
-                return;
-            }
-            if (topics.length === 0) {
-                alert('Scegli almeno un argomento');
-                return;
-            }
+  document.getElementById('btn-treated').addEventListener('click', function () {
+    set(LS.last, new Date().toISOString());
+    renderTimer();
+  });
+  document.getElementById('btn-settings').addEventListener('click', function () { openOnboarding(); });
 
-            localStorage.setItem('clientName', name);
-            localStorage.setItem('lastTreatmentDate', date);
-            localStorage.setItem('selectedTopics', JSON.stringify(topics));
+  /* ---------- Daily tip ---------- */
+  var tips = [
+    { t: 'Bevi acqua ogni ora', x: 'I muscoli disidratati lavorano male. Tieni una bottiglia sulla scrivania: non aspettare la sete.' },
+    { t: 'Cambia posizione ogni 30 minuti', x: 'Il corpo non è fatto per stare fermo. Alzati mezzo minuto: bastano 20 secondi di movimento.' },
+    { t: 'Respira con la pancia', x: 'La respirazione corta tiene il corpo in protezione. Dieci respiri profondi al mattino cambiano la giornata.' },
+    { t: 'Telefono fuori dalla tasca posteriore', x: 'Sedersi sopra il telefono sbilancia il bacino. Spostalo nella tasca davanti o nella borsa.' },
+    { t: 'Stretching in doccia', x: '30 secondi per lato mentre l\'acqua calda rilassa i tessuti: il momento perfetto per la mobilità.' },
+    { t: 'Controlla il cuscino', x: 'Troppo alto o troppo basso crea tensione: la cervicale deve restare allineata con la colonna.' },
+    { t: 'Cammina 10 minuti dopo i pasti', x: 'Aiuta la digestione, attiva la circolazione e scarica la schiena dopo ore da seduto.' },
+    { t: 'Alterna la spalla della borsa', x: 'Sempre lo stesso lato significa sempre lo stesso compenso. Meglio ancora: usa uno zaino.' },
+    { t: 'Guarda lontano ogni 20 minuti', x: 'Se lavori al monitor, ogni 20 minuti fissa un punto a 6 metri per 20 secondi: occhi e cervicale ringraziano.' },
+    { t: 'Scarpe diverse, corpo contento', x: 'Alternare le scarpe cambia gli stimoli sull\'appoggio del piede: una piccola variazione che previene sovraccarichi.' },
+    { t: 'Scale invece dell\'ascensore', x: 'Due piani di scale al giorno sono un allenamento gratuito per gambe, cuore ed equilibrio.' },
+    { t: 'La schiena ama i carichi, non i pesi improvvisi', x: 'Piegati sulle gambe e tieni il carico vicino al corpo: la schiena è forte quando la usi bene.' },
+    { t: 'Sbadiglia e allunga la mandibola', x: 'Se stringi i denti quando sei concentrato, ogni tanto lascia la mascella morbida: collo e testa si alleggeriscono.' },
+    { t: 'Il divano non è un letto', x: 'Addormentarsi storti sul divano regala rigidità al risveglio. Se hai sonno, vai a letto davvero.' }
+  ];
 
-            document.getElementById('onboardingModal').classList.add('hidden');
-            updateUI();
-            if (window.loadPosts) window.loadPosts();
-        }
+  function dayIndex() { return Math.floor(Date.now() / 86400000); }
 
-        function resetOnboarding() {
-            document.getElementById('clientName').value = localStorage.getItem('clientName') || '';
-            document.getElementById('lastTreatmentDate').value = localStorage.getItem('lastTreatmentDate') || '';
-            const topics = JSON.parse(localStorage.getItem('selectedTopics') || '[]');
-            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(el => {
-                el.checked = topics.includes(el.value);
-            });
-            document.getElementById('onboardingModal').classList.remove('hidden');
-        }
+  function renderTip() {
+    var tip = tips[dayIndex() % tips.length];
+    document.getElementById('tip-title').textContent = tip.t;
+    document.getElementById('tip-text').textContent = tip.x;
+    var msg = '💡 Consiglio del giorno dal mio kinesiologo:\n\n*' + tip.t + '*\n' + tip.x +
+      '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nTutti i consigli nell\'app: ' + SITE;
+    document.getElementById('tip-share-btn').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+  }
 
-        function updateUI() {
-            const name = localStorage.getItem('clientName');
-            if (name) {
-                document.getElementById('headerName').textContent = `Ciao, ${name}!`;
-            }
+  /* ---------- Habit + streak ---------- */
+  var habits = [
+    { t: '20 secondi di allungamento', x: 'Mani intrecciate sopra la testa, spingi verso il soffitto e respira. Ora.' },
+    { t: '10 cerchi di spalle', x: 'Lente, ampie, indietro. Sciogli quello che la giornata ha accumulato.' },
+    { t: '30 secondi su una gamba', x: 'In piedi su una gamba mentre aspetti il caffè. L\'equilibrio si allena così.' },
+    { t: '5 respiri profondi', x: 'Inspira gonfiando la pancia, espira lento. Cinque volte, senza fretta.' },
+    { t: '10 squat al muro', x: 'Schiena appoggiata, scendi piano e risali. Le gambe sono il motore della schiena.' },
+    { t: '1 minuto di camminata in casa', x: 'Ovunque tu sia: alzati e fai un giro. Il corpo conta i passi, non i buoni propositi.' },
+    { t: 'Mento indietro ×10', x: 'Porta il mento indietro (doppio mento) e tienilo 3 secondi. La cervicale si riallinea.' }
+  ];
 
-            const lastDate = localStorage.getItem('lastTreatmentDate');
-            if (lastDate) {
-                const elapsed = calculateDaysSince(lastDate);
-                const remaining = 90 - elapsed;
-                const daysEl = document.getElementById('timerDays');
-                const textEl = document.getElementById('timerText');
-                const labelEl = document.getElementById('timerLabel');
-                const subEl = document.getElementById('timerSub');
+  function todayKey() { return new Date().toISOString().slice(0, 10); }
 
-                if (remaining > 0) {
-                    labelEl.textContent = 'PROSSIMO CONTROLLO TRA';
-                    daysEl.textContent = remaining;
-                    textEl.textContent = remaining === 1 ? 'giorno' : 'giorni';
-                } else {
-                    labelEl.textContent = 'È ORA DEL CONTROLLO';
-                    daysEl.textContent = '✓';
-                    textEl.textContent = 'tocca qui per prenotare';
-                }
-                subEl.textContent = `Ultimo trattamento: ${elapsed} ${elapsed === 1 ? 'giorno' : 'giorni'} fa`;
-            }
-        }
+  function renderHabit() {
+    var h = habits[dayIndex() % habits.length];
+    document.getElementById('habit-title').textContent = h.t;
+    document.getElementById('habit-text').textContent = h.x;
+    var streak = parseInt(get(LS.streak), 10) || 0;
+    var doneToday = get(LS.streakDate) === todayKey();
+    var btn = document.getElementById('habit-btn');
+    var label = document.getElementById('streak-label');
+    if (doneToday) {
+      btn.textContent = 'Fatto oggi ✓';
+      btn.disabled = true;
+      btn.classList.add('habit-done');
+    } else {
+      btn.textContent = 'Fatto ✓';
+      btn.disabled = false;
+    }
+    label.textContent = streak > 0 ? '🔥 ' + streak + (streak === 1 ? ' giorno di fila' : ' giorni di fila') : 'Inizia la tua serie oggi';
+  }
 
-        function calculateDaysSince(dateString) {
-            const lastDate = new Date(dateString);
-            const today = new Date();
-            const diff = today - lastDate;
-            return Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-        }
+  document.getElementById('habit-btn').addEventListener('click', function () {
+    var last = get(LS.streakDate);
+    var streak = parseInt(get(LS.streak), 10) || 0;
+    var today = todayKey();
+    if (last === today) return;
+    var yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    streak = (last === yesterday) ? streak + 1 : 1;
+    set(LS.streak, String(streak));
+    set(LS.streakDate, today);
+    renderHabit();
+  });
 
-        function shareApp() {
-            const url = 'https://davidemcb.github.io/kinesiologia-studio/';
-            const name = localStorage.getItem('clientName') || '';
-            const message = `Ciao! Ti mando l'app del mio kinesiologo, Davide di Kinesiologia Studio (Modena). Ci trovi consigli, esercizi e puoi prenotare un controllo direttamente. ${url}`;
+  /* ---------- Corpo ---------- */
+  var exercises = {
+    schiena: [
+      { t: 'Ginocchia al petto', s: ['Distenditi sulla schiena, ginocchia piegate.', 'Porta entrambe le ginocchia verso il petto.', 'Mantieni 20 secondi, respira, rilascia.', 'Ripeti 3 volte, 2–3 volte al giorno.'] },
+      { t: 'Il gatto', s: ['A quattro zampe, mani sotto le spalle.', 'Inarca la schiena verso l\'alto espirando.', 'Scendi con la pancia inspirando.', '10 ripetizioni lente, ogni mattina.'] }
+    ],
+    cervicale: [
+      { t: 'Apertura del petto', s: ['Siediti dritto, spalle rilassate.', 'Incrocia le mani dietro la schiena.', 'Tira gli avambracci verso il basso: il petto si apre.', 'Mantieni 15 secondi, ripeti 3 volte.'] },
+      { t: 'Mezzaluna con il collo', s: ['Inclina lentamente l\'orecchio verso la spalla.', 'Ruota il mento verso il petto disegnando una mezzaluna.', 'Risali dall\'altro lato, senza forzare.', '5 passaggi per lato, movimenti lenti.'] }
+    ],
+    spalla: [
+      { t: 'Stabilità scapolare', s: ['In piedi, piedi a larghezza spalle.', 'Alza le braccia lateralmente fino alle spalle.', 'Mantieni 10 secondi, poi abbassa.', '15 ripetizioni, ogni giorno.'] },
+      { t: 'Pendolo', s: ['In piedi, appoggia una mano al tavolo.', 'Lascia penzolare l\'altro braccio, rilassato.', 'Fai piccoli cerchi lasciando fare alla gravità.', '30 secondi per senso, poi cambia braccio.'] }
+    ],
+    anca: [
+      { t: 'Mobilità in tre direzioni', s: ['In piedi su una gamba.', 'Porta l\'altra avanti, indietro, di lato.', '10 ripetizioni per direzione.', 'Cambia gamba e ripeti.'] },
+      { t: 'Il ponte', s: ['Sdraiato, ginocchia piegate, piedi a terra.', 'Solleva il bacino stringendo i glutei.', 'Mantieni 5 secondi in alto.', '12 ripetizioni, 2 serie.'] }
+    ],
+    gambe: [
+      { t: 'Test di equilibrio', s: ['In piedi su una gamba sola.', 'Obiettivo: 30 secondi senza appoggiarti.', 'Se non riesci, è un segnale utile: parlane in studio.', 'Allenati ogni giorno fino a 60 secondi.'] },
+      { t: 'Polpacci al gradino', s: ['Avampiedi sul bordo di un gradino, talloni fuori.', 'Scendi lentamente coi talloni, poi sali sulle punte.', '15 ripetizioni lente.', 'Tieniti al corrimano per sicurezza.'] }
+    ],
+    atm: [
+      { t: 'Mobilità della mandibola', s: ['Siediti con la schiena dritta.', 'Muovi la mascella lentamente avanti e indietro ×10.', 'Poi di lato, 10 volte per parte.', 'Ripeti 2 volte al giorno, senza dolore.'] },
+      { t: 'Rilascio con la lingua', s: ['Appoggia la punta della lingua al palato.', 'Apri lentamente la bocca finché la lingua resta su.', 'Chiudi piano. 10 ripetizioni.', 'Ottimo se digrigni i denti la notte.'] }
+    ]
+  };
 
-            if (navigator.share) {
-                navigator.share({ title: 'Kinesiologia Studio', text: message }).catch(() => {});
-            } else {
-                window.open('https://wa.me/?text=' + encodeURIComponent(message), '_blank');
-            }
-        }
+  document.getElementById('zones').addEventListener('click', function (e) {
+    var btn = e.target.closest('.zone');
+    if (!btn) return;
+    document.querySelectorAll('.zone').forEach(function (z) { z.classList.remove('selected'); });
+    btn.classList.add('selected');
+    var list = exercises[btn.dataset.zone];
+    var html = '';
+    list.forEach(function (ex) {
+      html += '<div class="card"><div class="eyebrow">Esercizio</div><h2>' + ex.t + '</h2>';
+      ex.s.forEach(function (step, i) { html += '<div class="step">' + (i + 1) + '. ' + step + '</div>'; });
+      html += '</div>';
+    });
+    document.getElementById('exercise-display').innerHTML = html;
+    document.getElementById('corpo-cta').style.display = 'block';
+  });
 
-        function showDailyAdvice() {
-            const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % dailyAdvices.length;
-            const advice = dailyAdvices[dayIndex];
-            document.getElementById('dailyAdviceTitle').textContent = advice.title;
-            document.getElementById('dailyAdviceText').textContent = advice.text;
-        }
+  /* ---------- Referral ---------- */
+  var refMsg = 'Ciao! Ti giro il contatto del mio kinesiologo a Modena, il Dott. Davide Scuderi. ' +
+    'Se ti porti dietro un fastidio da un po\', una valutazione di 60 minuti può dirti da dove viene.\n\n' +
+    'Prenoti direttamente da qui: ' + CALENDLY + '\n📍 Via Capilupi 21, Modena';
+  document.getElementById('referral-btn').href = 'https://wa.me/?text=' + encodeURIComponent(refMsg);
 
-        window.addEventListener('load', () => {
-            showDailyAdvice();
+  /* ---------- Install prompt ---------- */
+  var deferredPrompt = null;
+  var installCard = document.getElementById('install-card');
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
-            if (!localStorage.getItem('clientName')) {
-                document.getElementById('onboardingModal').classList.remove('hidden');
-            } else {
-                updateUI();
-            }
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (!isStandalone && !get(LS.installDismissed)) installCard.style.display = 'block';
+  });
+  document.getElementById('install-btn').addEventListener('click', function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function () {
+      installCard.style.display = 'none';
+      set(LS.installDismissed, 'true');
+      deferredPrompt = null;
+    });
+  });
+  // iOS: niente beforeinstallprompt — mostra le istruzioni manuali
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIOS && !isStandalone && !get(LS.installDismissed)) {
+    document.getElementById('install-hint').textContent =
+      'Su iPhone: tocca il tasto Condividi (il quadrato con la freccia) e poi "Aggiungi alla schermata Home".';
+    document.getElementById('install-btn-wrap').style.display = 'none';
+    installCard.style.display = 'block';
+  }
 
-            checkForUpdate();
-        });
+  /* ---------- Onboarding ---------- */
+  var obInterval = null, obAgo = null;
+  var modal = document.getElementById('onboarding');
 
-        // --- Aggiornamento automatico ---
-        // Al ritorno in primo piano l'app confronta la propria versione con
-        // version.json sul server: se ne esiste una piu' nuova si ricarica
-        // da sola con un URL diverso, che scavalca ogni cache del telefono.
-        const APP_VERSION = 5;
+  function openOnboarding() {
+    obInterval = parseInt(get(LS.interval), 10) || null;
+    obAgo = null;
+    document.querySelectorAll('#interval-chips .chip').forEach(function (c) {
+      c.classList.toggle('selected', parseInt(c.dataset.days, 10) === obInterval);
+    });
+    document.querySelectorAll('#last-chips .chip').forEach(function (c) { c.classList.remove('selected'); });
+    updateObButton();
+    modal.classList.add('open');
+  }
+  function updateObButton() {
+    var hasLast = obAgo !== null || get(LS.last);
+    document.getElementById('ob-confirm').disabled = !(obInterval && hasLast);
+  }
+  document.getElementById('interval-chips').addEventListener('click', function (e) {
+    var c = e.target.closest('.chip'); if (!c) return;
+    obInterval = parseInt(c.dataset.days, 10);
+    document.querySelectorAll('#interval-chips .chip').forEach(function (x) { x.classList.toggle('selected', x === c); });
+    updateObButton();
+  });
+  document.getElementById('last-chips').addEventListener('click', function (e) {
+    var c = e.target.closest('.chip'); if (!c) return;
+    obAgo = parseInt(c.dataset.ago, 10);
+    document.querySelectorAll('#last-chips .chip').forEach(function (x) { x.classList.toggle('selected', x === c); });
+    updateObButton();
+  });
+  document.getElementById('ob-confirm').addEventListener('click', function () {
+    if (!obInterval) return;
+    set(LS.interval, String(obInterval));
+    if (obAgo !== null && obAgo >= 0) {
+      set(LS.last, new Date(Date.now() - obAgo * 86400000).toISOString());
+    } else if (obAgo === -1) {
+      try { localStorage.removeItem(LS.last); } catch (e) {}
+    }
+    set(LS.onboarded, 'true');
+    modal.classList.remove('open');
+    renderTimer();
+  });
 
-        async function checkForUpdate() {
-            try {
-                const res = await fetch('version.json?t=' + Date.now(), { cache: 'no-store' });
-                const data = await res.json();
-                if (data.v > APP_VERSION) {
-                    location.replace(location.pathname + '?v=' + data.v);
-                }
-            } catch (e) { /* offline: si riprova alla prossima apertura */ }
-        }
+  /* ---------- Service worker ---------- */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
 
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') {
-                checkForUpdate();
-                updateUI();
-                showDailyAdvice();
-            }
-        });
-    </script>
+  /* ---------- Init ---------- */
+  renderTip();
+  renderHabit();
+  renderTimer();
+  if (!get(LS.onboarded)) { openOnboarding(); }
+})();
+</script>
 </body>
 </html>
