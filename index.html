@@ -556,6 +556,13 @@
       <div style="margin-top:12px"><button class="btn btn-primary" id="test-start">🧪 Inizia il test</button></div>
     </div>
 
+    <div class="card">
+      <div class="eyebrow">Routine esclusive</div>
+      <h2>Si sbloccano con la costanza</h2>
+      <p>Tieni viva la serie delle micro-abitudini (tab Oggi) e apri le routine complete.</p>
+      <div id="routines-list" style="margin-top:8px"></div>
+    </div>
+
     <div class="zones" id="zones">
       <button class="zone" data-zone="schiena"><span class="z-ico">🧍</span>Schiena</button>
       <button class="zone" data-zone="cervicale"><span class="z-ico">💆</span>Cervicale</button>
@@ -635,7 +642,7 @@
     <div class="card referral">
       <div class="eyebrow">Porta un amico</div>
       <h2>Conosci qualcuno che si trascina un fastidio da mesi?</h2>
-      <p>Il regalo più utile è fargli scoprire il perché. Mandagli il link della consulenza: due tocchi e ha il suo appuntamento.</p>
+      <p>Il regalo più utile è fargli scoprire il perché. E conviene a tutti e due: se prenota facendo il tuo nome, <strong>10 € di sconto a testa</strong> — a lui sul primo trattamento, a te sul prossimo.</p>
       <a class="btn btn-accent" id="referral-btn" href="#" target="_blank" rel="noopener">Invia a un amico su WhatsApp</a>
     </div>
 
@@ -742,6 +749,12 @@
       <button class="chip" data-ago="7">Circa una settimana fa</button>
       <button class="chip" data-ago="30">Circa un mese fa</button>
       <button class="chip" data-ago="-1">Mai / non ricordo</button>
+    </div>
+
+    <div class="field-label">Il tuo compleanno — facoltativo, ma c'è un regalo 🎂</div>
+    <div style="display:flex; gap:8px">
+      <select id="bday-day" class="chip" style="flex:1; appearance:auto"><option value="">Giorno</option></select>
+      <select id="bday-month" class="chip" style="flex:1; appearance:auto"><option value="">Mese</option></select>
     </div>
 
     <div class="field-label">Di cosa vuoi ricevere i contenuti dello studio?</div>
@@ -867,6 +880,13 @@
     set(LS.last, new Date().toISOString());
     renderTimer();
     if (!get(LS.review)) document.getElementById('review-card').style.display = 'block';
+    // tessera fedeltà: un timbro per giorno di trattamento
+    var today = new Date().toISOString().slice(0, 10);
+    if (get('ks_stampDate') !== today) {
+      set('ks_stampDate', today);
+      set('ks_stamps', String((parseInt(get('ks_stamps'), 10) || 0) + 1));
+    }
+    renderRewards();
   });
   document.getElementById('review-link').addEventListener('click', function () {
     set(LS.review, 'true');
@@ -999,6 +1019,7 @@
     renderHabit();
     renderChallenge();
     renderRewards();
+    renderRoutines();
   });
 
   /* ---------- Sfida dei 7 giorni ---------- */
@@ -1266,7 +1287,7 @@
   /* ---------- Referral ---------- */
   var refMsg = 'Ciao! Ti giro il contatto del mio kinesiologo a Modena, il Dott. Davide Scuderi. ' +
     'Se ti porti dietro un fastidio da un po\', una valutazione di 60 minuti può dirti da dove viene.\n\n' +
-    'Prenoti direttamente da qui: ' + CALENDLY + '\n📍 Via Capilupi 21, Modena\n\nQuando prenoti, scrivi nel modulo che ti mando io 😉';
+    'Prenoti direttamente da qui: ' + CALENDLY + '\n📍 Via Capilupi 21, Modena\n\nQuando prenoti, scrivi nel modulo che ti mando io: 10 € di sconto a testa, a te e a me 😉';
   document.getElementById('referral-btn').href = 'https://wa.me/?text=' + encodeURIComponent(refMsg);
   var refMsg2 = 'Ciao! Ti mando l\'app del mio kinesiologo, il Dott. Davide Scuderi di Modena. ' +
     'Ci trovi consigli quotidiani, esercizi di prevenzione e puoi prenotare un controllo direttamente.\n\n' + SITE;
@@ -1376,9 +1397,21 @@
   var obInterval = null, obAgo = null;
   var modal = document.getElementById('onboarding');
 
+  // popola i selettori del compleanno (una volta sola)
+  (function fillBday() {
+    var dSel = document.getElementById('bday-day');
+    var mSel = document.getElementById('bday-month');
+    for (var i = 1; i <= 31; i++) { dSel.insertAdjacentHTML('beforeend', '<option value="' + i + '">' + i + '</option>'); }
+    var mesi = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+    mesi.forEach(function (m, i) { mSel.insertAdjacentHTML('beforeend', '<option value="' + (i + 1) + '">' + m + '</option>'); });
+  })();
+
   function openOnboarding() {
     obInterval = parseInt(get(LS.interval), 10) || null;
     obAgo = null;
+    var bd = (get('ks_bday') || '').split('-');
+    document.getElementById('bday-month').value = bd.length === 2 ? String(parseInt(bd[0], 10)) : '';
+    document.getElementById('bday-day').value = bd.length === 2 ? String(parseInt(bd[1], 10)) : '';
     document.querySelectorAll('#interval-chips .chip').forEach(function (c) {
       c.classList.toggle('selected', parseInt(c.dataset.days, 10) === obInterval);
     });
@@ -1424,6 +1457,11 @@
     var topics = [];
     document.querySelectorAll('#topic-chips .chip.selected').forEach(function (c) { topics.push(c.dataset.topic); });
     set('ks_topics', JSON.stringify(topics));
+    var bdD = document.getElementById('bday-day').value;
+    var bdM = document.getElementById('bday-month').value;
+    if (bdD && bdM) {
+      set('ks_bday', ('0' + bdM).slice(-2) + '-' + ('0' + bdD).slice(-2));
+    }
     set(LS.onboarded, 'true');
     modal.classList.remove('open');
     renderTimer();
@@ -1472,31 +1510,61 @@
       return '<span class="rw-pill won">Vinto! 🎉</span>';
     }
 
+    // Compleanno: si sblocca il giorno stesso (una volta all'anno)
+    var bday = get('ks_bday');
+    var now = new Date();
+    var todayMD = ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+    var bdayKey = 'bday' + now.getFullYear();
+    if (bday && bday === todayMD && !d[bdayKey]) { d[bdayKey] = { u: new Date().toISOString() }; rwSave(d); }
+
     var grandProgress = 'Test ' + (testDone ? '✓' : '·') + ' — Sfida 7 giorni ' + (chDone ? '✓' : '·') + ' — Diario ' + Math.min(diaryDays, 7) + '/7';
     var shares = shareCount();
+    var stamps = parseInt(get('ks_stamps'), 10) || 0;
+    var stampDots = '';
+    for (var si = 0; si < 5; si++) { stampDots += si < Math.min(stamps, 5) ? '●' : '○'; }
+    var bdaySub = !bday
+      ? 'Aggiungi la tua data da "Cambia promemoria": il giorno giusto c\'è −15 €'
+      : (d[bdayKey] ? 'Tanti auguri! −15 € sul prossimo trattamento' : 'Il giorno del tuo compleanno: −15 €');
 
     var rows =
       '<div class="rw-row"><span class="rw-ico">🎁</span><div class="rw-info"><div class="rw-name">Benvenuto</div><div class="rw-sub">Hai attivato l\'app: 10 € sul prossimo trattamento</div></div>' + pill(d.welcome) + '</div>' +
       '<div class="rw-row"><span class="rw-ico">🏆</span><div class="rw-info"><div class="rw-name">Gran Premio</div><div class="rw-sub">' + grandProgress + ' → altri 10 €</div></div>' + pill(d.grand) + '</div>' +
+      '<div class="rw-row"><span class="rw-ico">🎂</span><div class="rw-info"><div class="rw-name">Compleanno</div><div class="rw-sub">' + bdaySub + '</div></div>' + pill(d[bdayKey]) + '</div>' +
+      '<div class="rw-row"><span class="rw-ico">🖐</span><div class="rw-info"><div class="rw-name">Tessera fedeltà</div><div class="rw-sub">' + stampDots + ' — al 5° trattamento, mezz\'ora in omaggio</div></div>' +
+        (stamps >= 5 ? '<span class="rw-pill won">Completa! 🎉</span>' : '<span class="rw-pill locked">' + Math.min(stamps, 5) + '/5</span>') + '</div>' +
       '<div class="rw-row"><span class="rw-ico">📣</span><div class="rw-info"><div class="rw-name">Ambasciatore</div><div class="rw-sub">' + (shares >= 3 ? 'Grazie per far girare la prevenzione!' : 'Condividi 3 contenuti (' + Math.min(shares, 3) + '/3)') + '</div></div>' +
         (shares >= 3 ? '<span class="rw-pill won">Badge 🌿</span>' : '<span class="rw-pill locked">Da sbloccare</span>') + '</div>';
     document.getElementById('rw-list').innerHTML = rows;
 
-    function buonoHtml(key, r, label) {
+    function buonoHtml(key, r, label, amount, note) {
       if (!r || r.used || rwExpired(r.u)) return '';
-      var code = 'APP10-' + label + '-' + fmtDate(r.u).replace('/', '');
-      return '<div class="buono"><div class="b-amount">−10 €</div>' +
+      var code = 'APP-' + label + '-' + fmtDate(r.u).replace('/', '');
+      return '<div class="buono"><div class="b-amount">' + amount + '</div>' +
         '<div class="b-code">' + code + '</div>' +
-        '<div class="b-note">Sul prossimo trattamento · sbloccato il ' + fmtDate(r.u) + '</div>' +
+        '<div class="b-note">' + note + ' · sbloccato il ' + fmtDate(r.u) + '</div>' +
         '<div style="margin-top:8px"><button class="text-btn" data-rwuse="' + key + '">Segna come usato (si fa in studio)</button></div></div>';
     }
-    document.getElementById('rw-buoni').innerHTML =
-      buonoHtml('welcome', d.welcome, 'BENV') + buonoHtml('grand', d.grand, 'GRAN');
+    var buoni =
+      buonoHtml('welcome', d.welcome, 'BENV10', '−10 €', 'Sul prossimo trattamento') +
+      buonoHtml('grand', d.grand, 'GRAN10', '−10 €', 'Sul prossimo trattamento') +
+      buonoHtml(bdayKey, d[bdayKey], 'COMP15', '−15 €', 'Buon compleanno! Sul prossimo trattamento');
+    if (stamps >= 5) {
+      buoni += '<div class="buono"><div class="b-amount">+30 min</div>' +
+        '<div class="b-code">APP-TIMBRI-OMAGGIO</div>' +
+        '<div class="b-note">Tessera completa: mezz\'ora in omaggio sul prossimo trattamento</div>' +
+        '<div style="margin-top:8px"><button class="text-btn" data-rwuse="stamps">Segna come usato (si fa in studio)</button></div></div>';
+    }
+    document.getElementById('rw-buoni').innerHTML = buoni;
   }
 
   document.getElementById('rw-buoni').addEventListener('click', function (e) {
     var b = e.target.closest('[data-rwuse]');
     if (!b) return;
+    if (b.dataset.rwuse === 'stamps') {
+      set('ks_stamps', '0');
+      renderRewards();
+      return;
+    }
     var d = rwData();
     if (d[b.dataset.rwuse]) { d[b.dataset.rwuse].used = true; rwSave(d); renderRewards(); }
   });
@@ -1509,6 +1577,42 @@
       renderRewards();
     });
   });
+
+  /* ---------- Routine sbloccabili ---------- */
+  var ROUTINES = [
+    { days: 7, n: 'Routine del Mattino', mins: '3 minuti', steps: [
+      'Ancora a letto: ginocchia al petto, 20 secondi di respiro.',
+      'A quattro zampe: il gatto, 8 passaggi lenti.',
+      'In piedi: mani intrecciate verso il soffitto, 20 secondi per lato.',
+      '10 cerchi di spalle ampi, all\'indietro.',
+      '10 respiri con la pancia davanti alla finestra aperta.'
+    ] },
+    { days: 14, n: 'Routine della Sera', mins: '5 minuti', steps: [
+      'Gambe al muro, 2 minuti: le gambe si svuotano, la schiena si appoggia.',
+      'A terra: ginocchia che cadono lente a destra e a sinistra, 30 secondi per lato.',
+      'Mezzaluna con il collo, 5 passaggi dolci per lato.',
+      'Respiro 4-6: inspira contando 4, espira contando 6, per 8 respiri.',
+      'Chiudi con il Diario del corpo: com\'è andata oggi?'
+    ] }
+  ];
+
+  function renderRoutines() {
+    var streak = parseInt(get(LS.streak), 10) || 0;
+    var html = '';
+    ROUTINES.forEach(function (r) {
+      var unlocked = streak >= r.days;
+      if (unlocked) {
+        var body = '<div class="t-meta">' + r.mins + ' · sbloccata con ' + r.days + ' giorni di serie</div>';
+        r.steps.forEach(function (s, i) { body += '<div class="step">' + (i + 1) + '. ' + s + '</div>'; });
+        html += accItem(r.n, '✓ tua', body);
+      } else {
+        html += '<div class="acc-item"><div class="acc-head" style="cursor:default"><span class="acc-name" style="color:var(--muted)">🔒 ' + r.n + '</span><span class="rw-pill locked">serie ' + Math.min(streak, r.days) + '/' + r.days + '</span></div></div>';
+      }
+    });
+    var list = document.getElementById('routines-list');
+    list.innerHTML = html;
+  }
+  accToggle(document.getElementById('routines-list'));
 
   /* ---------- Trattamenti & regali ---------- */
   // sumup: quando arriva il link di pagamento, inserirlo e il bottone si collega da solo.
@@ -1591,6 +1695,7 @@
   renderChallenge();
   renderTestEntry();
   renderRewards();
+  renderRoutines();
   if (!get(LS.onboarded)) { openOnboarding(); }
 })();
 </script>
