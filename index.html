@@ -1413,7 +1413,8 @@
 
   function giftBtn(item) {
     if (item.sumup) {
-      return '<a class="btn btn-accent" href="' + item.sumup + '" target="_blank" rel="noopener">🎁 Regala — paga online</a>';
+      return '<a class="btn btn-accent" href="' + item.sumup + '" target="_blank" rel="noopener">🎁 Regala — paga online</a>' +
+        '<div style="text-align:center; margin-top:8px"><a class="text-btn" href="voucher.html">Hai già pagato? Crea il tuo voucher →</a></div>';
     }
     var msg = 'Ciao Davide! Vorrei regalare "' + item.n + '"' + (item.p ? ' (' + item.p + ')' : '') + '. Come procediamo?';
     return '<a class="btn btn-accent" href="https://wa.me/393481514382?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">🎁 Regala — via WhatsApp</a>';
