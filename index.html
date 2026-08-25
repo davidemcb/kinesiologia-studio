@@ -339,6 +339,20 @@
   }
   .test-verdict { text-align: center; font-size: 14px; color: var(--muted); margin-bottom: 16px; }
 
+  /* ---------- Trattamenti & regali ---------- */
+  .price-pill {
+    display: inline-block;
+    background: var(--brand); color: var(--brand-ink);
+    border-radius: 999px; padding: 3px 12px;
+    font-size: 12.5px; font-weight: 700;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .t-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .t-meta { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .t-actions { display: flex; gap: 10px; margin-top: 14px; }
+  .t-actions .btn { padding: 12px 10px; font-size: 13.5px; flex: 1; }
+
   /* ---------- Bottom nav ---------- */
   .nav {
     position: fixed; bottom: 0; left: 0; right: 0;
@@ -551,6 +565,13 @@
     </div>
 
     <div class="card">
+      <div class="eyebrow">I trattamenti</div>
+      <h2>Un'ora che lavora davvero</h2>
+      <p>Ogni trattamento comprende <strong>valutazione, test muscolari, trattamento ed esercizi personalizzati</strong>. Non un massaggio qualsiasi: un lavoro mirato che capisce da dove viene il problema.</p>
+    </div>
+    <div id="treatments-list"></div>
+
+    <div class="card">
       <div class="eyebrow">Lo studio</div>
       <ul class="studio-facts">
         <li><span class="f-ico">👤</span><span>Dott. Davide Scuderi — Kinesiologo</span></li>
@@ -574,12 +595,12 @@
       <a class="btn btn-accent" id="referral-btn" href="#" target="_blank" rel="noopener">Invia a un amico su WhatsApp</a>
     </div>
 
-    <div class="card">
-      <div class="eyebrow">Regala un trattamento</div>
+    <div class="card" style="background:var(--brand-soft); border-color:var(--brand)">
+      <div class="eyebrow">Idee regalo</div>
       <h2>🎁 Il regalo che si sente addosso</h2>
-      <p>Un'ora dedicata a chi vuoi bene: paghi online, ricevi subito il voucher regalo da stampare o inviare, e chi lo riceve prenota quando vuole.</p>
-      <div style="margin-top:12px" id="gift-cta"></div>
+      <p>Paghi online con carta, ricevi <strong>subito il voucher</strong> da stampare o inviare su WhatsApp. Chi lo riceve prenota quando vuole.</p>
     </div>
+    <div id="gifts-list"></div>
   </section>
 
   <!-- ============ RECENSIONI ============ -->
@@ -1369,19 +1390,57 @@
     });
   }
 
-  /* ---------- Regala un trattamento ---------- */
-  // Quando il link di pagamento è pronto, inserirlo qui: il bottone cambia da solo.
-  var GIFT_PAYMENT_LINK = '';
-  (function renderGift() {
-    var box = document.getElementById('gift-cta');
-    if (GIFT_PAYMENT_LINK) {
-      box.innerHTML = '<a class="btn btn-accent" href="' + GIFT_PAYMENT_LINK + '" target="_blank" rel="noopener">🎁 Regala ora — paga online</a>' +
-        '<p style="font-size:12.5px; margin-top:8px; text-align:center">Dopo il pagamento ricevi subito il voucher da regalare.</p>';
-    } else {
-      var giftMsg = 'Ciao Davide! Vorrei regalare un trattamento a una persona a cui tengo. Come faccio?';
-      box.innerHTML = '<a class="btn btn-accent" href="https://wa.me/393481514382?text=' + encodeURIComponent(giftMsg) + '" target="_blank" rel="noopener">🎁 Regala ora — scrivici su WhatsApp</a>' +
-        '<p style="font-size:12.5px; margin-top:8px; text-align:center">Ti rispondiamo in giornata con tutto il necessario.</p>';
+  /* ---------- Trattamenti & regali ---------- */
+  // sumup: quando arriva il link di pagamento, inserirlo e il bottone si collega da solo.
+  var TREATMENTS = [
+    { n: 'Benessere Colonna', d: 'Una schiena che si muove è una schiena che non si difende. Test, trattamento ed esercizi per una colonna mobile e forte — e per capire perché si era irrigidita.', sumup: '' },
+    { n: 'Benessere Cervicale', d: 'Per chi "ha la cervicale" e vuole smettere di averla. Cerchiamo perché la tua si fa sentire — collo, respiro, postura — e la trattiamo alla radice.', sumup: '' },
+    { n: 'Benessere Spalle', d: 'Per chi porta lo stress sulle spalle, letteralmente. Esci sapendo cosa avevano le tue spalle e cosa farci, con esercizi tuoi.', sumup: '' },
+    { n: 'Benessere Diaframma', d: 'Il respiro corto tiene tutto il corpo in tensione. Liberiamo il diaframma, e con lui stress, collo e schiena. Il trattamento più sorprendente che abbiamo.', sumup: 'https://pay.sumup.com/b2c/QN27YSZO' },
+    { n: 'Gambe Leggere', d: 'Per chi arriva a sera con gambe pesanti: circolazione, appoggio, mobilità. Un\'ora per ritrovare il passo di qualche anno fa.', sumup: '' },
+    { n: 'Postura OK', d: 'La postura perfetta non esiste: esiste un corpo che regge bene le tue giornate. Valutazione completa dalla testa ai piedi e piano su misura.', sumup: '' }
+  ];
+
+  var GIFTS = [
+    { n: 'Mezz\'ora per te', p: '47 €', d: 'Il regalo sicuro: 30 minuti di trattamento mirato. Costa come un mazzo di fiori, se lo ricordano per mesi.', sumup: 'https://pay.sumup.com/b2c/Q84C0NZ5' },
+    { n: 'Un\'ora tutta sua', p: '90 €', d: 'Il trattamento completo: valutazione, test muscolari, trattamento ed esercizi personalizzati. Il regalo di compleanno che nessun altro fa.', sumup: 'https://pay.sumup.com/b2c/QQCVILTM' },
+    { n: 'Kit Rinascita', p: '97 €', d: 'Trattamento completo da 60 minuti + il libro "Vestirsi di Sé" di Davide Scuderi: l\'esperienza in studio e qualcosa da scartare subito.', sumup: '' },
+    { n: 'Benessere in Due', p: '87 €', d: 'Due trattamenti da 30 minuti per due persone: un\'esperienza da condividere con chi vuoi bene.', sumup: '' },
+    { n: 'Percorso Reset', p: '249 €', d: 'Tre trattamenti da 60 minuti per chi si trascina un problema vero. Tre incontri sono il minimo per un cambiamento stabile — ed è onesto dirlo.', sumup: '' },
+    { n: 'Un Anno di Prevenzione', p: '297 €', d: 'Quattro check-up, uno a stagione. Il regalo per chi ami e vuoi vedere in piedi a lungo: la sua schiena ha un tagliando per tutto l\'anno.', sumup: '' },
+    { n: 'Percorso Trasformazione', p: '399 €', d: 'Cinque trattamenti più ri-test finale: il prima e il dopo, misurati. Un trattamento è praticamente in omaggio.', sumup: '' }
+  ];
+
+  function giftBtn(item) {
+    if (item.sumup) {
+      return '<a class="btn btn-accent" href="' + item.sumup + '" target="_blank" rel="noopener">🎁 Regala — paga online</a>';
     }
+    var msg = 'Ciao Davide! Vorrei regalare "' + item.n + '"' + (item.p ? ' (' + item.p + ')' : '') + '. Come procediamo?';
+    return '<a class="btn btn-accent" href="https://wa.me/393481514382?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">🎁 Regala — via WhatsApp</a>';
+  }
+
+  (function renderCatalog() {
+    var tHtml = '';
+    TREATMENTS.forEach(function (t) {
+      tHtml += '<div class="card">' +
+        '<div class="t-head"><h2>' + t.n + '</h2><span class="price-pill">90 €</span></div>' +
+        '<div class="t-meta">60 minuti · valutazione + test + trattamento + esercizi</div>' +
+        '<p>' + t.d + '</p>' +
+        '<div class="t-actions">' +
+          '<a class="btn btn-primary" href="' + CALENDLY + '" target="_blank" rel="noopener">Prenota</a>' +
+          giftBtn(t) +
+        '</div></div>';
+    });
+    document.getElementById('treatments-list').innerHTML = tHtml;
+
+    var gHtml = '';
+    GIFTS.forEach(function (g) {
+      gHtml += '<div class="card">' +
+        '<div class="t-head"><h2>' + g.n + '</h2><span class="price-pill">' + g.p + '</span></div>' +
+        '<p>' + g.d + '</p>' +
+        '<div style="margin-top:14px">' + giftBtn(g) + '</div></div>';
+    });
+    document.getElementById('gifts-list').innerHTML = gHtml;
   })();
 
   /* ---------- Init ---------- */
