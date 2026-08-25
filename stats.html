@@ -68,6 +68,7 @@
       <div class="card"><h2>Azioni — ultimi 7 e 30 giorni</h2><table id="t-actions"></table></div>
       <div class="card"><h2>Regali più cliccati (30 giorni)</h2><table id="t-gifts"></table></div>
       <div class="card"><h2>Condivisioni per contenuto (30 giorni)</h2><table id="t-shares"></table></div>
+      <div class="card"><h2>💡 Argomenti richiesti dai pazienti</h2><table id="t-topics"></table></div>
       <p class="muted" id="foot"></p>
     </div>
   </div>
@@ -99,6 +100,7 @@
       diary_log: 'Giorni di diario registrati',
       reward_unlock: 'Premi sbloccati',
       reward_used: 'Buoni usati in studio',
+      topic_request: 'Argomenti proposti',
       voucher_created: 'Voucher regalo generati',
       install: 'Installazioni app'
     };
@@ -129,12 +131,14 @@
     function render(snap) {
       const d7 = daysAgo(7), d30 = daysAgo(30);
       const by7 = {}, by30 = {}, gifts = {}, shares = {}, devices = new Set();
+      const topics = [];
       let total = 0, oldest = null;
 
       snap.forEach(doc => {
         const e = doc.data();
         total++;
         if (!oldest || e.day < oldest) oldest = e.day;
+        if (e.t === 'topic_request' && e.d && topics.length < 60) topics.push({ day: e.day, text: e.d });
         if (e.day >= d30) {
           by30[e.t] = (by30[e.t] || 0) + 1;
           if (e.did) devices.add(e.did);
@@ -168,6 +172,13 @@
       const sharesNamed = {};
       Object.keys(shares).forEach(k => { sharesNamed[shareNames[k] || k] = shares[k]; });
       topTable('t-shares', sharesNamed, 'Nessuna condivisione negli ultimi 30 giorni.');
+
+      // argomenti proposti: testo libero dei pazienti, mostrato come dato (mai eseguito)
+      const esc = s => { const el = document.createElement('div'); el.textContent = s || ''; return el.innerHTML; };
+      let th = '';
+      if (topics.length === 0) th = '<tr><td class="muted">Ancora nessuna proposta: la casella è nella sezione Sapere dell\'app.</td></tr>';
+      topics.forEach(t => { th += '<tr><td class="muted" style="white-space:nowrap">' + esc(t.day) + '</td><td>«' + esc(t.text) + '»</td></tr>'; });
+      document.getElementById('t-topics').innerHTML = th;
 
       document.getElementById('foot').textContent =
         total + ' eventi totali' + (oldest ? ' · dati dal ' + oldest : '') + ' · si aggiorna ricaricando la pagina';
