@@ -373,6 +373,22 @@
   .t-actions { display: flex; gap: 10px; margin-top: 14px; }
   .t-actions .btn { padding: 12px 10px; font-size: 13.5px; flex: 1; }
 
+  .acc-item { border-bottom: 1px solid var(--line); }
+  .acc-item:last-child { border-bottom: none; }
+  .acc-head {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; background: none; border: none;
+    padding: 13px 2px; cursor: pointer;
+    font-family: var(--font-body); text-align: left;
+  }
+  .acc-head:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .acc-name { flex: 1; font-weight: 700; font-size: 14.5px; color: var(--ink); }
+  .acc-chev { color: var(--muted); font-size: 11px; transition: transform 0.2s; }
+  .acc-item.open .acc-chev { transform: rotate(90deg); }
+  .acc-body { display: none; padding: 0 2px 16px; }
+  .acc-item.open .acc-body { display: block; }
+  .acc-body p { color: var(--muted); font-size: 14px; }
+
   /* ---------- Bottom nav ---------- */
   .nav {
     position: fixed; bottom: 0; left: 0; right: 0;
@@ -595,9 +611,9 @@
     <div class="card">
       <div class="eyebrow">I trattamenti</div>
       <h2>Un'ora che lavora davvero</h2>
-      <p>Ogni trattamento comprende <strong>valutazione, test muscolari, trattamento ed esercizi personalizzati</strong>. Non un massaggio qualsiasi: un lavoro mirato che capisce da dove viene il problema.</p>
+      <p>Ogni trattamento comprende <strong>valutazione, test muscolari, trattamento ed esercizi personalizzati</strong>. Tocca un trattamento per i dettagli.</p>
+      <div id="treatments-list" style="margin-top:8px"></div>
     </div>
-    <div id="treatments-list"></div>
 
     <div class="card">
       <div class="eyebrow">Lo studio</div>
@@ -626,9 +642,9 @@
     <div class="card" style="background:var(--brand-soft); border-color:var(--brand)">
       <div class="eyebrow">Idee regalo</div>
       <h2>🎁 Il regalo che si sente addosso</h2>
-      <p>Paghi online con carta, ricevi <strong>subito il voucher</strong> da stampare o inviare su WhatsApp. Chi lo riceve prenota quando vuole.</p>
+      <p>Paghi online con carta, ricevi <strong>subito il voucher</strong> da stampare o inviare su WhatsApp. Chi lo riceve prenota quando vuole. Tocca un regalo per i dettagli.</p>
+      <div id="gifts-list" style="margin-top:8px"></div>
     </div>
-    <div id="gifts-list"></div>
   </section>
 
   <!-- ============ RECENSIONI ============ -->
@@ -1515,37 +1531,55 @@
     { n: 'Percorso Trasformazione', p: '399 €', d: 'Cinque trattamenti più ri-test finale: il prima e il dopo, misurati. Un trattamento è praticamente in omaggio.', sumup: 'https://pay.sumup.com/b2c/QBXFL47P' }
   ];
 
-  function giftBtn(item) {
+  function giftBtn(item, noHint) {
     if (item.sumup) {
       return '<a class="btn btn-accent" href="' + item.sumup + '" target="_blank" rel="noopener">🎁 Regala — paga online</a>' +
-        '<div style="text-align:center; margin-top:8px"><a class="text-btn" href="voucher.html">Hai già pagato? Crea il tuo voucher →</a></div>';
+        (noHint ? '' : '<div style="text-align:center; margin-top:8px"><a class="text-btn" href="voucher.html">Hai già pagato? Crea il tuo voucher →</a></div>');
     }
     var msg = 'Ciao Davide! Vorrei regalare "' + item.n + '"' + (item.p ? ' (' + item.p + ')' : '') + '. Come procediamo?';
     return '<a class="btn btn-accent" href="https://wa.me/393481514382?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">🎁 Regala — via WhatsApp</a>';
   }
 
+  function accItem(name, price, body) {
+    return '<div class="acc-item">' +
+      '<button class="acc-head"><span class="acc-name">' + name + '</span><span class="price-pill">' + price + '</span><span class="acc-chev">▶</span></button>' +
+      '<div class="acc-body">' + body + '</div></div>';
+  }
+  function accToggle(container) {
+    container.addEventListener('click', function (e) {
+      var head = e.target.closest('.acc-head');
+      if (!head) return;
+      var item = head.parentNode;
+      var wasOpen = item.classList.contains('open');
+      container.querySelectorAll('.acc-item.open').forEach(function (o) { o.classList.remove('open'); });
+      if (!wasOpen) item.classList.add('open');
+    });
+  }
+
   (function renderCatalog() {
     var tHtml = '';
     TREATMENTS.forEach(function (t) {
-      tHtml += '<div class="card">' +
-        '<div class="t-head"><h2>' + t.n + '</h2><span class="price-pill">90 €</span></div>' +
+      tHtml += accItem(t.n, '90 €',
         '<div class="t-meta">60 minuti · valutazione + test + trattamento + esercizi</div>' +
         '<p>' + t.d + '</p>' +
         '<div class="t-actions">' +
           '<a class="btn btn-primary" href="' + CALENDLY + '" target="_blank" rel="noopener">Prenota</a>' +
-          giftBtn(t) +
-        '</div></div>';
+          giftBtn(t, true) +
+        '</div>');
     });
-    document.getElementById('treatments-list').innerHTML = tHtml;
+    var tList = document.getElementById('treatments-list');
+    tList.innerHTML = tHtml;
+    accToggle(tList);
 
     var gHtml = '';
     GIFTS.forEach(function (g) {
-      gHtml += '<div class="card">' +
-        '<div class="t-head"><h2>' + g.n + '</h2><span class="price-pill">' + g.p + '</span></div>' +
+      gHtml += accItem(g.n, g.p,
         '<p>' + g.d + '</p>' +
-        '<div style="margin-top:14px">' + giftBtn(g) + '</div></div>';
+        '<div style="margin-top:12px">' + giftBtn(g) + '</div>');
     });
-    document.getElementById('gifts-list').innerHTML = gHtml;
+    var gList = document.getElementById('gifts-list');
+    gList.innerHTML = gHtml;
+    accToggle(gList);
   })();
 
   /* ---------- Init ---------- */
