@@ -2015,6 +2015,16 @@ window.ksTrack = function (type, detail) {
   } catch (e) {}
 };
 window.addEventListener('appinstalled', function () { window.ksTrack('install', ''); });
+
+// Una riga al giorno per dispositivo: cosi' il conteggio delle persone che
+// usano l'app comprende anche chi apre e legge senza toccare niente.
+try {
+  const oggi = new Date().toISOString().slice(0, 10);
+  if (localStorage.getItem('ks_lastOpen') !== oggi) {
+    localStorage.setItem('ks_lastOpen', oggi);
+    window.ksTrack('open', '');
+  }
+} catch (e) {}
 const topicLabels = {
   'stress': 'Stress',
   'temporo-mandibolare': 'Mandibola',
