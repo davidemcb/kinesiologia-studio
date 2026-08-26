@@ -1,0 +1,23 @@
+id_riga,partecipante,strato,data,problema_testo,situazione,episodio_datato,freq_sett,intensita,durata_min,impatto_testo,soluzione_attuale,costo_eur_12m,tempo_min_sett,provate,soddisfazione,frustrazione,desiderio,urgenza,disp_dichiarata,b_evidenza,ipotesi,codificatore,note
+P01-1,P01,S1,2026-09-02,non riesco a spegnere la testa quando torno a casa,"rientro dal lavoro, 19-21",si,5,8,90,non ascolto mia figlia mentre mi parla,un bicchiere di vino e il telefono,0,0,corso di mindfulness (3 settimane),3,8,9,7,8,prova_singola,H2; H1,DS,dice: sono a casa ma sto ancora in ufficio
+P02-1,P02,S3,2026-09-03,continuo a rimuginare sul lavoro fino a tardi,"sera, dopo cena",si,6,7,120,rimando sempre di andare a letto,serie tv per svuotare la testa,180,60,palestra; app di meditazione (10 giorni),4,7,8,7,7,spesa_30_200,H2; H9,DS,abbonamento palestra usato poco
+P03-1,P03,S3,2026-09-05,stacco solo dopo due ore che sono a casa,dal rientro alle 21,si,5,7,120,"cena in silenzio, poi mi sento in colpa",corsa quando riesco,240,90,corsa; osteopata,5,6,8,6,6,spesa_ricorrente,H2; H8,DS,
+P04-1,P04,S2,2026-09-05,"il passaggio ufficio-casa non esiste, e' tutto attaccato",in macchina al rientro,si,4,6,45,arrivo gia' scarico,niente di specifico,60,20,"yoga (2 mesi, poi basta)",3,7,8,6,7,spesa_30_200,H8; H2,DS,ha lasciato yoga per orari
+P05-1,P05,S1,2026-09-07,penso al lavoro anche il sabato,weekend,si,2,6,180,non sono presente con gli amici,niente,0,0,,,6,6,4,5,nulla,H2,DS,problema reale ma tiepido
+P06-1,P06,S3,2026-09-08,non riesco a passare da lavoro a vita privata,sera,si,6,8,90,salto la palestra perche' sono cotto,doccia lunga,0,15,app di respirazione (1 settimana),3,8,9,8,8,prova_singola,H2; H4,DS,
+P07-1,P07,S2,2026-09-09,la testa continua a girare anche a letto,notte,si,4,7,60,dormo 5 ore,melatonina,90,0,melatonina; tisane,4,7,8,7,6,spesa_30_200,H9; H2,DS,
+P02-2,P02,S3,2026-09-03,non so mai cosa sento nel corpo,sempre,si,7,5,0,me ne accorgo solo quando ho male,niente,0,0,,,4,5,2,6,nulla,H3,DS,interessa ma non ha mai agito
+P08-1,P08,S3,2026-09-10,il corpo per me e' un mezzo di trasporto,sempre,si,7,4,0,nessun impatto che sappia dire,niente,0,0,,,3,4,1,5,nulla,H3,DS,
+P09-1,P09,S1,2026-09-11,mi accorgo del corpo solo quando fa male,quando c'e' dolore,si,6,5,0,aspetto che passi,antinfiammatorio al bisogno,25,0,antinfiammatori,4,5,4,3,6,informazioni,H3; H10,DS,
+P10-1,P10,S2,2026-09-12,non sento la differenza tra teso e rilassato,sempre,si,8,4,0,non saprei,niente,0,0,,,3,5,2,7,nulla,H3,DS,
+P06-2,P06,S3,2026-09-08,non mi accorgo di essere contratto finche' non mi blocco,sempre,si,6,5,0,colpo della strega a marzo,niente,0,0,,,4,5,3,6,nulla,H3,DS,
+P01-2,P01,S1,2026-09-02,tra un trattamento e l'altro non so cosa fare,tra le sedute,si,3,6,0,perdo quello che ho guadagnato,aspetto la seduta dopo,320,50,esercizi dati in studio,6,6,8,7,9,spesa_ricorrente,H15,DS,
+P05-2,P05,S1,2026-09-07,vorrei mantenere i risultati da solo,tra le sedute,si,3,6,0,torno indietro,esercizi quando mi ricordo,280,40,esercizi in studio,5,6,8,6,9,spesa_ricorrente,H15; H6,DS,
+P09-2,P09,S1,2026-09-11,dopo due settimane sono al punto di prima,tra le sedute,si,2,7,0,rifaccio la seduta,niente,300,30,,4,7,8,7,8,spesa_ricorrente,H15,DS,
+P11-1,P11,S1,2026-09-14,mi manca qualcosa da fare a casa,tra le sedute,si,3,5,0,niente di grave,stretching random,260,60,stretching,5,5,7,5,8,spesa_ricorrente,H15,DS,
+P03-2,P03,S3,2026-09-05,comincio tutto e mollo dopo due settimane,ogni volta che inizio qualcosa,si,2,6,0,mi sento incoerente,niente,120,0,yoga; corsa; app,3,8,8,5,7,spesa_30_200,H6,DS,
+P12-1,P12,S3,2026-09-15,non riesco a tenere nessuna abitudine di benessere,sempre,si,2,6,0,spreco i soldi degli abbonamenti,niente,220,30,palestra; pilates; app,2,8,8,6,7,spesa_ricorrente,H6; H5,DS,
+P04-2,P04,S2,2026-09-05,ho provato cinque cose e lasciate tutte,negli ultimi due anni,si,1,5,0,,niente,150,0,yoga; meditazione; nuoto,3,7,7,4,6,spesa_30_200,H6; H13,DS,
+P13-1,P13,S3,2026-09-16,credo che tutti dovrebbero rilassarsi di piu',in generale,no,0,3,0,,,0,0,,,3,4,2,5,nulla,H1,DS,nessun episodio concreto: esclusa
+P14-1,P14,S2,2026-09-17,dormo male da sempre,notte,si,5,7,60,sono stanco tutto il giorno,niente,0,0,,,7,7,6,5,nulla,H9,DS,
+P08-2,P08,S3,2026-09-10,ho la cervicale che tira,fine giornata al pc,si,4,6,120,prendo antidolorifici,antidolorifico,140,0,fisioterapia; antidolorifici,5,6,7,6,6,spesa_30_200,H10; H4,DS,

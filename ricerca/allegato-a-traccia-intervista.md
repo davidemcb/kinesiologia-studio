@@ -1,0 +1,174 @@
+# Allegato A — Traccia intervista (Fase 1, cieca)
+
+**Durata:** 30 minuti · **Registrata** con consenso · **Touchfulness non si nomina mai**
+
+---
+
+## Prima di iniziare — checklist dell'intervistatore
+
+- [ ] Non ho riletto la matrice delle ipotesi oggi
+- [ ] Ho il registratore acceso e il consenso firmato
+- [ ] Ho il cronometro per il conteggio respiratorio (serve solo in Fase 6, ma tenerlo abitua)
+- [ ] So che **non devo convincere nessuno di niente**
+- [ ] Codice partecipante assegnato: `P__` · Strato: `S_`
+
+---
+
+## 0. Apertura (2 min)
+
+> "Grazie per il tempo. Ti faccio una premessa: sto facendo una ricerca su come le persone
+> gestiscono le giornate pesanti. Non ti sto vendendo niente e non c'è nessun prodotto dietro
+> a queste domande. Non esistono risposte giuste o sbagliate — anzi, più mi racconti le cose
+> come stanno davvero, più mi sei utile. Se una domanda non ti interessa, saltiamola.
+> Registro solo per non prendere appunti mentre parli. Va bene?"
+
+**Se chiede cosa fai:**
+> "Te lo racconto volentieri alla fine, così non ti influenzo mentre rispondi."
+
+E lo si fa davvero, a registratore spento.
+
+---
+
+## 1. Giornata tipo (5 min)
+
+> "Raccontami una tua giornata normale, dall'inizio alla fine. Come se me la stessi descrivendo
+> per la prima volta."
+
+Poi solo rilanci neutri:
+- "E poi?"
+- "Mi fai un esempio?"
+- "Cosa succede in quel momento?"
+
+**Contare tre secondi di silenzio dopo ogni risposta prima di parlare.**
+
+---
+
+## 2. Momenti difficili (5 min)
+
+> "Nell'ultima settimana, qual è stato il momento peggiore di una giornata?"
+
+> "Cosa la rende pesante una giornata pesante, per te?"
+
+> "C'è un'ora del giorno in cui stai peggio?"
+
+> "Qualcuno se ne accorge? Come?"
+
+**Regola dei tre perché** — per ogni problema riferito, scavare tre livelli:
+1. "Come mai secondo te succede?"
+2. "E quello da cosa dipende?"
+3. "E se quello non ci fosse, cosa cambierebbe?"
+
+---
+
+## 3. Ultimo episodio concreto (8 min) — **la parte più importante**
+
+> "Pensa all'ultima volta che ti è successo. Quando è stato di preciso?"
+
+- Che giorno era? Che ora?
+- Dov'eri? Con chi?
+- Cosa stavi facendo prima?
+- Cosa hai sentito esattamente? Dove?
+- Quanto è durato?
+- **Cosa hai fatto?**
+- Ha funzionato?
+- Cosa hai fatto dopo?
+- Cosa ti ha impedito di fare, quel giorno?
+
+**Non passare avanti finché non c'è un episodio datato e circostanziato.** Un problema senza
+un episodio concreto è un'opinione, non un problema: va registrato come tale e **non entra
+nello scoring**.
+
+---
+
+## 4. Tentativi di soluzione (5 min)
+
+> "Hai mai provato a fare qualcosa perché non succedesse più?"
+
+Per **ogni** tentativo:
+- Cos'era esattamente?
+- Quando l'hai iniziato?
+- Quanto è durato?
+- **Perché hai smesso?**
+- Quanto ti è costato — soldi e tempo?
+- Su 0–10, quanto ti ha soddisfatto?
+
+> "E oggi, quando ti capita, cosa fai?"
+
+> "Negli ultimi 12 mesi, quanto hai speso in tutto per stare meglio — corsi, app, massaggi,
+> integratori, libri, qualsiasi cosa?"
+
+> "Quanto tempo a settimana ci dedichi adesso?"
+
+**Ricostruire il numero insieme, voce per voce.** "Non lo so" non è un dato: si elencano le
+categorie e si sommano.
+
+---
+
+## 5. Quantificazione (3 min)
+
+Leggere ogni scala con **la stessa formula, sempre**:
+
+> "Su una scala da 0 a 10, dove 0 è per niente e 10 è il massimo che riesci a immaginare…"
+
+| # | Domanda | Campo |
+|---|---|---|
+| 1 | "…quanto è intenso quando ti capita?" | `intensita` |
+| 2 | "…quanto è urgente per te risolverlo **nei prossimi 30 giorni**?" | `urgenza` |
+| 3 | "…quanto vorresti che cambiasse?" | `desiderio` |
+| 4 | "…quanto ti soddisfa quello che fai adesso?" | `soddisfazione` |
+| 5 | "…quanto ti dà fastidio la situazione?" | `frustrazione` |
+
+E la frequenza, in conteggio e non in scala:
+> "Nell'ultima settimana, quante volte è successo? Contiamole."
+
+**Solo alla fine**, e sapendo che è evidenza debole:
+> "Quanto saresti disposto a provare qualcosa di diverso?" → `disp_dichiarata`
+
+---
+
+## 6. Chiusura (2 min)
+
+> "C'è qualcosa che non ti ho chiesto e che secondo te conta?"
+
+> "Se domani mattina questa cosa fosse sparita, cosa faresti di diverso?"
+
+> "Conosci qualcuno a cui succede la stessa cosa? Non mi serve il nome, mi serve sapere se
+> è comune nella tua cerchia."
+
+Ringraziare. **Spegnere il registratore.** Solo adesso, se chiede, si può parlare del proprio
+lavoro — e nulla di quello che viene detto dopo lo spegnimento entra nei dati.
+
+---
+
+## Frasi vietate
+
+| Vietato | Perché | Sostituire con |
+|---|---|---|
+| "Conosci Touchfulness?" | contamina il campione | — |
+| "Ti piacerebbe una pratica attraverso il tocco?" | suggerisce la soluzione | — |
+| "Pensi che sentire il corpo possa aiutarti?" | suggerisce la soluzione | — |
+| "Se esistesse una cosa che…" | ipotetico, produce cortesia | "Cosa hai fatto l'ultima volta?" |
+| "Lo useresti?" | intenzione futura | "Quando è stata l'ultima volta che hai provato a risolverlo?" |
+| "Pagheresti X €?" | intenzione futura | "Quanto hai speso negli ultimi 12 mesi?" |
+| "Quindi in pratica ti senti disconnesso, giusto?" | mette le parole in bocca | "Come lo diresti tu?" |
+| "Anche a me capita!" | crea compiacenza | silenzio |
+| "Interessante, perché infatti…" | insegna la risposta attesa | "Mi fai un esempio?" |
+
+---
+
+## Dopo l'intervista
+
+**Subito (entro 1 ora)**
+- [ ] Trascrizione avviata
+- [ ] Frasi verbatim più forti evidenziate
+- [ ] Nessuna codifica: **non scrivere ancora H1, H2, H3**
+
+**Dopo almeno 24 ore**
+- [ ] Codifica delle ipotesi dalla trascrizione (non a memoria)
+- [ ] Compilazione riga CSV per ogni problema distinto
+- [ ] Calcolo B secondo gli ancoraggi (§7.2 del protocollo)
+- [ ] Se è una delle 6 interviste a doppia codifica: inviare la trascrizione **senza la propria codifica** al secondo codificatore
+
+**Registro di reclutamento** — annotare anche chi ha rifiutato e chi ha interrotto, con il
+motivo. Un campione fatto solo di chi accetta di parlare per 30 minuti di giornate pesanti è
+già un campione selezionato: bisogna almeno sapere quanto.

@@ -1,0 +1,154 @@
+# Allegato D — Esperimento 1: micro-esperienza (HE)
+
+**Si esegue solo dopo il gate G2.** Prima di G2 questo documento non si apre.
+
+---
+
+## 1. Ipotesi
+
+**HE** — Una micro-esperienza di contatto di 2–5 minuti produce un cambiamento immediato
+misurabile **e specifico del contatto**, non spiegabile con l'essersi semplicemente fermati.
+
+**H0 (ipotesi nulla, quella da battere)** — Il cambiamento osservato dopo la micro-esperienza
+è indistinguibile da quello prodotto da 3 minuti di pausa seduta con una persona presente in
+silenzio.
+
+Se non si riesce a battere H0, si sta vendendo una pausa. Le pause sono gratis.
+
+---
+
+## 2. Disegno
+
+**Cross-over intra-soggetto, ordine randomizzato e bilanciato.**
+
+| | |
+|---|---|
+| Partecipanti | n = 20, tutti qualificati L3 sull'ipotesi vincitrice di G2 |
+| Condizione **T** | micro-esperienza Touchfulness, **3 minuti esatti**, script fisso |
+| Condizione **C** | 3 minuti seduti in silenzio, stessa stanza, stessa persona presente, **nessun contatto** |
+| Sequenze | 10 partecipanti T→C, 10 C→T, assegnati per sorteggio |
+| Intervallo | ≥ 48 ore fra le due sessioni |
+| Costanti | stessa stanza, stesso orario del giorno ±1 h, stessa durata al secondo, stesse parole di apertura e chiusura |
+
+### Randomizzazione
+Prima di iniziare si preparano 20 buste chiuse, 10 con `TC` e 10 con `CT`, mescolate. Si apre
+la busta **dopo** aver arruolato il partecipante, mai prima. La sequenza si annota subito sul
+foglio, con l'ora.
+
+### Cecità
+Il partecipante non può essere cieco: sa se viene toccato. Mitigazioni:
+
+- entrambe le sessioni sono presentate come *"due varianti della stessa ricerca"*; non si dice
+  mai quale è quella attesa, né si usano parole come "prova" e "controllo" davanti a lui
+- i questionari post si compilano **da soli, su carta**, senza commento verbale
+  dell'operatore e senza che l'operatore li legga davanti al partecipante
+- l'analisi dei numeri la fa **una seconda persona**, che riceve i fogli con `A`/`B` al posto
+  di `T`/`C` e la corrispondenza in busta chiusa
+
+---
+
+## 3. Copione (identico ogni volta)
+
+**Apertura (uguale in T e C)**
+> "Adesso stiamo tre minuti. Alla fine ti do un foglio da compilare da solo. Non c'è niente
+> da fare e niente da ottenere."
+
+**Condizione T** — micro-esperienza, 3 minuti. *Il contenuto lo definisce Davide e va scritto
+qui, gesto per gesto e secondo per secondo, prima del primo partecipante.* Una volta scritto
+non si cambia più: se cambia, l'esperimento ricomincia da zero.
+
+**Condizione C** — 3 minuti seduti, operatore presente e in silenzio, nessun contatto,
+nessuna istruzione di respiro, nessuna guida.
+
+**Chiusura (uguale in T e C)**
+> "Ecco il foglio. Prenditi il tempo che vuoi."
+
+Nessun commento sull'esperienza, in nessuna delle due condizioni. Un "com'è andata?" detto
+con entusiasmo dopo T e non dopo C è sufficiente a produrre da solo tutta la differenza.
+
+---
+
+## 4. Misure
+
+| Quando | Cosa | Come |
+|---|---|---|
+| Pre | Y primaria + secondarie | foglio, 60 secondi prima di iniziare |
+| Pre | atti respiratori/minuto | conteggio a 60", senza dirlo al partecipante |
+| Post immediato | Y primaria + secondarie | foglio, subito dopo |
+| Post immediato | atti respiratori/minuto | conteggio a 60" |
+| Post immediato | una frase libera | verbatim |
+| +24 h | Y primaria | messaggio con una sola domanda |
+
+**Y primaria:** la variabile dominante emersa in Fase 1.
+*Default provvisorio, da sostituire con quella reale:* «quanto senti il tuo corpo, adesso?» 0–10.
+
+**Y secondarie:** tensione percepita 0–10 · qualità del respiro 0–10 · atti respiratori/minuto.
+
+Gli atti respiratori sono l'unica misura non dichiarata disponibile a costo zero: si contano
+guardando, per 60 secondi, senza annunciarlo (annunciarlo cambia il respiro).
+
+---
+
+## 5. Soglie (pre-registrate, §11.5 del protocollo)
+
+```
+ΔY = Y_post − Y_pre
+d_z = media(ΔY) / deviazione standard(ΔY)
+```
+
+| Metrica | Soglia | Se non raggiunta |
+|---|---|---|
+| Δ medio in T | ≥ 2.0 punti | F7 |
+| d_z in T | ≥ 0.5 | F7 |
+| Responder in T (Δ ≥ 2) | ≥ 50% | F7 |
+| **Δ_T − Δ_C** | **≥ 1.0 punti** | **F8** |
+| Persistenza a +24 h | ≥ 30% del Δ iniziale | non blocca, si registra |
+
+**Δ_T − Δ_C è il numero che decide.** Tutti gli altri possono essere alti anche se il
+contatto non c'entra niente.
+
+---
+
+## 6. Analisi
+
+Si riportano, per T e per C separatamente:
+media, deviazione standard, intervallo di confidenza al 95%, numero e percentuale di responder,
+distribuzione dei Δ individuali (non solo la media: due responder forti e otto zeri fanno la
+stessa media di dieci mezzi responder, ma sono due prodotti diversi).
+
+**Onestà statistica.** n = 20 è un pilota: genera indicazioni, non prove. Non si riporta un
+p-value come dimostrazione, non si usa la parola "significativo" in nessun materiale pubblico,
+non si parla di efficacia terapeutica. Il pilota serve a decidere se vale la pena fare la cosa
+seria — non a sostituirla.
+
+---
+
+## 7. Registrazione
+
+Un foglio per sessione, conservato in ordine di data:
+
+```
+Codice partecipante ____   Sessione 1 / 2   Condizione (A/B) ____
+Data ____  Ora ____  Stanza ____  Operatore ____
+Y primaria     pre ___  post ___
+Tensione       pre ___  post ___
+Respiro (0-10) pre ___  post ___
+Atti/minuto    pre ___  post ___
+Frase libera: ______________________________________________
+Anomalie (interruzioni, rumore, ritardo, malessere): ________
++24h  Y primaria ___   (data e ora del rilevamento) ______
+```
+
+Le anomalie si scrivono sempre. Una sessione con il campanello che suona a metà è un dato
+diverso, e va potuto escludere **dichiarandolo**, non silenziosamente.
+
+---
+
+## 8. Cosa succede dopo
+
+| Esito | Azione |
+|---|---|
+| Tutte le soglie superate | si passa alla Fase 7 (ripetibilità e aderenza, §13) |
+| Δ_T buono, Δ_T − Δ_C < 1.0 | **F8**: l'effetto non è specifico. Riprogettare l'esperienza **una volta sola**, poi HE è falsificata |
+| Δ_T sotto soglia | **F7**: riprogettare una volta (durata, momento, punto del corpo), poi HE è falsificata |
+| Effetto forte in pochi, nullo nel resto | non è un fallimento: è un **segnale di segmentazione**. Descrivere chi sono i responder e ripartire dalla Fase 1 su quel sottogruppo |
