@@ -1,1 +1,1 @@
-id_riga,partecipante,strato,data,problema_testo,situazione,episodio_datato,freq_sett,intensita,durata_min,impatto_testo,soluzione_attuale,costo_eur_12m,tempo_min_sett,provate,soddisfazione,frustrazione,desiderio,urgenza,disp_dichiarata,b_evidenza,ipotesi,codificatore,note
+id_riga,partecipante,strato,gruppo,data,problema_testo,situazione,evidenza,freq_sett,intensita,durata_min,impatto_testo,soluzione_attuale,costo_eur_12m,costo_sostituzione_eur_anno,tempo_min_sett,provate,soddisfazione,frustrazione,desiderio,urgenza,disp_dichiarata,ipotesi,codificatore,note

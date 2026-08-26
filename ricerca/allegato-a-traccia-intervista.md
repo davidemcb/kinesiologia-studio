@@ -10,7 +10,7 @@
 - [ ] Ho il registratore acceso e il consenso firmato
 - [ ] Ho il cronometro per il conteggio respiratorio (serve solo in Fase 6, ma tenerlo abitua)
 - [ ] So che **non devo convincere nessuno di niente**
-- [ ] Codice partecipante assegnato: `P__` · Strato: `S_`
+- [ ] Codice partecipante assegnato: `P__` · Strato: `S_` · Gruppo: `A/B/C`
 
 ---
 
@@ -97,6 +97,15 @@ Per **ogni** tentativo:
 > "Negli ultimi 12 mesi, quanto hai speso in tutto per stare meglio — corsi, app, massaggi,
 > integratori, libri, qualsiasi cosa?"
 
+**Costo di sostituzione** — domanda obbligatoria dalla v1.1 del protocollo:
+
+> "E oggi, cosa usi già? Quanto ti costa all'anno?"
+
+> "Se dovessi rinunciarci domani, cosa ti mancherebbe di preciso?"
+
+Serve a sapere **contro cosa** si compete davvero: il campo sta a 50–60 €/anno per app con
+migliaia di contenuti (Desk Research 01, D8). → campo `costo_sostituzione_eur_anno`.
+
 > "Quanto tempo a settimana ci dedichi adesso?"
 
 **Ricostruire il numero insieme, voce per voce.** "Non lo so" non è un dato: si elencano le
@@ -123,6 +132,9 @@ E la frequenza, in conteggio e non in scala:
 
 **Solo alla fine**, e sapendo che è evidenza debole:
 > "Quanto saresti disposto a provare qualcosa di diverso?" → `disp_dichiarata`
+
+Qualunque cifra dica qui resta **E0** (opinione) per definizione. Si registra e non entra in
+nessun punteggio.
 
 ---
 
@@ -166,9 +178,34 @@ lavoro — e nulla di quello che viene detto dopo lo spegnimento entra nei dati.
 **Dopo almeno 24 ore**
 - [ ] Codifica delle ipotesi dalla trascrizione (non a memoria)
 - [ ] Compilazione riga CSV per ogni problema distinto
-- [ ] Calcolo B secondo gli ancoraggi (§7.2 del protocollo)
+- [ ] **Assegnazione del livello di evidenza E0–E6** a ciascuna riga (§7.3 del protocollo)
 - [ ] Se è una delle 6 interviste a doppia codifica: inviare la trascrizione **senza la propria codifica** al secondo codificatore
 
 **Registro di reclutamento** — annotare anche chi ha rifiutato e chi ha interrotto, con il
 motivo. Un campione fatto solo di chi accetta di parlare per 30 minuti di giornate pesanti è
 già un campione selezionato: bisogna almeno sapere quanto.
+
+
+---
+
+## Assegnare il livello di evidenza (§7.3)
+
+Alla fine, per **ogni riga**, una sola domanda: *che tipo di prova è questa?*
+
+| Ha detto | E | Entra nello scoring |
+|---|---|---|
+| "Mi piacerebbe", "sarebbe utile", "lo userei" | **E0** | no |
+| "Mi succede spesso" (senza episodi) | **E1** | no |
+| "Martedì è successo questo, ho fatto questo" | **E2** | sì |
+| "Quando succede faccio X" | **E3** | sì |
+| "Spendo X €" / "ci metto Y ore" | **E4** | sì |
+| "Ho provato A, B, C e sto ancora cercando" | **E5** | sì |
+| "Ho appena comprato X" | **E6** | sì |
+
+**E5 è il livello da cercare attivamente durante l'intervista.** Contiene già la ragione per
+cui le alternative hanno fallito: è il materiale con cui si costruisce l'offerta, ed è
+l'unica risposta che può reggere il confronto con un'app da 50 €/anno (F12).
+
+Se a fine intervista non c'è nessuna riga sopra E2, non è colpa della persona: sono state
+fatte domande ipotetiche invece che retrospettive. Rileggere §6.2 del protocollo prima della
+successiva.

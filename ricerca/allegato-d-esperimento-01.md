@@ -92,20 +92,31 @@ guardando, per 60 secondi, senza annunciarlo (annunciarlo cambia il respiro).
 ## 5. Soglie (pre-registrate, §11.5 del protocollo)
 
 ```
-ΔY = Y_post − Y_pre
-d_z = media(ΔY) / deviazione standard(ΔY)
+ΔY   = Y_post − Y_pre                       (per condizione)
+Δdiff = ΔY_T − ΔY_C                          (per persona)
+d_z  = media(Δdiff) / deviazione standard(Δdiff)
 ```
 
 | Metrica | Soglia | Se non raggiunta |
 |---|---|---|
 | Δ medio in T | ≥ 2.0 punti | F7 |
-| d_z in T | ≥ 0.5 | F7 |
 | Responder in T (Δ ≥ 2) | ≥ 50% | F7 |
 | **Δ_T − Δ_C** | **≥ 1.0 punti** | **F8** |
+| **d_z del contrasto** | **≥ 0.5** | **F8** |
 | Persistenza a +24 h | ≥ 30% del Δ iniziale | non blocca, si registra |
 
 **Δ_T − Δ_C è il numero che decide.** Tutti gli altri possono essere alti anche se il
 contatto non c'entra niente.
+
+**Il d_z si calcola sul contrasto, non sulla sola condizione T** (correzione v1.1 del
+protocollo). Un d_z pre/post dentro la sola T è gonfiato dalla correlazione fra le due misure
+e lo supera anche il controllo: fermare una persona per tre minuti muove una misura di stato
+da sola.
+
+**Il g = 0,27 della letteratura non è il benchmark di questo esperimento** (Desk Research 01,
+§5): quello è un confronto fra gruppi, su una misura di tratto, dopo settimane. Qui si misura
+uno stato, dentro la stessa persona, dopo tre minuti. Superarlo in acuto non dimostrerebbe
+nulla.
 
 ---
 

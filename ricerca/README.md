@@ -16,6 +16,8 @@ protocollo non arriva al gate G5.
 | [`allegato-b-scheda-dati.md`](allegato-b-scheda-dati.md) | Dizionario delle variabili e regole di compilazione |
 | [`allegato-d-esperimento-01.md`](allegato-d-esperimento-01.md) | Esperimento contatto vs controllo attivo |
 | [`allegato-e-consenso.md`](allegato-e-consenso.md) | Consenso informato e privacy |
+| [`desk-research-01.md`](desk-research-01.md) | Mercato, concorrenza, aderenza, efficacia, prezzi — e cosa ciascun dato autorizza a concludere |
+| [`autopsia-wellfulness.md`](autopsia-wellfulness.md) | Analisi retrospettiva dei dati Wellfulness già esistenti |
 | [`scoring.py`](scoring.py) | Calcolatore dei punteggi e dei verdetti (Allegato C) |
 | [`dati/`](dati/) | Template CSV e dataset di esempio |
 
@@ -61,7 +63,9 @@ un'ipotesi viva, una morta e un artefatto di clientela.)*
 
 | Fase | Stato |
 |---|---|
-| Protocollo pre-registrato | ✅ v1.0 — 2026-08-26 |
+| Protocollo pre-registrato | ✅ v1.1 — 2026-08-26 |
+| Desk Research 01 | ✅ completata — fonti primarie da agganciare (D5, D6, D7) |
+| Autopsia Wellfulness | ⬜ da avviare — **in parallelo alla Fase 1** |
 | Fase 1 — interviste | ⬜ non iniziata |
 | Gate G1 | ⬜ |
 | Esperimento 1 | ⬜ |
@@ -74,11 +78,21 @@ un'ipotesi viva, una morta e un artefatto di clientela.)*
 
 ---
 
-## Le prime tre cose da fare
+## Le prime quattro cose da fare
 
-1. **Scrivere il fabbisogno economico mensile reale** (il numero `R` di §14.4). Serve a
+1. **Aprire l'inventario dell'autopsia Wellfulness** (Allegato G §2). È l'unica fonte che può
+   già rispondere alle due domande che decidono il progetto — *quanto a lungo mantiene* e
+   *perché smette* — e costa quasi zero. Il dato singolo più importante è **la data
+   dell'ultima pratica per persona**.
+2. **Scrivere il fabbisogno economico mensile reale** (il numero `R` di §14.4). Serve a
    sapere, prima di partire, quanti clienti al mese deve produrre il modello per esistere.
-2. **Trovare le 12 persone dello strato S3** — quelle senza nessun rapporto con lo studio.
+3. **Reclutare per gruppo (A/B/C, 10+10+10)** con il vincolo di almeno 12 persone in S3.
    È la parte più lenta e l'unica che rende i dati validi.
-3. **Fare le prime 3 interviste e non codificarle** per 24 ore, per verificare sul campo che
+4. **Fare le prime 3 interviste e non codificarle** per 24 ore, per verificare sul campo che
    la regola del silenzio e la codifica differita siano davvero sostenibili.
+
+## Da agganciare prima del gate G3
+
+Tre numeri della desk research spostano le soglie del protocollo e vanno verificati con la
+fonte primaria: **D5** (attrition 24,7%), **D6** (retention 3,3% a 30 giorni), **D7**
+(g = 0,27). Finché la casella "verificata" è vuota, orientano ma non decidono.

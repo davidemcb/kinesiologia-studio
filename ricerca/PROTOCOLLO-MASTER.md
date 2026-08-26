@@ -1,7 +1,8 @@
 # Protocollo master — Ricerca Touchfulness
 
-**Versione:** 1.0 · **Data:** 2026-08-26 · **Stato:** pre-registrato, non ancora eseguito
+**Versione:** 1.1 · **Data:** 2026-08-26 · **Stato:** pre-registrato, non ancora eseguito
 **Responsabile:** Dott. Davide Scuderi · **Ambito:** ricerca e sviluppo, non ricerca clinica
+**Modifiche v1.1:** recepita [Desk Research 01](desk-research-01.md) — vedi §17 per l'elenco puntuale
 
 ---
 
@@ -87,6 +88,13 @@ L'obiettivo **è** scoprire se, dove e per chi funziona — e accettare la rispo
 | **RQ5** | L'effetto si ripete, e la pratica viene mantenuta senza sollecito? | 7 |
 | **RQ6** | Esiste un prezzo al quale una quota sufficiente di persone paga **davvero**? | 7–8 |
 | **RQ7** | I numeri di RQ6 reggono il fabbisogno economico reale? | 8 |
+| **RQ8** | **Qual è la dose minima che produce effetto percepibile e che la persona mantiene davvero a 30 giorni senza sollecito?** | 6–7 |
+
+**RQ8 è la domanda centrale del progetto**, non una domanda accessoria. La desk research
+(D5, D6) mostra che nel settore l'effetto medio è piccolo e simile per tutti, mentre
+l'aderenza crolla: la retention mediana a 30 giorni delle app di salute mentale è del 3,3%.
+Se l'efficacia non discrimina e l'aderenza sì, **il differenziatore è l'aderenza** — e la
+variabile su cui si può lavorare è la dose.
 
 ---
 
@@ -114,6 +122,31 @@ trattamento privilegiato, comprese quelle che "sembrano ovvie".
 | **H13** | Meditazione fallita | Ha provato mindfulness/meditazione e l'ha lasciata perché "la testa non si ferma" |
 | **H14** | Somatizzazione dello stress relazionale | Riferisce che tensioni emotive si manifestano in un punto preciso del corpo |
 | **H15** | Vuoto tra un trattamento e l'altro | (solo pazienti) Vorrebbe fare qualcosa da solo tra una seduta e l'altra e non sa cosa |
+| **H16** | Rifiuto di un'altra disciplina | Vuole stare meglio ma respinge esplicitamente routine, corsi, impegni strutturati |
+| **H17** | Interocezione mediata dal dolore | Si accorge del corpo **solo** attraverso il dolore; nessun accesso alle sensazioni non dolorose |
+| **H18** | Micro-momento infragiornaliero | Cerca uno spazio brevissimo *dentro* la giornata, non a fine giornata |
+
+H16–H18 nascono dalla desk research **prima** della raccolta dati: sono pre-registrate a
+tutti gli effetti, non esplorative.
+
+H17 era compresa dentro H3 ("non sa cosa sente, o se ne accorge solo quando fa male"): è
+stata scorporata perché le due condizioni implicano prodotti diversi — H3 è assenza di
+vocabolario, H17 è un canale d'accesso che si apre solo in negativo.
+
+### Mappatura con la mappa DS (desk research)
+
+Le due numerazioni non coincidono. **Vale la numerazione di questo protocollo.**
+
+| Mappa DS | Qui | Nota |
+|---|---|---|
+| H1 non riesco a staccare | **H2** | identica |
+| H2 sempre nella testa, poco nel corpo | **H3** | identica |
+| H3 arrivo a sera fisicamente carico | **H4** | identica |
+| H4 non mantengo le pratiche | **H6** | identica |
+| H5 mi accorgo del corpo solo se fa male | **H17** | nuova, scorporata da H3 |
+| H6 micro-momento durante la giornata | **H18** | nuova; distinta da H5 (mancanza di tempo) |
+| H7 transizione lavoro → casa | **H8** | identica |
+| H8 non voglio un'altra disciplina | **H16** | nuova |
 
 **Lo spazio resta aperto.** Ogni problema riferito che non entra in H1–H15 apre una nuova
 ipotesi Hn. Le ipotesi emerse dai dati (H16+) vanno marcate come **esplorative**: nascono
@@ -126,7 +159,14 @@ dopo aver visto i dati, quindi vanno confermate su un campione nuovo prima di co
 | **HE** | Una micro-esperienza di contatto di 2–5 minuti produce un cambiamento immediato misurabile e specifico | Esperimento 1 (§11) |
 | **HA** | L'effetto è ripetibile e la pratica viene mantenuta ≥7 giorni senza sollecito | Esperimento 2 (§13) |
 | **HP** | Esiste un'offerta per la quale una quota significativa di persone qualificate paga davvero 67 € | Esperimento 3 (§14) |
+| **HD** | **Esiste una dose minima (durata × frequenza) che produce effetto percepibile e che ≥30% delle persone mantiene a 30 giorni senza sollecito** | Esperimento 2 (§13) |
 | **HS** | I numeri di HP sono compatibili con il fabbisogno economico dello studio | §14.4 |
+
+**HD contro l'intuizione "più pratica = più valore".** Quest'ultima è teoricamente difendibile
+e commercialmente falsa: cinque pratiche al giorno sono una dose strutturalmente incompatibile
+con le basi di aderenza del settore. Da qui in avanti **"più pratica = più valore" è
+un'ipotesi da falsificare, non una premessa** — e l'Esperimento 2 la testa mettendo a
+confronto dosi diverse, non facendo praticare tutti allo stesso modo.
 
 **HP non dice "il percorso costa 67 €".** Dice: *esiste un'offerta a 67 € che una quota
 significativa di persone qualificate acquista.* Potrebbero essere 29. Potrebbero essere 97.
@@ -149,6 +189,38 @@ Potrebbe essere nessuno. Ogni risultato è informazione.
 **S3 è il campione che conta.** Se un problema emerge solo in S1, non è un problema del
 mercato: è un tratto della clientela già acquisita. Ogni conclusione di questo protocollo
 va riportata **separata per strato**, mai aggregata in un unico numero.
+
+### 4.1-bis Seconda dimensione: il gruppo (profilo)
+
+Lo **strato** (S1/S2/S3) misura la contaminazione. Il **gruppo** (A/B/C) misura il profilo.
+Sono dimensioni **ortogonali**: si registrano entrambe, per ogni partecipante.
+
+| Gruppo | Chi | n target | Perché |
+|---|---|---|---|
+| **A** | Lavoro o studio mentalmente intenso | 10 | popolazione dove H1, H2, H8 sono plausibili |
+| **B** | Acquista già servizi o prodotti di wellness | 10 | **contiene evidenza economica per costruzione** |
+| **C** | Ha provato meditazione, yoga, app… e non ha mantenuto | 10 | contiene le ragioni di abbandono, il dato più prezioso |
+
+**Il reclutamento si fa per gruppo (10+10+10); lo strato si registra e si vincola solo così:
+almeno 12 dei 30 devono essere S3.** Riempire una griglia 3×3 con 30 persone non è
+realistico, e i gruppi A e B si reclutano comunque fuori dallo studio.
+
+### 4.1-ter La trappola della circolarità
+
+**La prevalenza di un'ipotesi dentro il gruppo reclutato per quell'ipotesi non è evidenza.**
+
+Esempi concreti in questo disegno:
+
+| Ipotesi | Gruppo circolare | Perché |
+|---|---|---|
+| **H6** (abbandono delle pratiche) | **C** | il gruppo C è *definito* da "ha provato e ha mollato": H6 sarà al 100%, e non significa niente |
+| **H16** (rifiuto di un'altra disciplina) | **C** | idem, per costruzione |
+| qualunque ipotesi su spesa/comportamento economico | **B** | il gruppo B è definito dalla spesa |
+
+Regola: per ogni ipotesi, la prevalenza **si legge sui gruppi non circolari**. `scoring.py`
+marca automaticamente le combinazioni circolari con `!circ` e le esclude dal calcolo del
+verdetto. Un'ipotesi che vive solo nel suo gruppo circolare è un artefatto di reclutamento —
+esattamente come H15 è un artefatto di clientela (F2).
 
 ### 4.2 Reclutamento di S3
 
@@ -274,6 +346,7 @@ riscrivono e si ricodifica tutto, prima di calcolare qualunque punteggio.
 | Impatto | `impatto_testo` | testo | "cosa ti impedisce di fare" |
 | Soluzione attuale | `soluzione_attuale` | testo | "cosa fai adesso" |
 | Costo attuale | `costo_eur_12m` | € ultimi 12 mesi | ricostruito con l'intervistato |
+| Costo di sostituzione | `costo_sostituzione_eur_anno` | €/anno | "cosa usi già oggi e quanto ti costa all'anno" |
 | Tempo attuale | `tempo_min_sett` | min/settimana | ricostruito |
 | Soluzioni già provate | `provate` | lista | elenco con durata di ciascuna |
 | Soddisfazione soluzione | `soddisfazione` | 0–10 | dichiarata |
@@ -283,6 +356,8 @@ riscrivono e si ricodifica tutto, prima di calcolare qualunque punteggio.
 | Disponibilità dichiarata a provare | `disp_dichiarata` | 0–10 | **evidenza debole, non entra nello scoring** |
 | Ipotesi codificate | `ipotesi` | H1…Hn | codifica differita |
 | Strato | `strato` | S1/S2/S3 | reclutamento |
+| Gruppo | `gruppo` | A/B/C | profilo (§4.1-bis) |
+| Livello di evidenza | `evidenza` | E0…E6 | §7.3 — **sostituisce `b_evidenza`** |
 
 Una persona può generare **più righe**: una per ogni problema distinto riferito. Il punteggio
 si calcola per riga, non per persona.
@@ -305,20 +380,44 @@ convenzioni, fissate ora e non più cambiate durante la raccolta.
 
 **I, U, D** — dichiarate 0–10, lette con la stessa formula ogni volta (in Allegato A).
 
-**B — Comportamento già esistente** (costruito, non dichiarato)
-
-| Evidenza | B |
-|---|---|
-| non ha mai fatto nulla | 0 |
-| ha solo cercato informazioni | 2 |
-| ha provato qualcosa di gratuito, una volta | 4 |
-| pratica gratuita ricorrente, oppure un acquisto singolo < 30 € | 6 |
-| ha speso 30–200 € negli ultimi 12 mesi | 8 |
-| spesa ricorrente > 200 €/anno, o abbonamento attivo oggi | 10 |
+**B — Comportamento già esistente**: non si dichiara e non si stima a occhio. **Si deriva
+dal livello di evidenza E** (§7.3).
 
 **S — Insoddisfazione** = `10 − soddisfazione`.
 Se non esiste una soluzione attuale, `soddisfazione` non è definita e **S non si stima**:
 la riga ha B = 0 e quindi M = 0. È voluto (§8.3).
+
+---
+
+## 7.3 Scala di evidenza E0–E6
+
+**Un'affermazione non vale come evidenza.** Ogni riga porta un livello E che dice *che tipo
+di prova* è, non *quanto è forte l'emozione* di chi parla.
+
+| E | Cosa ha detto | Esempio | B derivato | Vale come |
+|---|---|---|---|---|
+| **E0** | Opinione | "Mi piace l'idea", "sarebbe utile" | — | **niente** |
+| **E1** | Problema ricordato, generico | "Mi succede spesso" | — | debole |
+| **E2** | **Episodio concreto e datato** | "Martedì è successo questo, ho fatto questo" | 0 | il problema esiste |
+| **E3** | Soluzione attuale in atto | "Quando succede faccio X" | 5 | c'è comportamento |
+| **E4** | Costo misurabile | "Spendo X €", "ci metto Y ore a settimana" | 8 | comportamento economico |
+| **E5** | Insoddisfazione + ricerca attiva | "Ho provato A, B, C e sto ancora cercando" | 9 | **mercato in movimento** |
+| **E6** | Acquisto recente | "Ho appena comprato X" | 10 | comportamento d'acquisto |
+
+**Regole**
+
+1. **E0 ed E1 non entrano nello scoring.** Una riga E≤1 si registra e si conta, ma non produce
+   punteggi: non c'è ancora niente da misurare.
+2. **E2 è la soglia di ingresso** e coincide con l'ex campo `episodio_datato`: senza un
+   episodio concreto e datato, è un'opinione.
+3. **E5 è il segnale più prezioso** perché contiene già la ragione di fallimento delle
+   alternative — cioè il materiale con cui si costruisce l'offerta (§14, F12).
+4. Il livello E lo assegna **il codificatore dalla trascrizione**, non l'intervistato.
+5. Il livello dichiarato dal partecipante su cosa *farebbe* (`disp_dichiarata`) resta E0
+   per definizione, qualunque cifra abbia detto.
+
+**Coerenza obbligatoria:** E ≥ 4 richiede un numero in `costo_eur_12m` o `tempo_min_sett`.
+E6 richiede una data d'acquisto. `scoring.py` esclude le righe incoerenti e le segnala.
 
 ---
 
@@ -386,6 +485,20 @@ Per ogni ipotesi H:
 - `P̄_H`, `M̄_H` = mediane (non medie: n piccolo, la mediana regge gli outlier)
 - tutto **ripetuto separatamente per S1, S2, S3**
 
+**Scala di evidenza per ipotesi** — l'output che serve davvero al gate:
+
+```
+H3   problema riferito      19/30
+     E2+  episodio concreto  14/30
+     E3+  soluzione attuale  12/30
+     E4+  spende             7/30
+     E5+  sta ancora cercando 6/30
+```
+
+La forma a scala mostra **dove si perde il segnale**: un'ipotesi che va 19 → 14 → 12 → 7 → 6
+è viva; una che va 19 → 14 → 3 → 0 → 0 è un problema reale senza mercato (F4), e le due cose
+si vedono a colpo d'occhio solo se si guardano i gradini, non il totale.
+
 Il calcolo è automatizzato: `python3 ricerca/scoring.py ricerca/dati/interviste.csv`.
 
 ---
@@ -423,6 +536,8 @@ Scritti prima, non dopo. Ogni criterio è una condizione che **fa cambiare idea*
 | **F9** | Aderenza sotto soglia (§13) | interesse dichiarato ≠ comportamento. Il formato è sbagliato o il problema non è abbastanza forte |
 | **F10** | Conversione reale < soglia (§14) a tutti i prezzi testati | non esiste offerta a pagamento su questa ipotesi |
 | **F11** | Conversione ok ma clienti/mese necessari > traffico realistico × 3 | **HS falsificata**: il modello non è sostenibile a qualunque prezzo |
+| **F12** | Al test di prezzo le persone qualificate **non sanno articolare da sole** perché questo e non un'app da 50 €/anno | HP a rischio a prescindere dalla conversione: l'offerta non ha una ragione di esistere che il cliente sappia dire. Si riscrive l'offerta, non si abbassa il prezzo |
+| **F13** | Nessuna dose testata in Esperimento 2 raggiunge insieme effetto percepibile e mantenimento a 30 giorni | **HD falsificata**: non esiste una dose sostenibile. È il criterio che chiude il progetto nella forma "pratica quotidiana autonoma" |
 
 ### Regola anti-innamoramento
 
@@ -470,13 +585,25 @@ corporea 0–10*), misurata pre, post-immediato, +24 h.
 ΔY = Y_post − Y_pre
 ```
 
-| Metrica | Soglia per procedere |
-|---|---|
-| Δ medio condizione T | ≥ **2.0** punti su 0–10 |
-| Effect size d_z (T) | ≥ **0.5** |
-| % responder (Δ ≥ 2) in T | ≥ **50%** |
-| **Δ_T − Δ_C** | ≥ **1.0** punti ← *il numero che conta davvero* |
-| Persistenza a +24 h | ≥ **30%** del Δ iniziale |
+| Metrica | Soglia per procedere | Confronto |
+|---|---|---|
+| Δ medio condizione T | ≥ **2.0** punti su 0–10 | descrittiva |
+| % responder (Δ ≥ 2) in T | ≥ **50%** | descrittiva |
+| **Δ_T − Δ_C** | ≥ **1.0** punti | ← **il numero che decide** |
+| **d_z del contrasto T−C** | ≥ **0.5** | ← **il numero che decide** |
+| Persistenza a +24 h | ≥ **30%** del Δ iniziale | non blocca, si registra |
+
+**Correzione v1.1 — il d_z va letto sul contrasto, non su T.** In v1.0 la soglia d_z ≥ 0.5
+era posta sulla sola condizione T: era sbagliata. Il d_z intra-soggetto pre/post è gonfiato
+dalla correlazione fra le due misure e si supera facilmente con qualunque cosa faccia fermare
+una persona per tre minuti — controllo compreso. L'unica quantità interpretabile è il
+contrasto T − C.
+
+**Il g = 0,27 della letteratura (D7) non è il benchmark di questo esperimento.** Quel valore
+è un confronto *fra gruppi*, su stress percepito come misura *di tratto*, dopo *settimane* di
+uso. Qui si misura uno stato, dentro la stessa persona, dopo tre minuti. Superarlo in acuto
+non dimostrerebbe niente: le misure di stato si muovono facilmente. D7 è il benchmark
+di §12, non di §11.
 
 ### 11.6 Onestà statistica
 n = 20 è un **pilota**. Non genera prove, genera indicazioni. Si riportano media, deviazione
@@ -496,32 +623,100 @@ serve a decidere se vale la pena fare la cosa seria, non a sostituirla.
 | Lungo | Y a 30 giorni vs baseline | giorno 30 |
 | Trasferimento | la persona riferisce spontaneamente un cambiamento **in un contesto non previsto** | qualunque momento, verbatim |
 
+### Obiettivo a 30 giorni: parità, non superiorità
+
+Il benchmark di campo (D7) è **g ≈ 0,27** sullo stress percepito, che scende a 0,10 dopo
+correzione per small-study bias. Il traguardo pre-registrato a 30 giorni è **la parità**
+(g ≈ 0,25–0,30), non il superamento.
+
+Non è modestia, è strategia: se tutto il campo ottiene un effetto piccolo e simile,
+**l'efficacia non è dove si vince**. Un vantaggio di efficacia dimostrabile richiederebbe un
+RCT che questo progetto non può permettersi, e anche vincendolo lo scarto sarebbe piccolo.
+Parità sull'efficacia + vantaggio sull'aderenza è una posizione difendibile.
+Il contrario non lo è.
+
 Il **trasferimento** è il segnale qualitativo più forte disponibile a questa scala: se qualcuno
 dice *"l'ho usato in macchina prima di una riunione"* senza che sia stato suggerito, sta
 succedendo qualcosa che nessuna scala 0–10 cattura. Va registrato ogni volta, verbatim, con data.
 
 ---
 
-## 13. Metriche di aderenza e ritenzione (HA)
+## 13. Aderenza, ritenzione e dose (HA, HD) — Esperimento 2
 
-Una esperienza positiva non basta. La domanda è: **torna domani?**
+Una esperienza positiva non basta. La domanda è: **torna domani? E fra trenta giorni?**
 
-| Metrica | Definizione | Soglia |
+**Questa è la sezione dove il progetto si gioca.** La desk research dice che il campo perde
+quasi tutti entro un mese: retention mediana a 30 giorni 3,3% sulle app di salute mentale,
+4,7% sulle app di mindfulness (D6); attrition del 24,7% persino dentro RCT controllati, e
+38,7% nei trial grandi (D5). Un progetto che non risolve questo non ha bisogno di un effetto
+migliore: ha bisogno di persone che tornino.
+
+### 13.1 Ogni soglia dichiara contro cosa è misurata
+
+Il 3,3% di D6 è la retention di **app scaricate gratis dagli store**. Una coorte di venti
+persone che hanno pagato e conoscono chi ha costruito il percorso parte da una base
+strutturalmente più alta. Confondere le due significa superare l'asticella per la ragione
+sbagliata, quindi le tracce restano separate:
+
+| Traccia | Chi | Benchmark esterno |
 |---|---|---|
-| Completamento D1 | ha praticato il giorno dopo | ≥ **70%** |
-| Completamento D3 | ha praticato almeno 3 giorni sui primi 3 | ≥ **60%** |
-| Densità settimana 1 | giorni praticati su 7 | ≥ **5/7** per almeno il **40%** |
-| **Ritorno spontaneo** | ha praticato **senza** aver ricevuto reminder | ≥ **30%** |
-| Ritenzione D30 | ancora attivo al giorno 30 | ≥ **25%** |
-| Abbandono precoce | ha smesso entro D3 | ≤ **25%** |
+| **libera** | nessun pagamento, nessuna relazione diretta | 3,3–4,7% a 30 giorni (D6) |
+| **impegnata** | ha pagato e/o ha una relazione diretta | **nessun benchmark disponibile**: si costruisce con questi dati |
 
-**La metrica che conta è il ritorno spontaneo.** Tutto il resto si può comprare con le
-notifiche push — l'app dello studio ne ha già l'infrastruttura, ed è esattamente per questo
-che il dato indotto da reminder va tenuto separato da quello spontaneo, sempre.
+Le soglie qui sotto valgono per la **traccia impegnata**, che è la condizione dell'Esperimento
+2. Sulla traccia libera valgono e si confrontano con D6.
 
-**Misurazione senza costruire l'app:** diario cartaceo + un messaggio giornaliero *chiesto al
-partecipante* (non inviato da noi) oppure un modulo con timestamp. Non serve software per
-misurare l'aderenza di 20 persone per 30 giorni.
+### 13.2 Soglie
+
+| Metrica | Definizione | Soglia | Confronto |
+|---|---|---|---|
+| Completamento D1 | ha praticato il giorno dopo | ≥ **70%** | interna |
+| Completamento D3 | ha praticato ≥3 giorni sui primi 3 | ≥ **60%** | interna |
+| Densità settimana 1 | giorni praticati su 7 | ≥ **5/7** per il **40%** | interna |
+| **Ritorno spontaneo D7** | ha praticato **senza** reminder | ≥ **30%** | ← metrica primaria |
+| **Ritenzione D30 spontanea** | ancora attivo a D30 senza sollecito | ≥ **25%** | 4,7% traccia libera (D6) |
+| Abbandono precoce | ha smesso entro D3 | ≤ **25%** | 24,7% attrition RCT (D5) |
+
+Il 25% a D30 resta la soglia di v1.0 e resta alto rispetto al campo — deliberatamente: su
+traccia impegnata deve esserlo, altrimenti il vantaggio competitivo non esiste. **Se a D30 ci
+si ferma intorno al 5–10%, si è pari al campo su una coorte molto più selezionata: è un
+fallimento, non un mezzo successo.**
+
+### 13.3 La dose è una variabile, non una decisione (HD)
+
+L'errore da non ripetere è fissare la dose a priori — cinque pratiche al giorno erano una
+dose scelta, non misurata. Nell'Esperimento 2 **la dose è il fattore sperimentale**:
+
+| Braccio | Dose |
+|---|---|
+| **D-min** | 1 pratica da ~60 secondi al giorno |
+| **D-med** | 1 pratica da ~5 minuti al giorno |
+| **D-alta** | 2–3 pratiche al giorno |
+
+n ≥ 8 per braccio, assegnazione casuale, 30 giorni. Si misurano per ogni braccio: aderenza
+(§13.2), effetto (§12) e abbandono con la **ragione dichiarata** dell'abbandono.
+
+**Esito atteso da falsificare:** che D-alta produca più valore. L'ipotesi rivale è che
+D-alta produca più abbandono e quindi **meno** valore cumulato. La quantità che decide non è
+l'effetto per pratica ma:
+
+```
+Valore cumulato a 30 giorni  =  effetto per pratica  ×  pratiche effettivamente svolte
+```
+
+Una dose che rende metà e viene mantenuta dal triplo delle persone vince. Il braccio con il
+valore cumulato più alto **è** la DME, e diventa il formato del prodotto: 1 minuto, 5 minuti
+o altro lo decide questa tabella, non noi.
+
+### 13.4 Misurazione senza costruire l'app
+
+Diario cartaceo, oppure un messaggio giornaliero **chiesto al partecipante** (non inviato da
+noi), oppure un modulo con timestamp. Non serve software per seguire 24 persone per 30 giorni.
+
+**Il reminder è un contaminante, non uno strumento.** L'app dello studio ha già le notifiche
+push: usarle qui gonfierebbe ogni numero e distruggerebbe l'unica metrica che conta. In
+Esperimento 2 **non si manda nessun sollecito**. Il ritorno indotto da reminder si misura
+semmai dopo, come variabile separata, e mai insieme.
 
 ---
 
@@ -530,6 +725,34 @@ misurare l'aderenza di 20 persone per 30 giorni.
 ### 14.1 Regola
 **Nessuna cifra dichiarata conta come evidenza.** "Lo pagherei" vale zero. Vale solo un
 pagamento realmente eseguito, o al minimo una carta inserita in un checkout reale.
+
+### 14.1-bis Il confronto non è sul prezzo, è sul costo di sostituzione
+
+Il campo sta a **50–60 €/anno** per cataloghi con centinaia o migliaia di contenuti (D8). La
+domanda del cliente non è *"67 € sono tanti?"* ma:
+
+> *"Perché dovrei pagare 67 € una volta, quando con 50 € ho un anno intero di un'app piena
+> di contenuti?"*
+
+Non reggono: *è più bello*, *è originale*, *è italiano*, *c'è un metodo dietro*.
+Regge solo: **"perché risolve precisamente X, che hai già provato a risolvere con Y e non ci
+sei riuscito"** — dove X e Y escono dalle interviste (livelli E5), non da noi.
+
+Da qui il campo `costo_sostituzione_eur_anno` in intervista e il criterio **F12**: se al test
+di prezzo i qualificati non sanno articolare **da soli** quella frase, l'offerta non ha una
+ragione di esistere che il cliente sappia dire — e si riscrive l'offerta, non si abbassa il prezzo.
+
+### 14.1-ter Vincolo di posizionamento sui materiali
+
+Nessun concorrente vende il proprio metodo per nome prima di aver venduto il problema che
+risolve: Calm vende *sonno*, non "Calm". **"Touchfulness" non è il messaggio d'ingresso.**
+L'ingresso ha la forma *"quando ti succede X, prova questo"*; il nome arriva dopo
+l'esperienza.
+
+Vale operativamente per il test di prezzo: **se l'annuncio dice "Touchfulness", non si sta
+testando il prezzo** — si sta testando la comprensibilità di un nome che nessuno conosce, e
+la conversione sarà bassa per la ragione sbagliata. Il test si fa con il problema in prima
+riga; il nome compare dopo l'acquisto.
 
 ### 14.2 Sequenza
 1. **Orientamento** (debole): Van Westendorp a 4 domande su n ≥ 25, solo per delimitare l'intervallo da testare.
@@ -608,13 +831,15 @@ progetto e un hobby costoso.
                                   SÌ
                                    ▼
                     ┌─────────────────────────────┐
-                    │ FASE 7  Ripetibilità 7-30 gg │
+                    │ FASE 7  Esperimento 2        │
+                    │ 3 dosi x 30 giorni, no remind│
                     └──────────────┬───────────────┘
                                    ▼
                     ┌─────────────────────────────┐
-                    │ G4  Aderenza + ritorno       │──NO──▶ F9: cambia FORMATO
-                    │     spontaneo ≥ soglia       │        (durata, orario, contesto)
-                    └──────────────┬───────────────┘        non il contenuto
+                    │ G4  Esiste una dose con      │──NO──▶ F9 / F13: cambia FORMATO
+                    │     aderenza + ritorno       │        (durata, orario, contesto)
+                    │     spontaneo >= soglia?     │        non il contenuto
+                    └──────────────┬───────────────┘        ──▶ nessuna dose regge: STOP
                                   SÌ
                                    ▼
                     ┌─────────────────────────────┐
@@ -635,8 +860,10 @@ progetto e un hobby costoso.
 ```
 
 **Prima di G5 non si scrive una riga di codice, non si registra un video, non si sceglie un
-prezzo.** Il numero di giorni (1, 5, 7, 21) e il formato (app, audio, carta, di persona) sono
-**output** del gate G4, non input del progetto.
+prezzo.** Il numero di giorni (1, 5, 7, 21), la dose (60 secondi, 5 minuti, tre volte al
+giorno) e il formato (app, audio, carta, di persona) sono **output** del gate G4, non input
+del progetto. La dose in particolare **è la variabile sperimentale di §13.3**: fissarla prima
+è l'errore che ha già prodotto Wellfulness.
 
 ---
 
@@ -671,6 +898,16 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | Data | Gate / Ipotesi | Dati | Esito | Motivo | Chi |
 |---|---|---|---|---|---|
 | 2026-08-26 | — | — | Protocollo v1.0 pre-registrato | avvio ricerca | DS |
+| 2026-08-26 | Desk Research 01 | D1–D9 | v1.1 — 9 modifiche, sotto in dettaglio | ricerca desk pre-interviste | DS |
+| 2026-08-26 | §3.1 | mappa DS | Aggiunte H16, H17, H18; H17 scorporata da H3 | tre candidate non riducibili alle 15 esistenti | DS |
+| 2026-08-26 | §2, §3.2 | D5, D6 | Aggiunte RQ8 e HD (dose minima efficace mantenibile) | l'aderenza, non l'efficacia, è il differenziatore del campo | DS |
+| 2026-08-26 | §7.3 | — | Scala E0–E6 sostituisce `b_evidenza`; B derivato da E | scala più fine e ancorata al tipo di prova, non all'intensità del racconto | DS |
+| 2026-08-26 | §4.1-bis/ter | — | Aggiunta dimensione gruppo A/B/C; regola di circolarità | reclutamento per profilo, ortogonale allo strato | DS |
+| 2026-08-26 | §11.5 | D7 | **Correzione:** d_z spostato da T al contrasto T−C | il d_z intra-soggetto pre/post era la metrica sbagliata: gonfiata dalla correlazione pre-post e superabile dal solo controllo | DS |
+| 2026-08-26 | §12 | D7 | Obiettivo a 30 giorni fissato alla **parità** (g ≈ 0,27), non al superamento | un vantaggio di efficacia richiederebbe un RCT fuori portata, e sarebbe comunque piccolo | DS |
+| 2026-08-26 | §13 | D5, D6 | Soglie di aderenza con colonna "confronto" e doppia traccia libera/impegnata; dose diventata fattore sperimentale (§13.3) | il 3,3% di D6 è retention di app gratuite: non è il confronto giusto per una coorte a pagamento | DS |
+| 2026-08-26 | §10 | D8 | Aggiunti F12 (costo di sostituzione) e F13 (nessuna dose sostenibile) | il confronto reale è con 50 €/anno di catalogo, non con lo zero | DS |
+| 2026-08-26 | §14 | D8, D9 | Vincolo: il nome "Touchfulness" non compare nei materiali del test di prezzo | testerebbe la comprensibilità del nome, non il prezzo | DS |
 
 **Regole del registro**
 - Si scrive **prima** di eseguire, non dopo aver visto il risultato.
@@ -688,6 +925,8 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | **C** | [Calcolatore di scoring](scoring.py) — `python3 ricerca/scoring.py <file.csv>` |
 | **D** | [Protocollo Esperimento 1](allegato-d-esperimento-01.md) |
 | **E** | [Consenso informato e privacy](allegato-e-consenso.md) |
+| **F** | [Desk Research 01](desk-research-01.md) — mercato, concorrenza, aderenza, efficacia, prezzi |
+| **G** | [Autopsia di Wellfulness](autopsia-wellfulness.md) — analisi retrospettiva dei dati già esistenti |
 
 ---
 
