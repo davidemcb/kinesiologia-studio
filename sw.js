@@ -1,4 +1,7 @@
-importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
+// se il CDN OneSignal non risponde, il service worker deve comunque partire (offline e cache)
+try {
+  importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
+} catch (e) {}
 
 var CACHE = 'ks-v17';
 var ASSETS = [
