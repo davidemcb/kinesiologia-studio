@@ -69,6 +69,7 @@
       <div class="card"><h2>Regali più cliccati (30 giorni)</h2><table id="t-gifts"></table></div>
       <div class="card"><h2>Condivisioni per contenuto (30 giorni)</h2><table id="t-shares"></table></div>
       <div class="card"><h2>💡 Argomenti richiesti dai pazienti</h2><table id="t-topics"></table></div>
+      <div class="card"><h2>👤 Chi usa l'app</h2><table id="t-persone"></table></div>
       <p class="muted" id="foot"></p>
     </div>
   </div>
@@ -120,11 +121,46 @@
         render(snap);
         document.getElementById('login-card').style.display = 'none';
         document.getElementById('dash').style.display = 'block';
+        renderPersone();
       } catch (e) {
         document.getElementById('login-err').textContent =
           'Questo account non è autorizzato a leggere le statistiche (' + (e.code || e.message) + ').';
       }
     });
+
+    // Elenco di chi ha lasciato nome e compleanno, con evidenza per chi compie
+    // gli anni nei prossimi sette giorni.
+    async function renderPersone() {
+      const tab = document.getElementById('t-persone');
+      try {
+        const snap = await getDocs(query(collection(db, 'persone'), orderBy('aggiornato', 'desc'), limit(500)));
+        const righe = [];
+        snap.forEach(d => { const p = d.data(); if (p.nome || p.bday) righe.push(p); });
+        if (!righe.length) {
+          tab.innerHTML = '<tr><td class="muted">Ancora nessuno ha lasciato il proprio nome.</td></tr>';
+          return;
+        }
+        const oggi = new Date();
+        function traQuantoCompie(bday) {
+          const m = /^(\d{2})\/(\d{2})/.exec(bday || '');
+          if (!m) return null;
+          const g = parseInt(m[1], 10), mese = parseInt(m[2], 10);
+          let d = new Date(oggi.getFullYear(), mese - 1, g);
+          if (d < new Date(oggi.getFullYear(), oggi.getMonth(), oggi.getDate())) d.setFullYear(oggi.getFullYear() + 1);
+          return Math.round((d - new Date(oggi.getFullYear(), oggi.getMonth(), oggi.getDate())) / 86400000);
+        }
+        let html = '<tr><th>Nome</th><th>Data di nascita</th><th>Ultimo aggiornamento</th></tr>';
+        righe.forEach(p => {
+          const gg = traQuantoCompie(p.bday);
+          const festa = (gg !== null && gg <= 7) ? (gg === 0 ? ' 🎂 oggi!' : ' 🎂 tra ' + gg + ' gg') : '';
+          html += '<tr><td>' + (p.nome ? p.nome.replace(/[<>]/g, '') : '<span class="muted">senza nome</span>') +
+            '</td><td>' + (p.bday || '—') + festa + '</td><td class="muted">' + (p.aggiornato || '') + '</td></tr>';
+        });
+        tab.innerHTML = html;
+      } catch (e) {
+        tab.innerHTML = '<tr><td class="muted">Elenco non disponibile (' + (e.code || e.message) + ')</td></tr>';
+      }
+    }
 
     function daysAgo(n) { return new Date(Date.now() - n * 86400000).toISOString().slice(0, 10); }
 
