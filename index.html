@@ -503,6 +503,9 @@
       <div class="eyebrow">Notifiche</div>
       <h2 id="push-help-title"></h2>
       <p id="push-help-text"></p>
+      <div style="margin-top:12px; display:none" id="push-help-copy-wrap">
+        <button class="btn btn-ghost" id="push-help-copy">Copia il link dell'app</button>
+      </div>
     </div>
 
     <div class="card" id="install-card" style="display:none">
@@ -1411,15 +1414,84 @@
   }
   renderArticles();
 
+  /* ---------- Riconoscimento telefono e browser ----------
+     Le istruzioni per installare l'app cambiano da browser a browser:
+     qui si capisce quale sta usando la persona e le si dice dove guardare. */
+  function pwaInfo() {
+    var ua = navigator.userAgent;
+    var ios = /iphone|ipad|ipod/i.test(ua) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPad recenti
+    var android = /android/i.test(ua);
+    var browser = 'altro';
+    if (/CriOS|Chrome/i.test(ua) && !/EdgA?|EdgiOS|OPR|OPiOS|SamsungBrowser/i.test(ua)) browser = 'chrome';
+    if (/EdgiOS|EdgA|Edg\//i.test(ua)) browser = 'edge';
+    if (/FxiOS|Firefox/i.test(ua)) browser = 'firefox';
+    if (/SamsungBrowser/i.test(ua)) browser = 'samsung';
+    if (/OPiOS|OPR|Opera/i.test(ua)) browser = 'opera';
+    if (ios && !/CriOS|EdgiOS|FxiOS|OPiOS/i.test(ua) && /Safari/i.test(ua)) browser = 'safari';
+    var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    return { ios: ios, android: android, browser: browser, standalone: standalone };
+  }
+
+  // Testo su misura: dove sta il tasto per aggiungere l'app alla schermata Home
+  function istruzioniInstall() {
+    var i = pwaInfo();
+    if (i.ios) {
+      if (i.browser === 'safari') {
+        return 'Tocca il tasto Condividi in basso (il quadrato con la freccia verso l\'alto), scorri l\'elenco e scegli "Aggiungi a Home". Poi apri l\'app da quell\'icona.';
+      }
+      if (i.browser === 'chrome') {
+        return 'Su Chrome: tocca il tasto Condividi accanto all\'indirizzo (oppure i tre puntini) e scegli "Aggiungi alla schermata Home". Se non trovi quella voce, copia il link qui sotto e apri la pagina con Safari: da lì funziona di sicuro.';
+      }
+      if (i.browser === 'edge') {
+        return 'Su Edge: tocca i tre puntini in basso e cerca "Aggiungi al telefono" o "Aggiungi alla schermata Home". Se non c\'è, copia il link qui sotto e apri la pagina con Safari: da lì funziona di sicuro.';
+      }
+      if (i.browser === 'firefox') {
+        return 'Su Firefox: tocca i tre puntini, poi "Condividi" e "Aggiungi alla schermata Home". Se non trovi quella voce, copia il link qui sotto e apri la pagina con Safari: da lì funziona di sicuro.';
+      }
+      return 'Copia il link qui sotto e apri la pagina con Safari: tocca il tasto Condividi in basso e scegli "Aggiungi a Home".';
+    }
+    if (i.android) {
+      if (i.browser === 'samsung') {
+        return 'Su Samsung Internet: tocca il menu in basso a destra, poi "Aggiungi pagina a" e scegli "Schermata Home".';
+      }
+      if (i.browser === 'firefox') {
+        return 'Su Firefox: tocca i tre puntini in alto a destra e scegli "Installa" (oppure "Aggiungi alla schermata Home").';
+      }
+      if (i.browser === 'edge') {
+        return 'Su Edge: tocca i tre puntini in basso e scegli "Aggiungi al telefono".';
+      }
+      return 'Tocca i tre puntini in alto a destra e scegli "Installa app" (in alcuni telefoni si chiama "Aggiungi a schermata Home").';
+    }
+    return 'Nella barra dell\'indirizzo cerca l\'icona di installazione, oppure apri il menu del browser e scegli "Installa".';
+  }
+
   /* ---------- Install prompt ---------- */
   var deferredPrompt = null;
   var installCard = document.getElementById('install-card');
-  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  var isStandalone = pwaInfo().standalone;
+
+  document.getElementById('push-help-copy').addEventListener('click', function () {
+    var btn = this;
+    var url = 'https://davidemcb.github.io/kinesiologia-studio/';
+    function ok() { btn.textContent = 'Link copiato ✓'; setTimeout(function () { btn.textContent = 'Copia il link dell\'app'; }, 2500); }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(ok).catch(function () { prompt('Copia questo link:', url); });
+    } else {
+      prompt('Copia questo link:', url);
+    }
+  });
 
   window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
     deferredPrompt = e;
-    if (!isStandalone && !get(LS.installDismissed)) installCard.style.display = 'block';
+    if (!isStandalone && !get(LS.installDismissed)) {
+      // il browser sa installare da solo: torna il tasto, via le istruzioni a mano
+      document.getElementById('install-hint').textContent =
+        'Un tocco e la trovi tra le tue app, con l\'icona dello studio. Funziona anche offline.';
+      document.getElementById('install-btn-wrap').style.display = 'block';
+      installCard.style.display = 'block';
+    }
   });
   document.getElementById('install-btn').addEventListener('click', function () {
     if (!deferredPrompt) return;
@@ -1430,14 +1502,14 @@
       deferredPrompt = null;
     });
   });
-  // iOS: niente beforeinstallprompt — mostra le istruzioni manuali
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (isIOS && !isStandalone && !get(LS.installDismissed)) {
-    document.getElementById('install-hint').textContent =
-      'Su iPhone: tocca il tasto Condividi (il quadrato con la freccia) e poi "Aggiungi alla schermata Home".';
+  // Dove il browser non offre il tasto automatico (iPhone, Firefox, Samsung
+  // Internet...) si mostrano comunque le istruzioni giuste per quel browser.
+  setTimeout(function () {
+    if (isStandalone || get(LS.installDismissed) || deferredPrompt) return;
+    document.getElementById('install-hint').textContent = istruzioniInstall();
     document.getElementById('install-btn-wrap').style.display = 'none';
     installCard.style.display = 'block';
-  }
+  }, 3000);
 
   /* ---------- Onboarding ---------- */
   var obInterval = null, obAgo = null;
@@ -1531,29 +1603,34 @@
 
     var card = document.getElementById('push-card');
     var help = document.getElementById('push-help-card');
-    var installed = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    var iOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    var copyWrap = document.getElementById('push-help-copy-wrap');
+    var info = pwaInfo();
     var supporto = (typeof Notification !== 'undefined');
 
     card.style.display = 'none';
     help.style.display = 'none';
+    copyWrap.style.display = 'none';
 
-    function mostraAiuto(titolo, testo) {
+    function mostraAiuto(titolo, testo, conCopia) {
       document.getElementById('push-help-title').textContent = titolo;
       document.getElementById('push-help-text').textContent = testo;
+      copyWrap.style.display = conCopia ? 'block' : 'none';
       help.style.display = 'block';
     }
 
-    // iPhone: le notifiche esistono solo dentro l'app installata da Safari
-    if (iOS && !installed) {
+    // iPhone: le notifiche arrivano solo dentro l'app installata, mai da una
+    // scheda del browser — qualunque browser sia. E' una regola di Apple.
+    if (info.ios && !info.standalone) {
       mostraAiuto('Per ricevere le notifiche, installa l\'app',
-        'Su iPhone le notifiche funzionano solo dall\'app installata. Apri questa pagina con Safari, tocca il tasto Condividi in basso (il quadrato con la freccia) e scegli "Aggiungi alla schermata Home". Poi apri l\'app da quell\'icona: qui troverai il tasto per attivarle, con il buono da 5 €.');
+        'Su iPhone le notifiche funzionano solo dall\'app aggiunta alla schermata Home: da una normale scheda del browser non arrivano mai. ' +
+        istruzioniInstall() + ' Poi apri l\'app da quell\'icona: lì trovi il tasto per attivarle, con il buono da 5 €.',
+        info.browser !== 'safari');
       return;
     }
 
     if (!supporto) {
       mostraAiuto('Notifiche non disponibili su questo browser',
-        'Questo browser non supporta le notifiche. Prova ad aprire l\'app con Chrome (Android) o installala dalla schermata Home (iPhone, da Safari).');
+        'Questo browser non supporta le notifiche. ' + istruzioniInstall(), true);
       return;
     }
 
