@@ -449,7 +449,7 @@
 <div class="app">
   <header class="header">
     <h1>Kinesiologia Studio</h1>
-    <div class="who">Dott. Davide Scuderi<br>Kinesiologo · Modena</div>
+    <div class="who">Dott. Davide Scuderi<br>Massoterapista · Chinesiologo<br>Kinesiologo · Modena</div>
   </header>
 
   <!-- ============ OGGI ============ -->
@@ -496,6 +496,13 @@
       <h2>🔔 Attiva le notifiche: −5 € subito</h2>
       <p>Il promemoria del check-up, il consiglio della settimana e i tuoi buoni in scadenza arrivano da soli. E appena le attivi, si sblocca un buono da 5 € sul prossimo trattamento.</p>
       <div style="margin-top:12px"><button class="btn btn-accent" id="push-btn">Attiva e prendi il buono</button></div>
+    </div>
+
+    <!-- Notifiche non attivabili da qui: spiega cosa fare invece di sparire -->
+    <div class="card" id="push-help-card" style="display:none">
+      <div class="eyebrow">Notifiche</div>
+      <h2 id="push-help-title"></h2>
+      <p id="push-help-text"></p>
     </div>
 
     <div class="card" id="install-card" style="display:none">
@@ -1520,10 +1527,45 @@
   /* ---------- Notifiche push (OneSignal v16) ---------- */
   var oneSignalReady = false;
   function maybeShowPushCard() {
-    // l'invito appare solo dopo il benvenuto completato, e solo a chi non ha ancora deciso
-    if (oneSignalReady && get(LS.onboarded) &&
-        typeof Notification !== 'undefined' && Notification.permission === 'default') {
-      document.getElementById('push-card').style.display = 'block';
+    if (!get(LS.onboarded)) return;
+
+    var card = document.getElementById('push-card');
+    var help = document.getElementById('push-help-card');
+    var installed = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    var iOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    var supporto = (typeof Notification !== 'undefined');
+
+    card.style.display = 'none';
+    help.style.display = 'none';
+
+    function mostraAiuto(titolo, testo) {
+      document.getElementById('push-help-title').textContent = titolo;
+      document.getElementById('push-help-text').textContent = testo;
+      help.style.display = 'block';
+    }
+
+    // iPhone: le notifiche esistono solo dentro l'app installata da Safari
+    if (iOS && !installed) {
+      mostraAiuto('Per ricevere le notifiche, installa l\'app',
+        'Su iPhone le notifiche funzionano solo dall\'app installata. Apri questa pagina con Safari, tocca il tasto Condividi in basso (il quadrato con la freccia) e scegli "Aggiungi alla schermata Home". Poi apri l\'app da quell\'icona: qui troverai il tasto per attivarle, con il buono da 5 €.');
+      return;
+    }
+
+    if (!supporto) {
+      mostraAiuto('Notifiche non disponibili su questo browser',
+        'Questo browser non supporta le notifiche. Prova ad aprire l\'app con Chrome (Android) o installala dalla schermata Home (iPhone, da Safari).');
+      return;
+    }
+
+    if (Notification.permission === 'denied') {
+      mostraAiuto('Le notifiche sono state bloccate',
+        'In passato è stato negato il permesso, e da qui non si può richiedere di nuovo. Apri le impostazioni del sito nel browser (il lucchetto accanto all\'indirizzo, oppure Impostazioni › Notifiche) e rimetti le notifiche su "Consenti". Poi torna qui.');
+      return;
+    }
+
+    // l'invito vero e proprio: solo a chi non ha ancora deciso
+    if (oneSignalReady && Notification.permission === 'default') {
+      card.style.display = 'block';
     }
   }
   // Gli argomenti scelti diventano etichette su OneSignal: quando pubblico un
@@ -1804,6 +1846,7 @@
   renderTestEntry();
   renderRewards();
   renderRoutines();
+  maybeShowPushCard(); // anche se OneSignal non parte (es. iPhone non installato)
   if (!get(LS.onboarded)) { openOnboarding(); }
 })();
 </script>
