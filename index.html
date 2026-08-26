@@ -509,6 +509,12 @@
       </div>
     </div>
 
+    <div class="card" id="post-card" style="display:none; border-left:4px solid var(--brand)">
+      <div class="eyebrow" id="post-eyebrow">Dopo il trattamento</div>
+      <h2 id="post-title">…</h2>
+      <p id="post-text">…</p>
+    </div>
+
     <div class="card" id="review-card" style="display:none">
       <div class="eyebrow">Un favore da 30 secondi</div>
       <h2>Com'è andata oggi?</h2>
@@ -600,6 +606,14 @@
       <h2>Quanto è pronto il tuo corpo? Scoprilo in 2 minuti</h2>
       <p id="test-last">5 mini-prove da fare in casa, un punteggio finale e cosa significa.</p>
       <div style="margin-top:12px"><button class="btn btn-primary" id="test-start">🧪 Inizia il test</button></div>
+    </div>
+
+    <div class="card" id="plan-card" style="display:none; border-left:4px solid var(--brand)">
+      <div class="eyebrow">Il tuo piano della settimana</div>
+      <h2 id="plan-title">…</h2>
+      <p id="plan-sub">…</p>
+      <div id="plan-body"></div>
+      <p class="disclaimer" style="margin:12px 0 0">Rifai il test tra 2–4 settimane: il piano si aggiorna con i tuoi progressi.</p>
     </div>
 
     <div class="card">
@@ -965,7 +979,28 @@
       set('ks_stamps', String((parseInt(get('ks_stamps'), 10) || 0) + 1));
     }
     renderRewards();
+    renderPostProgram();
   });
+
+  /* ---------- Dopo il trattamento: 3 giorni guidati ---------- */
+  var POST_DAYS = [
+    { t: 'Lascia lavorare il trattamento', x: 'Oggi niente sforzi intensi: una camminata di 10 minuti e più acqua del solito. Il corpo sta integrando il lavoro fatto in studio.' },
+    { t: 'Giorno 1 — Riposo attivo', x: 'Una passeggiata tranquilla e qualche respiro profondo durante la giornata. Un po\' di indolenzimento è normale: il corpo si sta riorganizzando.' },
+    { t: 'Giorno 2 — Movimento dolce', x: 'Il gatto (8 passaggi lenti) e 10 cerchi di spalle. Ascolta come risponde il corpo: dovrebbe sentirsi più libero.' },
+    { t: 'Giorno 3 — Torna al tuo ritmo', x: 'Riprendi le tue attività normali. Com\'è il corpo rispetto a prima del trattamento? Segnalo nel Diario qui sotto.' }
+  ];
+  function renderPostProgram() {
+    var card = document.getElementById('post-card');
+    var lastRaw = get(LS.last);
+    if (!lastRaw) { card.style.display = 'none'; return; }
+    var days = daysBetween(new Date(lastRaw).getTime(), Date.now());
+    if (days < 0 || days > 3) { card.style.display = 'none'; return; }
+    var p = POST_DAYS[days];
+    document.getElementById('post-eyebrow').textContent = 'Dopo il trattamento · giorno ' + days + ' di 3';
+    document.getElementById('post-title').textContent = p.t;
+    document.getElementById('post-text').textContent = p.x;
+    card.style.display = 'block';
+  }
   document.getElementById('review-link').addEventListener('click', function () {
     set(LS.review, 'true');
     track('review_click', '');
@@ -1259,8 +1294,65 @@
     { q: 'Forza gambe', d: 'Prova uno squat completo, con i talloni che restano a terra.', o: [['Non riesco a scendere', 0], ['Scendo circa a metà', 1], ['Squat completo, talloni a terra', 2]] },
     { q: 'Respiro', d: 'Una mano sul petto, una sulla pancia: fai 3 respiri normali. Quale mano si muove di più?', o: [['Quasi solo il petto', 0], ['Un po\' tutte e due', 1], ['Soprattutto la pancia', 2]] }
   ];
-  var testStep = 0, testScore = 0;
+  var testStep = 0, testScore = 0, testAnswers = [];
   var testModal = document.getElementById('test-modal');
+
+  // Piano settimanale: per ogni area del test, due esercizi mirati
+  var PLAN_MAP = {
+    'Equilibrio': [
+      { t: 'Equilibrio su una gamba', x: '30 secondi per gamba mentre aspetti il caffè, ogni giorno. Vicino a un appoggio, per sicurezza.' },
+      { t: 'Camminata tallone-punta', x: '10 passi in linea retta, un piede davanti all\'altro, come su un filo. Due volte al giorno.' }
+    ],
+    'Flessibilità': [
+      { t: 'Ginocchia al petto', x: 'Da sdraiato, porta le ginocchia al petto e respira per 20 secondi. 3 volte, mattina e sera.' },
+      { t: 'Il gatto', x: 'A quattro zampe, inarca e scendi lentamente con la schiena. 8 passaggi ogni mattina.' }
+    ],
+    'Collo': [
+      { t: 'Mezzaluna con il collo', x: 'Orecchio alla spalla, poi mento al petto, disegnando una mezzaluna. 5 passaggi lenti per lato.' },
+      { t: 'Mento indietro', x: 'Porta il mento indietro (doppio mento) e tieni 3 secondi. 10 volte, 2 volte al giorno.' }
+    ],
+    'Forza gambe': [
+      { t: 'Il ponte', x: 'Da sdraiato, ginocchia piegate: solleva il bacino e tieni 5 secondi. 12 ripetizioni, 2 serie.' },
+      { t: 'Squat al muro', x: 'Schiena appoggiata al muro, scendi piano e risali. 10 ripetizioni al giorno, aumenta con calma.' }
+    ],
+    'Respiro': [
+      { t: 'Respiro con la pancia', x: 'Una mano sulla pancia: inspira gonfiandola, espira lento. 10 respiri, mattina e sera.' },
+      { t: 'Respiro 4-6', x: 'Inspira contando fino a 4, espira contando fino a 6. 8 respiri prima di dormire.' }
+    ]
+  };
+
+  function testHistory() {
+    try { return JSON.parse(get('ks_testHistory')) || []; } catch (e) { return []; }
+  }
+  function fmtDay(d) { return d ? d.slice(8, 10) + '/' + d.slice(5, 7) : ''; }
+  function weakAreas(areas) {
+    return Object.keys(areas).sort(function (a, b) { return areas[a] - areas[b]; })
+      .filter(function (k) { return areas[k] <= 1; }).slice(0, 2);
+  }
+
+  function renderPlan() {
+    var areas;
+    try { areas = JSON.parse(get('ks_testAreas')); } catch (e) { areas = null; }
+    if (!areas) return;
+    var card = document.getElementById('plan-card');
+    var weak = weakAreas(areas);
+    card.style.display = 'block';
+    if (weak.length === 0) {
+      document.getElementById('plan-title').textContent = 'Tutto in equilibrio 💪';
+      document.getElementById('plan-sub').textContent = 'Nessun punto debole dal test del ' + fmtDay(get(LS.testDate)) + ': mantieniti così con le micro-abitudini quotidiane.';
+      document.getElementById('plan-body').innerHTML = '';
+      return;
+    }
+    document.getElementById('plan-title').textContent = 'Questa settimana: ' + weak.join(' e ').toLowerCase();
+    document.getElementById('plan-sub').textContent = 'Dal tuo test del ' + fmtDay(get(LS.testDate)) + ': i tuoi esercizi, sui tuoi punti deboli.';
+    var html = '';
+    weak.forEach(function (area) {
+      (PLAN_MAP[area] || []).forEach(function (ex) {
+        html += '<div class="step"><strong>' + ex.t + '</strong> — ' + ex.x + '</div>';
+      });
+    });
+    document.getElementById('plan-body').innerHTML = html;
+  }
 
   function testVerdict(pct) {
     if (pct >= 80) return 'Ottima base! Il tuo corpo risponde bene. Un check-up ogni tanto serve a mantenerlo così.';
@@ -1283,37 +1375,79 @@
       var pct = testScore * 10;
       set(LS.testScore, String(pct));
       set(LS.testDate, todayKey());
+
+      // salva i punteggi per area (per il piano) e la storia (per i progressi)
+      var areas = {};
+      TESTS.forEach(function (t, i) { areas[t.q] = testAnswers[i]; });
+      set('ks_testAreas', JSON.stringify(areas));
+      var hist = testHistory();
+      var prev = null;
+      for (var hi = hist.length - 1; hi >= 0; hi--) {
+        if (hist[hi].d !== todayKey()) { prev = hist[hi]; break; }
+      }
+      hist.push({ d: todayKey(), s: pct });
+      if (hist.length > 20) hist.shift();
+      set('ks_testHistory', JSON.stringify(hist));
+
+      var deltaHtml = '';
+      if (prev) {
+        var diff = pct - prev.s;
+        if (diff > 0) {
+          deltaHtml = '<p style="text-align:center; color:var(--ok); font-weight:700; margin-bottom:10px">📈 ' + prev.s + ' → ' + pct + ' · +' + diff + ' punti dal ' + fmtDay(prev.d) + '</p>';
+        } else if (diff === 0) {
+          deltaHtml = '<p style="text-align:center; color:var(--muted); font-weight:600; margin-bottom:10px">Stabile a ' + pct + ' dal ' + fmtDay(prev.d) + '</p>';
+        } else {
+          deltaHtml = '<p style="text-align:center; color:var(--muted); font-weight:600; margin-bottom:10px">' + prev.s + ' → ' + pct + ' dal ' + fmtDay(prev.d) + ': capita, il corpo ha le sue settimane. Il piano si adatta.</p>';
+        }
+      }
+      var weak = weakAreas(areas);
+      var planNote = weak.length
+        ? '<p style="text-align:center; font-size:13px; margin-bottom:14px">📋 Ti ho preparato il <strong>piano della settimana</strong> su ' + weak.join(' e ').toLowerCase() + ': lo trovi qui sotto.</p>'
+        : '';
+
       document.getElementById('test-sub').textContent = 'Risultato';
       track('test_done', String(pct));
-      var msg = '🧪 Ho appena fatto il Test del corpo: ' + pct + '/100!\n' + testVerdict(pct) +
-        '\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE;
+      var msg = (prev && pct > prev.s)
+        ? '🧪 Test del corpo: da ' + prev.s + ' a ' + pct + '/100 (+' + (pct - prev.s) + ' punti)! Il lavoro paga.\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE
+        : '🧪 Ho appena fatto il Test del corpo: ' + pct + '/100!\n' + testVerdict(pct) +
+          '\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE;
       body.innerHTML =
         '<div class="test-score">' + pct + '<span style="font-size:22px">/100</span></div>' +
+        deltaHtml +
         '<p class="test-verdict">' + testVerdict(pct) + '</p>' +
+        planNote +
         '<button class="btn btn-accent" id="test-book">Porta il risultato in studio: prenota</button>' +
         '<a class="btn btn-ghost" style="margin-top:10px" href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Condividi il punteggio</a>' +
         '<div style="text-align:center; margin-top:12px"><button class="text-btn" id="test-quit">Chiudi</button></div>';
       renderTestEntry();
       renderRewards();
+      renderPlan();
     }
   }
 
   function renderTestEntry() {
     var pct = get(LS.testScore);
     if (pct !== null) {
-      document.getElementById('test-last').textContent = 'Ultimo risultato: ' + pct + '/100 (' + (get(LS.testDate) === todayKey() ? 'oggi' : get(LS.testDate)) + '). Rifallo tra qualche settimana per vedere i progressi.';
+      var hist = testHistory();
+      var deltaTxt = '';
+      if (hist.length >= 2) {
+        var diff = hist[hist.length - 1].s - hist[hist.length - 2].s;
+        if (diff > 0) deltaTxt = ' 📈 +' + diff + ' punti rispetto al test precedente!';
+      }
+      document.getElementById('test-last').textContent = 'Ultimo risultato: ' + pct + '/100 (' + (get(LS.testDate) === todayKey() ? 'oggi' : fmtDay(get(LS.testDate))) + ').' + deltaTxt + ' Rifallo tra 2–4 settimane.';
       document.getElementById('test-start').textContent = '🧪 Rifai il test';
     }
   }
 
   document.getElementById('test-start').addEventListener('click', function () {
-    testStep = 0; testScore = 0;
+    testStep = 0; testScore = 0; testAnswers = [];
     testModal.classList.add('open');
     renderTestStep();
   });
   document.getElementById('test-body').addEventListener('click', function (e) {
     var opt = e.target.closest('.test-opt');
     if (opt) {
+      testAnswers.push(parseInt(opt.dataset.pts, 10));
       testScore += parseInt(opt.dataset.pts, 10);
       testStep++;
       renderTestStep();
@@ -1794,9 +1928,14 @@
     function buonoHtml(key, r, label, amount, note) {
       if (!r || r.used || rwExpired(r.u)) return '';
       var code = 'APP-' + label + '-' + fmtDate(r.u).replace('/', '');
+      var left = 60 - Math.floor((Date.now() - new Date(r.u).getTime()) / 86400000);
+      var scadenza = left <= 14
+        ? '<div style="font-weight:700; margin-top:4px">⏳ Scade tra ' + left + (left === 1 ? ' giorno' : ' giorni') + ' — prenota ora!</div>'
+        : ' · valido ancora ' + left + ' giorni';
       return '<div class="buono"><div class="b-amount">' + amount + '</div>' +
         '<div class="b-code">' + code + '</div>' +
-        '<div class="b-note">' + note + ' · sbloccato il ' + fmtDate(r.u) + '</div>' +
+        '<div class="b-note">' + note + ' · sbloccato il ' + fmtDate(r.u) + (left <= 14 ? '' : scadenza) + '</div>' +
+        (left <= 14 ? '<div class="b-note">' + scadenza + '</div>' : '') +
         '<div style="margin-top:8px"><button class="text-btn" data-rwuse="' + key + '">Segna come usato (si fa in studio)</button></div></div>';
     }
     var buoni =
@@ -1967,6 +2106,8 @@
   renderTestEntry();
   renderRewards();
   renderRoutines();
+  renderPlan();
+  renderPostProgram();
   maybeShowPushCard(); // anche se OneSignal non parte (es. iPhone non installato)
   if (!get(LS.onboarded)) { openOnboarding(); }
 })();
