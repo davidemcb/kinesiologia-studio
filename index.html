@@ -1496,6 +1496,7 @@
     var topics = [];
     document.querySelectorAll('#topic-chips .chip.selected').forEach(function (c) { topics.push(c.dataset.topic); });
     set('ks_topics', JSON.stringify(topics));
+    syncTopicTags(topics);
     var bdD = document.getElementById('bday-day').value;
     var bdM = document.getElementById('bday-month').value;
     if (bdD && bdM) {
@@ -1525,6 +1526,20 @@
       document.getElementById('push-card').style.display = 'block';
     }
   }
+  // Gli argomenti scelti diventano etichette su OneSignal: quando pubblico un
+  // post, la notifica parte solo verso chi ha quell'argomento attivo.
+  var ALL_TOPICS = ['stress', 'temporo-mandibolare', 'schiena', 'cervicale', 'sport'];
+  function syncTopicTags(topics) {
+    if (!window.OneSignalDeferred) return;
+    window.OneSignalDeferred.push(async function (OneSignal) {
+      var tags = {};
+      ALL_TOPICS.forEach(function (t) {
+        tags['t_' + t.replace(/-/g, '_')] = (topics.indexOf(t) !== -1) ? '1' : '0';
+      });
+      try { await OneSignal.User.addTags(tags); } catch (e) {}
+    });
+  }
+
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function (OneSignal) {
     await OneSignal.init({
@@ -1535,6 +1550,10 @@
     oneSignalReady = true;
     maybeShowPushCard();
     renderRewards(); // se le notifiche sono già attive, verifica e sblocca il buono
+    // chi ha gia' scelto gli argomenti prima d'ora viene allineato adesso
+    var saved = null;
+    try { saved = JSON.parse(get('ks_topics') || 'null'); } catch (e) {}
+    if (saved && saved.length) syncTopicTags(saved);
   });
   document.getElementById('push-btn').addEventListener('click', function () {
     window.OneSignalDeferred.push(async function (OneSignal) {
