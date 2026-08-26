@@ -442,6 +442,34 @@
   .chip.selected { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
   .modal-card .btn { margin-top: 20px; }
   .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+  /* ---------- Pop-up del post nuovo ---------- */
+  #new-post-modal { align-items: center; background: rgba(20, 26, 23, 0.78); padding: 16px; }
+  #new-post-modal .modal-card {
+    border-radius: 20px;
+    border-top: 6px solid var(--accent);
+    padding: 0;
+    max-height: 86vh;
+    animation: popIn 0.32s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { #new-post-modal .modal-card { animation: none; } }
+  .np-head {
+    background: var(--brand); color: var(--brand-ink);
+    padding: 18px 22px 16px; text-align: center;
+  }
+  .np-badge {
+    display: inline-block; background: var(--accent); color: var(--accent-ink);
+    font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 999px; margin-bottom: 10px;
+  }
+  .np-head h2 { font-family: var(--font-display); font-size: 21px; line-height: 1.25; text-wrap: balance; }
+  .np-meta { font-size: 12px; opacity: 0.85; margin-top: 8px; }
+  .np-body { padding: 20px 22px 4px; overflow-y: auto; max-height: 42vh; }
+  .np-body p { color: var(--muted); font-size: 14.5px; line-height: 1.6; white-space: pre-line; }
+  .np-foot { padding: 16px 22px 22px; }
+  .np-foot .btn { margin-top: 0; }
+  .np-share { display: block; text-align: center; margin-top: 12px; }
 </style>
 </head>
 <body>
@@ -757,6 +785,22 @@
       Prenota
     </button>
   </nav>
+</div>
+
+<!-- ============ POP-UP POST NUOVO ============ -->
+<div class="modal" id="new-post-modal" role="dialog" aria-modal="true" aria-labelledby="np-title">
+  <div class="modal-card">
+    <div class="np-head">
+      <span class="np-badge">✨ Novità dallo studio</span>
+      <h2 id="np-title"></h2>
+      <div class="np-meta" id="np-meta"></div>
+    </div>
+    <div class="np-body"><p id="np-text"></p></div>
+    <div class="np-foot">
+      <button class="btn btn-primary" id="np-ok">Ho letto</button>
+      <a class="text-btn np-share" id="np-share" href="#" target="_blank" rel="noopener">Condividi su WhatsApp</a>
+    </div>
+  </div>
 </div>
 
 <!-- ============ ONBOARDING / SETTINGS ============ -->
@@ -1985,6 +2029,29 @@ function esc(s) {
   return d.innerHTML;
 }
 
+function msgCondivisione(p) {
+  return '📖 *' + (p.title || '') + '*\n\n' + (p.text || '') +
+    '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nTutti i contenuti nell\'app: ' + SITE;
+}
+
+// Il pop-up del post nuovo: si apre sopra tutto e si chiude solo col tasto.
+function mostraPopupPost(p) {
+  document.getElementById('np-title').textContent = p.title || '';
+  document.getElementById('np-text').textContent = p.text || '';
+  const label = topicLabels[p.topic] || p.topic || '';
+  const dataStr = p.data ? p.data.toLocaleDateString('it-IT') : '';
+  document.getElementById('np-meta').textContent = [label, dataStr].filter(Boolean).join(' · ');
+  document.getElementById('np-share').href = 'https://wa.me/?text=' + encodeURIComponent(msgCondivisione(p));
+  document.getElementById('new-post-modal').classList.add('open');
+}
+
+document.getElementById('np-ok').addEventListener('click', function () {
+  document.getElementById('new-post-modal').classList.remove('open');
+  if (window.__ultimoPostId) {
+    try { localStorage.setItem('ks_lastSeenPost', window.__ultimoPostId); } catch (e) {}
+  }
+});
+
 window.loadNews = async function () {
   const wrap = document.getElementById('news-list');
   let topics = null;
@@ -1992,10 +2059,14 @@ window.loadNews = async function () {
 
   try {
     const snap = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc'), limit(20)));
-    const posts = [];
+    let posts = [];
     snap.forEach(doc => {
       const p = doc.data();
-      if (!topics || topics.length === 0 || topics.includes(p.topic)) posts.push(p);
+      if (!topics || topics.length === 0 || topics.includes(p.topic)) {
+        p.id = doc.id;
+        p.data = (p.createdAt && p.createdAt.toDate) ? p.createdAt.toDate() : null;
+        posts.push(p);
+      }
     });
 
     if (posts.length === 0) { wrap.innerHTML = ''; return; }
@@ -2003,28 +2074,47 @@ window.loadNews = async function () {
     // in Oggi mostriamo solo gli ultimi 3 post, per tenere la schermata leggera
     posts = posts.slice(0, 3);
 
+    const ORA = Date.now();
+    const GIORNO = 86400000;
+    const recente = p => p.data && (ORA - p.data.getTime()) < GIORNO;      // "Novità" per 24 ore
+    const daPopup = p => p.data && (ORA - p.data.getTime()) < 7 * GIORNO;  // il pop-up arriva fin che e' fresco
+
     let html = '';
-    posts.forEach(p => {
-      let dateStr = '';
-      if (p.createdAt && p.createdAt.toDate) dateStr = p.createdAt.toDate().toLocaleDateString('it-IT');
+    posts.forEach((p, i) => {
+      const dateStr = p.data ? p.data.toLocaleDateString('it-IT') : '';
       const label = topicLabels[p.topic] || p.topic || 'Novità';
-      const shareMsg = '📖 *' + (p.title || '') + '*\n\n' + (p.text || '') +
-        '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nTutti i contenuti nell\'app: ' + SITE;
-      html += '<div class="card article">' +
+      const nuovo = (i === 0 && recente(p));
+      html += '<div class="card article"' + (nuovo ? ' style="border-left:5px solid var(--accent)"' : '') + '>' +
+        (nuovo ? '<div style="display:inline-block; background:var(--accent); color:var(--accent-ink); font-size:11px; font-weight:800; letter-spacing:0.09em; text-transform:uppercase; padding:4px 12px; border-radius:999px; margin-bottom:10px">✨ Novità</div>' : '') +
         '<div class="eyebrow">Dallo studio · ' + esc(label) + (dateStr ? ' · ' + dateStr : '') + '</div>' +
         '<h2>' + esc(p.title) + '</h2>' +
         '<p style="white-space:pre-line">' + esc(p.text) + '</p>' +
         '<div style="margin-top:12px">' +
-          '<a class="text-btn" style="text-decoration:underline" href="https://wa.me/?text=' + encodeURIComponent(shareMsg) + '" target="_blank" rel="noopener">Condividi su WhatsApp</a>' +
+          '<a class="text-btn" style="text-decoration:underline" href="https://wa.me/?text=' + encodeURIComponent(msgCondivisione(p)) + '" target="_blank" rel="noopener">Condividi su WhatsApp</a>' +
         '</div></div>';
     });
     wrap.innerHTML = html;
+
+    // pop-up: solo se l'ultimo post non e' ancora stato letto da questa persona
+    const ultimo = posts[0];
+    window.__ultimoPostId = ultimo.id;
+    let visto = null;
+    try { visto = localStorage.getItem('ks_lastSeenPost'); } catch (e) {}
+    const onboardato = localStorage.getItem('ks_onboarded');
+    if (onboardato && daPopup(ultimo) && visto !== ultimo.id) {
+      setTimeout(() => mostraPopupPost(ultimo), 700);
+    }
   } catch (e) {
     wrap.innerHTML = '';
   }
 };
 
 window.loadNews();
+
+// al rientro nell'app si ricontrolla se e' uscito qualcosa di nuovo
+document.addEventListener('visibilitychange', function () {
+  if (document.visibilityState === 'visible') window.loadNews();
+});
 </script>
 </body>
 </html>
