@@ -74,6 +74,16 @@ Poi solo rilanci neutri:
 - Cosa hai fatto dopo?
 - Cosa ti ha impedito di fare, quel giorno?
 
+**Sonda in-situ** (v1.5 — dal [bisogno candidato](bisogno-candidato-01.md) §5): dopo aver
+ricostruito l'episodio, sempre queste due, senza mai suggerire corpo, tocco o presenza:
+
+> «E in *quel preciso momento*, lì dov'eri — cosa hai fatto?»
+
+> «Quanto ci hai messo a tornare in condizione di fare quello che dovevi fare?»
+
+Registrare il coping immediato separato dalla soluzione differita ("la sera poi ho…"): sono
+due dati diversi, e il candidato vive o muore sul primo.
+
 **Non passare avanti finché non c'è un episodio datato e circostanziato.** Un problema senza
 un episodio concreto è un'opinione, non un problema: va registrato come tale e **non entra
 nello scoring**.

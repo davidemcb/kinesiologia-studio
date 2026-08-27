@@ -1,6 +1,6 @@
 # Protocollo master — Ricerca Touchfulness
 
-**Versione:** 1.4 · **Data:** 2026-08-27 · **Stato:** pre-registrato, non ancora eseguito
+**Versione:** 1.5 · **Data:** 2026-08-27 · **Stato:** pre-registrato, non ancora eseguito
 **Responsabile:** Dott. Davide Scuderi · **Ambito:** ricerca e sviluppo, non ricerca clinica
 
 **Storia delle revisioni** (dettaglio in §17)
@@ -8,6 +8,7 @@
 - **v1.2** — [Evidenze scientifiche 01](evidenze-scientifiche-01.md): sette studi randomizzati sull'auto-tocco
 - **v1.3** — [Autopsia Wellfulness — Risultati 01](autopsia-risultati-01.md): i primi dati storici reali
 - **v1.4** — [Autopsia — Risultati 02](autopsia-risultati-02.md): mining pratica → effetto → trasferimento; nuova ipotesi HT
+- **v1.5** — [Bisogno candidato 01](bisogno-candidato-01.md): sintesi delle quattro fonti, predizione pre-registrata per la Fase 1, sonda in-situ in Allegato A
 
 ---
 
@@ -997,6 +998,8 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | 2026-08-27 | §3.2, §12 | Risultati 02 §3 | Nuova ipotesi secondaria **HT** (trasferimento ≥30% a 7 gg) con regole di misura anti-suggestione | la catena pratica→interiorizzazione→uso spontaneo esiste (15/82) ma è rara | DS |
 | 2026-08-27 | Allegato D | Risultati 02 §2 | Micro-esperienza candidata: **piedi** (cambio 35%, trasferimento 12,3%; meditazione: 39% ma 3,2%) | unica pratica con entrambi i segnali alti | DS |
 | 2026-08-27 | §13.3 | Risultati 02 §5 | Esperimento 2 erogato individualmente, senza gruppo | la dose non deve confondersi con la relazione | DS |
+| 2026-08-27 | Bisogno 01 | 4 fonti | v1.5 — bisogno candidato N1 formulato con attributi falsificabili; rivale N2 (relazione) tenuto in gara; **predizione pre-registrata**: ai gate salgono H12, H8, H18, H3/H17, restano tiepide H2/H9 | scritta prima delle interviste: se la Fase 1 la smentisce, vince l'intervista | DS |
+| 2026-08-27 | Allegato A §3 | Bisogno 01 §5 | Aggiunta sonda in-situ (coping immediato separato da soluzione differita) | il candidato vive o muore sul coping nel momento | DS |
 
 **Regole del registro**
 - Si scrive **prima** di eseguire, non dopo aver visto il risultato.
@@ -1019,6 +1022,7 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | **H** | [Evidenze scientifiche 01](evidenze-scientifiche-01.md) — cosa hanno già trovato gli studi randomizzati sull'auto-tocco |
 | **I** | [Autopsia Wellfulness — Risultati 01](autopsia-risultati-01.md) — i primi dati storici reali · strumento: [`whatsapp_autopsia.py`](whatsapp_autopsia.py) |
 | **L** | [Autopsia — Risultati 02](autopsia-risultati-02.md) — mining pratica → effetto → trasferimento · strumento: [`chat_mining.py`](chat_mining.py) |
+| **M** | [Bisogno candidato 01](bisogno-candidato-01.md) — la sintesi: qual è il bisogno, cosa lo conferma, cosa lo falsifica |
 
 ---
 

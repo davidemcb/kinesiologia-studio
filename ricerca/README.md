@@ -24,6 +24,7 @@ protocollo non arriva al gate G5.
 | [`whatsapp_autopsia.py`](whatsapp_autopsia.py) | Autopsia di un gruppo dall'export di chat: sopravvivenza, canali, coorti, linguaggio |
 | [`autopsia-risultati-02.md`](autopsia-risultati-02.md) | **Mining delle conversazioni**: matrice pratica × cambio di stato × trasferimento |
 | [`chat_mining.py`](chat_mining.py) | Lo strumento del mining: pratica → effetto → trasferimento → interiorizzazione |
+| [`bisogno-candidato-01.md`](bisogno-candidato-01.md) | **La sintesi: il bisogno candidato**, il rivale, la predizione pre-registrata per la Fase 1 |
 | [`scoring.py`](scoring.py) | Calcolatore dei punteggi e dei verdetti (Allegato C) |
 | [`dati/`](dati/) | Template CSV e dataset di esempio |
 
@@ -80,7 +81,7 @@ conclusioni restano precluse senza quel dato.
 
 | Fase | Stato |
 |---|---|
-| Protocollo pre-registrato | ✅ v1.4 — 2026-08-27 |
+| Protocollo pre-registrato | ✅ v1.5 — 2026-08-27 |
 | Desk Research 01 | ✅ completata — fonti primarie da agganciare (D5, D6, D7) |
 | Evidenze scientifiche 01 | ✅ completata — 7 studi, 3 letti solo in abstract |
 | Autopsia Wellfulness | 🟡 **primo blocco fatto** — mancano i report di presenza Zoom |
