@@ -17,7 +17,9 @@ protocollo non arriva al gate G5.
 | [`allegato-d-esperimento-01.md`](allegato-d-esperimento-01.md) | Esperimento contatto vs controllo attivo |
 | [`allegato-e-consenso.md`](allegato-e-consenso.md) | Consenso informato e privacy |
 | [`desk-research-01.md`](desk-research-01.md) | Mercato, concorrenza, aderenza, efficacia, prezzi — e cosa ciascun dato autorizza a concludere |
-| [`autopsia-wellfulness.md`](autopsia-wellfulness.md) | Analisi retrospettiva dei dati Wellfulness già esistenti |
+| [`autopsia-wellfulness.md`](autopsia-wellfulness.md) | Analisi retrospettiva dei dati Wellfulness già esistenti, con il registro delle ipotesi H-W1…H-W7 |
+| [`evidenze-scientifiche-01.md`](evidenze-scientifiche-01.md) | **Cosa hanno già trovato gli studi randomizzati sull'auto-tocco** — e cosa resta non testato |
+| [`autopsia.py`](autopsia.py) | Imbuto, curva di sopravvivenza, giorno modale di abbandono, divario di dose |
 | [`scoring.py`](scoring.py) | Calcolatore dei punteggi e dei verdetti (Allegato C) |
 | [`dati/`](dati/) | Template CSV e dataset di esempio |
 
@@ -54,6 +56,17 @@ python3 ricerca/scoring.py ricerca/dati/interviste-esempio.csv
 *(quel dataset è **sintetico**: serve solo a collaudare lo script e a mostrare che aspetto ha
 un'ipotesi viva, una morta e un artefatto di clientela.)*
 
+**3-bis. Si analizza lo storico Wellfulness:**
+
+```bash
+cp ricerca/dati/wellfulness-template.csv ricerca/dati/wellfulness.csv   # poi si compila
+python3 ricerca/autopsia.py ricerca/dati/wellfulness.csv
+python3 ricerca/autopsia.py ricerca/dati/wellfulness-esempio.csv        # per vedere come si legge
+```
+
+Si compilano solo i campi che esistono davvero: lo script dichiara cosa manca e quali
+conclusioni restano precluse senza quel dato.
+
 **4. Si porta il report al gate**, si scrive il verdetto nel registro delle decisioni
 (§17 del protocollo) e si decide: CONTINUA, MODIFICA o ABBANDONA.
 
@@ -63,8 +76,9 @@ un'ipotesi viva, una morta e un artefatto di clientela.)*
 
 | Fase | Stato |
 |---|---|
-| Protocollo pre-registrato | ✅ v1.1 — 2026-08-26 |
+| Protocollo pre-registrato | ✅ v1.2 — 2026-08-27 |
 | Desk Research 01 | ✅ completata — fonti primarie da agganciare (D5, D6, D7) |
+| Evidenze scientifiche 01 | ✅ completata — 7 studi, 3 letti solo in abstract |
 | Autopsia Wellfulness | ⬜ da avviare — **in parallelo alla Fase 1** |
 | Fase 1 — interviste | ⬜ non iniziata |
 | Gate G1 | ⬜ |
@@ -90,6 +104,20 @@ un'ipotesi viva, una morta e un artefatto di clientela.)*
    È la parte più lenta e l'unica che rende i dati validi.
 4. **Fare le prime 3 interviste e non codificarle** per 24 ore, per verificare sul campo che
    la regola del silenzio e la codifica differita siano davvero sostenibili.
+
+## Quello che la letteratura ha già deciso
+
+Tre risultati dalle [Evidenze scientifiche 01](evidenze-scientifiche-01.md) che cambiano il
+progetto prima di raccogliere un solo dato nostro:
+
+1. **Sullo stress l'auto-tocco è alla pari con la meditazione. Sulle misure corporee la
+   batte.** Posizionarsi su stress e sonno significa combattere senza vantaggio; il corpo è
+   l'unico terreno con un vantaggio dimostrato su controllo attivo.
+2. **Più sessioni aumentano l'effetto, sessioni più lunghe no.** La frequenza di Wellfulness
+   era l'istinto giusto sull'efficacia — ed è quello sbagliato sull'aderenza. L'ottimo è
+   interno e si calcola.
+3. **A 20 secondi al giorno, il 38% pratica quasi ogni giorno per un mese — e l'effetto
+   esiste solo in chi pratica.** Sull'analisi che include tutti, l'effetto è zero.
 
 ## Da agganciare prima del gate G3
 

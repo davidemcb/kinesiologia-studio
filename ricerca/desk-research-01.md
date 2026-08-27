@@ -69,6 +69,16 @@ Il corpo compare come oggetto di osservazione (body scan) o di movimento (yoga),
 come **strumento attivo**: *"usa le tue mani per aumentare deliberatamente l'attenzione alle
 sensazioni corporee"* è poco presidiato.
 
+> **Correzione del 27 agosto 2026** ([Evidenze scientifiche 01](evidenze-scientifiche-01.md) §7).
+> Lo spazio è meno vuoto di così: esistono già app commerciali di auto-tocco strutturato —
+> **The Tapping Solution** (EFT) e le pratiche **Havening / self-havening**. Quindi
+> *"nessuno usa il tocco in un'app"* è **falso** e non va scritto da nessuna parte.
+> Resta vero, e ora con supporto sperimentale, che nessuno lo usa **per lavorare
+> esplicitamente sulla consapevolezza corporea** — l'unico terreno in cui l'auto-tocco batte i
+> controlli attivi. Nota utile: EFT e Havening hanno una base di evidenza debole, quindi un
+> prodotto costruito sugli studi randomizzati parte con una posizione probatoria migliore dei
+> concorrenti diretti.
+
 **Cosa autorizza e cosa no.** Autorizza a dire: esiste uno spazio poco occupato.
 Non autorizza a dire: esiste una domanda. Uno spazio vuoto in un mercato saturo ha due
 spiegazioni possibili, e la seconda è molto più comune della prima:

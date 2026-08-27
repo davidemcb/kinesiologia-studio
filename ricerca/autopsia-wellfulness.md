@@ -185,6 +185,31 @@ prodotto che non esiste più.
 
 ---
 
+## 5-bis. Registro delle ipotesi retrospettive (H-W)
+
+Sette ipotesi sul perché Wellfulness non è diventato sostenibile. **Nessuna è confermata.**
+Ognuna ha un criterio di falsificazione e il dato che la decide.
+
+| ID | Ipotesi | Stato | Cosa la conferma | Cosa la falsifica |
+|---|---|---|---|---|
+| **H-W1** | La dose richiesta (5 pratiche/giorno) ha ridotto l'aderenza, indipendentemente dal gradimento | **NON TESTATA** | picco di abbandono ai giorni 2–4 **e** divario dose che si apre subito **e** commenti positivi sull'esperienza in chi ha smesso | abbandono distribuito senza picco precoce, oppure chi ha smesso riferisce che non gli piaceva |
+| **H-W2** | Wellfulness non identificava un job abbastanza specifico e urgente | **FORTE, NON TESTATA** | risposte divergenti alla domanda "cosa ti aspettavi che succedesse" | attese convergenti e coerenti con ciò che il percorso faceva |
+| **H-W3** | Le persone apprezzavano l'esperienza senza avere una ragione sufficiente per continuare | **NON TESTATA** | giudizi positivi + abbandono, senza un evento scatenante | l'uscita è legata a un evento concreto (trasloco, malattia, prezzo) |
+| **H-W4** | Touchfulness ha un problema più riconoscibile del concetto generale Wellfulness | **IPOTESI** | *non decidibile con dati retrospettivi* — la decide la Fase 1 | — |
+| **H-W5** | Il tocco differenzia rispetto alle app audio/meditazione | **PARZIALMENTE INFORMATA** | vedi Evidenze 01 §3: vantaggio **solo** su misure corporee, parità sullo stress | se le interviste dicono che il problema forte è lo stress: nessun vantaggio |
+| **H-W6** | Un'esperienza brevissima ha aderenza superiore a più pratiche quotidiane | **PARZIALMENTE INFORMATA** | Evidenze 01 §5: a 20 secondi/giorno il 38% tiene un mese; ma la frequenza aumenta l'effetto | la decide l'Esperimento 2 a tre bracci, non l'autopsia |
+| **H-W7** | Il valore economico deriva più dall'accompagnamento che dalla singola pratica | **SUPPORTO INDIRETTO** | Evidenze 01 §6: l'attrition cala con il contatto umano. Nei dati: chi ha interagito col tutor è rimasto di più | chi ha interagito col tutor non è rimasto di più (attenzione all'inversione causale, §4.4) |
+
+**Regola.** Nessuna H-W passa da NON TESTATA a un verdetto per impressione. Ogni cambio di
+stato occupa una riga nel registro delle decisioni del protocollo (§17), con il dato che l'ha
+prodotto.
+
+**H-W4 non è decidibile qui** e va lasciata aperta: nessun dato retrospettivo su un prodotto
+diverso può dire se il *prossimo* concetto sarà più riconoscibile. Metterla in discussione
+adesso sarebbe usare l'autopsia per giustificare la mossa già decisa.
+
+---
+
 ## 6. Domande pre-registrate
 
 Scritte prima di guardare i dati. Per ognuna, cosa vedremmo **se avessimo torto**.
@@ -217,7 +242,13 @@ Un documento unico, `autopsia-risultati.md`, con:
 6. risposta scritta a Q1–Q6, **anche dove la risposta è "il dato non c'è"**
 7. tre priori dichiarati per l'Esperimento 2: dose da testare, momento della giornata, durata
 
-E una riga nel registro delle decisioni del protocollo master (§17).
+E una riga nel registro delle decisioni del protocollo master (§17), più
+l'aggiornamento di stato di ciascuna H-W (§5-bis).
+
+**Strumento:** `python3 ricerca/autopsia.py ricerca/dati/wellfulness.csv` calcola imbuto,
+curva di sopravvivenza, giorno modale di abbandono, divario di dose e conversione economica.
+Il template delle colonne è `dati/wellfulness-template.csv`: basta compilare i campi che
+esistono davvero, lo script segnala quali mancano e cosa non può concludere senza.
 
 **Cosa questo documento non produrrà mai:** una conclusione su se Touchfulness funziona.
 Non è quello che i dati retrospettivi possono dire, e chiederglielo sarebbe il primo modo per

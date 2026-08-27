@@ -129,6 +129,22 @@ trattamento privilegiato, comprese quelle che "sembrano ovvie".
 H16–H18 nascono dalla desk research **prima** della raccolta dati: sono pre-registrate a
 tutti gli effetti, non esplorative.
 
+### Priorità aggiornate dalla letteratura (v1.2)
+
+Le [Evidenze scientifiche 01](evidenze-scientifiche-01.md) §3 mostrano che l'auto-tocco è
+**alla pari** con la meditazione sullo stress e **superiore ai controlli attivi** solo sulle
+misure corporee. Questo non dice quale problema abbiano le persone — lo dicono le interviste —
+ma dice dove avremmo qualcosa di difendibile da offrire:
+
+| Ipotesi | Terreno | Nota |
+|---|---|---|
+| **H3, H17** | rapporto con il corpo | **priorità alta**: unico terreno con vantaggio dimostrato su controllo attivo |
+| **H2, H9, H1** | stress, sonno, sovraccarico | terreno affollato, e la letteratura non dà vantaggio: parità con app da 50 €/anno |
+
+**Se le interviste dicono che il problema forte è lo stress, vince l'intervista.** Ma allora
+sapremo, prima di spendere, di entrare in un mercato dove non abbiamo vantaggio — e questo va
+scritto nel registro, non scoperto dopo.
+
 H17 era compresa dentro H3 ("non sa cosa sente, o se ne accorge solo quando fa male"): è
 stata scorporata perché le due condizioni implicano prodotti diversi — H3 è assenza di
 vocabolario, H17 è un canale d'accesso che si apre solo in negativo.
@@ -573,10 +589,21 @@ assegnato per sorteggio. Stesso orario, stessa stanza, stesso script, stessa dur
 - l'analisi la fa una seconda persona sui codici, senza sapere quale codice è T
 
 ### 11.4 Misure
-**Y primaria:** la variabile emersa come dominante in Fase 1 (default provvisorio: *presenza
-corporea 0–10*), misurata pre, post-immediato, +24 h.
-**Y secondarie:** tensione percepita 0–10, qualità del respiro 0–10, atti respiratori/minuto
-(conteggio a 60", oggettivo e gratuito).
+**Y primaria: una misura corporea, NON lo stress auto-riferito.** Correzione v1.2, dalle
+[Evidenze scientifiche 01](evidenze-scientifiche-01.md) §3: negli RCT sull'auto-tocco lo
+stress dichiarato è la misura che **non** si muove (Dreisoerner 2021: il cortisolo scende, lo
+stress riferito no), mentre il vantaggio su controllo attivo compare su apprezzamento del
+corpo, benessere somatico, consapevolezza emotiva e auto-regolazione. Misurare lo stress
+significherebbe cercare l'effetto dove la letteratura lo trova meno.
+
+- **Y primaria:** apprezzamento/consapevolezza del corpo, versione di stato, 0–10, misurata
+  pre, post-immediato, +24 h
+- **Y secondarie:** sottoscale MAIA che rispondono negli studi — *Noticing*,
+  *Attention Regulation*, *Body Listening*, *Emotional Awareness*, *Self-Regulation* — più
+  tensione percepita 0–10 e atti respiratori/minuto (conteggio a 60", oggettivo e gratuito)
+
+Le MAIA sono validate e gratuite: non ha senso inventare una scala nuova. La variabile emersa
+in Fase 1 può aggiungersi, non sostituire questa.
 **Testo libero post:** una frase, verbatim.
 
 ### 11.5 Soglie (pre-registrate)
@@ -908,6 +935,13 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | 2026-08-26 | §13 | D5, D6 | Soglie di aderenza con colonna "confronto" e doppia traccia libera/impegnata; dose diventata fattore sperimentale (§13.3) | il 3,3% di D6 è retention di app gratuite: non è il confronto giusto per una coorte a pagamento | DS |
 | 2026-08-26 | §10 | D8 | Aggiunti F12 (costo di sostituzione) e F13 (nessuna dose sostenibile) | il confronto reale è con 50 €/anno di catalogo, non con lo zero | DS |
 | 2026-08-26 | §14 | D8, D9 | Vincolo: il nome "Touchfulness" non compare nei materiali del test di prezzo | testerebbe la comprensibilità del nome, non il prezzo | DS |
+| 2026-08-27 | Evidenze 01 | S1–S7 | v1.2 — sei modifiche, sotto in dettaglio | ricerca su letteratura peer-reviewed | DS |
+| 2026-08-27 | §11.4 | S3, S5, S6 | **Correzione:** Y primaria non è più lo stress auto-riferito ma una misura corporea + MAIA | negli RCT sull'auto-tocco lo stress dichiarato è la misura che non si muove | DS |
+| 2026-08-27 | §3.1 | S4, S5, S6 | H3 e H17 promosse; H2, H9, H1 segnalate come terreno senza vantaggio | l'auto-tocco batte i controlli attivi solo su misure corporee, sullo stress è alla pari | DS |
+| 2026-08-27 | §13.3 | S1 | Il modello del valore cumulato riceve supporto quantitativo: più sessioni ↑ effetto (g +0,02–0,03 ciascuna), sessioni più lunghe no (cortisolo: g −0,01/minuto) | Packheiser 2024, 137 studi, n=12.966 | DS |
+| 2026-08-27 | §13.2 | S2 | Soglia D30 ≥ 25% confermata: a 20 secondi/giorno il 38% pratica quasi ogni giorno per un mese, e l'effetto esiste **solo** in chi pratica (ITT nullo) | Susman 2024 | DS |
+| 2026-08-27 | Allegato D | fisiologia CT + attenuazione sensoriale | Due nuovi bracci: velocità del gesto 1–10 cm/s, mano nuda vs strumento | l'auto-tocco è attenuato per costruzione; velocità e prevedibilità sono parametri, non stile | DS |
+| 2026-08-27 | Allegato G | — | Aperto il registro H-W1…H-W7 con criteri di falsificazione | ipotesi retrospettive su Wellfulness | DS |
 
 **Regole del registro**
 - Si scrive **prima** di eseguire, non dopo aver visto il risultato.
@@ -926,7 +960,8 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | **D** | [Protocollo Esperimento 1](allegato-d-esperimento-01.md) |
 | **E** | [Consenso informato e privacy](allegato-e-consenso.md) |
 | **F** | [Desk Research 01](desk-research-01.md) — mercato, concorrenza, aderenza, efficacia, prezzi |
-| **G** | [Autopsia di Wellfulness](autopsia-wellfulness.md) — analisi retrospettiva dei dati già esistenti |
+| **G** | [Autopsia di Wellfulness](autopsia-wellfulness.md) — analisi retrospettiva dei dati già esistenti · strumento: [`autopsia.py`](autopsia.py) |
+| **H** | [Evidenze scientifiche 01](evidenze-scientifiche-01.md) — cosa hanno già trovato gli studi randomizzati sull'auto-tocco |
 
 ---
 

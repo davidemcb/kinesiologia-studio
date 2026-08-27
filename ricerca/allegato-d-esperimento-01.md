@@ -57,6 +57,20 @@ Il partecipante non può essere cieco: sa se viene toccato. Mitigazioni:
 qui, gesto per gesto e secondo per secondo, prima del primo partecipante.* Una volta scritto
 non si cambia più: se cambia, l'esperimento ricomincia da zero.
 
+**Due parametri non sono stilistici e vanno fissati per iscritto** (v1.2, dalle Evidenze
+scientifiche 01 §4):
+
+1. **Velocità del gesto: 1–10 cm/secondo.** È la finestra in cui scaricano le fibre C-tattili,
+   che veicolano la componente affettiva del tocco. Fuori da quella finestra si perde il
+   canale. Va provata col metronomo prima di iniziare, non a sensazione.
+2. **Mano nuda o strumento.** L'auto-tocco è attenuato per costruzione: il cervello predice il
+   proprio movimento e smorza la sensazione. Uno strumento (spazzola morbida) è meno
+   prevedibile e quindi meno attenuato — è così che è costruito lo studio S6.
+
+Se le risorse lo permettono, questi diventano **due bracci aggiuntivi** dello stesso
+cross-over. Se non lo permettono, si sceglie una combinazione, si dichiara la scelta qui, e
+non si cambia in corsa.
+
 **Condizione C** — 3 minuti seduti, operatore presente e in silenzio, nessun contatto,
 nessuna istruzione di respiro, nessuna guida.
 
@@ -79,10 +93,14 @@ con entusiasmo dopo T e non dopo C è sufficiente a produrre da solo tutta la di
 | Post immediato | una frase libera | verbatim |
 | +24 h | Y primaria | messaggio con una sola domanda |
 
-**Y primaria:** la variabile dominante emersa in Fase 1.
-*Default provvisorio, da sostituire con quella reale:* «quanto senti il tuo corpo, adesso?» 0–10.
+**Y primaria: misura corporea, non stress** (correzione v1.2 — [Evidenze scientifiche 01](evidenze-scientifiche-01.md) §3).
+Apprezzamento/consapevolezza del corpo, versione di stato, 0–10.
+Negli RCT sull'auto-tocco lo stress auto-riferito è la misura che non si muove; il vantaggio
+su controllo attivo compare sulle misure corporee. Misurare lo stress qui significa cercare
+l'effetto dove gli studi lo trovano meno.
 
-**Y secondarie:** tensione percepita 0–10 · qualità del respiro 0–10 · atti respiratori/minuto.
+**Y secondarie:** sottoscale MAIA (*Noticing*, *Attention Regulation*, *Body Listening*,
+*Emotional Awareness*, *Self-Regulation*) · tensione percepita 0–10 · atti respiratori/minuto.
 
 Gli atti respiratori sono l'unica misura non dichiarata disponibile a costo zero: si contano
 guardando, per 60 secondi, senza annunciarlo (annunciarlo cambia il respiro).
