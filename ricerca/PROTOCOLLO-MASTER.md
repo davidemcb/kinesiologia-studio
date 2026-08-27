@@ -1000,6 +1000,7 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | 2026-08-27 | §13.3 | Risultati 02 §5 | Esperimento 2 erogato individualmente, senza gruppo | la dose non deve confondersi con la relazione | DS |
 | 2026-08-27 | Bisogno 01 | 4 fonti | v1.5 — bisogno candidato N1 formulato con attributi falsificabili; rivale N2 (relazione) tenuto in gara; **predizione pre-registrata**: ai gate salgono H12, H8, H18, H3/H17, restano tiepide H2/H9 | scritta prima delle interviste: se la Fase 1 la smentisce, vince l'intervista | DS |
 | 2026-08-27 | Allegato A §3 | Bisogno 01 §5 | Aggiunta sonda in-situ (coping immediato separato da soluzione differita) | il candidato vive o muore sul coping nel momento | DS |
+| 2026-08-27 | §4.2 | — | Creato il canale di prenotazione Calendly dedicato alla Fase 1 (30 min, telefonata, testo neutro). **Caveat:** la pagina rivela l'identità professionale; per S3 registrare se il partecipante l'ha vista prima dell'intervista; da rendere "evento segreto" via UI | primo pezzo operativo del reclutamento | DS |
 
 **Regole del registro**
 - Si scrive **prima** di eseguire, non dopo aver visto il risultato.

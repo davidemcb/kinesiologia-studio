@@ -141,6 +141,27 @@ Dall'[Autopsia — Risultati 01](autopsia-risultati-01.md), sull'export dei due 
 - **Piedi e meditazione: stesso cambio di stato (~35–39%), trasferimento 12,3% contro 3,2%.**
   La pratica che le persone si portano nella vita reale è quella dei piedi.
 
+## Reclutamento Fase 1 — come sapere se qualcuno si è iscritto
+
+Dal 27 agosto esiste il canale di prenotazione dedicato, separato dalle consulenze:
+
+- **Link da condividere:** https://calendly.com/infokinesiologia/ricerca-come-gestiamo-le-giornate-pesanti-30-minuti
+- 30 minuti, telefonata in uscita (chiama Davide), descrizione neutra conforme alla regola
+  del silenzio: giornate pesanti, nessuna vendita, nessun prodotto.
+- **Ogni prenotazione arriva per email a infokinesiologia@gmail.com** (notifica automatica
+  Calendly), e si vede nella dashboard Calendly filtrando per questo evento.
+- Da questa sessione si può chiedere in qualunque momento *"controlla le prenotazioni della
+  ricerca"*: la verifica interroga il calendario filtrando per l'evento dedicato.
+
+**Avvertenza metodologica (registrata in §17):** la pagina di prenotazione mostra nome e foto
+del Dott. Scuderi e vive su `calendly.com/infokinesiologia`. Chi prenota da S3 scopre quindi
+di parlare con un professionista della salute — accettabile (il criterio di esclusione è
+conoscere Touchfulness/Wellfulness, non sapere che esiste lo studio), ma la presentazione
+"faccio una ricerca" ne esce indebolita: registrare per ogni partecipante S3 se ha visto la
+pagina prima dell'intervista. Per non esporre l'evento ai pazienti sulla pagina pubblica,
+attivare l'interruttore **"Evento segreto"** dalle impostazioni dell'evento su Calendly
+(non impostabile via API).
+
 ## Da agganciare prima del gate G3
 
 Tre numeri della desk research spostano le soglie del protocollo e vanno verificati con la
