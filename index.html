@@ -597,8 +597,8 @@
     </p>
     <div class="card">
       <div class="eyebrow">Test del corpo</div>
-      <h2>Quanto è pronto il tuo corpo? Scoprilo in 2 minuti</h2>
-      <p id="test-last">5 mini-prove da fare in casa, un punteggio finale e cosa significa.</p>
+      <h2>Quanto è pronto il tuo corpo? Scoprilo in 3 minuti</h2>
+      <p id="test-last">7 mini-prove da fare in casa, un punteggio finale e cosa significa.</p>
       <div style="margin-top:12px"><button class="btn btn-primary" id="test-start">🧪 Inizia il test</button></div>
     </div>
 
@@ -1007,7 +1007,28 @@
     { t: 'Un bicchiere d\'acqua appena sveglio', x: 'Di notte perdi liquidi, e anche i dischi della colonna si reidratano. Prima del caffè, l\'acqua.' },
     { t: 'Apri le mani ogni tanto', x: 'Dieci secondi di apertura delle dita dopo ore di telefono o mouse: tendini e polsi ringraziano.' },
     { t: 'Spalle giù quando guidi', x: 'Al semaforo controllati: spalle basse, mani morbide sul volante. La cervicale accumula ogni viaggio.' },
-    { t: 'Il dolore che passa non è sempre risolto', x: 'Se un fastidio va e viene da mesi, il corpo sta compensando. Un controllo dice il perché.' }
+    { t: 'Il dolore che passa non è sempre risolto', x: 'Se un fastidio va e viene da mesi, il corpo sta compensando. Un controllo dice il perché.' },
+    { t: 'Piedi appoggiati quando sei seduto', x: 'Gambe accavallate per ore ruotano il bacino. Due piedi a terra e ginocchia all\'altezza delle anche: la schiena lavora meno.' },
+    { t: 'Se accavalli, cambia gamba', x: 'Accavallare non è vietato: farlo sempre dallo stesso lato sì. Alterna, o meglio ancora appoggia tutti e due i piedi.' },
+    { t: 'Un cuscino tra le ginocchia', x: 'Se dormi di lato, un cuscino tra le ginocchia tiene il bacino allineato: la zona lombare smette di torcersi tutta la notte.' },
+    { t: 'Mai il telefono tra spalla e orecchio', x: 'Dieci minuti di chiamata in quella posizione valgono un pomeriggio di tensione. Vivavoce o auricolari, sempre.' },
+    { t: 'Alzati dal letto rotolando di lato', x: 'Tirarsi su di pancia carica la schiena appena sveglia, quando i dischi sono più pieni d\'acqua. Girati di lato e spingi con le braccia.' },
+    { t: 'Alterna il fianco quando porti i bambini', x: 'Un bambino in braccio è un carico laterale costante. Cambia lato ogni pochi minuti: il corpo ama la simmetria.' },
+    { t: 'Il telefono all\'altezza degli occhi', x: 'Guardare lo schermo con il mento sul petto moltiplica il peso della testa sul collo. Alza il telefono, non abbassare la testa.' },
+    { t: 'Lo stretching non è riscaldamento', x: 'Prima ti muovi, poi allunghi. Allungare a freddo per scaldarsi è il classico ordine sbagliato.' },
+    { t: 'Sedile dell\'auto quasi dritto', x: 'Troppo reclinato costringe il collo a stare in avanti per guardare la strada. Schienale vicino alla verticale, testa appoggiata al poggiatesta.' },
+    { t: 'Dopo un viaggio lungo, cammina', x: 'Ore in auto o in treno lasciano fermi anche i tessuti. Cinque minuti di cammino prima di sederti di nuovo cambiano la serata.' },
+    { t: 'Occhio all\'atleta della domenica', x: 'Sei giorni fermi e uno di sport intenso è la ricetta classica dell\'infortunio. Meglio poco tre volte a settimana che tanto una volta sola.' },
+    { t: 'In piedi tante ore? Alza un piede', x: 'Appoggia un piede su un rialzo basso e alterna ogni pochi minuti: la zona lombare si scarica senza che tu debba sederti.' },
+    { t: 'Cammina con le mani libere', x: 'Le braccia che oscillano fanno parte del passo e scaricano la colonna. Metti via il telefono e lasciale andare.' },
+    { t: 'Respira con il naso', x: 'Il naso filtra, scalda e rallenta il respiro. Stare a bocca aperta a riposo tiene il corpo su di giri tutto il giorno.' },
+    { t: 'Sedia troppo morbida, schiena stanca', x: 'Se sprofondi, i muscoli lavorano tutto il tempo per tenerti su. Una seduta ferma stanca meno di una che cede.' },
+    { t: 'Allunga la parte davanti dell\'anca', x: 'Ore da seduto accorciano i flessori dell\'anca, e la schiena paga il conto. Un affondo in ginocchio, 30 secondi per lato.' },
+    { t: 'Scendi le scale piano', x: 'Salire allena, scendere carica: in discesa le ginocchia frenano tutto il peso. Passo controllato e corrimano quando puoi.' },
+    { t: 'Evita di dormire a pancia in giù', x: 'Per respirare devi tenere la testa girata per ore. È la posizione che la cervicale sopporta peggio.' },
+    { t: 'Metti un timer per le pause', x: 'La buona volontà non funziona quando sei concentrato. Un promemoria ogni 45 minuti sì, e bastano 30 secondi in piedi.' },
+    { t: 'Alleggerisci la borsa', x: 'Svuotala una volta a settimana: quasi sempre porti in giro un chilo che non ti serve, tutti i giorni e sempre dallo stesso lato.' },
+    { t: 'Il dolore che ti sveglia va raccontato', x: 'Un fastidio che ti sveglia sempre alla stessa ora, o che non cambia con la posizione, merita una valutazione. Non aspettare.' }
   ];
 
   // Consigli stagionali: si aggiungono alla rotazione in base al mese
@@ -1015,22 +1036,30 @@
     inverno: [
       { t: 'Copri collo e schiena quando esci', x: 'Il freddo improvviso fa contrarre i muscoli in difesa. Sciarpa e maglia lunga sono prevenzione, non solo comfort.' },
       { t: 'Occhio al ghiaccio: passi corti', x: 'Sui marciapiedi gelati accorcia il passo e tieni le mani fuori dalle tasche: l\'equilibrio ringrazia.' },
-      { t: 'Serata divano? Cambia posizione', x: 'Un film intero nella stessa posa regala rigidità. Un cuscino dietro la zona lombare aiuta.' }
+      { t: 'Serata divano? Cambia posizione', x: 'Un film intero nella stessa posa regala rigidità. Un cuscino dietro la zona lombare aiuta.' },
+      { t: 'Spala la neve piegando le gambe', x: 'Pale piene e schiena piegata sono l\'infortunio classico di gennaio. Carichi piccoli, gambe piegate, e cambia lato spesso.' },
+      { t: 'Il termosifone non scioglie i muscoli', x: 'Stare al caldo da fermi non cambia niente. Anche d\'inverno il corpo si scalda muovendosi, non appoggiato al calorifero.' }
     ],
     primavera: [
       { t: 'Giardinaggio in ginocchio, non piegato', x: 'Lavora vicino a terra con un ginocchio appoggiato invece di piegare la schiena: stessi fiori, zero strappi.' },
       { t: 'Pulizie di primavera: alterna i lati', x: 'Finestre e pavimenti sempre con lo stesso braccio caricano sempre le stesse catene. Cambia mano ogni tanto.' },
-      { t: 'Riprendi lo sport per gradi', x: 'Dopo l\'inverno il corpo vuole progressione: la prima settimana fai la metà di quello che ti senti di fare.' }
+      { t: 'Riprendi lo sport per gradi', x: 'Dopo l\'inverno il corpo vuole progressione: la prima settimana fai la metà di quello che ti senti di fare.' },
+      { t: 'Allergia e collo teso vanno insieme', x: 'Settimane di starnuti e naso chiuso irrigidiscono collo e mandibola. Se in primavera la cervicale peggiora, ora sai perché.' },
+      { t: 'Prima uscita in bici: controlla la sella', x: 'Una sella troppo bassa o troppo avanti si sente dopo venti chilometri, non dopo due. Sistemala prima di partire.' }
     ],
     estate: [
       { t: 'Valigie: piega le gambe', x: 'Il bagagliaio è il luogo classico del colpo della strega. Avvicinati, piega le gambe, tieni il peso vicino al corpo.' },
       { t: 'Aria condizionata lontana dal collo', x: 'Il getto freddo diretto su collo e spalle è un classico generatore di torcicollo. Sposta la bocchetta.' },
-      { t: 'Infradito con moderazione', x: 'Zero sostegno e dita che si aggrappano: alternale con scarpe vere, il tuo appoggio ringrazia.' }
+      { t: 'Infradito con moderazione', x: 'Zero sostegno e dita che si aggrappano: alternale con scarpe vere, il tuo appoggio ringrazia.' },
+      { t: 'In spiaggia niente ore sui gomiti', x: 'Leggere a pancia in giù puntellati sui gomiti è mezz\'ora di schiena inarcata. Meglio sul fianco, o seduto con uno schienale.' },
+      { t: 'Il caldo disidrata anche i muscoli', x: 'Con il sudore perdi liquidi e sali: crampi e rigidità estivi nascono spesso lì. Bevi prima di avere sete.' }
     ],
     autunno: [
       { t: 'Rientro alla scrivania: schermo ad altezza occhi', x: 'Dopo l\'estate si torna a ore di monitor. Alza lo schermo: la cervicale segue gli occhi.' },
       { t: 'Zaino su due spalle', x: 'Vale per i figli a scuola e vale per te: il peso distribuito è il migliore amico della colonna.' },
-      { t: 'Riscaldati prima degli sforzi', x: 'Con il primo freddo i muscoli partono più rigidi: due minuti di movimento prima di sforzi e allenamenti.' }
+      { t: 'Riscaldati prima degli sforzi', x: 'Con il primo freddo i muscoli partono più rigidi: due minuti di movimento prima di sforzi e allenamenti.' },
+      { t: 'Cambio armadio: scatoloni vicini al corpo', x: 'Scatole in alto, sedie usate come scale, torsioni con il peso lontano. Fai due viaggi invece di uno: ci metti meno che a curarti.' },
+      { t: 'Meno luce, meno movimento', x: 'Quando fa buio presto si esce di meno senza accorgersene. Metti una camminata in agenda, come un appuntamento vero.' }
     ]
   };
   function seasonPool() {
@@ -1061,7 +1090,14 @@
     { t: '5 respiri profondi', x: 'Inspira gonfiando la pancia, espira lento. Cinque volte, senza fretta.' },
     { t: '10 squat al muro', x: 'Schiena appoggiata, scendi piano e risali. Le gambe sono il motore della schiena.' },
     { t: '1 minuto di camminata in casa', x: 'Ovunque tu sia: alzati e fai un giro. Il corpo conta i passi, non i buoni propositi.' },
-    { t: 'Mento indietro ×10', x: 'Porta il mento indietro (doppio mento) e tienilo 3 secondi. La cervicale si riallinea.' }
+    { t: 'Mento indietro ×10', x: 'Porta il mento indietro (doppio mento) e tienilo 3 secondi. La cervicale si riallinea.' },
+    { t: '10 sollevamenti sulle punte', x: 'In piedi, sali sulle punte e scendi piano. I polpacci sono la seconda pompa del sangue.' },
+    { t: '1 minuto di gambe al muro', x: 'Sdraiato, gambe appoggiate al muro. Sessanta secondi e le gambe si svuotano, la schiena si appoggia.' },
+    { t: '10 torsioni da seduto', x: 'Seduto, mani sul petto: ruota il busto a destra e a sinistra, lento. La colonna è fatta anche per girare.' },
+    { t: '20 secondi sullo stipite', x: 'Avambraccio sullo stipite della porta, poi un passo avanti. Il petto si apre, le spalle tornano indietro.' },
+    { t: '10 ponti glutei', x: 'Sdraiato, ginocchia piegate: solleva il bacino stringendo i glutei. La schiena ringrazia le gambe.' },
+    { t: '5 alzate dalla sedia senza mani', x: 'Alzati e siediti cinque volte senza usare le braccia. Il test più onesto sulla forza delle tue gambe.' },
+    { t: '10 rotazioni di caviglia per piede', x: 'Cerchi lenti e ampi, in tutti e due i sensi. Una caviglia rigida si fa sentire fino all\'anca.' }
   ];
 
   function todayKey() { return new Date().toISOString().slice(0, 10); }
@@ -1187,7 +1223,13 @@
     { m: '«Il mal di schiena è colpa dell\'età»', r: 'L\'età da sola non spiega perché certe schiene di 70 anni stanno meglio di certe schiene di 40. Contano forza, movimento e abitudini più degli anni.' },
     { m: '«Più il trattamento fa male, più funziona»', r: 'Il dolore durante un trattamento non è un segnale di efficacia. Il corpo cambia meglio quando non è in difesa.' },
     { m: '«Ho la cervicale»', r: 'La cervicale ce l\'hanno tutti: è un tratto della colonna. La domanda giusta non è se ce l\'hai, ma perché la tua si fa sentire.' },
-    { m: '«Lo strappo si cura solo col riposo»', r: 'I muscoli guariscono con un carico progressivo e ben dosato. Fermarsi del tutto li fa solo arrivare più deboli al momento del rientro.' }
+    { m: '«Lo strappo si cura solo col riposo»', r: 'I muscoli guariscono con un carico progressivo e ben dosato. Fermarsi del tutto li fa solo arrivare più deboli al momento del rientro.' },
+    { m: '«Ho una gamba più corta»', r: 'Piccole differenze tra le due gambe ce le ha quasi tutta la popolazione, e nella grande maggioranza dei casi non causano dolore. Prima di correggere qualcosa va misurato bene, e va capito se è davvero quello il problema.' },
+    { m: '«Basta rinforzare gli addominali e la schiena regge»', r: 'Il "core" non è un corsetto da stringere: tenere la pancia contratta tutto il giorno non protegge, irrigidisce. Servono muscoli che sanno accendersi e spegnersi al momento giusto, non muscoli sempre in tensione.' },
+    { m: '«Se scrocchia vuol dire artrosi»', r: 'Le articolazioni fanno rumore per motivi quasi sempre banali: tendini che scorrono, gas che cambia pressione, superfici che si muovono. Un rumore senza dolore, senza gonfiore e senza blocco è normale a qualsiasi età.' },
+    { m: '«Ho l\'artrosi, quindi devo muovermi di meno»', r: 'È l\'esatto contrario: la cartilagine si nutre dal movimento e i muscoli attorno all\'articolazione sono la sua protezione migliore. Fermarsi è la cosa che peggiora l\'artrosi più in fretta.' },
+    { m: '«Il nuoto fa bene a tutte le schiene»', r: 'Fa bene a molte, non a tutte. Una rana nuotata con la testa sempre fuori dall\'acqua è un\'ora di collo in estensione, e per certe cervicali è la cosa peggiore. Conta come nuoti, non che nuoti.' },
+    { m: '«Con i piedi piatti servono i plantari»', r: 'Moltissime persone con il piede piatto non hanno alcun sintomo e non hanno bisogno di niente. Il plantare è uno strumento utile quando c\'è un problema vero da risolvere, non una correzione da fare per principio.' }
   ];
 
   function renderMyth() {
@@ -1257,7 +1299,9 @@
     { q: 'Flessibilità', d: 'In piedi, gambe tese: piegati in avanti verso le punte dei piedi.', o: [['Arrivo poco sotto il ginocchio', 0], ['Sfioro le caviglie', 1], ['Tocco le punte o il pavimento', 2]] },
     { q: 'Collo', d: 'Da seduto, busto fermo: gira la testa come per guardare dietro la spalla.', o: [['Giro poco e sento tirare', 0], ['Arrivo quasi alla spalla', 1], ['Vedo bene dietro, senza fastidio', 2]] },
     { q: 'Forza gambe', d: 'Prova uno squat completo, con i talloni che restano a terra.', o: [['Non riesco a scendere', 0], ['Scendo circa a metà', 1], ['Squat completo, talloni a terra', 2]] },
-    { q: 'Respiro', d: 'Una mano sul petto, una sulla pancia: fai 3 respiri normali. Quale mano si muove di più?', o: [['Quasi solo il petto', 0], ['Un po\' tutte e due', 1], ['Soprattutto la pancia', 2]] }
+    { q: 'Respiro', d: 'Una mano sul petto, una sulla pancia: fai 3 respiri normali. Quale mano si muove di più?', o: [['Quasi solo il petto', 0], ['Un po\' tutte e due', 1], ['Soprattutto la pancia', 2]] },
+    { q: 'Spalle', d: 'Schiena al muro, braccia piegate a "candeliere" appoggiate al muro: falle scorrere verso l\'alto senza staccare polsi e gomiti.', o: [['Si staccano quasi subito', 0], ['Salgo circa a metà', 1], ['Arrivo quasi a braccia tese', 2]] },
+    { q: 'Resistenza delle gambe', d: 'Alzati e siediti da una sedia senza usare le mani, il più possibile in 30 secondi.', o: [['Meno di 8 volte', 0], ['Tra 8 e 13 volte', 1], ['Più di 13 volte', 2]] }
   ];
   var testStep = 0, testScore = 0;
   var testModal = document.getElementById('test-modal');
@@ -1272,7 +1316,7 @@
     var body = document.getElementById('test-body');
     if (testStep < TESTS.length) {
       var t = TESTS[testStep];
-      document.getElementById('test-sub').textContent = 'Prova ' + (testStep + 1) + ' di 5 — ' + t.q;
+      document.getElementById('test-sub').textContent = 'Prova ' + (testStep + 1) + ' di ' + TESTS.length + ' — ' + t.q;
       var html = '<p style="margin-bottom:14px">' + t.d + '</p>';
       t.o.forEach(function (opt, i) {
         html += '<button class="test-opt" data-pts="' + opt[1] + '">' + opt[0] + '</button>';
@@ -1280,13 +1324,13 @@
       html += '<div style="text-align:center; margin-top:6px"><button class="text-btn" id="test-quit">Esci dal test</button></div>';
       body.innerHTML = html;
     } else {
-      var pct = testScore * 10;
+      var pct = Math.round(testScore / (TESTS.length * 2) * 100);
       set(LS.testScore, String(pct));
       set(LS.testDate, todayKey());
       document.getElementById('test-sub').textContent = 'Risultato';
       track('test_done', String(pct));
       var msg = '🧪 Ho appena fatto il Test del corpo: ' + pct + '/100!\n' + testVerdict(pct) +
-        '\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE;
+        '\n\nProvalo anche tu (3 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE;
       body.innerHTML =
         '<div class="test-score">' + pct + '<span style="font-size:22px">/100</span></div>' +
         '<p class="test-verdict">' + testVerdict(pct) + '</p>' +
@@ -1327,27 +1371,39 @@
   var exercises = {
     schiena: [
       { t: 'Ginocchia al petto', s: ['Distenditi sulla schiena, ginocchia piegate.', 'Porta entrambe le ginocchia verso il petto.', 'Mantieni 20 secondi, respira, rilascia.', 'Ripeti 3 volte, 2–3 volte al giorno.'] },
-      { t: 'Il gatto', s: ['A quattro zampe, mani sotto le spalle.', 'Inarca la schiena verso l\'alto espirando.', 'Scendi con la pancia inspirando.', '10 ripetizioni lente, ogni mattina.'] }
+      { t: 'Il gatto', s: ['A quattro zampe, mani sotto le spalle.', 'Inarca la schiena verso l\'alto espirando.', 'Scendi con la pancia inspirando.', '10 ripetizioni lente, ogni mattina.'] },
+      { t: 'Torsione dolce da sdraiato', s: ['Sdraiato sulla schiena, ginocchia piegate e unite.', 'Lascia cadere le ginocchia da un lato, spalle a terra.', 'Respira 20 secondi, poi passa dall\'altro lato.', '5 passaggi per lato, senza forzare.'] },
+      { t: 'Gambe al muro', s: ['Siediti di fianco al muro, poi ruota e appoggia le gambe in alto.', 'Bacino vicino al muro, braccia lungo i fianchi.', 'Resta 2–3 minuti respirando con la pancia.', 'Ottimo a fine giornata o dopo ore in piedi.'] }
     ],
     cervicale: [
       { t: 'Apertura del petto', s: ['Siediti dritto, spalle rilassate.', 'Incrocia le mani dietro la schiena.', 'Tira gli avambracci verso il basso: il petto si apre.', 'Mantieni 15 secondi, ripeti 3 volte.'] },
-      { t: 'Mezzaluna con il collo', s: ['Inclina lentamente l\'orecchio verso la spalla.', 'Ruota il mento verso il petto disegnando una mezzaluna.', 'Risali dall\'altro lato, senza forzare.', '5 passaggi per lato, movimenti lenti.'] }
+      { t: 'Mezzaluna con il collo', s: ['Inclina lentamente l\'orecchio verso la spalla.', 'Ruota il mento verso il petto disegnando una mezzaluna.', 'Risali dall\'altro lato, senza forzare.', '5 passaggi per lato, movimenti lenti.'] },
+      { t: 'Allungamento del trapezio', s: ['Seduto, una mano sotto la coscia per tenere la spalla giù.', 'Inclina la testa dal lato opposto, orecchio verso la spalla.', 'Mantieni 20 secondi respirando, non tirare con la mano.', '3 volte per lato, 2 volte al giorno.'] },
+      { t: 'Retrazione del mento', s: ['Seduto o in piedi, sguardo all\'orizzonte.', 'Porta il mento indietro come per farti un doppio mento.', 'Tieni 3 secondi, poi rilascia. Il collo si allunga dietro.', '10 ripetizioni, più volte al giorno alla scrivania.'] }
     ],
     spalla: [
       { t: 'Stabilità scapolare', s: ['In piedi, piedi a larghezza spalle.', 'Alza le braccia lateralmente fino alle spalle.', 'Mantieni 10 secondi, poi abbassa.', '15 ripetizioni, ogni giorno.'] },
-      { t: 'Pendolo', s: ['In piedi, appoggia una mano al tavolo.', 'Lascia penzolare l\'altro braccio, rilassato.', 'Fai piccoli cerchi lasciando fare alla gravità.', '30 secondi per senso, poi cambia braccio.'] }
+      { t: 'Pendolo', s: ['In piedi, appoggia una mano al tavolo.', 'Lascia penzolare l\'altro braccio, rilassato.', 'Fai piccoli cerchi lasciando fare alla gravità.', '30 secondi per senso, poi cambia braccio.'] },
+      { t: 'Scivolamento al muro', s: ['Schiena al muro, avambracci appoggiati a "candeliere".', 'Fai scivolare le braccia verso l\'alto senza staccare i polsi.', 'Sali finché resti appoggiato, poi torna giù lento.', '10 ripetizioni, fermati dove il contatto si perde.'] },
+      { t: 'Rotazione esterna con l\'asciugamano', s: ['Gomito al fianco piegato a 90°, un asciugamano arrotolato sotto l\'ascella.', 'Con l\'avambraccio spingi verso l\'esterno, gomito fermo.', 'Torna piano al centro. Movimento piccolo e controllato.', '12 ripetizioni, 2 serie per braccio.'] }
     ],
     anca: [
       { t: 'Mobilità in tre direzioni', s: ['In piedi su una gamba.', 'Porta l\'altra avanti, indietro, di lato.', '10 ripetizioni per direzione.', 'Cambia gamba e ripeti.'] },
-      { t: 'Il ponte', s: ['Sdraiato, ginocchia piegate, piedi a terra.', 'Solleva il bacino stringendo i glutei.', 'Mantieni 5 secondi in alto.', '12 ripetizioni, 2 serie.'] }
+      { t: 'Il ponte', s: ['Sdraiato, ginocchia piegate, piedi a terra.', 'Solleva il bacino stringendo i glutei.', 'Mantieni 5 secondi in alto.', '12 ripetizioni, 2 serie.'] },
+      { t: 'Affondo in ginocchio', s: ['Un ginocchio a terra (metti un cuscino), l\'altro piede avanti.', 'Porta il bacino in avanti stringendo il gluteo dietro.', 'Senti tirare davanti all\'anca, non nella schiena.', '30 secondi per lato, 2 volte. Perfetto dopo ore da seduto.'] },
+      { t: 'La conchiglia', s: ['Sdraiato su un fianco, ginocchia piegate e unite.', 'Apri il ginocchio di sopra tenendo i piedi attaccati.', 'Il bacino resta fermo: non rotolare indietro.', '15 ripetizioni per lato, 2 serie.'] }
     ],
     gambe: [
       { t: 'Test di equilibrio', s: ['In piedi su una gamba sola.', 'Obiettivo: 30 secondi senza appoggiarti.', 'Se non riesci, è un segnale utile: parlane in studio.', 'Allenati ogni giorno fino a 60 secondi.'] },
-      { t: 'Polpacci al gradino', s: ['Avampiedi sul bordo di un gradino, talloni fuori.', 'Scendi lentamente coi talloni, poi sali sulle punte.', '15 ripetizioni lente.', 'Tieniti al corrimano per sicurezza.'] }
+      { t: 'Polpacci al gradino', s: ['Avampiedi sul bordo di un gradino, talloni fuori.', 'Scendi lentamente coi talloni, poi sali sulle punte.', '15 ripetizioni lente.', 'Tieniti al corrimano per sicurezza.'] },
+      { t: 'Allungamento dei posteriori', s: ['Un tallone appoggiato su un rialzo basso, gamba tesa.', 'Schiena dritta, piegati in avanti dall\'anca, non dalla schiena.', 'Senti tirare dietro la coscia, mai dietro il ginocchio.', '30 secondi per lato, 2 volte al giorno.'] },
+      { t: 'Squat alla sedia', s: ['In piedi davanti a una sedia, piedi a larghezza anche.', 'Scendi come per sederti, sfiora la sedia e risali.', 'Ginocchia in linea con i piedi, peso sui talloni.', '10 ripetizioni, 2 serie. Aumenta piano.'] }
     ],
     atm: [
       { t: 'Mobilità della mandibola', s: ['Siediti con la schiena dritta.', 'Muovi la mascella lentamente avanti e indietro ×10.', 'Poi di lato, 10 volte per parte.', 'Ripeti 2 volte al giorno, senza dolore.'] },
-      { t: 'Rilascio con la lingua', s: ['Appoggia la punta della lingua al palato.', 'Apri lentamente la bocca finché la lingua resta su.', 'Chiudi piano. 10 ripetizioni.', 'Ottimo se digrigni i denti la notte.'] }
+      { t: 'Rilascio con la lingua', s: ['Appoggia la punta della lingua al palato.', 'Apri lentamente la bocca finché la lingua resta su.', 'Chiudi piano. 10 ripetizioni.', 'Ottimo se digrigni i denti la notte.'] },
+      { t: 'Massaggio dei masseteri', s: ['Trova il muscolo che sporge quando stringi i denti, sopra l\'angolo della mandibola.', 'Massaggia con due dita, cerchi lenti, pressione media.', '60 secondi per lato, con la bocca leggermente aperta.', 'Da fare la sera, prima di dormire.'] },
+      { t: 'Apertura controllata allo specchio', s: ['Davanti allo specchio, bocca chiusa e labbra rilassate.', 'Apri lentamente controllando che il mento resti dritto.', 'Se scivola di lato, torna indietro e riprova più piccolo.', '10 aperture lente, 2 volte al giorno.'] }
     ]
   };
 
@@ -1424,6 +1480,30 @@
       title: 'Tutto è collegato',
       preview: 'Una spalla che fa male può nascere da un appoggio del piede, una cervicale rigida da come respiri. Per questo la valutazione guarda tutto il corpo, non solo dove senti il sintomo.',
       full: 'Il corpo non è fatto a compartimenti: muscoli, fasce e articolazioni formano catene che si passano il carico l\'una con l\'altra. Quando un anello non fa il suo lavoro, un altro lo fa al posto suo — e prima o poi presenta il conto.\n\nPer questo una spalla che fa male può nascere dall\'appoggio di un piede, una cervicale rigida da come respiri, un mal di schiena da un\'anca che non ruota più. Il punto che duole è spesso la vittima, non il colpevole.\n\nÈ il motivo per cui la valutazione in studio guarda tutto il corpo e non solo dove senti il sintomo: trattare la vittima dà sollievo. Trovare il colpevole dà risultati che restano.'
+    },
+    {
+      cat: 'Kinesiologia',
+      title: 'Cos\'è davvero il test muscolare',
+      preview: 'Non è una macchina della verità e non legge il futuro. È un modo per vedere come il sistema nervoso gestisce un muscolo in un preciso momento: un\'informazione utile, da leggere insieme a tutto il resto.',
+      full: 'Il test muscolare, da fuori, è semplice: ti chiedo di tenere una posizione, applico una spinta graduale, e osservo come rispondi. Quello che guardo non è quanto sei forte in assoluto, ma come il sistema nervoso attiva quel muscolo in quel momento e in quella posizione.\n\nÈ un\'informazione, non una diagnosi. Un test non ti dice cosa hai mangiato, cosa ti stressa o quale integratore ti serve: chi lo racconta così sta esagerando, e te lo dico da dentro la categoria. Quello che il test fa bene è confrontare — prima e dopo, destra e sinistra, la stessa spinta in due posizioni diverse. È lì che diventa davvero utile.\n\nPer questo il test non viaggia mai da solo. Vale insieme a quello che mi racconti, a come ti muovi, a cosa cambia quando modifichiamo qualcosa. Un dato singolo non fa una valutazione: la fa la coerenza tra più dati.'
+    },
+    {
+      cat: 'Stress e corpo',
+      title: 'La tensione arriva prima del dolore',
+      preview: 'Mandibola serrata, respiro corto, spalle alte: sono le prime tracce dello stress sul corpo, settimane prima che qualcosa faccia male. Riconoscerle è il modo più economico di prevenire.',
+      full: 'Quando la testa è sotto pressione, il corpo lo mostra molto prima di lamentarsi. I segni sono quasi sempre gli stessi: la mandibola che stringe senza che tu te ne accorga, il respiro che si accorcia e sale verso il petto, le spalle che salgono verso le orecchie, il sonno che si fa leggero.\n\nNon è "solo stress". Un diaframma che lavora poco cambia il modo in cui la colonna si stabilizza; una mandibola serrata per ore tira su collo e testa; un sonno frammentato rallenta ogni riparazione. La tensione di per sé non fa male: prepara il terreno perché qualcosa faccia male più avanti.\n\nLa buona notizia è che questi segnali sono facili da leggere e rispondono in fretta. Due minuti di respiro lento, una mandibola lasciata morbida, una camminata vera a metà giornata: sembra poco, ma è esattamente il tipo di stimolo che abbassa l\'allarme.'
+    },
+    {
+      cat: 'Recupero',
+      title: 'È di notte che guarisci',
+      preview: 'Il grosso della riparazione dei tessuti avviene mentre dormi. Dormire poco non rallenta solo il recupero: abbassa anche la soglia del dolore, e fa sembrare peggio quello che c\'è.',
+      full: 'Durante il sonno profondo il corpo fa il lavoro che di giorno non può fare: ripara i tessuti, consolida quello che ha imparato con il movimento, abbassa i livelli di infiammazione. È la parte del percorso che non si vede e non si paga, ed è enorme.\n\nQuando dormi poco succedono due cose insieme. La riparazione rallenta, quindi ci metti di più a guarire. E la soglia del dolore si abbassa: gli studi sulla privazione di sonno lo mostrano bene, lo stesso stimolo dà più dolore in una persona che ha dormito male. Ecco perché una settimana di notti storte può far tornare un fastidio che sembrava risolto.\n\nSe stai seguendo un percorso e i risultati non arrivano, la domanda su come dormi non è una domanda di cortesia. A volte l\'esercizio più utile che posso darti è andare a letto un\'ora prima.'
+    },
+    {
+      cat: 'I miei limiti',
+      title: 'Quando non devi venire da me',
+      preview: 'Ci sono situazioni in cui la cosa giusta non è un trattamento, ma un medico. Riconoscerle fa parte del mio lavoro, e dirtele apertamente è il minimo.',
+      full: 'La maggior parte dei dolori muscolo-scheletrici è benigna e migliora con il movimento giusto. Ma non tutto quello che fa male è di mia competenza, e sapere dove passa il confine è parte del mestiere.\n\nSenti prima il medico, non me, se: il dolore è arrivato dopo un trauma importante, come una caduta o un incidente; hai febbre, perdita di peso senza motivo o malessere generale insieme al dolore; senti formicolii o debolezza che peggiorano, soprattutto in tutte e due le gambe; hai perso il controllo di intestino o vescica; il dolore a petto o schiena arriva con affanno, sudorazione o nausea; hai un dolore notturno costante che non cambia in nessuna posizione.\n\nSono situazioni rare, ed elencarle non serve a spaventarti: serve a darti riferimenti chiari. In tutti gli altri casi quello che facciamo in studio ha molto senso — e se durante la valutazione trovo qualcosa che non mi convince, te lo dico e ti mando dalla persona giusta.'
     }
   ];
 
@@ -1851,6 +1931,22 @@
       'Mezzaluna con il collo, 5 passaggi dolci per lato.',
       'Respiro 4-6: inspira contando 4, espira contando 6, per 8 respiri.',
       'Chiudi con il Diario del corpo: com\'è andata oggi?'
+    ] },
+    { days: 21, n: 'Routine da Scrivania', mins: '4 minuti', steps: [
+      'Retrazione del mento: 10 ripetizioni, tenendo 3 secondi.',
+      'Allungamento del trapezio, 20 secondi per lato, spalla giù.',
+      'In piedi allo stipite: avambraccio appoggiato, un passo avanti, 20 secondi per lato.',
+      '10 torsioni del busto da seduto, lente e ampie.',
+      'Affondo in ginocchio, 30 secondi per lato: l\'anca si riapre.',
+      'Chiudi guardando fuori dalla finestra per 20 secondi: riposano anche gli occhi.'
+    ] },
+    { days: 30, n: 'Routine dello Sportivo', mins: '6 minuti', steps: [
+      'Due minuti di movimento a corpo libero per scaldare: sul posto va benissimo.',
+      'Mobilità dell\'anca in tre direzioni, 10 per direzione e per gamba.',
+      'La conchiglia, 15 ripetizioni per lato: i glutei si accendono.',
+      'Polpacci al gradino, 15 discese lente.',
+      'Ponte glutei, 12 ripetizioni tenendo 5 secondi in alto.',
+      'Chiudi con respiro 4-6 per 8 respiri: il corpo passa in recupero.'
     ] }
   ];
 
