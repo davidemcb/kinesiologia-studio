@@ -54,7 +54,13 @@ Il partecipante non può essere cieco: sa se viene toccato. Mitigazioni:
 > da fare e niente da ottenere."
 
 **Condizione T** — micro-esperienza, 3 minuti. *Il contenuto lo definisce Davide e va scritto
-qui, gesto per gesto e secondo per secondo, prima del primo partecipante.* Una volta scritto
+qui, gesto per gesto e secondo per secondo, prima del primo partecipante.*
+
+**Candidata dai dati (v1.4): la pratica dei piedi.** Nel corpus storico è l'unica con
+entrambi i segnali alti — cambio di stato 35,1% e trasferimento 12,3%, il più alto del
+corpus; la meditazione ha lo stesso cambio di stato (38,7%) ma trasferimento 3,2%
+([Risultati 02](autopsia-risultati-02.md) §2). È un priore, non un obbligo: se Davide sceglie
+un'altra pratica, la scelta e il motivo vanno scritti qui prima di iniziare. Una volta scritto
 non si cambia più: se cambia, l'esperimento ricomincia da zero.
 
 **Due parametri non sono stilistici e vanno fissati per iscritto** (v1.2, dalle Evidenze
@@ -81,6 +87,23 @@ Nessun commento sull'esperienza, in nessuna delle due condizioni. Un "com'è and
 con entusiasmo dopo T e non dopo C è sufficiente a produrre da solo tutta la differenza.
 
 ---
+
+## 3-bis. Cosa questo disegno isola — e cosa no (v1.4)
+
+| Componente dell'effetto storico | Qui | Come |
+|---|---|---|
+| guida / attenzione ricevuta | **controllata** | stessa persona presente in T e in C |
+| gruppo | **controllata** | assente in entrambe |
+| aspettativa | mitigata | stesse parole, questionari a freddo, analisi in cieco |
+| **contatto** | **isolata** | unica differenza fra T e C |
+
+Il fattoriale completo (da solo / con guida / con gruppo / controllo) è materia
+dell'Esperimento 2 e successivi, non di questo.
+
+**Follow-up HT (+7 giorni):** al settimo giorno, un contatto unico. Prima la domanda aperta
+("in questi giorni è successo qualcosa che vuoi raccontarmi?"), poi quella diretta ("ti è
+capitato di usare la pratica da solo/a, senza che nessuno te lo chiedesse? dove?"). Racconti
+spontanei e sollecitati si registrano separati. Soglie in §12 del protocollo.
 
 ## 4. Misure
 

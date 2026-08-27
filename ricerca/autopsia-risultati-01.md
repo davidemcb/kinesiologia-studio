@@ -4,6 +4,12 @@
 e del gruppo "Tutor seconda edizione" (10 apr → 29 mag 2025)
 **Strumento:** `python3 ricerca/whatsapp_autopsia.py <_chat.txt> --erogatore "..."`
 
+> **Errata (27 ago 2026, da [Risultati 02](autopsia-risultati-02.md) §0):** l'export
+> **registra** le uscite esplicite — 50 abbandoni, smentendo il §8 di questo documento; gli
+> scriventi reali sono **82** (non 86: quattro avevano solo eventi di sistema) e le persone
+> attive un solo giorno sono **18 (22%)**, non 10. La mediana di 5,5 giorni attivi e tutte le
+> conclusioni principali restano invariate.
+
 > **Privacy.** I dati grezzi contengono nomi e confidenze sulla salute di 86 persone reali:
 > **non entrano in questo repository** e restano fuori da git. Qui ci sono solo aggregati e
 > frammenti di testo non identificanti. Lo strumento non stampa mai nomi.

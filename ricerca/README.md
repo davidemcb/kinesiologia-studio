@@ -22,6 +22,8 @@ protocollo non arriva al gate G5.
 | [`autopsia-risultati-01.md`](autopsia-risultati-01.md) | **I risultati sui dati storici reali** — 500 giorni, 5.292 messaggi, 86 persone |
 | [`autopsia.py`](autopsia.py) | Imbuto, curva di sopravvivenza, giorno modale di abbandono, divario di dose |
 | [`whatsapp_autopsia.py`](whatsapp_autopsia.py) | Autopsia di un gruppo dall'export di chat: sopravvivenza, canali, coorti, linguaggio |
+| [`autopsia-risultati-02.md`](autopsia-risultati-02.md) | **Mining delle conversazioni**: matrice pratica × cambio di stato × trasferimento |
+| [`chat_mining.py`](chat_mining.py) | Lo strumento del mining: pratica → effetto → trasferimento → interiorizzazione |
 | [`scoring.py`](scoring.py) | Calcolatore dei punteggi e dei verdetti (Allegato C) |
 | [`dati/`](dati/) | Template CSV e dataset di esempio |
 
@@ -78,7 +80,7 @@ conclusioni restano precluse senza quel dato.
 
 | Fase | Stato |
 |---|---|
-| Protocollo pre-registrato | ✅ v1.3 — 2026-08-27 |
+| Protocollo pre-registrato | ✅ v1.4 — 2026-08-27 |
 | Desk Research 01 | ✅ completata — fonti primarie da agganciare (D5, D6, D7) |
 | Evidenze scientifiche 01 | ✅ completata — 7 studi, 3 letti solo in abstract |
 | Autopsia Wellfulness | 🟡 **primo blocco fatto** — mancano i report di presenza Zoom |
@@ -133,6 +135,10 @@ Dall'[Autopsia — Risultati 01](autopsia-risultati-01.md), sull'export dei due 
   da una fonte che non ha niente in comune con essa.
 - **1.883 sessioni dal vivo, cinque al giorno, una persona sola.** Il sistema si è fermato
   quando si è fermato chi lo erogava.
+- **"Touchfulness": zero occorrenze nel corpo dei messaggi in 500 giorni.** Le persone
+  descrivono ciò che succede loro, mai il nome del metodo.
+- **Piedi e meditazione: stesso cambio di stato (~35–39%), trasferimento 12,3% contro 3,2%.**
+  La pratica che le persone si portano nella vita reale è quella dei piedi.
 
 ## Da agganciare prima del gate G3
 

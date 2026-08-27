@@ -35,7 +35,9 @@ RIGA = re.compile(r"^\[(\d{1,2}/\d{1,2}/\d{2,4}), (\d{1,2}:\d{2}(?::\d{2})?)\] (
 SISTEMA = ("Hai aggiunto", "Hai rimosso", "ha usato il link", "Hai creato", "Hai cambiato",
            "Hai eliminato", "Hai fissato", "Hai disattivato", "Hai attivato", "Hai modificato",
            "I messaggi e le chiamate", "è uscito", "sei uscito", "ha cambiato il", "è entrato",
-           "ti ha aggiunto", "Questo messaggio è stato eliminato", "Chat vocale")
+           "ti ha aggiunto", "Questo messaggio è stato eliminato", "Chat vocale",
+           "ha abbandonato", "immagine omessa", "video omesso", "audio omesso",
+           "sticker omesso", "GIF esclusa", "documento omesso", "ha cambiato numero")
 
 TEMI = {
     "corpo e sensazioni fisiche": ["corpo", "sentire il", "percep", "sensazion", "muscol",

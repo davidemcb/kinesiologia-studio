@@ -1,12 +1,13 @@
 # Protocollo master — Ricerca Touchfulness
 
-**Versione:** 1.3 · **Data:** 2026-08-27 · **Stato:** pre-registrato, non ancora eseguito
+**Versione:** 1.4 · **Data:** 2026-08-27 · **Stato:** pre-registrato, non ancora eseguito
 **Responsabile:** Dott. Davide Scuderi · **Ambito:** ricerca e sviluppo, non ricerca clinica
 
 **Storia delle revisioni** (dettaglio in §17)
 - **v1.1** — [Desk Research 01](desk-research-01.md): mercato, concorrenza, aderenza, prezzi
 - **v1.2** — [Evidenze scientifiche 01](evidenze-scientifiche-01.md): sette studi randomizzati sull'auto-tocco
 - **v1.3** — [Autopsia Wellfulness — Risultati 01](autopsia-risultati-01.md): i primi dati storici reali
+- **v1.4** — [Autopsia — Risultati 02](autopsia-risultati-02.md): mining pratica → effetto → trasferimento; nuova ipotesi HT
 
 ---
 
@@ -180,6 +181,7 @@ dopo aver visto i dati, quindi vanno confermate su un campione nuovo prima di co
 | **HA** | L'effetto è ripetibile e la pratica viene mantenuta ≥7 giorni senza sollecito | Esperimento 2 (§13) |
 | **HP** | Esiste un'offerta per la quale una quota significativa di persone qualificate paga davvero 67 € | Esperimento 3 (§14) |
 | **HD** | **Esiste una dose minima (durata × frequenza) che produce effetto percepibile e che ≥30% delle persone mantiene a 30 giorni senza sollecito** | Esperimento 2 (§13) |
+| **HT** | **Dopo una singola micro-esperienza guidata, ≥30% usa spontaneamente la pratica in una situazione reale entro 7 giorni, senza che sia stato chiesto** | Esperimento 1, follow-up +7 gg (§12) |
 | **HS** | I numeri di HP sono compatibili con il fabbisogno economico dello studio | §14.4 |
 
 **HD contro l'intuizione "più pratica = più valore".** Quest'ultima è teoricamente difendibile
@@ -666,7 +668,27 @@ RCT che questo progetto non può permettersi, e anche vincendolo lo scarto sareb
 Parità sull'efficacia + vantaggio sull'aderenza è una posizione difendibile.
 Il contrario non lo è.
 
-Il **trasferimento** è il segnale qualitativo più forte disponibile a questa scala: se qualcuno
+### HT — il trasferimento è un'ipotesi pre-registrata, non più solo un segnale (v1.4)
+
+Dal mining del corpus storico ([Risultati 02](autopsia-risultati-02.md) §3): 15 persone su 82
+hanno usato la pratica in situazioni reali, 11 l'hanno interiorizzata, 6 hanno la catena
+completa *pratica guidata → interiorizzazione → uso spontaneo*. La catena esiste. La domanda
+è se si può produrre deliberatamente.
+
+| Misura | Quando | Soglia |
+|---|---|---|
+| uso spontaneo riferito (sì/no + contesto verbatim) | +7 giorni | ≥ **30%** |
+| numero di usi spontanei | +7 giorni | mediana ≥ 2 fra chi usa |
+
+Regole di misura: la domanda diretta si fa **una sola volta, a +7 giorni**, preceduta da una
+domanda aperta; i racconti spontanei si marcano separatamente da quelli sollecitati e valgono
+di più. Chiedere ogni giorno "l'hai usata?" insegnerebbe la risposta.
+
+Se HT regge, il prodotto non è la sessione: è **l'insegnamento esplicito di una capacità
+trasferibile**. Se HT fallisce ma HE regge, il prodotto è la pratica ricorrente. Sono due
+prodotti diversi, e questo bivio è il vero output dell'Esperimento 1.
+
+Il **trasferimento** resta anche il segnale qualitativo più forte disponibile a questa scala: se qualcuno
 dice *"l'ho usato in macchina prima di una riunione"* senza che sia stato suggerito, sta
 succedendo qualcosa che nessuna scala 0–10 cattura. Va registrato ogni volta, verbatim, con data.
 
@@ -726,6 +748,14 @@ dose scelta, non misurata. Nell'Esperimento 2 **la dose è il fattore sperimenta
 
 n ≥ 8 per braccio, assegnazione casuale, 30 giorni. Si misurano per ogni braccio: aderenza
 (§13.2), effetto (§12) e abbandono con la **ragione dichiarata** dell'abbandono.
+
+**Regola di erogazione (v1.4):** l'Esperimento 2 si eroga **individualmente, senza gruppo e
+senza sessioni collettive dal vivo**. Nel materiale storico l'effetto era
+pratica+gruppo+guida+aspettativa insieme ([Risultati 02](autopsia-risultati-02.md) §5): se la
+dose viene erogata in gruppo, dose e relazione si confondono di nuovo e i tre bracci non
+insegnano niente. Il gruppo si testa **dopo**, come moltiplicatore di aderenza (H-W7), in un
+confronto dedicato — non mescolato alla dose. Questo serve anche H-W8: un formato che regge
+solo con sessioni dal vivo quotidiane è già falsificato da F14.
 
 **Esito atteso da falsificare:** che D-alta produca più valore. L'ipotesi rivale è che
 D-alta produca più abbandono e quindi **meno** valore cumulato. La quantità che decide non è
@@ -815,6 +845,22 @@ Ricavo netto per cliente        = prezzo − costi − imposte
 Clienti necessari al mese       = N = R / ricavo netto
 Persone da esporre al mese      = N / conversione
 ```
+
+### Il secondo vincolo: le ore di chi eroga (v1.3)
+
+```
+Ore di erogazione richieste al mese  ≤  ore sostenibili da una persona per 24 mesi
+```
+
+Da [Autopsia — Risultati 01](autopsia-risultati-01.md) §9. Wellfulness ha fallito **questo**
+test prima di quello economico: 1.883 sessioni dal vivo in 500 giorni, cinque al giorno, una
+persona sola, e l'offerta è collassata dopo sedici mesi. Un modello con quel carico non è
+sostenibile a nessun prezzo, e il calcolo si poteva fare prima.
+
+**Criterio F14:** se il formato che supera G4 richiede più ore di erogazione dal vivo di
+quelle sostenibili per 24 mesi, si cambia il formato — non la persona.
+
+### Il vincolo economico
 
 Se le persone da esporre superano di **3 volte** il traffico realisticamente raggiungibile in
 un mese, **HS è falsificata (F11)** e il modello non regge — a qualunque prezzo. In quel caso
@@ -946,6 +992,11 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | 2026-08-27 | §13.2 | S2 | Soglia D30 ≥ 25% confermata: a 20 secondi/giorno il 38% pratica quasi ogni giorno per un mese, e l'effetto esiste **solo** in chi pratica (ITT nullo) | Susman 2024 | DS |
 | 2026-08-27 | Allegato D | fisiologia CT + attenuazione sensoriale | Due nuovi bracci: velocità del gesto 1–10 cm/s, mano nuda vs strumento | l'auto-tocco è attenuato per costruzione; velocità e prevedibilità sono parametri, non stile | DS |
 | 2026-08-27 | Allegato G | — | Aperto il registro H-W1…H-W7 con criteri di falsificazione | ipotesi retrospettive su Wellfulness | DS |
+| 2026-08-27 | Autopsia 01 | export WhatsApp, 500 giorni | v1.3 — verdetti H-W, nuova H-W8, vincolo ore erogatore + **F14** in §14.4 | *nota: queste righe risultavano perse per un errore di scrittura del file, riapplicate in v1.4 — il commit v1.3 le dichiarava senza contenerle* | DS |
+| 2026-08-27 | Risultati 02 | mining 840 msg, 65 persone | v1.4 — HT pre-registrata; piedi candidata per l'Esp. 1; Esp. 2 individuale; errata di Risultati 01 | matrice pratica × cambio × trasferimento | DS |
+| 2026-08-27 | §3.2, §12 | Risultati 02 §3 | Nuova ipotesi secondaria **HT** (trasferimento ≥30% a 7 gg) con regole di misura anti-suggestione | la catena pratica→interiorizzazione→uso spontaneo esiste (15/82) ma è rara | DS |
+| 2026-08-27 | Allegato D | Risultati 02 §2 | Micro-esperienza candidata: **piedi** (cambio 35%, trasferimento 12,3%; meditazione: 39% ma 3,2%) | unica pratica con entrambi i segnali alti | DS |
+| 2026-08-27 | §13.3 | Risultati 02 §5 | Esperimento 2 erogato individualmente, senza gruppo | la dose non deve confondersi con la relazione | DS |
 
 **Regole del registro**
 - Si scrive **prima** di eseguire, non dopo aver visto il risultato.
@@ -967,6 +1018,7 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | **G** | [Autopsia di Wellfulness](autopsia-wellfulness.md) — analisi retrospettiva dei dati già esistenti · strumento: [`autopsia.py`](autopsia.py) |
 | **H** | [Evidenze scientifiche 01](evidenze-scientifiche-01.md) — cosa hanno già trovato gli studi randomizzati sull'auto-tocco |
 | **I** | [Autopsia Wellfulness — Risultati 01](autopsia-risultati-01.md) — i primi dati storici reali · strumento: [`whatsapp_autopsia.py`](whatsapp_autopsia.py) |
+| **L** | [Autopsia — Risultati 02](autopsia-risultati-02.md) — mining pratica → effetto → trasferimento · strumento: [`chat_mining.py`](chat_mining.py) |
 
 ---
 
