@@ -5,3 +5,6 @@ ricerca/dati/anagrafica.csv
 ricerca/dati/registrazioni/
 
 ricerca/dati/wellfulness.csv
+ricerca/dati/*_chat.txt
+ricerca/dati/chat/
+ricerca/dati/mappa-codici.csv

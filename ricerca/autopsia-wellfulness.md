@@ -198,7 +198,12 @@ Ognuna ha un criterio di falsificazione e il dato che la decide.
 | **H-W4** | Touchfulness ha un problema più riconoscibile del concetto generale Wellfulness | **IPOTESI** | *non decidibile con dati retrospettivi* — la decide la Fase 1 | — |
 | **H-W5** | Il tocco differenzia rispetto alle app audio/meditazione | **PARZIALMENTE INFORMATA** | vedi Evidenze 01 §3: vantaggio **solo** su misure corporee, parità sullo stress | se le interviste dicono che il problema forte è lo stress: nessun vantaggio |
 | **H-W6** | Un'esperienza brevissima ha aderenza superiore a più pratiche quotidiane | **PARZIALMENTE INFORMATA** | Evidenze 01 §5: a 20 secondi/giorno il 38% tiene un mese; ma la frequenza aumenta l'effetto | la decide l'Esperimento 2 a tre bracci, non l'autopsia |
-| **H-W7** | Il valore economico deriva più dall'accompagnamento che dalla singola pratica | **SUPPORTO INDIRETTO** | Evidenze 01 §6: l'attrition cala con il contatto umano. Nei dati: chi ha interagito col tutor è rimasto di più | chi ha interagito col tutor non è rimasto di più (attenzione all'inversione causale, §4.4) |
+| **H-W7** | Il valore economico deriva più dall'accompagnamento che dalla singola pratica | **SUPPORTATA** | Evidenze 01 §6 + [Risultati 01](autopsia-risultati-01.md) §5 e §4 | chi ha interagito col tutor non è rimasto di più (attenzione all'inversione causale, §4.4) |
+| **H-W8** | **Il vincolo non è l'aderenza dell'utente ma la sostenibilità di chi eroga** | **APERTA, forte supporto** | [Risultati 01](autopsia-risultati-01.md) §1 e §6: 1.883 sessioni dal vivo in 500 giorni, una persona sola, poi il crollo dell'offerta | se i report di presenza mostrano sessioni gia' vuote da mesi prima di febbraio 2026: l'erogatore ha smesso dopo la domanda, e H-W1 torna prioritaria |
+
+**Aggiornamento 27 agosto 2026:** i verdetti su H-W1…H-W8 sono in
+[Autopsia Wellfulness — Risultati 01](autopsia-risultati-01.md) §7, dall'analisi dell'export
+reale dei due gruppi WhatsApp.
 
 **Regola.** Nessuna H-W passa da NON TESTATA a un verdetto per impressione. Ogni cambio di
 stato occupa una riga nel registro delle decisioni del protocollo (§17), con il dato che l'ha

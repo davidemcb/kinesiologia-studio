@@ -19,7 +19,9 @@ protocollo non arriva al gate G5.
 | [`desk-research-01.md`](desk-research-01.md) | Mercato, concorrenza, aderenza, efficacia, prezzi — e cosa ciascun dato autorizza a concludere |
 | [`autopsia-wellfulness.md`](autopsia-wellfulness.md) | Analisi retrospettiva dei dati Wellfulness già esistenti, con il registro delle ipotesi H-W1…H-W7 |
 | [`evidenze-scientifiche-01.md`](evidenze-scientifiche-01.md) | **Cosa hanno già trovato gli studi randomizzati sull'auto-tocco** — e cosa resta non testato |
+| [`autopsia-risultati-01.md`](autopsia-risultati-01.md) | **I risultati sui dati storici reali** — 500 giorni, 5.292 messaggi, 86 persone |
 | [`autopsia.py`](autopsia.py) | Imbuto, curva di sopravvivenza, giorno modale di abbandono, divario di dose |
+| [`whatsapp_autopsia.py`](whatsapp_autopsia.py) | Autopsia di un gruppo dall'export di chat: sopravvivenza, canali, coorti, linguaggio |
 | [`scoring.py`](scoring.py) | Calcolatore dei punteggi e dei verdetti (Allegato C) |
 | [`dati/`](dati/) | Template CSV e dataset di esempio |
 
@@ -76,9 +78,10 @@ conclusioni restano precluse senza quel dato.
 
 | Fase | Stato |
 |---|---|
-| Protocollo pre-registrato | ✅ v1.2 — 2026-08-27 |
+| Protocollo pre-registrato | ✅ v1.3 — 2026-08-27 |
 | Desk Research 01 | ✅ completata — fonti primarie da agganciare (D5, D6, D7) |
 | Evidenze scientifiche 01 | ✅ completata — 7 studi, 3 letti solo in abstract |
+| Autopsia Wellfulness | 🟡 **primo blocco fatto** — mancano i report di presenza Zoom |
 | Autopsia Wellfulness | ⬜ da avviare — **in parallelo alla Fase 1** |
 | Fase 1 — interviste | ⬜ non iniziata |
 | Gate G1 | ⬜ |
@@ -118,6 +121,18 @@ progetto prima di raccogliere un solo dato nostro:
    interno e si calcola.
 3. **A 20 secondi al giorno, il 38% pratica quasi ogni giorno per un mese — e l'effetto
    esiste solo in chi pratica.** Sull'analisi che include tutti, l'effetto è zero.
+
+## Quello che dicono i dati storici reali
+
+Dall'[Autopsia — Risultati 01](autopsia-risultati-01.md), sull'export dei due gruppi WhatsApp:
+
+- **In 500 giorni e 5.292 messaggi il denaro non compare mai.** Gli anelli mancanti erano
+  Acquisizione e Acquisto, non l'aderenza.
+- **Mediana: 5,5 giorni attivi su 500.** La permanenza lunga era un'illusione di calendario.
+- **Del corpo si parla 25 volte più che dello stress** — stessa conclusione della letteratura,
+  da una fonte che non ha niente in comune con essa.
+- **1.883 sessioni dal vivo, cinque al giorno, una persona sola.** Il sistema si è fermato
+  quando si è fermato chi lo erogava.
 
 ## Da agganciare prima del gate G3
 

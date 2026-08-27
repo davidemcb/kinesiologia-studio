@@ -1,8 +1,12 @@
 # Protocollo master — Ricerca Touchfulness
 
-**Versione:** 1.1 · **Data:** 2026-08-26 · **Stato:** pre-registrato, non ancora eseguito
+**Versione:** 1.3 · **Data:** 2026-08-27 · **Stato:** pre-registrato, non ancora eseguito
 **Responsabile:** Dott. Davide Scuderi · **Ambito:** ricerca e sviluppo, non ricerca clinica
-**Modifiche v1.1:** recepita [Desk Research 01](desk-research-01.md) — vedi §17 per l'elenco puntuale
+
+**Storia delle revisioni** (dettaglio in §17)
+- **v1.1** — [Desk Research 01](desk-research-01.md): mercato, concorrenza, aderenza, prezzi
+- **v1.2** — [Evidenze scientifiche 01](evidenze-scientifiche-01.md): sette studi randomizzati sull'auto-tocco
+- **v1.3** — [Autopsia Wellfulness — Risultati 01](autopsia-risultati-01.md): i primi dati storici reali
 
 ---
 
@@ -962,6 +966,7 @@ raccolgono i dati (per non ancorare la raccolta): si guardano al gate.
 | **F** | [Desk Research 01](desk-research-01.md) — mercato, concorrenza, aderenza, efficacia, prezzi |
 | **G** | [Autopsia di Wellfulness](autopsia-wellfulness.md) — analisi retrospettiva dei dati già esistenti · strumento: [`autopsia.py`](autopsia.py) |
 | **H** | [Evidenze scientifiche 01](evidenze-scientifiche-01.md) — cosa hanno già trovato gli studi randomizzati sull'auto-tocco |
+| **I** | [Autopsia Wellfulness — Risultati 01](autopsia-risultati-01.md) — i primi dati storici reali · strumento: [`whatsapp_autopsia.py`](whatsapp_autopsia.py) |
 
 ---
 
