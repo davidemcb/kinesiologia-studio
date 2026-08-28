@@ -1829,7 +1829,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 23;
+  var APP_VERSION = 24;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2429,9 +2429,12 @@ window.loadNews = async function () {
       const p = doc.data();
       // i post senza argomento sono per tutti; gli altri solo a chi li ha scelti
       const perMe = !p.topic || !topics || topics.length === 0 || topics.includes(p.topic);
-      if (perMe) {
+      const data = (p.createdAt && p.createdAt.toDate) ? p.createdAt.toDate() : null;
+      // i post programmati per i giorni futuri restano nascosti fino al loro giorno
+      const gia = !data || data.getTime() <= Date.now();
+      if (perMe && gia) {
         p.id = doc.id;
-        p.data = (p.createdAt && p.createdAt.toDate) ? p.createdAt.toDate() : null;
+        p.data = data;
         posts.push(p);
       }
     });
