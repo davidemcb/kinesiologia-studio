@@ -444,8 +444,8 @@
   .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
 
   /* ---------- Pop-up del post nuovo ---------- */
-  #new-post-modal { align-items: center; background: rgba(20, 26, 23, 0.78); padding: 16px; }
-  #new-post-modal .modal-card {
+  #new-post-modal, #push-modal { align-items: center; background: rgba(20, 26, 23, 0.78); padding: 16px; }
+  #new-post-modal .modal-card, #push-modal .modal-card {
     border-radius: 20px;
     border-top: 6px solid var(--accent);
     padding: 0;
@@ -453,7 +453,7 @@
     animation: popIn 0.32s cubic-bezier(0.34, 1.4, 0.64, 1);
   }
   @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(14px); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { #new-post-modal .modal-card { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { #new-post-modal .modal-card, #push-modal .modal-card { animation: none; } }
   .np-head {
     background: var(--brand); color: var(--brand-ink);
     padding: 18px 22px 16px; text-align: center;
@@ -804,6 +804,25 @@
       Prenota
     </button>
   </nav>
+</div>
+
+<!-- ============ INVITO NOTIFICHE (prima apertura) ============ -->
+<div class="modal" id="push-modal" role="dialog" aria-modal="true" aria-labelledby="push-modal-title">
+  <div class="modal-card">
+    <div class="np-head">
+      <span class="np-badge">🎁 Vale 5 €</span>
+      <h2 id="push-modal-title">Vuoi che ti avvisi io?</h2>
+      <div class="np-meta">Il promemoria del controllo, i contenuti nuovi e i buoni in scadenza</div>
+    </div>
+    <div class="np-body">
+      <p>Niente pubblicità e niente messaggi inutili: solo quando c'è qualcosa che ti riguarda. E appena le attivi si sblocca un buono da <strong>5 €</strong> sul prossimo trattamento.</p>
+      <p id="push-modal-esito" style="display:none; margin-top:10px"></p>
+    </div>
+    <div class="np-foot">
+      <button class="btn btn-accent" id="push-modal-btn">Sì, avvisami</button>
+      <button class="text-btn np-share" id="push-modal-dopo" style="background:none; border:none; width:100%">Più tardi</button>
+    </div>
+  </div>
 </div>
 
 <!-- ============ POP-UP POST NUOVO ============ -->
@@ -1801,6 +1820,8 @@
     renderRewards();
     maybeShowPushCard();
     if (window.loadNews) window.loadNews();
+    // ultimo passo del benvenuto: l'invito ad attivare le notifiche
+    setTimeout(mostraInvitoNotifiche, 500);
   });
 
   /* ---------- Service worker ---------- */
@@ -1889,26 +1910,28 @@
       window.__pushIscritto = !!(ps && (ps.optedIn || ps.id));
     } catch (e) { window.__pushIscritto = false; }
     maybeShowPushCard();
+    // chi ha gia' fatto il benvenuto ma non e' iscritto lo rivede all'apertura
+    if (!window.__pushIscritto) setTimeout(mostraInvitoNotifiche, 1200);
     renderRewards(); // se le notifiche sono già attive, verifica e sblocca il buono
     // chi ha gia' scelto gli argomenti prima d'ora viene allineato adesso
     var saved = null;
     try { saved = JSON.parse(get('ks_topics') || 'null'); } catch (e) {}
     if (saved && saved.length) syncTopicTags(saved);
   });
-  document.getElementById('push-btn').addEventListener('click', async function () {
-    var btn = this;
+  // Attivazione delle notifiche: il permesso si chiede dentro il tocco (su
+  // iPhone e' l'unico modo), poi serve l'adesione esplicita, poi si verifica
+  // davvero il risultato invece di darlo per scontato.
+  async function attivaNotifiche(btn, nota, testoOriginale, alTermine) {
     btn.disabled = true;
     btn.textContent = 'Attivazione…';
 
-    // 1) il permesso va chiesto dentro il tocco: su iPhone e' l'unico modo
     try {
       if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
         await Notification.requestPermission();
       }
     } catch (e) {}
 
-    // 2) il permesso da solo non basta: serve l'adesione esplicita, altrimenti
-    //    il telefono resta registrato ma non riceve niente
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(async function (OneSignal) {
       try {
         if (OneSignal.User && OneSignal.User.PushSubscription) {
@@ -1918,29 +1941,67 @@
         }
       } catch (e) {}
 
-      // 3) si verifica il risultato vero, invece di darlo per scontato
       var iscritto = false;
       try {
         var ps = OneSignal.User && OneSignal.User.PushSubscription;
         iscritto = !!(ps && (ps.optedIn || ps.id));
       } catch (e) {}
+      window.__pushIscritto = iscritto;
 
       btn.disabled = false;
-      if (iscritto) {
-        document.getElementById('push-card').style.display = 'none';
-      } else {
+      btn.textContent = testoOriginale;
+      if (!iscritto && nota) {
         btn.textContent = 'Riprova ad attivare';
-        var nota = document.getElementById('push-esito');
-        if (nota) {
-          nota.style.display = 'block';
-          nota.textContent = (typeof Notification !== 'undefined' && Notification.permission === 'denied')
-            ? 'Le notifiche risultano bloccate per questo sito: vanno riattivate dalle impostazioni del telefono, poi torna qui.'
-            : 'Non è andata: se sei su iPhone, l\'app va prima aggiunta alla schermata Home e aperta da lì.';
-        }
+        nota.style.display = 'block';
+        nota.textContent = (typeof Notification !== 'undefined' && Notification.permission === 'denied')
+          ? 'Le notifiche risultano bloccate per questo sito: vanno riattivate dalle impostazioni del telefono, poi torna qui.'
+          : 'Non è andata: se sei su iPhone, l\'app va prima aggiunta alla schermata Home e aperta da lì.';
       }
       renderRewards(); // il buono si sblocca solo se le notifiche sono davvero attive
+      if (alTermine) alTermine(iscritto);
       maybeShowPushCard();
     });
+  }
+
+  document.getElementById('push-btn').addEventListener('click', function () {
+    attivaNotifiche(this, document.getElementById('push-esito'), 'Attiva e prendi il buono', function (ok) {
+      if (ok) document.getElementById('push-card').style.display = 'none';
+    });
+  });
+
+  /* ---------- Invito a schermo pieno alla prima apertura ---------- */
+  var pushModal = document.getElementById('push-modal');
+
+  function pushPossibile() {
+    var i = pwaInfo();
+    if (typeof Notification === 'undefined') return false;   // browser senza notifiche
+    if (i.ios && !i.standalone) return false;                // iPhone da scheda: non si puo'
+    return Notification.permission !== 'denied';
+  }
+
+  var invitiRimandati = 0;
+  function mostraInvitoNotifiche() {
+    if (!get(LS.onboarded) || window.__pushIscritto || !pushPossibile()) return;
+    // non piu' di una volta al giorno, per non diventare molesti
+    var oggi = new Date().toISOString().slice(0, 10);
+    if (get('ks_pushChiestoIl') === oggi) return;
+    // se c'e' gia' un pop-up aperto (il post del giorno) si aspetta il suo turno
+    if (document.querySelector('.modal.open')) {
+      if (invitiRimandati++ < 5) setTimeout(mostraInvitoNotifiche, 4000);
+      return;
+    }
+    set('ks_pushChiestoIl', oggi);
+    document.getElementById('push-modal-esito').style.display = 'none';
+    pushModal.classList.add('open');
+  }
+
+  document.getElementById('push-modal-btn').addEventListener('click', function () {
+    attivaNotifiche(this, document.getElementById('push-modal-esito'), 'Sì, avvisami', function (ok) {
+      if (ok) pushModal.classList.remove('open');
+    });
+  });
+  document.getElementById('push-modal-dopo').addEventListener('click', function () {
+    pushModal.classList.remove('open');
   });
 
   /* ---------- Premi ---------- */
