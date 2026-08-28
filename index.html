@@ -1829,7 +1829,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 24;
+  var APP_VERSION = 25;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -1949,6 +1949,27 @@
       var ps = OneSignal.User && OneSignal.User.PushSubscription;
       window.__pushIscritto = !!(ps && (ps.optedIn || ps.id));
     } catch (e) { window.__pushIscritto = false; }
+
+    // Diagnostica: una riga al giorno che dice in che stato sono le notifiche
+    // su questo telefono. Serve a capire perche' un'iscrizione non riesce,
+    // senza dover chiedere niente alla persona.
+    try {
+      var oggiD = new Date().toISOString().slice(0, 10);
+      if (get('ks_diagPushIl') !== oggiD) {
+        set('ks_diagPushIl', oggiD);
+        var inf = pwaInfo();
+        var pss = OneSignal.User && OneSignal.User.PushSubscription;
+        track('push_stato', [
+          inf.ios ? 'ios' : (inf.android ? 'android' : 'altro'),
+          inf.browser,
+          inf.standalone ? 'installata' : 'browser',
+          'perm=' + (typeof Notification !== 'undefined' ? Notification.permission : 'assente'),
+          'optedIn=' + (pss ? String(pss.optedIn) : 'n/d'),
+          'id=' + (pss && pss.id ? 'si' : 'no')
+        ].join(' '));
+      }
+    } catch (e) {}
+
     maybeShowPushCard();
     // chi ha gia' fatto il benvenuto ma non e' iscritto lo rivede all'apertura
     if (!window.__pushIscritto) setTimeout(mostraInvitoNotifiche, 1200);
