@@ -1824,12 +1824,52 @@
     setTimeout(mostraInvitoNotifiche, 500);
   });
 
-  /* ---------- Service worker ---------- */
+  /* ---------- Service worker e aggiornamento automatico ----------
+     Il link e' sempre lo stesso: e' l'app che a ogni apertura controlla se
+     esiste una versione piu' nuova e, se c'e', si ricarica da sola.
+     ATTENZIONE: APP_VERSION deve restare allineata a version.json.
+     Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
+  var APP_VERSION = 23;
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js').catch(function () {});
+      navigator.serviceWorker.register('sw.js').then(function (reg) {
+        try { reg.update(); } catch (e) {}
+      }).catch(function () {});
     });
   }
+
+  var controlloInCorso = false;
+  function controllaAggiornamenti() {
+    if (controlloInCorso) return;
+    controlloInCorso = true;
+    fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        controlloInCorso = false;
+        if (!d || typeof d.v !== 'number' || d.v <= APP_VERSION) return;
+        // versione nuova: si buttano via le cache vecchie e si ricarica
+        var pulizia = (window.caches && caches.keys)
+          ? caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); })
+          : Promise.resolve();
+        pulizia.catch(function () {}).then(function () {
+          location.replace(location.pathname + '?v=' + d.v);
+        });
+      })
+      .catch(function () { controlloInCorso = false; });
+  }
+
+  controllaAggiornamenti();
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') {
+      controllaAggiornamenti();
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration().then(function (reg) {
+          if (reg) { try { reg.update(); } catch (e) {} }
+        }).catch(function () {});
+      }
+    }
+  });
 
   /* ---------- Notifiche push (OneSignal v16) ---------- */
   var oneSignalReady = false;
