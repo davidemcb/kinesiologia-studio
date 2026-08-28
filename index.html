@@ -530,6 +530,7 @@
       <h2>🔔 Attiva le notifiche: −5 € subito</h2>
       <p>Il promemoria del check-up, il consiglio della settimana e i tuoi buoni in scadenza arrivano da soli. E appena le attivi, si sblocca un buono da 5 € sul prossimo trattamento.</p>
       <div style="margin-top:12px"><button class="btn btn-accent" id="push-btn">Attiva e prendi il buono</button></div>
+      <p id="push-esito" style="display:none; font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.5"></p>
     </div>
 
     <!-- Notifiche non attivabili da qui: spiega cosa fare invece di sparire -->
@@ -1853,8 +1854,10 @@
       return;
     }
 
-    // l'invito vero e proprio: solo a chi non ha ancora deciso
-    if (oneSignalReady && Notification.permission === 'default') {
+    // L'invito resta anche a chi ha dato il permesso ma non risulta iscritto:
+    // altrimenti la card sparisce e non arriva comunque niente.
+    if (oneSignalReady && (Notification.permission === 'default' ||
+        (Notification.permission === 'granted' && window.__pushIscritto === false))) {
       card.style.display = 'block';
     }
   }
@@ -1880,6 +1883,11 @@
       serviceWorkerParam: { scope: '/kinesiologia-studio/' }
     });
     oneSignalReady = true;
+    // si guarda se questo telefono e' davvero iscritto, non solo autorizzato
+    try {
+      var ps = OneSignal.User && OneSignal.User.PushSubscription;
+      window.__pushIscritto = !!(ps && (ps.optedIn || ps.id));
+    } catch (e) { window.__pushIscritto = false; }
     maybeShowPushCard();
     renderRewards(); // se le notifiche sono già attive, verifica e sblocca il buono
     // chi ha gia' scelto gli argomenti prima d'ora viene allineato adesso
@@ -1887,11 +1895,51 @@
     try { saved = JSON.parse(get('ks_topics') || 'null'); } catch (e) {}
     if (saved && saved.length) syncTopicTags(saved);
   });
-  document.getElementById('push-btn').addEventListener('click', function () {
+  document.getElementById('push-btn').addEventListener('click', async function () {
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Attivazione…';
+
+    // 1) il permesso va chiesto dentro il tocco: su iPhone e' l'unico modo
+    try {
+      if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+        await Notification.requestPermission();
+      }
+    } catch (e) {}
+
+    // 2) il permesso da solo non basta: serve l'adesione esplicita, altrimenti
+    //    il telefono resta registrato ma non riceve niente
     window.OneSignalDeferred.push(async function (OneSignal) {
-      await OneSignal.Notifications.requestPermission();
-      document.getElementById('push-card').style.display = 'none';
-      renderRewards(); // permesso concesso → il buono si sblocca all'istante
+      try {
+        if (OneSignal.User && OneSignal.User.PushSubscription) {
+          await OneSignal.User.PushSubscription.optIn();
+        } else {
+          await OneSignal.Notifications.requestPermission();
+        }
+      } catch (e) {}
+
+      // 3) si verifica il risultato vero, invece di darlo per scontato
+      var iscritto = false;
+      try {
+        var ps = OneSignal.User && OneSignal.User.PushSubscription;
+        iscritto = !!(ps && (ps.optedIn || ps.id));
+      } catch (e) {}
+
+      btn.disabled = false;
+      if (iscritto) {
+        document.getElementById('push-card').style.display = 'none';
+      } else {
+        btn.textContent = 'Riprova ad attivare';
+        var nota = document.getElementById('push-esito');
+        if (nota) {
+          nota.style.display = 'block';
+          nota.textContent = (typeof Notification !== 'undefined' && Notification.permission === 'denied')
+            ? 'Le notifiche risultano bloccate per questo sito: vanno riattivate dalle impostazioni del telefono, poi torna qui.'
+            : 'Non è andata: se sei su iPhone, l\'app va prima aggiunta alla schermata Home e aperta da lì.';
+        }
+      }
+      renderRewards(); // il buono si sblocca solo se le notifiche sono davvero attive
+      maybeShowPushCard();
     });
   });
 
