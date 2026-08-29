@@ -855,7 +855,7 @@
     <div class="np-body"><p id="np-text"></p></div>
     <div class="np-foot">
       <button class="btn btn-primary" id="np-ok">Ho letto</button>
-      <a class="text-btn np-share" id="np-share" href="#" target="_blank" rel="noopener">Condividi su WhatsApp</a>
+      <div class="share-bar sb-sm" id="np-sharebar" style="justify-content:center"></div>
     </div>
   </div>
 </div>
@@ -1632,6 +1632,7 @@
     bar.appendChild(more);
   }
   document.querySelectorAll('[data-sharebar]').forEach(function (bar) { makeShareBar(bar, shareText); });
+  window.ksShareBar = makeShareBar; // usata anche dai post del giorno (script dei post)
   function sbCount() {
     set('ks_shareCount', String(shareCount() + 1));
     track('share', 'sharebar');
@@ -1913,7 +1914,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 29;
+  var APP_VERSION = 30;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2489,9 +2490,10 @@ function esc(s) {
   return d.innerHTML;
 }
 
+// Il link all'app lo aggiunge la barra di condivisione, qui solo il testo
 function msgCondivisione(p) {
-  return '📖 *' + (p.title || '') + '*\n\n' + (p.text || '') +
-    '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nTutti i contenuti nell\'app: ' + SITE;
+  return '📖 ' + (p.title || '') + '\n\n' + (p.text || '') +
+    '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nTutti i contenuti nell\'app:';
 }
 
 // Il pop-up del post nuovo: si apre sopra tutto e si chiude solo col tasto.
@@ -2501,7 +2503,9 @@ function mostraPopupPost(p) {
   const label = topicLabels[p.topic] || p.topic || '';
   const dataStr = p.data ? p.data.toLocaleDateString('it-IT') : '';
   document.getElementById('np-meta').textContent = [label, dataStr].filter(Boolean).join(' · ');
-  document.getElementById('np-share').href = 'https://wa.me/?text=' + encodeURIComponent(msgCondivisione(p));
+  const npBar = document.getElementById('np-sharebar');
+  npBar.innerHTML = '';
+  if (window.ksShareBar) window.ksShareBar(npBar, msgCondivisione(p));
   document.getElementById('new-post-modal').classList.add('open');
 }
 
@@ -2522,9 +2526,18 @@ function schedaPost(p, nuovo) {
     '<div class="eyebrow">Dallo studio' + (label ? ' · ' + esc(label) : '') + (dateStr ? ' · ' + dateStr : '') + '</div>' +
     '<h2>' + esc(p.title) + '</h2>' +
     '<p style="white-space:pre-line">' + esc(p.text) + '</p>' +
-    '<div style="margin-top:12px">' +
-      '<a class="text-btn" style="text-decoration:underline" href="https://wa.me/?text=' + encodeURIComponent(msgCondivisione(p)) + '" target="_blank" rel="noopener">Condividi su WhatsApp</a>' +
-    '</div></div>';
+    '<div class="share-bar sb-sm" data-postshare="' + esc(p.id) + '"></div>' +
+    '</div>';
+}
+
+// Riempie le barre di condivisione delle schede appena disegnate
+function attivaBarrePost(posts) {
+  if (!window.ksShareBar) return;
+  document.querySelectorAll('[data-postshare]').forEach(bar => {
+    if (bar.childElementCount) return;
+    const p = posts.find(x => x.id === bar.dataset.postshare);
+    if (p) window.ksShareBar(bar, msgCondivisione(p));
+  });
 }
 
 window.loadNews = async function () {
@@ -2563,6 +2576,7 @@ window.loadNews = async function () {
     const archivio = posts.filter(p => !diOggi(p)).slice(0, 20);
     arch.innerHTML = archivio.map(p => schedaPost(p, false)).join('');
     archLabel.style.display = archivio.length ? 'block' : 'none';
+    attivaBarrePost(posts);
 
     // pop-up: solo per il post del giorno, e solo se non e' gia' stato letto
     if (freschi.length) {
