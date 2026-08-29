@@ -1609,6 +1609,16 @@
       a.title = l.label;
       a.innerHTML = SB_ICONS[l.cls.replace('sb-', '')];
       a.addEventListener('click', sbCount);
+      if (l.cls === 'sb-fb' && navigator.share) {
+        // Sul telefono si e' loggati nell'APP di Facebook, non nel browser:
+        // il menu di condivisione con il SOLO link (niente testo, che
+        // farebbe perdere il link a Facebook) e' l'unico modo affidabile
+        // per far comparire la scheda cliccabile nel post.
+        a.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          navigator.share({ url: u }).catch(function () {});
+        });
+      }
       bar.appendChild(a);
     });
     // Instagram e TikTok non hanno un link di condivisione web: il tasto "altro"
@@ -1921,7 +1931,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 33;
+  var APP_VERSION = 34;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
