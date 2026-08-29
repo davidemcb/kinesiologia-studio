@@ -573,9 +573,7 @@
       <div class="eyebrow">Consiglio del giorno</div>
       <h2 id="tip-title">…</h2>
       <p id="tip-text">…</p>
-      <div class="tip-share">
-        <a class="btn btn-ghost" id="tip-share-btn" href="#" target="_blank" rel="noopener">Condividilo su WhatsApp</a>
-      </div>
+      <div class="share-bar sb-sm" id="tip-sharebar"></div>
     </div>
 
     <div class="card">
@@ -590,7 +588,7 @@
         <div class="ch-dots" id="ch-dots" style="display:none"></div>
         <div class="ch-text" id="ch-text">7 micro-abitudini in 7 giorni di fila. Ce la fai?</div>
         <button class="text-btn" id="ch-btn">Inizia la Sfida dei 7 Giorni</button>
-        <a class="btn btn-accent" id="ch-share" href="#" target="_blank" rel="noopener" style="display:none; margin-top:10px; padding:11px 16px; font-size:13.5px">Condividi il traguardo 🏅</a>
+        <div class="share-bar sb-sm" id="ch-share" style="display:none; justify-content:center"></div>
       </div>
     </div>
 
@@ -667,7 +665,7 @@
       <h2 id="myth-title">…</h2>
       <p id="myth-text">…</p>
       <div class="tip-share">
-        <a class="btn btn-ghost" id="myth-share-btn" href="#" target="_blank" rel="noopener">Sfata il mito su WhatsApp</a>
+        <div class="share-bar sb-sm" id="myth-sharebar"></div>
       </div>
     </div>
 
@@ -1137,9 +1135,11 @@
     var tip = allTips[dayIndex() % allTips.length];
     document.getElementById('tip-title').textContent = tip.t;
     document.getElementById('tip-text').textContent = tip.x;
-    var msg = '💡 Consiglio del giorno dal mio kinesiologo:\n\n*' + tip.t + '*\n' + tip.x +
-      '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nTutti i consigli nell\'app: ' + SITE;
-    document.getElementById('tip-share-btn').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    var msg = '💡 Consiglio del giorno dal mio kinesiologo:\n\n' + tip.t + '\n' + tip.x +
+      '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nTutti i consigli nell\'app:';
+    var tipBar = document.getElementById('tip-sharebar');
+    tipBar.innerHTML = '';
+    makeShareBar(tipBar, msg);
   }
 
   /* ---------- Habit + streak ---------- */
@@ -1235,9 +1235,10 @@
       drawDots(7);
       text.textContent = 'Sfida completata! 🏅 Sette giorni di fila: il tuo corpo se n\'è accorto.';
       btn.textContent = 'Ripeti la sfida';
-      share.style.display = 'inline-flex';
-      var msg = '🏅 Ho completato la Sfida dei 7 Giorni: una micro-abitudine al giorno per il mio corpo, per una settimana di fila!\n\nProvala anche tu nell\'app del Dott. Davide Scuderi (Kinesiologia Studio, Modena): ' + SITE;
-      share.href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+      share.style.display = 'flex';
+      var msg = '🏅 Ho completato la Sfida dei 7 Giorni: una micro-abitudine al giorno per il mio corpo, per una settimana di fila!\n\nProvala anche tu nell\'app del Dott. Davide Scuderi (Kinesiologia Studio, Modena):';
+      share.innerHTML = '';
+      makeShareBar(share, msg);
     } else if (state === 'active') {
       drawDots(days);
       text.textContent = days === 0
@@ -1284,8 +1285,10 @@
     document.getElementById('myth-title').textContent = myth.m;
     document.getElementById('myth-text').textContent = myth.r;
     var msg = '❌ FALSO MITO: ' + myth.m + '\n\n✅ LA VERITÀ: ' + myth.r +
-      '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nOgni settimana un mito da sfatare nell\'app: ' + SITE;
-    document.getElementById('myth-share-btn').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+      '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nOgni settimana un mito da sfatare nell\'app:';
+    var mythBar = document.getElementById('myth-sharebar');
+    mythBar.innerHTML = '';
+    makeShareBar(mythBar, msg);
   }
 
   /* ---------- Diario del corpo ---------- */
@@ -1462,17 +1465,18 @@
       document.getElementById('test-sub').textContent = 'Risultato';
       track('test_done', String(pct));
       var msg = (prev && pct > prev.s)
-        ? '🧪 Test del corpo: da ' + prev.s + ' a ' + pct + '/100 (+' + (pct - prev.s) + ' punti)! Il lavoro paga.\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE
+        ? '🧪 Test del corpo: da ' + prev.s + ' a ' + pct + '/100 (+' + (pct - prev.s) + ' punti)! Il lavoro paga.\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena:'
         : '🧪 Ho appena fatto il Test del corpo: ' + pct + '/100!\n' + testVerdict(pct) +
-          '\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena: ' + SITE;
+          '\n\nProvalo anche tu (2 minuti, in casa) nell\'app del Dott. Davide Scuderi, Kinesiologia Studio Modena:';
       body.innerHTML =
         '<div class="test-score">' + pct + '<span style="font-size:22px">/100</span></div>' +
         deltaHtml +
         '<p class="test-verdict">' + testVerdict(pct) + '</p>' +
         planNote +
         '<button class="btn btn-accent" id="test-book">Porta il risultato in studio: prenota</button>' +
-        '<a class="btn btn-ghost" style="margin-top:10px" href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Condividi il punteggio</a>' +
+        '<div class="share-bar sb-sm" id="test-sharebar" style="justify-content:center"></div>' +
         '<div style="text-align:center; margin-top:12px"><button class="text-btn" id="test-quit">Chiudi</button></div>';
+      makeShareBar(document.getElementById('test-sharebar'), msg);
       renderTestEntry();
       renderRewards();
       renderPlan();
@@ -1917,7 +1921,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 32;
+  var APP_VERSION = 33;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2258,8 +2262,9 @@
     if (d[b.dataset.rwuse]) { d[b.dataset.rwuse].used = true; rwSave(d); renderRewards(); }
   });
 
-  // Contatore condivisioni per il badge Ambasciatore
-  ['tip-share-btn', 'myth-share-btn', 'referral-btn', 'referral-btn-2', 'ch-share'].forEach(function (id) {
+  // Contatore condivisioni per il badge Ambasciatore (le barre social
+  // contano gia' da sole dentro makeShareBar)
+  ['referral-btn', 'referral-btn-2'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.addEventListener('click', function () {
       set('ks_shareCount', String(shareCount() + 1));
