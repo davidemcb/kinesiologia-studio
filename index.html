@@ -1917,7 +1917,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 31;
+  var APP_VERSION = 32;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2508,7 +2508,7 @@ function mostraPopupPost(p) {
   document.getElementById('np-meta').textContent = [label, dataStr].filter(Boolean).join(' · ');
   const npBar = document.getElementById('np-sharebar');
   npBar.innerHTML = '';
-  if (window.ksShareBar) window.ksShareBar(npBar, msgCondivisione(p));
+  if (window.ksShareBar) urlPost(p).then(u => { window.ksShareBar(npBar, msgCondivisione(p), u); });
   document.getElementById('new-post-modal').classList.add('open');
 }
 
@@ -2533,13 +2533,25 @@ function schedaPost(p, nuovo) {
     '</div>';
 }
 
+// Ogni post ha la sua paginetta con l'anteprima per i social, generata ogni
+// ora da GitHub Actions; se non esiste ancora (post appena uscito) si
+// condivide il link generico dell'app.
+async function urlPost(p) {
+  const u = SITE + 'condividi/post-' + p.id + '.html';
+  try {
+    const r = await fetch(u, { method: 'HEAD' });
+    if (r.ok) return u;
+  } catch (e) {}
+  return undefined;
+}
+
 // Riempie le barre di condivisione delle schede appena disegnate
 function attivaBarrePost(posts) {
   if (!window.ksShareBar) return;
-  document.querySelectorAll('[data-postshare]').forEach(bar => {
+  document.querySelectorAll('[data-postshare]').forEach(async bar => {
     if (bar.childElementCount) return;
     const p = posts.find(x => x.id === bar.dataset.postshare);
-    if (p) window.ksShareBar(bar, msgCondivisione(p));
+    if (p) window.ksShareBar(bar, msgCondivisione(p), await urlPost(p));
   });
 }
 

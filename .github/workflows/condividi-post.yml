@@ -1,0 +1,35 @@
+name: Anteprime social dei post
+
+# Ogni ora rigenera le paginette di condivisione dei post del giorno,
+# così i nuovi post pubblicati da Firestore ricevono la loro anteprima
+# per Facebook e gli altri social senza fare niente a mano.
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: condividi-post
+  cancel-in-progress: false
+
+jobs:
+  genera:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Genera le pagine dei post
+        run: node scripts/genera-condividi-post.mjs
+      - name: Pubblica se qualcosa è cambiato
+        run: |
+          if [ -n "$(git status --porcelain condividi)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add condividi
+            git commit -m "Anteprime social: pagine dei post aggiornate"
+            git push
+          else
+            echo "Nessun cambiamento."
+          fi
