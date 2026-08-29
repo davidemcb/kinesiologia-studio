@@ -862,6 +862,9 @@
 <div class="modal" id="onboarding" role="dialog" aria-modal="true" aria-labelledby="ob-title">
   <div class="modal-card">
     <h2 id="ob-title">Benvenuto 👋</h2>
+    <div id="ob-vai-nota" style="display:none; background:var(--brand-soft); border:1.5px solid var(--brand); border-radius:12px; padding:10px 14px; margin-top:10px; font-size:14px; line-height:1.5">
+      📖 <strong>L'articolo ti aspetta!</strong> Rispondi a due domande veloci e te lo apriamo subito.
+    </div>
     <p class="sub">Due domande veloci, e l'app si prende cura dei tuoi promemoria.</p>
 
     <div class="field-label">Ogni quanto vuoi il richiamo per il controllo?</div>
@@ -897,15 +900,6 @@
       oppure cancellarli quando vuoi da "Cambia promemoria".
     </p>
 
-    <div class="field-label">Di cosa vuoi ricevere i contenuti dello studio?</div>
-    <div class="chips" id="topic-chips">
-      <button class="chip selected" data-topic="stress">Stress</button>
-      <button class="chip selected" data-topic="temporo-mandibolare">Mandibola</button>
-      <button class="chip selected" data-topic="schiena">Schiena</button>
-      <button class="chip selected" data-topic="cervicale">Cervicale</button>
-      <button class="chip selected" data-topic="sport">Sport</button>
-    </div>
-
     <button class="btn btn-primary" id="ob-confirm" disabled>Inizia</button>
   </div>
 </div>
@@ -923,6 +917,11 @@
 (function () {
   var CALENDLY = 'https://calendly.com/infokinesiologia/consulenza';
   var SITE = 'https://davidemcb.github.io/kinesiologia-studio/';
+  // Chi arriva da un link condiviso (?vai=articolo-2 o ?vai=post-abc) viene
+  // portato a quel contenuto appena possibile: subito se ha gia' fatto il
+  // benvenuto, altrimenti appena lo completa.
+  var vaiParam = null;
+  try { vaiParam = new URLSearchParams(location.search).get('vai'); } catch (e) {}
   var LS = {
     interval: 'ks_interval',
     last: 'ks_lastTreatment',
@@ -1648,6 +1647,35 @@
   }
   document.querySelectorAll('[data-sharebar]').forEach(function (bar) { makeShareBar(bar, shareText); });
   window.ksShareBar = makeShareBar; // usata anche dai post del giorno (script dei post)
+
+  // Porta la persona al contenuto del link condiviso, se ce n'è uno
+  function vaiAlContenuto() {
+    if (!vaiParam) return;
+    var m = vaiParam.match(/^articolo-(\d+)$/);
+    if (m) {
+      var card = document.getElementById('article-' + m[1]);
+      if (!card) { vaiParam = null; return; }
+      switchView('sapere');
+      var full = document.getElementById('article-full-' + m[1]);
+      if (full) { full.style.display = 'block'; }
+      var btn = card.querySelector('[data-expand]');
+      if (btn) { btn.textContent = 'Chiudi'; }
+      setTimeout(function () { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
+      vaiParam = null;
+    } else if (/^post-/.test(vaiParam)) {
+      // i post arrivano da Firestore: se non ci sono ancora si riprova
+      // quando loadNews li ha disegnati (chiama window.ksProvaVai)
+      var bar = document.querySelector('[data-postshare="' + vaiParam.replace('post-', '') + '"]');
+      if (!bar) return;
+      var pCard = bar.closest('.card');
+      switchView(bar.closest('#archivio-list') ? 'sapere' : 'oggi');
+      setTimeout(function () { pCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
+      vaiParam = null;
+    } else {
+      vaiParam = null;
+    }
+  }
+  window.ksProvaVai = vaiAlContenuto;
   function sbCount() {
     set('ks_shareCount', String(shareCount() + 1));
     track('share', 'sharebar');
@@ -1854,13 +1882,7 @@
       c.classList.toggle('selected', parseInt(c.dataset.days, 10) === obInterval);
     });
     document.querySelectorAll('#last-chips .chip').forEach(function (c) { c.classList.remove('selected'); });
-    var savedTopics = null;
-    try { savedTopics = JSON.parse(get('ks_topics') || 'null'); } catch (e) {}
-    if (savedTopics) {
-      document.querySelectorAll('#topic-chips .chip').forEach(function (c) {
-        c.classList.toggle('selected', savedTopics.indexOf(c.dataset.topic) !== -1);
-      });
-    }
+    document.getElementById('ob-vai-nota').style.display = vaiParam ? 'block' : 'none';
     updateObButton();
     modal.classList.add('open');
   }
@@ -1880,10 +1902,6 @@
     document.querySelectorAll('#last-chips .chip').forEach(function (x) { x.classList.toggle('selected', x === c); });
     updateObButton();
   });
-  document.getElementById('topic-chips').addEventListener('click', function (e) {
-    var c = e.target.closest('.chip'); if (!c) return;
-    c.classList.toggle('selected');
-  });
   document.getElementById('ob-confirm').addEventListener('click', function () {
     if (!obInterval) return;
     set(LS.interval, String(obInterval));
@@ -1892,8 +1910,8 @@
     } else if (obAgo === -1) {
       try { localStorage.removeItem(LS.last); } catch (e) {}
     }
-    var topics = [];
-    document.querySelectorAll('#topic-chips .chip.selected').forEach(function (c) { topics.push(c.dataset.topic); });
+    // Niente scelta degli argomenti: i contenuti arrivano a tutti, generici
+    var topics = ['stress', 'temporo-mandibolare', 'schiena', 'cervicale', 'sport'];
     set('ks_topics', JSON.stringify(topics));
     syncTopicTags(topics);
     var bdD = document.getElementById('bday-day').value;
@@ -1922,8 +1940,14 @@
     renderRewards();
     maybeShowPushCard();
     if (window.loadNews) window.loadNews();
-    // ultimo passo del benvenuto: l'invito ad attivare le notifiche
-    setTimeout(mostraInvitoNotifiche, 500);
+    if (vaiParam) {
+      // e' arrivato per leggere un contenuto: prima quello, l'invito
+      // alle notifiche lo rivedra' alla prossima apertura
+      vaiAlContenuto();
+    } else {
+      // ultimo passo del benvenuto: l'invito ad attivare le notifiche
+      setTimeout(mostraInvitoNotifiche, 500);
+    }
   });
 
   /* ---------- Service worker e aggiornamento automatico ----------
@@ -1931,7 +1955,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 34;
+  var APP_VERSION = 35;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2076,10 +2100,11 @@
     // chi ha gia' fatto il benvenuto ma non e' iscritto lo rivede all'apertura
     if (!window.__pushIscritto) setTimeout(mostraInvitoNotifiche, 1200);
     renderRewards(); // se le notifiche sono già attive, verifica e sblocca il buono
-    // chi ha gia' scelto gli argomenti prima d'ora viene allineato adesso
-    var saved = null;
-    try { saved = JSON.parse(get('ks_topics') || 'null'); } catch (e) {}
-    if (saved && saved.length) syncTopicTags(saved);
+    // Argomenti ormai generici: tutti ricevono tutto, anche chi in passato
+    // ne aveva scelti solo alcuni
+    var tuttiTopics = ['stress', 'temporo-mandibolare', 'schiena', 'cervicale', 'sport'];
+    set('ks_topics', JSON.stringify(tuttiTopics));
+    syncTopicTags(tuttiTopics);
   });
   // Attivazione delle notifiche: il permesso si chiede dentro il tocco (su
   // iPhone e' l'unico modo), poi serve l'adesione esplicita, poi si verifica
@@ -2424,7 +2449,7 @@
   renderPlan();
   renderPostProgram();
   maybeShowPushCard(); // anche se OneSignal non parte (es. iPhone non installato)
-  if (!get(LS.onboarded)) { openOnboarding(); }
+  if (!get(LS.onboarded)) { openOnboarding(); } else { vaiAlContenuto(); }
 })();
 </script>
 
@@ -2574,8 +2599,7 @@ window.loadNews = async function () {
   const wrap = document.getElementById('news-list');
   const arch = document.getElementById('archivio-list');
   const archLabel = document.getElementById('archivio-label');
-  let topics = null;
-  try { topics = JSON.parse(localStorage.getItem('ks_topics') || 'null'); } catch (e) {}
+  const topics = null; // argomenti generici: ogni post è per tutti
 
   try {
     const snap = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc'), limit(40)));
@@ -2607,6 +2631,7 @@ window.loadNews = async function () {
     arch.innerHTML = archivio.map(p => schedaPost(p, false)).join('');
     archLabel.style.display = archivio.length ? 'block' : 'none';
     attivaBarrePost(posts);
+    if (window.ksProvaVai) window.ksProvaVai(); // link condiviso verso un post
 
     // pop-up: solo per il post del giorno, e solo se non e' gia' stato letto
     if (freschi.length) {
@@ -2614,7 +2639,9 @@ window.loadNews = async function () {
       window.__ultimoPostId = ultimo.id;
       let visto = null;
       try { visto = localStorage.getItem('ks_lastSeenPost'); } catch (e) {}
-      if (localStorage.getItem('ks_onboarded') && visto !== ultimo.id) {
+      // se la persona e' arrivata da un link condiviso, niente pop-up sopra il contenuto
+      const arrivoCondiviso = new URLSearchParams(location.search).get('vai');
+      if (!arrivoCondiviso && localStorage.getItem('ks_onboarded') && visto !== ultimo.id) {
         setTimeout(() => mostraPopupPost(ultimo), 700);
       }
     }

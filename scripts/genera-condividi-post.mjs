@@ -72,7 +72,7 @@ for (const p of posts) {
 <body>
 <div><h1 style="font-size:22px">${escAttr(p.title)}</h1><p>${escAttr(desc)}</p>
 <p>Ti sto portando all’app… <a href="${SITE}">Apri Kinesiologia Studio</a></p></div>
-<script>location.replace(${JSON.stringify(SITE)});</script>
+<script>location.replace(${JSON.stringify(SITE + '?vai=post-' + p.id)});</script>
 </body>
 </html>
 `);
