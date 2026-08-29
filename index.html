@@ -298,6 +298,8 @@
   .referral h2 { color: var(--brand-ink); }
   .referral p { color: var(--brand-ink); opacity: 0.85; }
   .referral .btn { margin-top: 14px; }
+  .share-row { display: flex; gap: 8px; margin-top: 8px; }
+  .share-row .btn { margin-top: 0; padding: 11px 10px; font-size: 13.5px; flex: 1; }
 
   /* ---------- Diario ---------- */
   .diary-scale { display: grid; grid-template-columns: repeat(11, 1fr); gap: 4px; margin-top: 12px; }
@@ -721,6 +723,10 @@
       <h2>Conosci qualcuno che si trascina un fastidio da mesi?</h2>
       <p>Il regalo più utile è fargli scoprire il perché. E conviene a tutti e due: se prenota facendo il tuo nome, <strong>10 € di sconto a testa</strong> — a lui sul primo trattamento, a te sul prossimo.</p>
       <a class="btn btn-accent" id="referral-btn" href="#" target="_blank" rel="noopener">Invia a un amico su WhatsApp</a>
+      <div class="share-row">
+        <a class="btn btn-ghost" id="referral-fb" href="#" target="_blank" rel="noopener">Facebook</a>
+        <button class="btn btn-ghost" id="referral-more" type="button">Instagram, TikTok…</button>
+      </div>
     </div>
 
     <div class="card" style="background:var(--brand-soft); border-color:var(--brand)">
@@ -778,6 +784,10 @@
       <h2>Conosci qualcuno che soffre?</h2>
       <p>Regalagli questa app: consigli, esercizi e la possibilità di prenotare un controllo.</p>
       <a class="btn btn-accent" id="referral-btn-2" href="#" target="_blank" rel="noopener">Invia l'app su WhatsApp</a>
+      <div class="share-row">
+        <a class="btn btn-ghost" id="referral-fb-2" href="#" target="_blank" rel="noopener">Facebook</a>
+        <button class="btn btn-ghost" id="referral-more-2" type="button">Instagram, TikTok…</button>
+      </div>
     </div>
   </section>
 
@@ -1556,6 +1566,35 @@
   var ref2 = document.getElementById('referral-btn-2');
   if (ref2) ref2.href = 'https://wa.me/?text=' + encodeURIComponent(refMsg2);
 
+  // Facebook accetta solo il link: il testo lo scrive l'utente nel post
+  var fbHref = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE);
+  ['referral-fb', 'referral-fb-2'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.href = fbHref;
+  });
+
+  // Instagram e TikTok non hanno un link di condivisione web: si passa dal
+  // menu di condivisione del telefono, dove le loro app compaiono tra le scelte
+  var moreShareText = 'Ti consiglio l\'app del Dott. Davide Scuderi, kinesiologo a Modena: ' +
+    'consigli quotidiani, esercizi di prevenzione e prenotazione online.';
+  ['referral-more', 'referral-more-2'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('click', function () {
+      if (navigator.share) {
+        navigator.share({ title: 'Kinesiologia Studio', text: moreShareText, url: SITE }).catch(function () {});
+      } else {
+        var full = moreShareText + '\n' + SITE;
+        function ok() { el.textContent = 'Copiato ✓ incollalo dove vuoi'; setTimeout(function () { el.textContent = 'Instagram, TikTok…'; }, 3000); }
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(full).then(ok).catch(function () { prompt('Copia questo messaggio:', full); });
+        } else {
+          prompt('Copia questo messaggio:', full);
+        }
+      }
+    });
+  });
+
   /* ---------- Articoli Sapere ---------- */
   var articles = [
     {
@@ -1829,7 +1868,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 25;
+  var APP_VERSION = 26;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2171,7 +2210,8 @@
   });
 
   // Contatore condivisioni per il badge Ambasciatore
-  ['tip-share-btn', 'myth-share-btn', 'referral-btn', 'referral-btn-2', 'ch-share'].forEach(function (id) {
+  ['tip-share-btn', 'myth-share-btn', 'referral-btn', 'referral-btn-2', 'ch-share',
+   'referral-fb', 'referral-fb-2', 'referral-more', 'referral-more-2'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.addEventListener('click', function () {
       set('ks_shareCount', String(shareCount() + 1));
