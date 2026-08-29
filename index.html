@@ -312,6 +312,9 @@
   .sb-x  { background: #14171A; }
   .sb-tg { background: #26A5E4; }
   .sb-more { background: var(--brand); }
+  .share-bar.sb-sm { justify-content: flex-start; gap: 8px; margin-top: 10px; }
+  .share-bar.sb-sm a, .share-bar.sb-sm button { width: 36px; height: 36px; }
+  .share-bar.sb-sm svg { width: 17px; height: 17px; }
 
   /* ---------- Diario ---------- */
   .diary-scale { display: grid; grid-template-columns: repeat(11, 1fr); gap: 4px; margin-top: 12px; }
@@ -1583,15 +1586,15 @@
     tg: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>',
     more: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>'
   };
-  var SB_LINKS = [
-    { cls: 'sb-wa', label: 'Condividi su WhatsApp', href: 'https://wa.me/?text=' + encodeURIComponent(shareText + '\n' + SITE) },
-    { cls: 'sb-fb', label: 'Condividi su Facebook', href: 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE) },
-    { cls: 'sb-in', label: 'Condividi su LinkedIn', href: 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(SITE) },
-    { cls: 'sb-x', label: 'Condividi su X', href: 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(SITE) },
-    { cls: 'sb-tg', label: 'Condividi su Telegram', href: 'https://t.me/share/url?url=' + encodeURIComponent(SITE) + '&text=' + encodeURIComponent(shareText) }
-  ];
-  document.querySelectorAll('[data-sharebar]').forEach(function (bar) {
-    SB_LINKS.forEach(function (l) {
+  function makeShareBar(bar, text) {
+    var links = [
+      { cls: 'sb-wa', label: 'Condividi su WhatsApp', href: 'https://wa.me/?text=' + encodeURIComponent(text + '\n' + SITE) },
+      { cls: 'sb-fb', label: 'Condividi su Facebook', href: 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE) },
+      { cls: 'sb-in', label: 'Condividi su LinkedIn', href: 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(SITE) },
+      { cls: 'sb-x', label: 'Condividi su X', href: 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(SITE) },
+      { cls: 'sb-tg', label: 'Condividi su Telegram', href: 'https://t.me/share/url?url=' + encodeURIComponent(SITE) + '&text=' + encodeURIComponent(text) }
+    ];
+    links.forEach(function (l) {
       var a = document.createElement('a');
       a.className = l.cls;
       a.href = l.href;
@@ -1614,9 +1617,9 @@
     more.addEventListener('click', function () {
       sbCount();
       if (navigator.share) {
-        navigator.share({ title: 'Kinesiologia Studio', text: shareText, url: SITE }).catch(function () {});
+        navigator.share({ title: 'Kinesiologia Studio', text: text, url: SITE }).catch(function () {});
       } else {
-        var full = shareText + '\n' + SITE;
+        var full = text + '\n' + SITE;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(full).then(function () {
             alert('Messaggio copiato! Incollalo dove vuoi: Instagram, TikTok, email…');
@@ -1627,7 +1630,8 @@
       }
     });
     bar.appendChild(more);
-  });
+  }
+  document.querySelectorAll('[data-sharebar]').forEach(function (bar) { makeShareBar(bar, shareText); });
   function sbCount() {
     set('ks_shareCount', String(shareCount() + 1));
     track('share', 'sharebar');
@@ -1678,8 +1682,6 @@
     var wrap = document.getElementById('articles-list');
     var html = '';
     articles.forEach(function (a, i) {
-      var shareMsg = '📖 *' + a.title + '*\n\n' + a.preview +
-        '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nL\'articolo completo è nell\'app: ' + SITE;
       html += '<div class="card article" id="article-' + i + '">' +
         '<div class="eyebrow">' + a.cat + '</div>' +
         '<h2>' + a.title + '</h2>' +
@@ -1687,13 +1689,17 @@
         '<div class="article-full" id="article-full-' + i + '" style="display:none; margin-top:10px">' +
           a.full.split('\n\n').map(function (p) { return '<p style="margin-bottom:10px">' + p + '</p>'; }).join('') +
         '</div>' +
-        '<div style="margin-top:12px; display:flex; gap:18px; flex-wrap:wrap">' +
-          '<button class="text-btn" data-expand="' + i + '">Leggi tutto</button>' +
-          '<a class="text-btn" href="https://wa.me/?text=' + encodeURIComponent(shareMsg) + '" target="_blank" rel="noopener">Condividi su WhatsApp</a>' +
-        '</div>' +
+        '<div style="margin-top:12px"><button class="text-btn" data-expand="' + i + '">Leggi tutto</button></div>' +
+        '<div class="share-bar sb-sm" data-artshare="' + i + '"></div>' +
         '</div>';
     });
     wrap.innerHTML = html;
+    wrap.querySelectorAll('[data-artshare]').forEach(function (bar) {
+      var a = articles[parseInt(bar.dataset.artshare, 10)];
+      var msg = '📖 ' + a.title + '\n\n' + a.preview +
+        '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nL\'articolo completo è nell\'app:';
+      makeShareBar(bar, msg);
+    });
     wrap.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-expand]');
       if (!btn) return;
@@ -1907,7 +1913,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 27;
+  var APP_VERSION = 28;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {

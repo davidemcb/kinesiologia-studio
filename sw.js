@@ -3,7 +3,7 @@ try {
   importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
 } catch (e) {}
 
-var CACHE = 'ks-v27';
+var CACHE = 'ks-v28';
 var ASSETS = [
   './',
   './index.html',
