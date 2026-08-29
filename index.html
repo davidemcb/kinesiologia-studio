@@ -901,6 +901,9 @@
     </p>
 
     <button class="btn btn-primary" id="ob-confirm" disabled>Inizia</button>
+    <div style="text-align:center">
+      <button class="text-btn" id="ob-gia-uso" style="display:none; margin-top:14px; text-decoration:underline">Uso già l'app: portami al contenuto →</button>
+    </div>
   </div>
 </div>
 
@@ -1883,6 +1886,9 @@
     });
     document.querySelectorAll('#last-chips .chip').forEach(function (c) { c.classList.remove('selected'); });
     document.getElementById('ob-vai-nota').style.display = vaiParam ? 'block' : 'none';
+    // chi usa gia' l'app installata arriva qui dal browser di Facebook, che
+    // non vede i suoi dati: puo' saltare il benvenuto e leggere subito
+    document.getElementById('ob-gia-uso').style.display = vaiParam ? 'inline-block' : 'none';
     updateObButton();
     modal.classList.add('open');
   }
@@ -1901,6 +1907,14 @@
     obAgo = parseInt(c.dataset.ago, 10);
     document.querySelectorAll('#last-chips .chip').forEach(function (x) { x.classList.toggle('selected', x === c); });
     updateObButton();
+  });
+  document.getElementById('ob-gia-uso').addEventListener('click', function () {
+    // niente da salvare: questa copia (browser di Facebook) non e' la sua
+    // app installata, gli serve solo leggere il contenuto condiviso
+    modal.classList.remove('open');
+    track('ob_salta', 'link-condiviso');
+    if (window.loadNews) window.loadNews();
+    vaiAlContenuto();
   });
   document.getElementById('ob-confirm').addEventListener('click', function () {
     if (!obInterval) return;
@@ -1955,7 +1969,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 35;
+  var APP_VERSION = 36;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
