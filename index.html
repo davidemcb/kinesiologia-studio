@@ -1913,7 +1913,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 28;
+  var APP_VERSION = 29;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2362,14 +2362,21 @@
     accToggle(tList);
 
     var gHtml = '';
-    GIFTS.forEach(function (g) {
+    GIFTS.forEach(function (g, i) {
       gHtml += accItem(g.n, g.p,
         '<p>' + g.d + '</p>' +
-        '<div style="margin-top:12px">' + giftBtn(g) + '</div>');
+        '<div style="margin-top:12px">' + giftBtn(g) + '</div>' +
+        '<div class="share-bar sb-sm" data-giftshare="' + i + '"></div>');
     });
     var gList = document.getElementById('gifts-list');
     gList.innerHTML = gHtml;
     accToggle(gList);
+    gList.querySelectorAll('[data-giftshare]').forEach(function (bar) {
+      var g = GIFTS[parseInt(bar.dataset.giftshare, 10)];
+      var msg = '🎁 Idea regalo: "' + g.n + '" (' + g.p + ') — ' + g.d +
+        '\n\n— Kinesiologia Studio, Dott. Davide Scuderi (Modena)\nTutte le idee regalo sono nell\'app:';
+      makeShareBar(bar, msg);
+    });
 
     function trackCatalog(container, primaryType) {
       container.addEventListener('click', function (e) {
