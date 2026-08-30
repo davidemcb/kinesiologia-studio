@@ -721,6 +721,15 @@
     </div>
 
     <div class="card">
+      <div class="eyebrow">Al telefono · gratis</div>
+      <h2>☎️ Come gestisci le giornate pesanti?</h2>
+      <p>Sto facendo una piccola ricerca: <strong>una chiacchierata di 30 minuti</strong> su come affrontiamo stanchezza, tensioni e giornate che non finiscono mai. Nessuna vendita, nessun impegno: scegli tu il momento e <strong>ti chiamo io</strong> al numero che lasci prenotando.</p>
+      <div style="margin-top:12px">
+        <button class="btn btn-primary" id="ricerca-btn">Scegli quando farti chiamare</button>
+      </div>
+    </div>
+
+    <div class="card">
       <div class="eyebrow">I trattamenti</div>
       <h2>Un'ora che lavora davvero</h2>
       <p>Ogni trattamento comprende <strong>valutazione, test muscolari, trattamento ed esercizi personalizzati</strong>. Tocca un trattamento per i dettagli.</p>
@@ -988,8 +997,23 @@
       s.src = 'https://assets.calendly.com/assets/external/widget.js';
       s.async = true;
       document.body.appendChild(s);
+      var l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(l);
     }
   }
+
+  /* ---------- Ricerca: chiamata gratuita di 30 minuti ---------- */
+  var RICERCA = 'https://calendly.com/infokinesiologia/ricerca-come-gestiamo-le-giornate-pesanti-30-minuti';
+  document.getElementById('ricerca-btn').addEventListener('click', function () {
+    track('ricerca_click', '');
+    if (window.Calendly && window.Calendly.initPopupWidget) {
+      window.Calendly.initPopupWidget({ url: RICERCA + '?hide_gdpr_banner=1&primary_color=2f5d51' });
+    } else {
+      window.open(RICERCA, '_blank', 'noopener');
+    }
+  });
 
   /* ---------- Timer ---------- */
   var CIRC = 2 * Math.PI * 74;
@@ -2101,7 +2125,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 40;
+  var APP_VERSION = 41;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
