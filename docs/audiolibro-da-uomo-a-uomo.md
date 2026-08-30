@@ -1,9 +1,13 @@
 # "Da uomo a uomo" — costi, piattaforme e strategia per l'audiolibro
 
 Analisi per l'audiolibro di **"Da uomo a uomo"** (Davide Scuderi): manoscritto
-completo, **oltre 200 pagine, non ancora pubblicato**. Dati raccolti ad
-agosto 2026. Per il quadro generale del mercato vedi anche
-`audiolibro-costi-fattibilita.md`.
+completo, non ancora pubblicato. Dati raccolti ad agosto 2026. Per il quadro
+generale del mercato vedi anche `audiolibro-costi-fattibilita.md`.
+
+> **Aggiornamento**: il manoscritto supera le **300 pagine** (qui era stimato
+> 200+) e il libro è il primo di una collana sull'universo maschile. I numeri
+> aggiornati e il sistema di produzione per la collana sono in
+> **`sistema-audiolibri-collana-maschile.md`**.
 
 ---
 
