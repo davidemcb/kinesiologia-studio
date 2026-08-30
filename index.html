@@ -532,6 +532,19 @@
       <p id="post-text">…</p>
     </div>
 
+    <!-- I richiami piu' avanti nel tempo: 7, 15, 21, 30, 45, 60 giorni -->
+    <div class="card" id="richiamo-card" style="display:none; border-left:4px solid var(--accent)">
+      <div class="eyebrow" id="richiamo-eyebrow">Dopo il trattamento</div>
+      <h2 id="richiamo-title">…</h2>
+      <p id="richiamo-text">…</p>
+      <div style="margin-top:12px; display:none" id="richiamo-azione-wrap">
+        <button class="btn btn-primary" id="richiamo-azione">…</button>
+      </div>
+      <div style="margin-top:10px; text-align:center">
+        <button class="text-btn" id="richiamo-ok">Ho letto</button>
+      </div>
+    </div>
+
     <div class="card" id="review-card" style="display:none">
       <div class="eyebrow">Un favore da 30 secondi</div>
       <h2>Com'è andata oggi?</h2>
@@ -1023,7 +1036,10 @@
 
   document.getElementById('btn-treated').addEventListener('click', function () {
     set(LS.last, new Date().toISOString());
+    // nuovo trattamento: la sequenza dei richiami riparte da capo
+    set('ks_richiami', '{}');
     renderTimer();
+    renderRichiamo();
     track('treated', '');
     if (!get(LS.review)) document.getElementById('review-card').style.display = 'block';
     // tessera fedeltà: un timbro per giorno di trattamento
@@ -1055,6 +1071,87 @@
     document.getElementById('post-text').textContent = p.x;
     card.style.display = 'block';
   }
+
+  /* ---------- I richiami nei 90 giorni ----------
+     Il programma dei primi 3 giorni si ferma presto: da qui in avanti
+     il corpo cambia piu' lentamente, e servono pochi richiami ben distanziati.
+     Ognuno compare una volta sola e resta finche' non viene letto. */
+  var RICHIAMI = [
+    { g: 7, t: 'Una settimana dopo: come va?',
+      x: 'Sette giorni sono il momento in cui si capisce se il cambiamento ha tenuto. Fatti due domande oneste: il fastidio è tornato uguale, tornato ma meno, o non è tornato? Qualunque sia la risposta è un\'informazione utile, e mi serve al prossimo controllo.\n\nIntanto continua con gli esercizi della tua zona: sono nella sezione Corpo.' },
+    { g: 15, t: 'Il momento in cui si molla',
+      x: 'Due settimane è quando quasi tutti smettono con gli esercizi: il dolore non c\'è più e sembrano inutili. È esattamente il contrario. Il dolore se ne va per primo, la capacità del tessuto di reggere il carico ci mette molto di più.\n\nBastano cinque minuti al giorno. Non serve fare di più, serve non smettere.' },
+    { g: 21, t: 'Tre settimane: facciamo il punto',
+      x: 'A tre settimane il quadro è chiaro. Se stai bene, ottimo: la strada è quella. Se il fastidio è tornato, non è un fallimento — è un\'informazione che vale oro, perché dice che qualcosa nella tua giornata continua a riprodurre il problema.\n\nSe è tornato, scrivimelo o prenota: quello che cerchiamo è la causa, non il sintomo.' },
+    { g: 30, t: 'Un mese. Posso chiederti una cosa?',
+      x: 'Se questo mese è andato meglio, la tua esperienza può servire a chi sta ancora cercando. Una recensione onesta su Google — anche due righe — è il modo in cui le persone trovano lo studio: nessuna pubblicità funziona come le parole di chi c\'è già passato.\n\nSe invece qualcosa non va, dimmelo prima a me: è più utile a entrambi.',
+      azione: 'recensione' },
+    { g: 45, t: 'Un mese e mezzo: alza l\'asticella',
+      x: 'A questo punto il tessuto ha avuto il tempo di adattarsi, e gli esercizi di prima potrebbero essere diventati facili. È il segnale per aumentare: qualche ripetizione in più, un po\' più di carico, o un esercizio più impegnativo.\n\nIl criterio è sempre lo stesso: fastidio fino a 3 su 10 durante, e la mattina dopo non peggio di prima.' },
+    { g: 60, t: 'Due mesi: manca un mese al controllo',
+      x: 'Sessanta giorni. Il controllo consigliato è a tre mesi, quindi manca un mese: è il momento buono per prendere l\'appuntamento, quando puoi ancora scegliere il giorno e l\'ora che ti comodano.\n\nControllare adesso che stai bene costa molto meno che rincorrere il problema quando torna.',
+      azione: 'prenota' }
+  ];
+
+  function richiamiVisti() {
+    try { return JSON.parse(get('ks_richiami') || '{}'); } catch (e) { return {}; }
+  }
+
+  function renderRichiamo() {
+    var card = document.getElementById('richiamo-card');
+    card.style.display = 'none';
+    var lastRaw = get(LS.last);
+    if (!lastRaw) return;
+
+    var giorni = daysBetween(new Date(lastRaw).getTime(), Date.now());
+    var visti = richiamiVisti();
+    // si prende il richiamo piu' avanzato fra quelli maturati e non ancora letti
+    var dovuto = null;
+    RICHIAMI.forEach(function (r) {
+      if (giorni >= r.g && !visti[r.g]) dovuto = r;
+    });
+    if (!dovuto) return;
+
+    document.getElementById('richiamo-eyebrow').textContent = 'Dopo il trattamento · ' + dovuto.g + ' giorni';
+    document.getElementById('richiamo-title').textContent = dovuto.t;
+    document.getElementById('richiamo-text').textContent = dovuto.x;
+
+    var wrap = document.getElementById('richiamo-azione-wrap');
+    var btn = document.getElementById('richiamo-azione');
+    wrap.style.display = dovuto.azione ? 'block' : 'none';
+    if (dovuto.azione === 'recensione') {
+      btn.textContent = '⭐ Lascia una recensione su Google';
+    } else if (dovuto.azione === 'prenota') {
+      btn.textContent = '📅 Prenota il controllo';
+    }
+    btn.dataset.azione = dovuto.azione || '';
+    card.dataset.giorno = dovuto.g;
+    card.style.display = 'block';
+  }
+
+  function segnaRichiamoLetto() {
+    var card = document.getElementById('richiamo-card');
+    var g = card.dataset.giorno;
+    if (!g) return;
+    var visti = richiamiVisti();
+    visti[g] = new Date().toISOString().slice(0, 10);
+    set('ks_richiami', JSON.stringify(visti));
+    track('richiamo_letto', 'giorno ' + g);
+    renderRichiamo();
+  }
+
+  document.getElementById('richiamo-ok').addEventListener('click', segnaRichiamoLetto);
+  document.getElementById('richiamo-azione').addEventListener('click', function () {
+    var a = this.dataset.azione;
+    track('richiamo_azione', a + ' giorno ' + document.getElementById('richiamo-card').dataset.giorno);
+    segnaRichiamoLetto();
+    if (a === 'recensione') {
+      window.open('https://www.google.com/maps/search/?api=1&query=Kinesiologia+Studio+Via+Capilupi+21+Modena', '_blank');
+    } else if (a === 'prenota') {
+      switchView('prenota');
+    }
+  });
+
   document.getElementById('review-link').addEventListener('click', function () {
     set(LS.review, 'true');
     track('review_click', '');
@@ -1969,7 +2066,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 36;
+  var APP_VERSION = 37;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2462,6 +2559,7 @@
   renderRoutines();
   renderPlan();
   renderPostProgram();
+  renderRichiamo();
   maybeShowPushCard(); // anche se OneSignal non parte (es. iPhone non installato)
   if (!get(LS.onboarded)) { openOnboarding(); } else { vaiAlContenuto(); }
 })();
