@@ -1152,6 +1152,27 @@
     }
   });
 
+  // Anteprima riservata allo studio: rilegge tutti i richiami in fila.
+  // Si apre solo aggiungendo ?anteprima=richiami all'indirizzo: i pazienti
+  // non la incontrano mai.
+  if (/[?&]anteprima=richiami/.test(location.search)) {
+    var ant = document.createElement('div');
+    ant.innerHTML =
+      '<div class="card" style="background:var(--brand); color:var(--brand-ink)">' +
+      '<h2 style="color:var(--brand-ink)">Anteprima dei richiami</h2>' +
+      '<p style="color:var(--brand-ink); opacity:.85">Questa schermata la vedi solo tu. Ogni riquadro compare al paziente il giorno indicato, contato dal suo ultimo trattamento.</p></div>' +
+      RICHIAMI.map(function (r) {
+        return '<div class="card" style="border-left:4px solid var(--accent)">' +
+          '<div class="eyebrow">Giorno ' + r.g + '</div>' +
+          '<h2>' + r.t + '</h2>' +
+          '<p style="white-space:pre-line">' + r.x + '</p>' +
+          (r.azione ? '<p style="font-size:12px; color:var(--muted); margin-top:10px">Con il tasto: ' +
+            (r.azione === 'recensione' ? '⭐ recensione su Google' : '📅 prenota il controllo') + '</p>' : '') +
+          '</div>';
+      }).join('');
+    document.getElementById('view-oggi').prepend(ant);
+  }
+
   document.getElementById('review-link').addEventListener('click', function () {
     set(LS.review, 'true');
     track('review_click', '');
@@ -2066,7 +2087,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 37;
+  var APP_VERSION = 38;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
