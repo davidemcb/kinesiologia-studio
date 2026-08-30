@@ -141,7 +141,47 @@ da zero.
 
 ---
 
-## 5. Riepilogo operativo
+## 5. E gli ebook? La filiera completa costa quasi zero
+
+Il sistema si estende naturalmente a tutta la produzione editoriale. Costi
+reali per ogni nuovo titolo della collana, tutto compreso:
+
+| Fase | Strumento | Costo per libro |
+|---|---|---|
+| Scrittura assistita da AI (struttura, riscritture, editing) | Claude / ChatGPT (~€20/mese) | ~€20–60 |
+| Impaginazione ebook + cartaceo | Editor Youcanprint / Reedsy (gratis) | €0 |
+| Copertina | Canva (gratis) o grafico | €0–200 |
+| ISBN + distribuzione ebook/cartaceo su tutti gli store | Youcanprint | €0 |
+| Audiolibro con clone vocale (§3) | ElevenLabs | ~€100–200 |
+| **Totale per titolo, filiera completa** | | **~€150–450** |
+
+### L'avvertenza che vale più del risparmio
+
+"Dare in pasto all'AI" funziona se l'AI fa **l'operaio, non l'autore**:
+struttura, riscrive, corregge, impagina, legge con la tua voce clonata. Il
+contenuto — i casi visti in studio, le posizioni sull'universo maschile,
+l'esperienza da kinesiologo — deve restare tuo, per tre motivi concreti:
+
+1. **È l'unica cosa che vende.** Di libri generici scritti dall'AI gli store
+   sono già pieni e non li compra nessuno; la collana si regge sul fatto che
+   a parlare "da uomo a uomo" sia una persona reale con uno studio reale.
+2. **Regole degli store**: Amazon KDP impone di dichiarare i contenuti
+   *AI-generated* (creati dall'AI), mentre i contenuti *AI-assisted*
+   (scritti da te con l'aiuto dell'AI per editing e riscritture) non vanno
+   dichiarati. Restare nella seconda categoria è la posizione sicura.
+3. **Temi delicati**: sessualità maschile e violenza sugli uomini richiedono
+   accuratezza e sensibilità che devono portare la tua firma professionale,
+   non quella di un modello statistico.
+
+Flusso di scrittura consigliato per titolo: tu detti/scrivi la materia prima
+(anche registrandoti a voce: la trascrizione è gratuita con Whisper o
+simili), l'AI struttura e riscrive, tu revisioni capitolo per capitolo. Così
+un libro esce in 2–4 mesi invece che in anni, resta tuo, e a fine filiera i
+suoi costi vivi sono sotto i €450 — audiolibro incluso.
+
+---
+
+## 6. Riepilogo operativo
 
 | Quando | Cosa | Costo |
 |---|---|---|
