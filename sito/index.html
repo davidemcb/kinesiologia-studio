@@ -239,6 +239,34 @@
   .lbl-f { color: var(--accent); }
   .lbl-t { color: var(--brand); }
 
+  /* Libri */
+  .book-band { background: var(--brand-soft); }
+  .books { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  @media (min-width: 800px) { .books { grid-template-columns: repeat(2, 1fr); } }
+  .book {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 24px; box-shadow: var(--shadow);
+    display: grid; grid-template-columns: 108px 1fr; gap: 22px; align-items: start;
+  }
+  .cover {
+    aspect-ratio: 2 / 3; border-radius: 4px 9px 9px 4px;
+    background: linear-gradient(100deg, var(--brand-strong) 0 9px, var(--brand) 9px);
+    color: var(--brand-ink); padding: 14px 12px 12px 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    box-shadow: 0 6px 16px rgba(34, 48, 43, .22);
+  }
+  .cover .ct { font-family: var(--font-display); font-size: 16px; font-weight: 600; line-height: 1.15; }
+  .cover .ca { font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+  .book h3 { margin-bottom: 4px; }
+  .book .sub { font-size: 13.5px; font-weight: 700; letter-spacing: .04em; color: var(--brand); }
+  .book p { color: var(--muted); font-size: 15.5px; margin-top: 10px; }
+  .book .btn { margin-top: 16px; min-height: 46px; padding: 11px 20px; font-size: 15px; }
+  .soon {
+    border: 1px dashed var(--line); border-radius: 16px; padding: 24px;
+    display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  }
+  .soon p { color: var(--muted); font-size: 15.5px; }
+
   /* Recensioni */
   .quote { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
   .quote p { font-size: 16px; }
@@ -577,6 +605,37 @@
     </div>
   </section>
 
+  <!-- ============ I LIBRI ============ -->
+  <section id="libri" class="book-band">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">I libri</div>
+        <h2>Quello che puoi fare da solo, scritto per intero</h2>
+        <p>In studio lavoro con le mani. Nei libri metto quello che puoi fare tu, a casa, senza di me.</p>
+      </div>
+      <div class="books">
+        <div class="book">
+          <div class="cover" aria-hidden="true">
+            <div class="ct">Vestirsi<br>di Sé</div>
+            <div class="ca">Davide Scuderi</div>
+          </div>
+          <div>
+            <h3>Vestirsi di Sé</h3>
+            <div class="sub">Manuale di automassaggio consapevole</div>
+            <p>Un manuale pratico per tornare in contatto con te nel momento in cui ne hai bisogno: movimenti spiegati passo per passo, per aumentare il benessere e abbassare lo stress con le tue mani. È il seguito naturale di quello che facciamo in studio.</p>
+            <a class="btn btn-accent" href="https://www.amazon.it/Vestirsi-S%C3%A9-Davide-Scuderi/dp/B0C12D3DQS" target="_blank" rel="noopener">Acquista su Amazon</a>
+          </div>
+        </div>
+        <div class="soon">
+          <div class="eyebrow">Presto qui</div>
+          <h3>Gli altri titoli</h3>
+          <p>Sto raccogliendo qui tutti i libri: appena sono pronti i collegamenti, li trovi in questa pagina.</p>
+        </div>
+      </div>
+      <p style="margin-top: 22px; font-size: 15.5px; color: var(--muted)">Vuoi il libro <em>e</em> la seduta? Il <strong>Kit Rinascita</strong> (97 €) mette insieme un trattamento completo da 60 minuti e una copia di <em>Vestirsi di Sé</em> — <a href="#prenota">chiedimelo quando prenoti</a>.</p>
+    </div>
+  </section>
+
   <!-- ============ FALSI MITI ============ -->
   <section>
     <div class="wrap">
@@ -784,6 +843,7 @@
         <ul>
           <li><a href="#metodo">Come lavoro</a></li>
           <li><a href="#percorso">Il percorso</a></li>
+          <li><a href="#libri">I libri</a></li>
           <li><a href="../">L'app dello studio</a></li>
           <li><a href="https://calendly.com/infokinesiologia/consulenza" target="_blank" rel="noopener">Prenota online</a></li>
         </ul>
