@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2F5D51">
+<title>Kinesiologia Studio — Dott. Davide Scuderi, Modena</title>
+<meta name="description" content="Kinesiologia a Modena: valutazione, test muscolari, trattamento ed esercizi su misura. Il tuo corpo ripara, io tolgo quello che glielo impedisce. Via Capilupi 21.">
+<link rel="icon" href="../icons/icon-192.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* Gli stessi identici colori e caratteri dell'app: sito e app sono la stessa cosa. */
+  :root {
+    --bg: #F4F3EC;
+    --surface: #FFFFFF;
+    --surface-2: #ECEDE3;
+    --ink: #22302B;
+    --muted: #5C6B64;
+    --line: #DDE0D2;
+    --brand: #2F5D51;
+    --brand-strong: #24493F;
+    --brand-ink: #F2F7F3;
+    --brand-soft: #E2ECE5;
+    --accent: #C98632;
+    --accent-ink: #26190A;
+    --shadow: 0 2px 10px rgba(34, 48, 43, 0.07);
+    --shadow-lg: 0 10px 30px rgba(34, 48, 43, 0.10);
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A17;
+      --surface: #1D2521;
+      --surface-2: #242D28;
+      --ink: #E8ECE6;
+      --muted: #9AA79F;
+      --line: #2E3833;
+      --brand: #7FB5A3;
+      --brand-strong: #93C4B4;
+      --brand-ink: #10201A;
+      --brand-soft: #24352E;
+      --accent: #DFA24C;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A17;
+    --surface: #1D2521;
+    --surface-2: #242D28;
+    --ink: #E8ECE6;
+    --muted: #9AA79F;
+    --line: #2E3833;
+    --brand: #7FB5A3;
+    --brand-strong: #93C4B4;
+    --brand-ink: #10201A;
+    --brand-soft: #24352E;
+    --accent: #DFA24C;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .narrow { max-width: 760px; }
+
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; text-wrap: balance; }
+  h1 { font-size: clamp(32px, 6vw, 54px); letter-spacing: -0.01em; }
+  h2 { font-size: clamp(26px, 4vw, 38px); }
+  h3 { font-size: 20px; }
+
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--brand);
+  }
+
+  a { color: var(--brand); }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 52px; padding: 14px 26px; border-radius: 999px;
+    font-family: var(--font-body); font-size: 16px; font-weight: 700;
+    text-decoration: none; border: 2px solid transparent; cursor: pointer;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-brand { background: var(--brand); color: var(--brand-ink); }
+  .btn-brand:hover { background: var(--brand-strong); }
+  .btn-accent { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--brand); color: var(--brand); }
+  @media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } * { animation: none !important; } }
+
+  /* ---------- Barra in alto ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; }
+  .brandmark { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brandmark .nm { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.1; }
+  .brandmark .sub { font-size: 11.5px; color: var(--muted); letter-spacing: 0.04em; }
+  .topnav { display: none; gap: 26px; font-size: 14.5px; font-weight: 500; }
+  .topnav a { color: var(--ink); text-decoration: none; }
+  .topnav a:hover { color: var(--brand); }
+  .topbar .btn { min-height: 44px; padding: 10px 20px; font-size: 14.5px; }
+  @media (min-width: 900px) { .topnav { display: flex; } }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 56px 0 40px; }
+  .hero-grid { display: grid; gap: 36px; align-items: center; }
+  @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.15fr 0.85fr; gap: 56px; } .hero { padding: 76px 0 56px; } }
+  .hero h1 { margin: 14px 0 18px; }
+  .hero .lead { font-size: clamp(17px, 2.2vw, 20px); color: var(--muted); max-width: 56ch; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .hero-cta .btn { flex: 1 1 auto; min-width: 220px; }
+
+  .proof { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .proof div { display: flex; align-items: baseline; gap: 8px; font-size: 14.5px; color: var(--muted); }
+  .proof b { font-family: var(--font-display); font-size: 20px; color: var(--ink); font-weight: 600; }
+  .stars { color: var(--accent); letter-spacing: 1px; }
+
+  /* Riquadro "la prima seduta" nell'hero */
+  .hero-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    padding: 28px; box-shadow: var(--shadow-lg);
+  }
+  .hero-card h3 { margin: 8px 0 14px; }
+  .hero-card ol { list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 12px; }
+  .hero-card li { counter-increment: s; display: flex; gap: 12px; font-size: 15px; }
+  .hero-card li::before {
+    content: counter(s); flex: 0 0 26px; height: 26px; border-radius: 50%;
+    background: var(--brand-soft); color: var(--brand); font-weight: 700; font-size: 13px;
+    display: grid; place-items: center; font-family: var(--font-body);
+  }
+  .hero-card .foot { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+
+  /* ---------- Sezioni ---------- */
+  section { padding: 56px 0; }
+  @media (min-width: 900px) { section { padding: 76px 0; } }
+  .sec-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 34px; max-width: 62ch; }
+  .sec-head p { color: var(--muted); font-size: 17px; }
+  .tinted { background: var(--surface-2); }
+  .dark-band { background: var(--brand); color: var(--brand-ink); }
+  .dark-band .eyebrow { color: var(--brand-soft); }
+  .dark-band .sec-head p, .dark-band p { color: var(--brand-soft); }
+
+  .grid { display: grid; gap: 18px; }
+  .g2 { grid-template-columns: 1fr; }
+  .g3 { grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .g3 { grid-template-columns: repeat(3, 1fr); } }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .card p { color: var(--muted); font-size: 15.5px; }
+  .card .ico { color: var(--brand); }
+
+  /* Ti riconosci */
+  .signs { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .signs { grid-template-columns: 1fr 1fr; } }
+  .sign {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px;
+  }
+  .sign svg { flex: 0 0 auto; color: var(--brand); margin-top: 2px; }
+  .sign b { display: block; font-size: 16px; }
+  .sign span { color: var(--muted); font-size: 15px; }
+
+  /* Il percorso */
+  .path { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 44px 1fr; gap: 20px;
+    padding: 0 0 30px; position: relative;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: ''; position: absolute; left: 21px; top: 44px; bottom: 0; width: 2px;
+    background: rgba(242, 247, 243, 0.28);
+  }
+  .step:last-child::before { display: none; }
+  .step-n {
+    width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--brand-ink); color: var(--brand); font-weight: 700; font-size: 16px;
+    position: relative; z-index: 1;
+  }
+  .step h3 { color: var(--brand-ink); margin-bottom: 6px; }
+  .step .when { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-soft); opacity: .85; margin-bottom: 4px; }
+  .step .app-tag {
+    display: inline-flex; align-items: center; gap: 7px; margin-top: 10px;
+    background: rgba(242, 247, 243, 0.14); border: 1px solid rgba(242, 247, 243, 0.3);
+    border-radius: 999px; padding: 6px 14px; font-size: 13.5px; font-weight: 600; color: var(--brand-ink);
+  }
+
+  /* Trattamenti */
+  .treat { border-left: 3px solid var(--brand); }
+  .treat h3 { color: var(--brand); }
+
+  /* Articoli */
+  details.art {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px 26px; box-shadow: var(--shadow);
+  }
+  details.art + details.art { margin-top: 14px; }
+  details.art summary { cursor: pointer; list-style: none; }
+  details.art summary::-webkit-details-marker { display: none; }
+  details.art summary h3 { margin: 6px 0 8px; }
+  details.art summary .prev { color: var(--muted); font-size: 15.5px; }
+  details.art summary .more { display: inline-block; margin-top: 12px; font-weight: 700; font-size: 14.5px; color: var(--brand); }
+  details.art[open] summary .more { display: none; }
+  .art-body { margin-top: 8px; display: flex; flex-direction: column; gap: 12px; }
+  .art-body p { color: var(--ink); font-size: 16px; }
+
+  /* Miti */
+  .myth { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
+  .myth .false { font-family: var(--font-display); font-size: 18px; font-weight: 600; }
+  .myth .true { color: var(--muted); font-size: 15.5px; margin-top: 8px; }
+  .myth .lbl { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .lbl-f { color: var(--accent); }
+  .lbl-t { color: var(--brand); }
+
+  /* Recensioni */
+  .quote { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
+  .quote p { font-size: 16px; }
+  .quote .who { margin-top: 12px; font-size: 13.5px; font-weight: 700; color: var(--brand); }
+
+  /* App */
+  .app-grid { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 900px) { .app-grid { grid-template-columns: 1fr 320px; gap: 56px; } }
+  .phone {
+    border: 1px solid var(--line); border-radius: 30px; background: var(--surface);
+    padding: 20px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 12px;
+  }
+  .phone .p-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .phone .p-head b { font-family: var(--font-display); font-size: 16px; }
+  .phone .p-head span { font-size: 11px; color: var(--muted); }
+  .p-card { background: var(--surface-2); border-radius: 12px; padding: 14px; }
+  .p-card .e { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand); }
+  .p-card .t { font-family: var(--font-display); font-size: 15px; font-weight: 600; margin-top: 4px; }
+  .p-card .d { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .p-nav { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 10px; margin-top: 2px; }
+  .p-nav span { font-size: 10.5px; color: var(--muted); }
+  .p-nav span.on { color: var(--brand); font-weight: 700; }
+  .app-points { display: flex; flex-direction: column; gap: 14px; margin: 22px 0 26px; }
+  .app-point { display: flex; gap: 12px; align-items: flex-start; }
+  .app-point svg { flex: 0 0 auto; margin-top: 3px; }
+
+  /* Prenota */
+  .book-grid { display: grid; gap: 24px; }
+  @media (min-width: 900px) { .book-grid { grid-template-columns: 1.1fr 0.9fr; gap: 40px; } }
+  .facts { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .facts li { display: flex; gap: 14px; align-items: flex-start; font-size: 15.5px; }
+  .facts svg { flex: 0 0 auto; color: var(--brand); margin-top: 3px; }
+
+  /* Regali */
+  .gift { display: flex; flex-direction: column; gap: 8px; }
+  .gift .price { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--brand); }
+
+  /* Footer */
+  footer { background: var(--surface-2); border-top: 1px solid var(--line); padding: 44px 0 32px; }
+  .foot-grid { display: grid; gap: 26px; }
+  @media (min-width: 700px) { .foot-grid { grid-template-columns: repeat(3, 1fr); } }
+  footer p, footer li { font-size: 14.5px; color: var(--muted); }
+  footer .ft { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+  footer ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .legal { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+  /* Barra fissa mobile */
+  .sticky-cta {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    background: var(--surface); border-top: 1px solid var(--line);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    display: flex; gap: 10px;
+  }
+  .sticky-cta .btn { flex: 1; min-height: 48px; font-size: 15px; padding: 12px 14px; }
+  @media (min-width: 900px) { .sticky-cta { display: none; } }
+  body { padding-bottom: 84px; }
+  @media (min-width: 900px) { body { padding-bottom: 0; } }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brandmark" href="#top">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <circle cx="15" cy="15" r="13.2" stroke="currentColor" stroke-width="1.6" opacity=".35"></circle>
+        <path d="M15 5.5 L15 24.5 M9.5 11.5 L20.5 11.5 M11 18.5 L19 18.5" stroke="#2F5D51" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
+      <span>
+        <span class="nm">Kinesiologia Studio</span><br>
+        <span class="sub">Dott. Davide Scuderi · Modena</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="#metodo">Come lavoro</a>
+      <a href="#percorso">Il percorso</a>
+      <a href="#trattamenti">Trattamenti</a>
+      <a href="#app">L'app</a>
+      <a href="#recensioni">Recensioni</a>
+    </nav>
+    <a class="btn btn-brand" href="#prenota">Prenota</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Kinesiologia · Modena, Via Capilupi 21</div>
+        <h1>Non sono io che ti guarisco. Sono io che tolgo quello che te lo impedisce.</h1>
+        <p class="lead">Il tuo corpo sa ripararsi: ha tempi biologici suoi e nessuna manovra li accorcia. Il mio lavoro è togliere i freni, restituirti il movimento e spiegarti cosa sta succedendo — così il cambiamento resta.</p>
+        <div class="hero-cta">
+          <a class="btn btn-brand" href="#prenota">Prenota il tuo controllo</a>
+          <a class="btn btn-ghost" href="#app">Scarica l'app gratuita</a>
+        </div>
+        <div class="proof">
+          <div><span class="stars">★★★★★</span> <b>5,0</b> su Google</div>
+          <div><b>128</b> recensioni verificate</div>
+          <div><b>60</b> minuti la prima seduta</div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="eyebrow">La prima seduta</div>
+        <h3>Un'ora che lavora davvero</h3>
+        <ol>
+          <li>Ti ascolto e guardo come ti muovi, tutto il corpo</li>
+          <li>Test muscolari per capire chi lavora al posto di chi</li>
+          <li>Trattamento manuale, dosato e indolore</li>
+          <li>Esci con i tuoi esercizi e il motivo di ognuno</li>
+        </ol>
+        <div class="foot">Adatto a tutte le età, dal neonato all'anziano. Suonare a &laquo;Studio Olistico&raquo;.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TI RICONOSCI ============ -->
+  <section class="tinted">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">A chi serve</div>
+        <h2>Ti riconosci in una di queste?</h2>
+        <p>Non serve avere un dolore forte per venire. Anzi: quando il dolore arriva, il problema di solito è lì da tempo.</p>
+      </div>
+      <div class="signs">
+        <div class="sign">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10 L7 14 L17 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div><b>Il mal di schiena va e torna</b><span>Passa da solo, poi ricompare. &laquo;È passato&raquo; e &laquo;è risolto&raquo; non sono la stessa cosa.</span></div>
+        </div>
+        <div class="sign">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10 L7 14 L17 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div><b>&laquo;Ho la cervicale&raquo;</b><span>La cervicale ce l'hanno tutti. La domanda giusta è perché la tua si fa sentire.</span></div>
+        </div>
+        <div class="sign">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10 L7 14 L17 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div><b>Porti lo stress sulle spalle</b><span>Letteralmente: collo duro, respiro corto, spalle che non scendono mai.</span></div>
+        </div>
+        <div class="sign">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10 L7 14 L17 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div><b>Hai già provato di tutto</b><span>Fisiatri, osteopati, cicli di terapie. E il motivo per cui è arrivato è ancora lì.</span></div>
+        </div>
+        <div class="sign">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10 L7 14 L17 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div><b>Arrivi a sera con le gambe pesanti</b><span>Circolazione, appoggio, mobilità: si lavora su tutti e tre.</span></div>
+        </div>
+        <div class="sign">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10 L7 14 L17 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div><b>Stai bene e vuoi restarci</b><span>Il check-up trova quello che sta per diventare un problema, mentre è ancora piccolo.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COME LAVORO ============ -->
+  <section id="metodo">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Come lavoro</div>
+        <h2>Il corpo ripara. Io tolgo i freni.</h2>
+        <p>La riparazione di un tessuto ha fasi precise: infiammazione (giorni), ricostruzione (settimane), rimodellamento (mesi). Nessun terapista al mondo ripara un tessuto — lo ripara il corpo. Ecco allora a cosa servo io.</p>
+      </div>
+      <div class="grid g2">
+        <div class="card">
+          <svg class="ico" width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M4 13 h18 M13 4 v18" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".25"></path><circle cx="13" cy="13" r="9.5" stroke="currentColor" stroke-width="2"></circle><path d="M9 13 h8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>
+          <h3>Tolgo i freni</h3>
+          <p>Riduco dolore e protezione quel tanto che basta perché il movimento torni possibile. È il primo passo, non il risultato.</p>
+        </div>
+        <div class="card">
+          <svg class="ico" width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M3 18 C 8 6, 18 6, 23 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><circle cx="13" cy="9.5" r="2.4" fill="currentColor"></circle></svg>
+          <h3>Restituisco il movimento</h3>
+          <p>Perché il movimento è lo stimolo con cui il corpo si adatta e cambia. Senza quello, nessuna manovra tiene nel tempo.</p>
+        </div>
+        <div class="card">
+          <svg class="ico" width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M6 20 L20 6 M6 6 L20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+          <h3>Tolgo ciò che irrita</h3>
+          <p>Un carico sbagliato, un compenso, un'abitudine. Se resta acceso quello, il fastidio torna: è questione di tempo.</p>
+        </div>
+        <div class="card">
+          <svg class="ico" width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M13 4 C 8 9, 8 15, 13 22 C 18 15, 18 9, 13 4 Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path><path d="M13 9 L13 22" stroke="currentColor" stroke-width="1.6"></path></svg>
+          <h3>Ti spiego</h3>
+          <p>Vale quanto le altre tre. Quando capisci cosa succede nel tuo corpo, il sistema nervoso percepisce meno minaccia — e la minaccia percepita è uno degli ingredienti del dolore.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ IL PERCORSO ============ -->
+  <section id="percorso" class="dark-band">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Il percorso</div>
+        <h2 style="color: var(--brand-ink)">Una seduta apre la porta. Il percorso è quello che ci passa attraverso.</h2>
+        <p>Tre incontri sono il minimo per un cambiamento stabile, ed è onesto dirlo. Ecco come funziona, dal primo giorno in avanti — e dove entra l'app.</p>
+      </div>
+      <div class="path">
+        <div class="step">
+          <div class="step-n">1</div>
+          <div>
+            <div class="when">Giorno 1 · in studio</div>
+            <h3>La valutazione</h3>
+            <p>Sessanta minuti: ascolto, test muscolari, trattamento manuale. Guardo tutto il corpo, non solo dove senti il sintomo — il punto che duole è spesso la vittima, non il colpevole. Esci sapendo cosa hai e cosa farci.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div>
+            <div class="when">I giorni dopo · a casa</div>
+            <h3>I tuoi esercizi</h3>
+            <p>Pochi, precisi, con le ripetizioni scritte. Non sono compiti a casa: sono lo stimolo con cui il tessuto si rinforza. Saltarli significa togliere al corpo proprio quello che lo stava facendo cambiare.</p>
+            <div class="app-tag">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><rect x="3.5" y="1" width="8" height="13" rx="1.6" stroke="currentColor" stroke-width="1.4"></rect><path d="M6.5 11.6 h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>
+              L'app te li ricorda, ogni giorno
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div>
+            <div class="when">A 7, 15, 21, 30 giorni</div>
+            <h3>I richiami</h3>
+            <p>Il momento in cui la maggior parte delle persone molla è anche quello in cui il tessuto sta ancora cambiando. Per questo i richiami arrivano nei giorni giusti, non a caso.</p>
+            <div class="app-tag">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.4"></circle><path d="M7.5 4 V8 L10 9.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>
+              L'app ti avvisa nei giorni giusti
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div>
+            <div class="when">Ogni 3–6 mesi</div>
+            <h3>Il check-up</h3>
+            <p>Come il tagliando dell'auto, ma per l'unico mezzo che non puoi sostituire. Serve a leggere i segnali prima: dove il corpo compensa, quali zone lavorano al posto di altre. Trovarlo adesso costa molto meno che aspettare il dolore.</p>
+            <div class="app-tag">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 8 L5.5 11.5 L13 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              Il promemoria del check-up è nell'app
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px">
+        <a class="btn btn-accent" href="#prenota">Inizia dal primo passo</a>
+        <a class="btn btn-ghost" href="#app" style="color: var(--brand-ink); border-color: rgba(242,247,243,.4)">Guarda cosa fa l'app</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRATTAMENTI ============ -->
+  <section id="trattamenti">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">I trattamenti</div>
+        <h2>Un'ora che lavora davvero</h2>
+        <p>Ogni trattamento comprende <strong>valutazione, test muscolari, trattamento ed esercizi personalizzati</strong>. Il nome dice da dove partiamo, non dove ci fermiamo.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card treat"><h3>Benessere Colonna</h3><p>Una schiena che si muove è una schiena che non si difende. Test, trattamento ed esercizi per una colonna mobile e forte — e per capire perché si era irrigidita.</p></div>
+        <div class="card treat"><h3>Benessere Cervicale</h3><p>Per chi &laquo;ha la cervicale&raquo; e vuole smettere di averla. Cerchiamo perché la tua si fa sentire — collo, respiro, postura — e la trattiamo alla radice.</p></div>
+        <div class="card treat"><h3>Benessere Spalle</h3><p>Per chi porta lo stress sulle spalle, letteralmente. Esci sapendo cosa avevano le tue spalle e cosa farci, con esercizi tuoi.</p></div>
+        <div class="card treat"><h3>Benessere Diaframma</h3><p>Il respiro corto tiene tutto il corpo in tensione. Liberiamo il diaframma, e con lui stress, collo e schiena. Il trattamento più sorprendente che abbiamo.</p></div>
+        <div class="card treat"><h3>Gambe Leggere</h3><p>Per chi arriva a sera con gambe pesanti: circolazione, appoggio, mobilità. Un'ora per ritrovare il passo di qualche anno fa.</p></div>
+        <div class="card treat"><h3>Postura OK</h3><p>La postura perfetta non esiste: esiste un corpo che regge bene le tue giornate. Valutazione completa dalla testa ai piedi e piano su misura.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARTICOLI (gli stessi dell'app) ============ -->
+  <section class="tinted">
+    <div class="wrap narrow">
+      <div class="sec-head">
+        <div class="eyebrow">Quello che ti dico davvero</div>
+        <h2>Prima di prenotare, leggi come la penso</h2>
+        <p>Sono gli stessi articoli che trovi nell'app: se ti convincono qui, ti accompagnano anche dopo la seduta.</p>
+      </div>
+
+      <details class="art">
+        <summary>
+          <div class="eyebrow">Come lavoro</div>
+          <h3>Non sono io che ti guarisco</h3>
+          <div class="prev">Un tessuto si ripara da solo, con tempi biologici suoi. Nessuna manovra li accorcia. Quello che posso fare è toglierti la protezione che ti blocca e darti lo stimolo giusto per cambiare in modo stabile.</div>
+          <span class="more">Leggi tutto →</span>
+        </summary>
+        <div class="art-body">
+          <p>La riparazione di un tessuto ha fasi precise: prima l'infiammazione (giorni), poi la ricostruzione (settimane), poi il rimodellamento (mesi). Nessun terapista al mondo ripara un tessuto: lo ripara il corpo, ed è l'unica cosa che sa farlo davvero.</p>
+          <p>Allora a cosa servo io? A tre cose. Tolgo i freni: riduco dolore e protezione quel tanto che basta perché il movimento torni possibile. Restituisco il movimento: perché è lo stimolo con cui il corpo si adatta e cambia. E tolgo quello che continua a irritare: un carico sbagliato, un compenso, un'abitudine.</p>
+          <p>C'è una quarta cosa che vale quanto le altre tre: spiegare. Quando capisci cosa sta succedendo nel tuo corpo, il sistema nervoso percepisce meno minaccia — e la minaccia percepita è uno degli ingredienti del dolore.</p>
+        </div>
+      </details>
+
+      <details class="art">
+        <summary>
+          <div class="eyebrow">Capire il dolore</div>
+          <h3>Il dolore non misura il danno</h3>
+          <div class="prev">Il dolore è una risposta del sistema nervoso, non un sensore del danno. Per questo un dolore forte non sempre significa danno grave — e un problema silenzioso può crescere senza far male.</div>
+          <span class="more">Leggi tutto →</span>
+        </summary>
+        <div class="art-body">
+          <p>Il dolore non è un sensore che registra il danno: è una risposta che il sistema nervoso produce quando valuta che serva protezione. E la può amplificare o ridurre, a seconda di quanto pericolo percepisce.</p>
+          <p>Per questo un dolore fortissimo può nascere da un danno piccolo — e un problema serio può crescere in silenzio, senza far male. E per questo a volte il dolore cala già in una seduta: non perché il tessuto si sia riparato in trenta minuti (biologicamente impossibile), ma perché è cambiata la risposta protettiva.</p>
+          <p>Se un dolore ti spaventa, la prima cosa utile non è il riposo assoluto: è capire cosa lo tiene acceso. Quasi sempre fa meno paura da vicino che da lontano.</p>
+        </div>
+      </details>
+
+      <details class="art">
+        <summary>
+          <div class="eyebrow">Onestà</div>
+          <h3>A volte passa da solo</h3>
+          <div class="prev">Una buona parte dei mal di schiena migliora anche senza fare niente. Il problema sono le recidive. Il mio lavoro non è farti passare il dolore più in fretta: è capire perché torna.</div>
+          <span class="more">Leggi tutto →</span>
+        </summary>
+        <div class="art-body">
+          <p>Te lo dico prima che tu lo scopra da solo: una buona parte dei mal di schiena migliora in poche settimane anche senza fare niente. È la storia naturale del disturbo, ed è documentata.</p>
+          <p>Allora perché venire in studio? Perché &laquo;è passato&raquo; e &laquo;è risolto&raquo; non sono la stessa cosa. Le recidive sono frequentissime: il dolore se ne va, il motivo per cui è arrivato resta. E ogni volta torna un po' più volentieri.</p>
+          <p>Il mio lavoro non è farti passare il dolore più in fretta possibile: è capire cosa lo tiene in piedi, e togliere quello. Chi ti promette guarigioni sta vendendo. Chi ti spiega la differenza sta lavorando.</p>
+        </div>
+      </details>
+
+      <details class="art">
+        <summary>
+          <div class="eyebrow">Il corpo è uno</div>
+          <h3>Tutto è collegato</h3>
+          <div class="prev">Una spalla che fa male può nascere da un appoggio del piede, una cervicale rigida da come respiri. Per questo la valutazione guarda tutto il corpo, non solo dove senti il sintomo.</div>
+          <span class="more">Leggi tutto →</span>
+        </summary>
+        <div class="art-body">
+          <p>Il corpo non è fatto a compartimenti: muscoli, fasce e articolazioni formano catene che si passano il carico l'una con l'altra. Quando un anello non fa il suo lavoro, un altro lo fa al posto suo — e prima o poi presenta il conto.</p>
+          <p>Per questo una spalla che fa male può nascere dall'appoggio di un piede, una cervicale rigida da come respiri, un mal di schiena da un'anca che non ruota più. Il punto che duole è spesso la vittima, non il colpevole.</p>
+          <p>È il motivo per cui la valutazione in studio guarda tutto il corpo e non solo dove senti il sintomo: trattare la vittima dà sollievo. Trovare il colpevole dà risultati che restano.</p>
+        </div>
+      </details>
+
+      <div style="text-align: center; margin-top: 26px">
+        <a class="btn btn-ghost" href="#app">Gli altri articoli sono nell'app →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FALSI MITI ============ -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Falsi miti</div>
+        <h2>Quello che ti hanno sempre detto</h2>
+        <p>Ogni settimana ne trovi uno nuovo nell'app. Qui i tre più frequenti.</p>
+      </div>
+      <div class="grid g3">
+        <div class="myth">
+          <div class="lbl lbl-f">Falso</div>
+          <div class="false">&laquo;Il crack sistema le vertebre&raquo;</div>
+          <div class="lbl lbl-t" style="margin-top:12px">La verità</div>
+          <div class="true">Quel rumore è solo gas che cambia pressione dentro l'articolazione. Nessuna vertebra &laquo;torna a posto&raquo;: il beneficio vero viene dal movimento e dal sistema nervoso che si rilassa.</div>
+        </div>
+        <div class="myth">
+          <div class="lbl lbl-f">Falso</div>
+          <div class="false">&laquo;La risonanza dice tutto&raquo;</div>
+          <div class="lbl lbl-t" style="margin-top:12px">La verità</div>
+          <div class="true">Tantissime persone senza alcun dolore hanno ernie o protrusioni nelle immagini. La foto non è il dolore: conta come funziona il tuo corpo, non solo come appare.</div>
+        </div>
+        <div class="myth">
+          <div class="lbl lbl-f">Falso</div>
+          <div class="false">&laquo;Esiste la postura perfetta&raquo;</div>
+          <div class="lbl lbl-t" style="margin-top:12px">La verità</div>
+          <div class="true">Non c'è una postura giusta per tutti e per sempre: la migliore postura è la prossima. Il corpo soffre l'immobilità, non le posizioni.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RECENSIONI ============ -->
+  <section id="recensioni" class="tinted">
+    <div class="wrap">
+      <div class="sec-head" style="align-items: center; text-align: center; margin-left: auto; margin-right: auto">
+        <div class="stars" style="font-size: 26px; letter-spacing: 3px">★★★★★</div>
+        <h2>5,0 su Google</h2>
+        <p style="margin: 0 auto">128 recensioni verificate di persone che sono passate da Via Capilupi.</p>
+      </div>
+      <div class="grid g3">
+        <div class="quote">
+          <p>&laquo;Schiena bloccata e dolorante da ieri sera, tanto da non riuscire a stare sdraiata o seduta. Davide mi ha trattata e ora riesco a fare tutti i movimenti e il dolore è quasi scomparso — e questo in una sola seduta.&raquo;</p>
+          <div class="who">Manuela P., naturopata</div>
+        </div>
+        <div class="quote">
+          <p>&laquo;Ottimo professionista: dopo aver provato vari fisiatri e osteopati è stato l'unico con cui ho avuto dei grossi benefici.&raquo;</p>
+          <div class="who">Stefano S.</div>
+        </div>
+        <div class="quote">
+          <p>&laquo;Mi sono fatta una torsione alla caviglia il giorno prima di un torneo di padel. Sono andata da lui e il giorno dopo ho potuto giocare tutto il torneo. Non mi fa più male!&raquo;</p>
+          <div class="who">Alba N.</div>
+        </div>
+        <div class="quote">
+          <p>&laquo;Ha intuito subito quale fosse il mio problema e il trattamento è stato risolutivo. Sono rimasta soddisfatta oltre le aspettative!&raquo;</p>
+          <div class="who">Virginia V.</div>
+        </div>
+        <div class="quote">
+          <p>&laquo;Sono uscita completamente libera e sbloccata da tutte le tensioni. Un senso di leggerezza unico. Stupefacente.&raquo;</p>
+          <div class="who">Nicoletta G.</div>
+        </div>
+        <div class="quote">
+          <p>&laquo;Ho avuto problemi di contratture alla schiena, al collo e blocchi intestinali, tutti risolti nel giro di breve tempo. Se tu non ci fossi bisognerebbe inventarti.&raquo;</p>
+          <div class="who">Monica G.</div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 28px">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Kinesiologia+Studio+Modena+Via+Capilupi" target="_blank" rel="noopener" style="font-weight: 700">Leggi tutte le recensioni su Google →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ L'APP ============ -->
+  <section id="app">
+    <div class="wrap app-grid">
+      <div>
+        <div class="eyebrow">L'app dello studio · gratuita</div>
+        <h2>Il sito ti spiega come lavoro. L'app lavora con te ogni giorno.</h2>
+        <p style="color: var(--muted); font-size: 17px; margin-top: 14px">Stessi articoli, stessi consigli, stesso modo di ragionare: l'app è questo sito che ti segue in tasca, tra una seduta e l'altra. Si installa dal browser in due tocchi, senza store.</p>
+        <div class="app-points">
+          <div class="app-point">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="8" stroke="#2F5D51" stroke-width="1.8"></circle><path d="M10 5.5 V10.4 L13.4 12.4" stroke="#2F5D51" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <div><b>Il consiglio del giorno</b><br><span style="color: var(--muted)">Uno al giorno, breve, applicabile subito.</span></div>
+          </div>
+          <div class="app-point">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 15 C 7 5, 13 5, 17 15" stroke="#2F5D51" stroke-width="1.8" stroke-linecap="round"></path><circle cx="10" cy="8" r="1.8" fill="#2F5D51"></circle></svg>
+            <div><b>I tuoi esercizi e il test del corpo</b><br><span style="color: var(--muted)">Cinque prove in due minuti per vedere a che punto sei.</span></div>
+          </div>
+          <div class="app-point">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3 C 6.5 3, 5 5.5, 5 8 C 5 12, 3.5 13, 3.5 13 h13 S 15 12, 15 8 C 15 5.5, 13.5 3, 10 3 Z" stroke="#2F5D51" stroke-width="1.8" stroke-linejoin="round"></path><path d="M8.4 15.5 a1.8 1.8 0 0 0 3.2 0" stroke="#2F5D51" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <div><b>I richiami nei giorni giusti</b><br><span style="color: var(--muted)">A 7, 15, 21 e 30 giorni — e il promemoria del check-up.</span></div>
+          </div>
+          <div class="app-point">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="2" stroke="#2F5D51" stroke-width="1.8"></rect><path d="M3 8 h14 M7 2.5 v3 M13 2.5 v3" stroke="#2F5D51" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <div><b>Prenoti dall'app</b><br><span style="color: var(--muted)">Scegli giorno e ora, la conferma arriva via email.</span></div>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px">
+          <a class="btn btn-brand" href="../" >Apri e installa l'app</a>
+          <a class="btn btn-ghost" href="#prenota">Preferisco prenotare subito</a>
+        </div>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <div class="p-head"><b>Oggi</b><span>Dott. Davide Scuderi</span></div>
+        <div class="p-card">
+          <div class="e">Consiglio del giorno</div>
+          <div class="t">La migliore postura è la prossima</div>
+          <div class="d">Alzati ogni 40 minuti: bastano venti secondi in piedi per cambiare tutto.</div>
+        </div>
+        <div class="p-card">
+          <div class="e">Il tuo esercizio</div>
+          <div class="t">Gambe al muro, 2 minuti</div>
+          <div class="d">Le gambe si svuotano, la schiena si appoggia.</div>
+        </div>
+        <div class="p-card">
+          <div class="e">Falso mito della settimana</div>
+          <div class="t">&laquo;Ho la cervicale&raquo;</div>
+          <div class="d">Ce l'hanno tutti: è un tratto della colonna.</div>
+        </div>
+        <div class="p-nav">
+          <span class="on">Oggi</span><span>Corpo</span><span>Sapere</span><span>Recensioni</span><span>Prenota</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRENOTA ============ -->
+  <section id="prenota" class="dark-band">
+    <div class="wrap book-grid">
+      <div>
+        <div class="eyebrow">Consulenza in studio</div>
+        <h2 style="color: var(--brand-ink)">Prenota il tuo controllo</h2>
+        <p style="margin-top: 14px; font-size: 17px">Scegli giorno e ora dal calendario: ricevi subito la conferma via email, con promemoria automatico prima dell'appuntamento. La consulenza dura 60 minuti.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px">
+          <a class="btn btn-accent" href="https://calendly.com/infokinesiologia/consulenza" target="_blank" rel="noopener">Scegli giorno e ora</a>
+          <a class="btn btn-ghost" href="https://wa.me/393481514382" target="_blank" rel="noopener" style="color: var(--brand-ink); border-color: rgba(242,247,243,.4)">Scrivi su WhatsApp</a>
+        </div>
+        <p style="margin-top: 20px; font-size: 15px">Preferisci sentirmi? <a href="tel:+393481514382" style="color: var(--brand-ink); font-weight: 700">348 151 4382</a></p>
+      </div>
+      <div class="card" style="background: var(--brand-ink); border-color: transparent">
+        <div class="eyebrow">Lo studio</div>
+        <ul class="facts" style="margin-top: 8px">
+          <li>
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" aria-hidden="true"><circle cx="9.5" cy="7" r="3" stroke="currentColor" stroke-width="1.7"></circle><path d="M3.5 16.5 C 3.5 13, 6 11.5, 9.5 11.5 C 13 11.5, 15.5 13, 15.5 16.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>
+            <span style="color: #22302B">Dott. Davide Scuderi — Kinesiologo</span>
+          </li>
+          <li>
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" aria-hidden="true"><path d="M9.5 17 C 5.5 12.5, 3 9.5, 3 7 C 3 4, 5.9 1.8, 9.5 1.8 C 13.1 1.8, 16 4, 16 7 C 16 9.5, 13.5 12.5, 9.5 17 Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><circle cx="9.5" cy="7" r="2.2" stroke="currentColor" stroke-width="1.7"></circle></svg>
+            <span style="color: #22302B"><a href="https://www.google.com/maps/search/?api=1&amp;query=Via+Capilupi+21%2C+Modena" target="_blank" rel="noopener">Via Capilupi 21, Modena</a> — suonare a &laquo;Studio Olistico&raquo;</span>
+          </li>
+          <li>
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" aria-hidden="true"><circle cx="9.5" cy="9.5" r="7.5" stroke="currentColor" stroke-width="1.7"></circle><path d="M9.5 5 V10 L12.8 11.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>
+            <span style="color: #22302B">Lun–Ven 9:00–20:00 · Sabato 9:00–15:00</span>
+          </li>
+          <li>
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" aria-hidden="true"><path d="M3 3 h3.5 L8 7 L6 8.6 C 7 10.9, 8.5 12.4, 10.8 13.4 L 12.4 11.4 L 16.4 12.9 V16.4 C 16.4 16.9, 16 17.2, 15.5 17.1 C 8.5 16.3, 2.7 10.5, 1.9 3.5 C 1.8 3, 2.2 2.6, 2.7 2.6 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+            <span style="color: #22302B"><a href="tel:+393481514382">348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REGALI ============ -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Idee regalo</div>
+        <h2>Il regalo che si sente addosso</h2>
+        <p>Paghi online con carta e ricevi subito il voucher da stampare o inviare. Chi lo riceve prenota quando vuole.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card gift"><div class="price">47 €</div><h3>Mezz'ora per te</h3><p>Il regalo sicuro: 30 minuti di trattamento mirato. Costa come un mazzo di fiori, se lo ricordano per mesi.</p></div>
+        <div class="card gift"><div class="price">90 €</div><h3>Un'ora tutta sua</h3><p>Il trattamento completo: valutazione, test muscolari, trattamento ed esercizi personalizzati. Il regalo di compleanno che nessun altro fa.</p></div>
+        <div class="card gift"><div class="price">249 €</div><h3>Percorso Reset</h3><p>Tre trattamenti da 60 minuti per chi si trascina un problema vero. Tre incontri sono il minimo per un cambiamento stabile — ed è onesto dirlo.</p></div>
+        <div class="card gift"><div class="price">297 €</div><h3>Un Anno di Prevenzione</h3><p>Quattro check-up, uno a stagione. Il regalo per chi ami e vuoi vedere in piedi a lungo: la sua schiena ha un tagliando per tutto l'anno.</p></div>
+        <div class="card gift"><div class="price">399 €</div><h3>Percorso Trasformazione</h3><p>Cinque trattamenti più ri-test finale: il prima e il dopo, misurati. Un trattamento è praticamente in omaggio.</p></div>
+        <div class="card gift" style="background: var(--brand-soft); border-color: var(--brand)"><div class="price">87 €</div><h3>Benessere in Due</h3><p>Due trattamenti da 30 minuti per due persone: un'esperienza da condividere con chi vuoi bene.</p></div>
+      </div>
+      <div style="text-align: center; margin-top: 28px">
+        <a class="btn btn-accent" href="../#prenota">Vedi tutti i regali e paga online</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="ft">Kinesiologia Studio</div>
+        <p>Dott. Davide Scuderi — Kinesiologo<br>Via Capilupi 21, Modena<br>Suonare a &laquo;Studio Olistico&raquo;</p>
+      </div>
+      <div>
+        <div class="ft">Contatti</div>
+        <ul>
+          <li><a href="tel:+393481514382">348 151 4382</a></li>
+          <li><a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></li>
+          <li>Lun–Ven 9:00–20:00 · Sab 9:00–15:00</li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft">Vai a</div>
+        <ul>
+          <li><a href="#metodo">Come lavoro</a></li>
+          <li><a href="#percorso">Il percorso</a></li>
+          <li><a href="../">L'app dello studio</a></li>
+          <li><a href="https://calendly.com/infokinesiologia/consulenza" target="_blank" rel="noopener">Prenota online</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">P.I. 02887890362 · C.F. SCDDVD81D23B819L · Privacy Policy · Cookie Policy</div>
+  </div>
+</footer>
+
+<div class="sticky-cta">
+  <a class="btn btn-brand" href="#prenota">Prenota</a>
+  <a class="btn btn-ghost" href="../">Apri l'app</a>
+</div>
+
+</body>
+</html>
