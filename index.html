@@ -882,11 +882,18 @@
 
     <div class="field-label">Ogni quanto vuoi il richiamo per il controllo?</div>
     <div class="chips" id="interval-chips">
+      <button class="chip" data-days="7">7 giorni</button>
+      <button class="chip" data-days="15">15 giorni</button>
       <button class="chip" data-days="30">30 giorni</button>
       <button class="chip" data-days="45">45 giorni</button>
       <button class="chip" data-days="60">60 giorni</button>
       <button class="chip" data-days="90">90 giorni</button>
     </div>
+    <p style="font-size:11.5px; color:var(--muted); line-height:1.5; margin-top:8px">
+      7 e 15 giorni sono per chi è dentro un ciclo di trattamenti; 30 e 45 per chi sta
+      sistemando qualcosa; 60 e 90 per il controllo di mantenimento. Si cambia quando
+      vuoi da "Cambia promemoria".
+    </p>
 
     <div class="field-label">Quando è stato il tuo ultimo trattamento?</div>
     <div class="chips" id="last-chips">
@@ -2087,7 +2094,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 38;
+  var APP_VERSION = 39;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
