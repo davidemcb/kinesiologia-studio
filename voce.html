@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>La mia voce — studio di registrazione</title>
+<style>
+  :root{
+    --bg:#f6f3ee; --card:#ffffff; --ink:#2b2620; --muted:#7a7268;
+    --accent:#8a5a2b; --accent-ink:#fff; --line:#e5ded4;
+    --ok:#2e7d32; --err:#b3261e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    padding:24px 16px 80px}
+  .wrap{max-width:720px;margin:0 auto}
+  h1{font-size:1.5rem;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 24px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 18px 20px;margin-bottom:18px}
+  .card h2{font-size:1.05rem;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  .step{display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;border-radius:50%;background:var(--accent);
+    color:var(--accent-ink);font-size:.85rem;flex:none}
+  label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+  input[type=text],input[type=password],textarea,select{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;
+    background:#fdfcfa;color:var(--ink);font:inherit}
+  textarea{min-height:160px;resize:vertical}
+  button{border:0;border-radius:10px;padding:10px 16px;font:inherit;cursor:pointer;
+    background:var(--accent);color:var(--accent-ink)}
+  button.ghost{background:#efe9e0;color:var(--ink)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  .hint{font-size:.83rem;color:var(--muted);margin-top:8px}
+  .msg{font-size:.9rem;margin-top:10px;white-space:pre-wrap}
+  .msg.ok{color:var(--ok)} .msg.err{color:var(--err)}
+  .rec-dot{display:inline-block;width:10px;height:10px;border-radius:50%;
+    background:var(--err);animation:blink 1s infinite;margin-right:6px}
+  @keyframes blink{50%{opacity:.2}}
+  .samples{margin-top:10px;font-size:.88rem}
+  .samples li{margin-bottom:4px}
+  progress{width:100%;height:10px;margin-top:10px}
+  audio{width:100%;margin-top:12px}
+  .credits{font-size:.83rem;color:var(--muted)}
+  .readme{background:#efe9e0;border-radius:10px;padding:10px 14px;font-size:.88rem;
+    margin-top:10px}
+  details summary{cursor:pointer;color:var(--accent);font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>La mia voce</h1>
+  <p class="sub">Registra la tua voce una volta, poi falle leggere qualsiasi testo. Gli audio restano tuoi: questa pagina parla solo con ElevenLabs usando la tua chiave.</p>
+
+  <!-- STEP 1: chiave API -->
+  <div class="card">
+    <h2><span class="step">1</span> Collega ElevenLabs</h2>
+    <p class="hint" style="margin-top:0">Serve un account <b>elevenlabs.io</b> con un piano a pagamento (da Starter, ~5$/mese, per la clonazione). Crea una chiave in <i>Profile&nbsp;→&nbsp;API&nbsp;Keys</i> e incollala qui. La chiave viene salvata <b>solo su questo dispositivo</b>.</p>
+    <label for="apikey">Chiave API</label>
+    <input type="password" id="apikey" placeholder="xi-…" autocomplete="off">
+    <div class="row">
+      <button id="btn-save-key">Salva e verifica</button>
+      <span class="credits" id="credits"></span>
+    </div>
+    <div class="msg" id="msg-key"></div>
+  </div>
+
+  <!-- STEP 2: registra e clona -->
+  <div class="card">
+    <h2><span class="step">2</span> Registra la tua voce</h2>
+    <p class="hint" style="margin-top:0">Bastano <b>2–3 minuti</b> di lettura in una stanza silenziosa, a 20–30&nbsp;cm dal microfono, con tono naturale. Puoi registrare più clip: contano tutte.</p>
+    <details><summary>Testo di prova da leggere (apri)</summary>
+      <div class="readme">Leggi con calma, come parleresti a una persona seduta davanti a te.
+        «Prendersi cura di sé non è un lusso, è una manutenzione. Il corpo tiene il conto di tutto:
+        delle ore passate seduti, delle parole non dette, dei pesi portati per gli altri.
+        In questo libro parlo da uomo a uomo, senza giri di parole, di quello che vedo ogni
+        giorno nel mio studio: spalle che si chiudono, respiri che si accorciano, e persone
+        che tornano a stare bene quando ricominciano ad ascoltarsi. Non serve essere esperti.
+        Serve iniziare, cinque minuti alla volta, con le proprie mani e la propria attenzione.»
+      </div>
+    </details>
+    <div class="row">
+      <button id="btn-rec">🎙️ Inizia a registrare</button>
+      <button id="btn-stop" class="ghost" disabled>Ferma</button>
+      <span id="rec-status"></span>
+    </div>
+    <ul class="samples" id="samples"></ul>
+    <div class="row">
+      <label class="ghost" style="margin:0">
+        <span class="hint">Oppure carica registrazioni già fatte (mp3/wav/m4a):</span>
+        <input type="file" id="file-samples" accept="audio/*" multiple>
+      </label>
+    </div>
+    <div class="row">
+      <input type="text" id="voice-name" placeholder="Nome della voce (es. Davide)" style="max-width:260px">
+      <button id="btn-clone" disabled>Crea la mia voce</button>
+    </div>
+    <div class="msg" id="msg-clone"></div>
+  </div>
+
+  <!-- STEP 3: leggi -->
+  <div class="card">
+    <h2><span class="step">3</span> Falle leggere un testo</h2>
+    <label for="voice-select">Voce da usare</label>
+    <select id="voice-select"></select>
+    <label for="tts-title">Titolo del file (es. Capitolo 1)</label>
+    <input type="text" id="tts-title" placeholder="capitolo-1">
+    <label for="tts-text">Testo da leggere (anche un capitolo intero: viene diviso e ricucito da solo)</label>
+    <textarea id="tts-text" placeholder="Incolla qui il testo…"></textarea>
+    <div class="row">
+      <button id="btn-speak">▶️ Leggi con la mia voce</button>
+      <button id="btn-download" class="ghost" disabled>⬇️ Scarica MP3</button>
+      <span class="credits" id="tts-cost"></span>
+    </div>
+    <progress id="tts-progress" value="0" max="1" hidden></progress>
+    <div class="msg" id="msg-tts"></div>
+    <audio id="player" controls hidden></audio>
+    <p class="hint">Costo: 1 lettera = 1 credito ElevenLabs. Un capitolo da 15.000 battute ≈ 15.000 crediti. La qualità migliore per l'italiano è il modello Multilingual, già impostato.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var API = 'https://api.elevenlabs.io/v1';
+  var $ = function(id){ return document.getElementById(id); };
+  var state = { key:'', samples:[], recorder:null, chunks:[], lastBlob:null, lastName:'lettura' };
+
+  function say(el, text, cls){ el.textContent = text; el.className = 'msg' + (cls ? ' ' + cls : ''); }
+
+  try { state.key = localStorage.getItem('xi-key') || ''; } catch(e){}
+  if (state.key) { $('apikey').value = state.key; verifyKey(); }
+
+  // ---------- STEP 1 ----------
+  $('btn-save-key').onclick = function(){
+    state.key = $('apikey').value.trim();
+    try { localStorage.setItem('xi-key', state.key); } catch(e){}
+    verifyKey();
+  };
+
+  function verifyKey(){
+    if (!state.key) { say($('msg-key'), 'Incolla prima la chiave.', 'err'); return; }
+    fetch(API + '/user/subscription', { headers: { 'xi-api-key': state.key } })
+      .then(function(r){ if (!r.ok) throw new Error('Chiave non valida (HTTP ' + r.status + ')'); return r.json(); })
+      .then(function(s){
+        say($('msg-key'), 'Collegato ✓ Piano: ' + (s.tier || '—'), 'ok');
+        var left = (s.character_limit || 0) - (s.character_count || 0);
+        $('credits').textContent = 'Crediti rimasti questo mese: ' + left.toLocaleString('it-IT');
+        loadVoices();
+      })
+      .catch(function(e){ say($('msg-key'), e.message, 'err'); });
+  }
+
+  // ---------- STEP 2 ----------
+  $('btn-rec').onclick = function(){
+    navigator.mediaDevices.getUserMedia({ audio: { echoCancellation:false, noiseSuppression:false } })
+      .then(function(stream){
+        state.chunks = [];
+        state.recorder = new MediaRecorder(stream);
+        state.recorder.ondataavailable = function(e){ if (e.data.size) state.chunks.push(e.data); };
+        state.recorder.onstop = function(){
+          stream.getTracks().forEach(function(t){ t.stop(); });
+          var blob = new Blob(state.chunks, { type: state.recorder.mimeType || 'audio/webm' });
+          addSample(blob, 'registrazione-' + (state.samples.length + 1) + '.webm');
+          $('rec-status').innerHTML = '';
+        };
+        state.recorder.start();
+        $('btn-rec').disabled = true; $('btn-stop').disabled = false;
+        $('rec-status').innerHTML = '<span class="rec-dot"></span>sto registrando…';
+      })
+      .catch(function(){ say($('msg-clone'), 'Microfono non disponibile. Apri questa pagina dal sito (https), non come file locale.', 'err'); });
+  };
+  $('btn-stop').onclick = function(){
+    if (state.recorder && state.recorder.state !== 'inactive') state.recorder.stop();
+    $('btn-rec').disabled = false; $('btn-stop').disabled = true;
+  };
+  $('file-samples').onchange = function(){
+    Array.prototype.forEach.call(this.files, function(f){ addSample(f, f.name); });
+    this.value = '';
+  };
+
+  function addSample(blob, name){
+    state.samples.push({ blob: blob, name: name });
+    var li = document.createElement('li');
+    li.textContent = '🎧 ' + name + ' (' + Math.round(blob.size/1024) + ' KB) ';
+    var a = document.createElement('audio'); a.controls = true; a.src = URL.createObjectURL(blob);
+    a.style.height = '28px'; a.style.verticalAlign = 'middle';
+    li.appendChild(a);
+    $('samples').appendChild(li);
+    $('btn-clone').disabled = false;
+  }
+
+  $('btn-clone').onclick = function(){
+    if (!state.key) { say($('msg-clone'), 'Prima collega ElevenLabs (passo 1).', 'err'); return; }
+    var name = $('voice-name').value.trim() || 'La mia voce';
+    var fd = new FormData();
+    fd.append('name', name);
+    state.samples.forEach(function(s){ fd.append('files', s.blob, s.name); });
+    say($('msg-clone'), 'Creo la voce… (qualche secondo)');
+    $('btn-clone').disabled = true;
+    fetch(API + '/voices/add', { method:'POST', headers:{ 'xi-api-key': state.key }, body: fd })
+      .then(readOrThrow)
+      .then(function(v){
+        say($('msg-clone'), 'Voce «' + name + '» creata ✓ La trovi qui sotto al passo 3.', 'ok');
+        loadVoices(v.voice_id);
+      })
+      .catch(function(e){ say($('msg-clone'), 'Errore: ' + e.message, 'err'); })
+      .finally(function(){ $('btn-clone').disabled = false; });
+  };
+
+  function loadVoices(selectId){
+    fetch(API + '/voices', { headers:{ 'xi-api-key': state.key } })
+      .then(readOrThrow)
+      .then(function(data){
+        var sel = $('voice-select'); sel.innerHTML = '';
+        (data.voices || []).forEach(function(v){
+          var o = document.createElement('option');
+          o.value = v.voice_id;
+          o.textContent = v.name + (v.category === 'cloned' ? ' (la tua)' : '');
+          sel.appendChild(o);
+        });
+        var cloned = (data.voices || []).filter(function(v){ return v.category === 'cloned'; });
+        if (selectId) sel.value = selectId;
+        else if (cloned.length) sel.value = cloned[cloned.length - 1].voice_id;
+      })
+      .catch(function(){});
+  }
+
+  // ---------- STEP 3 ----------
+  $('tts-text').oninput = function(){
+    var n = this.value.length;
+    $('tts-cost').textContent = n ? '≈ ' + n.toLocaleString('it-IT') + ' crediti' : '';
+  };
+
+  function splitText(text, max){
+    var parts = [], rest = text.trim();
+    while (rest.length > max) {
+      var cut = -1;
+      ['\n\n', '. ', '! ', '? ', '; ', ', ', ' '].some(function(sep){
+        var i = rest.lastIndexOf(sep, max);
+        if (i > max * 0.4) { cut = i + sep.length; return true; }
+        return false;
+      });
+      if (cut < 0) cut = max;
+      parts.push(rest.slice(0, cut).trim());
+      rest = rest.slice(cut).trim();
+    }
+    if (rest) parts.push(rest);
+    return parts;
+  }
+
+  $('btn-speak').onclick = function(){
+    var text = $('tts-text').value.trim();
+    var voice = $('voice-select').value;
+    if (!state.key) { say($('msg-tts'), 'Prima collega ElevenLabs (passo 1).', 'err'); return; }
+    if (!voice) { say($('msg-tts'), 'Nessuna voce disponibile: creala al passo 2.', 'err'); return; }
+    if (!text) { say($('msg-tts'), 'Incolla un testo da leggere.', 'err'); return; }
+
+    var parts = splitText(text, 4000);
+    var bar = $('tts-progress'); bar.hidden = false; bar.max = parts.length; bar.value = 0;
+    say($('msg-tts'), 'Genero l’audio: 0/' + parts.length + '…');
+    $('btn-speak').disabled = true; $('btn-download').disabled = true;
+
+    var blobs = [];
+    var chain = Promise.resolve();
+    parts.forEach(function(part, i){
+      chain = chain.then(function(){
+        var body = {
+          text: part,
+          model_id: 'eleven_multilingual_v2',
+          previous_text: i > 0 ? parts[i-1].slice(-300) : undefined,
+          next_text: i < parts.length - 1 ? parts[i+1].slice(0, 300) : undefined
+        };
+        return fetch(API + '/text-to-speech/' + voice + '?output_format=mp3_44100_128', {
+          method: 'POST',
+          headers: { 'xi-api-key': state.key, 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        }).then(function(r){
+          if (!r.ok) return r.text().then(function(t){ throw new Error(errText(t, r.status)); });
+          return r.blob();
+        }).then(function(b){
+          blobs.push(b); bar.value = i + 1;
+          say($('msg-tts'), 'Genero l’audio: ' + (i+1) + '/' + parts.length + '…');
+        });
+      });
+    });
+
+    chain.then(function(){
+      state.lastBlob = new Blob(blobs, { type: 'audio/mpeg' });
+      state.lastName = ($('tts-title').value.trim() || 'lettura')
+        .toLowerCase().replace(/[^a-z0-9àèéìòù]+/g, '-').replace(/^-|-$/g, '') || 'lettura';
+      var url = URL.createObjectURL(state.lastBlob);
+      var p = $('player'); p.src = url; p.hidden = false; p.play();
+      $('btn-download').disabled = false;
+      say($('msg-tts'), 'Fatto ✓ Ascolta qui sotto o scarica l’MP3.', 'ok');
+      verifyKey();
+    }).catch(function(e){
+      say($('msg-tts'), 'Errore: ' + e.message, 'err');
+    }).finally(function(){
+      $('btn-speak').disabled = false; bar.hidden = true;
+    });
+  };
+
+  $('btn-download').onclick = function(){
+    if (!state.lastBlob) return;
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(state.lastBlob);
+    a.download = state.lastName + '.mp3';
+    a.click();
+  };
+
+  function readOrThrow(r){
+    if (r.ok) return r.json();
+    return r.text().then(function(t){ throw new Error(errText(t, r.status)); });
+  }
+  function errText(t, status){
+    try {
+      var j = JSON.parse(t);
+      var d = j.detail;
+      if (d && d.message) return d.message;
+      if (typeof d === 'string') return d;
+    } catch(e){}
+    return 'HTTP ' + status;
+  }
+})();
+</script>
+</body>
+</html>
