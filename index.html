@@ -1032,9 +1032,16 @@
       var frac = remaining / interval;
       fill.setAttribute('stroke-dashoffset', (CIRC * (1 - frac)).toFixed(1));
       banner.classList.remove('show');
-      if (remaining <= 7) {
+      // l'avviso dell'ultima settimana ha senso solo sui cicli lunghi:
+      // con il promemoria a 7 o 15 giorni sarebbe acceso dal primo giorno
+      if (remaining <= 7 && interval > 15) {
         fill.classList.add('warn');
         statusEl.innerHTML = 'Manca <strong>meno di una settimana</strong> al richiamo: prenota ora e scegli l\'orario migliore.';
+      } else if (remaining <= 2) {
+        fill.classList.add('warn');
+        statusEl.innerHTML = remaining === 1
+          ? 'Il richiamo è <strong>domani</strong>: se non l\'hai già fatto, prenota.'
+          : 'Il richiamo è <strong>fra due giorni</strong>.';
       } else {
         statusEl.innerHTML = 'Sei in regola: il prossimo richiamo è tra <strong>' + remaining + ' giorni</strong>. Continua con le micro-abitudini!';
       }
@@ -2094,7 +2101,7 @@
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
      ATTENZIONE: APP_VERSION deve restare allineata a version.json.
      Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 39;
+  var APP_VERSION = 40;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
