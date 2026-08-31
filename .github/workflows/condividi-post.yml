@@ -1,8 +1,10 @@
-name: Anteprime social dei post
+name: "Post nuovi: anteprime social e notifica"
 
-# Ogni ora rigenera le paginette di condivisione dei post del giorno,
-# così i nuovi post pubblicati da Firestore ricevono la loro anteprima
-# per Facebook e gli altri social senza fare niente a mano.
+# Ogni ora si guarda cosa e' uscito su Firestore:
+#  - rigenera le paginette di condivisione, cosi' i nuovi post hanno la loro
+#    anteprima per Facebook e gli altri social senza fare niente a mano;
+#  - manda la notifica sul telefono a chi le ha attivate nell'app, per il post
+#    appena diventato visibile (anche quelli programmati per un giorno futuro).
 on:
   schedule:
     - cron: '7 * * * *'
@@ -22,13 +24,19 @@ jobs:
       - uses: actions/checkout@v4
       - name: Genera le pagine dei post
         run: node scripts/genera-condividi-post.mjs
+      - name: Avvisa chi ha attivato le notifiche
+        env:
+          ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+        run: node scripts/notifica-post-nuovo.mjs
       - name: Pubblica se qualcosa è cambiato
+        # anche se la notifica non è partita: quelle riuscite restano segnate
+        if: always()
         run: |
-          if [ -n "$(git status --porcelain condividi)" ]; then
+          if [ -n "$(git status --porcelain condividi .github/post-notificati.json)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add condividi
-            git commit -m "Anteprime social: pagine dei post aggiornate"
+            git add condividi .github/post-notificati.json
+            git commit -m "Post nuovi: anteprime social e notifiche aggiornate"
             git push
           else
             echo "Nessun cambiamento."
