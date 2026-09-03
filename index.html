@@ -811,6 +811,56 @@
     </div>
   </section>
 
+  <!-- ============ LIBRI ============ -->
+  <section class="view" id="view-libri">
+    <div class="card">
+      <div class="eyebrow">Dallo studio alla pagina</div>
+      <h2>I libri di Davide Scuderi</h2>
+      <p>In studio lavoro sul corpo. Nei libri scrivo quello che il corpo si porta dietro e che quasi nessuno dice ad alta voce. Non sono manuali, non insegnano un metodo e non promettono niente: sono pagine da leggere con calma.</p>
+      <div style="margin-top:14px">
+        <a class="btn btn-primary" href="https://davidemcb.github.io/libri/" target="_blank" rel="noopener">Vai al sito dei libri</a>
+      </div>
+      <p class="disclaimer" style="margin:10px 0 0">L'ebook si compra dal sito e arriva subito, PDF ed EPUB. Il cartaceo &egrave; su Amazon.</p>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">Per lui</div>
+      <h2>Da uomo a uomo</h2>
+      <p>Diciassette luoghi in cui un uomo incontra s&eacute; stesso: l'amore, il tradimento, la separazione, i figli, la fragilit&agrave;, la morte. 348 pagine, molto bianco.</p>
+      <p class="disclaimer" style="margin:10px 0 0">Ebook 5,99 &euro; &middot; cartaceo 19,90 &euro;</p>
+      <div style="margin-top:12px">
+        <a class="btn btn-ghost" href="https://davidemcb.github.io/libri/da-uomo-a-uomo.html" target="_blank" rel="noopener">Il libro</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">Per lei</div>
+      <h2>Senza veli</h2>
+      <p>Il corpo di una donna attraverso le et&agrave; della vita: dall'infanzia in cui il corpo &laquo;diventa pubblico&raquo; fino al bilancio dopo gli ottant'anni.</p>
+      <p class="disclaimer" style="margin:10px 0 0">Ebook 4,99 &euro; &middot; cartaceo 19,90 &euro;</p>
+      <div style="margin-top:12px">
+        <a class="btn btn-ghost" href="https://davidemcb.github.io/libri/senza-veli.html" target="_blank" rel="noopener">Il libro</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">Da leggere in un'ora</div>
+      <h2>Prenditi a carezze</h2>
+      <p>Non &egrave; il corpo il problema: &egrave; la distanza. Un racconto breve per smettere di trattarsi da nemici. 76 pagine.</p>
+      <div style="margin-top:12px">
+        <a class="btn btn-ghost" href="https://davidemcb.github.io/libri/prenditi-a-carezze.html" target="_blank" rel="noopener">Il libro</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Cinque capitoli, gratis</h2>
+      <p>Se vuoi leggere prima di comprare: sul sito ci sono cinque capitoli interi di <em>Da uomo a uomo</em>, in PDF, senza lasciare niente.</p>
+      <div style="margin-top:12px">
+        <a class="btn btn-ghost" href="https://davidemcb.github.io/libri/percorso.html" target="_blank" rel="noopener">Leggi i capitoli</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ NAV ============ -->
   <nav class="nav" aria-label="Navigazione principale">
     <button class="nav-btn active" data-view="oggi" aria-label="Oggi">
@@ -824,6 +874,10 @@
     <button class="nav-btn" data-view="sapere" aria-label="Sapere">
       <svg viewBox="0 0 24 24"><path d="M12 5.5C10.4 4 8 3.4 5 3.5v14.6c3-.1 5.4.5 7 2 1.6-1.5 4-2.1 7-2V3.5c-3-.1-5.4.5-7 2z"/><path d="M12 5.5v14.6"/></svg>
       Sapere
+    </button>
+    <button class="nav-btn" data-view="libri" aria-label="Libri">
+      <svg viewBox="0 0 24 24"><path d="M4 4.5h6a2.5 2.5 0 0 1 2.5 2.5v12A2 2 0 0 0 10.5 17H4z"/><path d="M20 4.5h-6A2.5 2.5 0 0 0 11.5 7v12A2 2 0 0 1 13.5 17H20z"/></svg>
+      Libri
     </button>
     <button class="nav-btn" data-view="recensioni" aria-label="Recensioni">
       <svg viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>
@@ -965,7 +1019,7 @@
   function track(t, d) { if (window.ksTrack) window.ksTrack(t, d); }
 
   /* ---------- Navigation ---------- */
-  var views = ['oggi', 'corpo', 'sapere', 'recensioni', 'prenota'];
+  var views = ['oggi', 'corpo', 'sapere', 'libri', 'recensioni', 'prenota'];
   var navBtns = document.querySelectorAll('.nav-btn');
   var calendlyLoaded = false;
   navBtns.forEach(function (btn) {
