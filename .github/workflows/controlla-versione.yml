@@ -1,0 +1,23 @@
+name: Versioni allineate
+
+# L'app controlla da sola se e' nata una versione piu' nuova e si ricarica.
+# Se index.html resta indietro rispetto a version.json, quel controllo non si
+# ferma mai: l'app si ricarica all'infinito e trema. Meglio accorgersene qui.
+on:
+  push:
+    paths:
+      - 'index.html'
+      - 'sw.js'
+      - 'version.json'
+      - 'scripts/controlla-versione.mjs'
+      - '.github/workflows/controlla-versione.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  controlla:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Le tre versioni dicono la stessa cosa?
+        run: node scripts/controlla-versione.mjs

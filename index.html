@@ -2153,9 +2153,11 @@
   /* ---------- Service worker e aggiornamento automatico ----------
      Il link e' sempre lo stesso: e' l'app che a ogni apertura controlla se
      esiste una versione piu' nuova e, se c'e', si ricarica da sola.
-     ATTENZIONE: APP_VERSION deve restare allineata a version.json.
-     Ci pensa lo script aggiorna_app.py, non modificarla a mano. */
-  var APP_VERSION = 40;
+     ATTENZIONE: a ogni nuova versione questo numero va alzato insieme a
+     version.json e al nome della cache in sw.js. Se resta indietro, l'app
+     continua a credere di essere vecchia e si ricarica senza fermarsi mai.
+     Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
+  var APP_VERSION = 41;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2163,6 +2165,19 @@
         try { reg.update(); } catch (e) {}
       }).catch(function () {});
     });
+  }
+
+  /* Rete di sicurezza: se ci siamo gia' ricaricati per una certa versione e
+     ci ritroviamo qui con lo stesso APP_VERSION di prima, vuol dire che il
+     ricaricamento non e' servito (per esempio APP_VERSION e version.json non
+     sono allineati, oppure la rete ci ha restituito la pagina vecchia).
+     Senza questo controllo l'app si ricaricherebbe all'infinito, tremando. */
+  var RICARICA_FATTA = 'ks_ricarica_v';
+  function ricaricaGiaTentata(v) {
+    try { return sessionStorage.getItem(RICARICA_FATTA) === String(v); } catch (e) { return false; }
+  }
+  function segnaRicaricaTentata(v) {
+    try { sessionStorage.setItem(RICARICA_FATTA, String(v)); } catch (e) {}
   }
 
   var controlloInCorso = false;
@@ -2174,6 +2189,8 @@
       .then(function (d) {
         controlloInCorso = false;
         if (!d || typeof d.v !== 'number' || d.v <= APP_VERSION) return;
+        if (ricaricaGiaTentata(d.v)) return; // ci abbiamo gia' provato: non insistiamo
+        segnaRicaricaTentata(d.v);
         // versione nuova: si buttano via le cache vecchie e si ricarica
         var pulizia = (window.caches && caches.keys)
           ? caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); })
