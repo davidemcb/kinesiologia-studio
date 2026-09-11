@@ -735,6 +735,7 @@
         <li><span class="f-ico">⏱️</span><span>La consulenza dura 60 minuti</span></li>
         <li><span class="f-ico">📞</span><span><a href="tel:+393481514382">348 151 4382</a> · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">scrivici su WhatsApp</a></span></li>
         <li><span class="f-ico">✉️</span><span><a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></span></li>
+        <li><span class="f-ico">🔒</span><span><a href="privacy.html" target="_blank" rel="noopener">Informativa privacy</a> — i tuoi dati restano tra te e lo studio</span></li>
       </ul>
       <ol class="steps-list" style="margin-top:12px">
         <li>Scegli data e ora dal calendario</li>
@@ -972,6 +973,7 @@
       Nome e compleanno servono allo studio per riconoscerti e farti gli auguri: li vede solo il
       Dott. Scuderi e non vengono dati a nessun altro. Puoi lasciarli in bianco e usare l'app lo stesso,
       oppure cancellarli quando vuoi da "Cambia promemoria".
+      <a href="privacy.html" target="_blank" rel="noopener" style="color:var(--brand); font-weight:600">Informativa privacy completa</a>
     </p>
 
     <button class="btn btn-primary" id="ob-confirm" disabled>Inizia</button>
@@ -2130,8 +2132,11 @@
     if (bdD && bdM) {
       dataNascita = ('0' + bdD).slice(-2) + '/' + ('0' + bdM).slice(-2) + (bdY ? '/' + bdY : '');
     }
-    if ((nome || dataNascita) && window.ksSalvaPersona) {
+    // si salva anche quando i campi vengono svuotati, così la cancellazione
+    // promessa nell'informativa privacy arriva davvero fino al server
+    if (window.ksSalvaPersona && (nome || dataNascita || get('ks_personaInviata'))) {
       window.ksSalvaPersona(nome, dataNascita);
+      set('ks_personaInviata', (nome || dataNascita) ? 'true' : '');
     }
 
     set(LS.onboarded, 'true');
