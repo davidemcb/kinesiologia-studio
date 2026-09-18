@@ -2162,7 +2162,7 @@
      version.json e al nome della cache in sw.js. Se resta indietro, l'app
      continua a credere di essere vecchia e si ricarica senza fermarsi mai.
      Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
-  var APP_VERSION = 41;
+  var APP_VERSION = 43;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2201,7 +2201,11 @@
           ? caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); })
           : Promise.resolve();
         pulizia.catch(function () {}).then(function () {
-          location.replace(location.pathname + '?v=' + d.v);
+          // si conserva il resto dell'indirizzo (es. ?vai=post-... di un link
+          // condiviso), altrimenti chi arriva da WhatsApp perde l'articolo
+          var q = new URLSearchParams(location.search);
+          q.set('v', String(d.v));
+          location.replace(location.pathname + '?' + q.toString());
         });
       })
       .catch(function () { controlloInCorso = false; });
@@ -2672,7 +2676,9 @@
   renderPostProgram();
   renderRichiamo();
   maybeShowPushCard(); // anche se OneSignal non parte (es. iPhone non installato)
-  if (!get(LS.onboarded)) { openOnboarding(); } else { vaiAlContenuto(); }
+  // Chi arriva da un link condiviso (WhatsApp) deve vedere subito l'articolo:
+  // il benvenuto glielo si propone alla prossima apertura, non sopra il testo.
+  if (!get(LS.onboarded) && !vaiParam) { openOnboarding(); } else { vaiAlContenuto(); }
 })();
 </script>
 
