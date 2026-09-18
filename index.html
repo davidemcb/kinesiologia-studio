@@ -687,6 +687,10 @@
     <div id="archivio-list"></div>
 
     <div id="articles-list"></div>
+
+    <!-- Libreria fissa di anatomia: i testi e gli schemi stanno in anatomia.json -->
+    <div id="anatomia-label" style="display:none; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin:22px 2px 10px">Come funziona il corpo</div>
+    <div id="anatomia-list"></div>
     <div class="card">
       <div class="eyebrow">Scegli tu il prossimo</div>
       <h2>Di cosa vuoi che parliamo?</h2>
@@ -1853,6 +1857,19 @@
       if (btn) { btn.textContent = 'Chiudi'; }
       setTimeout(function () { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
       vaiParam = null;
+    } else if (/^anatomia-(\d+)$/.test(vaiParam)) {
+      // la libreria arriva da anatomia.json: se non e' ancora disegnata si
+      // riprova quando renderAnatomia ha finito (richiama vaiAlContenuto)
+      var ai = vaiParam.split('-')[1];
+      var aCard = document.getElementById('anatomia-' + ai);
+      if (!aCard) return;
+      switchView('sapere');
+      var aFull = document.getElementById('anatomia-full-' + ai);
+      if (aFull) { aFull.style.display = 'block'; }
+      var aBtn = aCard.querySelector('[data-expand-anat]');
+      if (aBtn) { aBtn.textContent = 'Chiudi'; }
+      setTimeout(function () { aCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
+      vaiParam = null;
     } else if (/^post-/.test(vaiParam)) {
       // i post arrivano da Firestore: se non ci sono ancora si riprova
       // quando loadNews li ha disegnati (chiama window.ksProvaVai)
@@ -1947,6 +1964,54 @@
     });
   }
   renderArticles();
+
+  /* ---------- Come funziona il corpo: libreria di anatomia ----------
+     Testi e schemi (SVG in italiano) stanno in anatomia.json, cosi' si
+     aggiungono voci senza toccare l'app. Gli schemi usano i colori del tema. */
+  var anatomia = [];
+  function renderAnatomia() {
+    var wrap = document.getElementById('anatomia-list');
+    var label = document.getElementById('anatomia-label');
+    if (!wrap || !anatomia.length) return;
+    var html = '';
+    anatomia.forEach(function (a, i) {
+      html += '<div class="card article" id="anatomia-' + i + '">' +
+        '<div class="eyebrow">Come funziona il corpo · ' + a.cat + '</div>' +
+        '<h2>' + a.title + '</h2>' +
+        '<figure style="margin:10px 0 12px; background:var(--surface-2); border-radius:12px; padding:8px 10px">' + a.svg + '</figure>' +
+        '<p>' + a.preview + '</p>' +
+        '<div class="article-full" id="anatomia-full-' + i + '" style="display:none; margin-top:10px">' +
+          a.full.split('\n\n').map(function (p) { return '<p style="margin-bottom:10px">' + p + '</p>'; }).join('') +
+        '</div>' +
+        '<div style="margin-top:12px"><button class="text-btn" data-expand-anat="' + i + '">Leggi tutto</button></div>' +
+        '<div class="share-bar sb-sm" data-anatshare="' + i + '"></div>' +
+        '</div>';
+    });
+    wrap.innerHTML = html;
+    label.style.display = 'block';
+    wrap.querySelectorAll('[data-anatshare]').forEach(function (bar) {
+      var idx = parseInt(bar.dataset.anatshare, 10);
+      var a = anatomia[idx];
+      var msg = '📖 ' + a.title + '\n\n' + a.preview +
+        '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nL\'articolo completo, con lo schema, è nell\'app:';
+      makeShareBar(bar, msg, SITE + '?vai=anatomia-' + idx);
+    });
+    wrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-expand-anat]');
+      if (!btn) return;
+      var full = document.getElementById('anatomia-full-' + btn.dataset.expandAnat);
+      var open = full.style.display !== 'none';
+      full.style.display = open ? 'none' : 'block';
+      btn.textContent = open ? 'Leggi tutto' : 'Chiudi';
+      if (!open) track('view', 'anatomia-' + btn.dataset.expandAnat);
+    });
+    vaiAlContenuto(); // se si arriva da un link condiviso verso una voce
+  }
+  // l'ora nel parametro evita che il service worker serva una copia vecchia
+  fetch('anatomia.json?t=' + Math.floor(Date.now() / 3600000), { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { anatomia = d; renderAnatomia(); })
+    .catch(function () {});
 
   /* ---------- Riconoscimento telefono e browser ----------
      Le istruzioni per installare l'app cambiano da browser a browser:
@@ -2162,7 +2227,7 @@
      version.json e al nome della cache in sw.js. Se resta indietro, l'app
      continua a credere di essere vecchia e si ricarica senza fermarsi mai.
      Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
-  var APP_VERSION = 43;
+  var APP_VERSION = 44;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
