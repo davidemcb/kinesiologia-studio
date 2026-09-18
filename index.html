@@ -1845,7 +1845,15 @@
 
   // Porta la persona al contenuto del link condiviso, se ce n'è uno
   function vaiAlContenuto() {
-    if (!vaiParam) return;
+    if (!vaiParam) {
+      // la voce era gia' stata aperta, ma i post arrivati dopo l'hanno spinta
+      // piu' in basso: si riporta in vista un'altra volta
+      if (window.__vaiCard) {
+        var c = window.__vaiCard; window.__vaiCard = null;
+        setTimeout(function () { c.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 250);
+      }
+      return;
+    }
     var m = vaiParam.match(/^articolo-(\d+)$/);
     if (m) {
       var card = document.getElementById('article-' + m[1]);
@@ -1869,6 +1877,7 @@
       var aBtn = aCard.querySelector('[data-expand-anat]');
       if (aBtn) { aBtn.textContent = 'Chiudi'; }
       setTimeout(function () { aCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
+      window.__vaiCard = aCard; // se i post arrivano dopo, si scorre di nuovo
       vaiParam = null;
     } else if (/^post-/.test(vaiParam)) {
       // i post arrivano da Firestore: se non ci sono ancora si riprova
@@ -1973,6 +1982,12 @@
     var wrap = document.getElementById('anatomia-list');
     var label = document.getElementById('anatomia-label');
     if (!wrap || !anatomia.length) return;
+    if (!document.getElementById('anat-css')) {
+      var st = document.createElement('style');
+      st.id = 'anat-css';
+      st.textContent = '#anatomia-list figure svg{width:100%;height:auto;max-height:240px;display:block}';
+      document.head.appendChild(st);
+    }
     var html = '';
     anatomia.forEach(function (a, i) {
       html += '<div class="card article" id="anatomia-' + i + '">' +
@@ -2227,7 +2242,7 @@
      version.json e al nome della cache in sw.js. Se resta indietro, l'app
      continua a credere di essere vecchia e si ricarica senza fermarsi mai.
      Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
-  var APP_VERSION = 44;
+  var APP_VERSION = 45;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
