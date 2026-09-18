@@ -2242,7 +2242,7 @@
      version.json e al nome della cache in sw.js. Se resta indietro, l'app
      continua a credere di essere vecchia e si ricarica senza fermarsi mai.
      Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
-  var APP_VERSION = 46;
+  var APP_VERSION = 47;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2853,8 +2853,7 @@ function mostraPopupPost(p) {
   document.getElementById('np-title').textContent = p.title || '';
   document.getElementById('np-text').textContent = p.text || '';
   const label = topicLabels[p.topic] || p.topic || '';
-  const dataStr = p.data ? p.data.toLocaleDateString('it-IT') : '';
-  document.getElementById('np-meta').textContent = [label, dataStr].filter(Boolean).join(' · ');
+  document.getElementById('np-meta').textContent = label; // niente data: i post non invecchiano
   const npBar = document.getElementById('np-sharebar');
   npBar.innerHTML = '';
   if (window.ksShareBar) urlPost(p).then(u => { window.ksShareBar(npBar, msgCondivisione(p), u); });
@@ -2871,11 +2870,10 @@ document.getElementById('np-ok').addEventListener('click', function () {
 // Disegna la scheda di un post. In Oggi sta solo quello del giorno, con il
 // bollino Novita'; dal giorno dopo la stessa scheda vive nell'archivio di Sapere.
 function schedaPost(p, nuovo) {
-  const dateStr = p.data ? p.data.toLocaleDateString('it-IT') : '';
   const label = p.topic ? (topicLabels[p.topic] || p.topic) : '';
   return '<div class="card article"' + (nuovo ? ' style="border-left:5px solid var(--accent)"' : '') + '>' +
     (nuovo ? '<div style="display:inline-block; background:var(--accent); color:var(--accent-ink); font-size:11px; font-weight:800; letter-spacing:0.09em; text-transform:uppercase; padding:4px 12px; border-radius:999px; margin-bottom:10px">✨ Novità</div>' : '') +
-    '<div class="eyebrow">Dallo studio' + (label ? ' · ' + esc(label) : '') + (dateStr ? ' · ' + dateStr : '') + '</div>' +
+    '<div class="eyebrow">Dallo studio' + (label ? ' · ' + esc(label) : '') + '</div>' +
     '<h2>' + esc(p.title) + '</h2>' +
     '<p style="white-space:pre-line">' + esc(p.text) + '</p>' +
     '<div class="share-bar sb-sm" data-postshare="' + esc(p.id) + '"></div>' +
