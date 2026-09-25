@@ -201,15 +201,78 @@ cosa fai, in che ordine. Descrivimelo a voce come l'hai fatto stamattina e la sc
 
 ---
 
-## 5. Come capire se funziona (dopo 3 settimane)
+## 5. Costi, ricavi e ROI
 
-| Numero | Dove lo guardi | Buono se |
-|---|---|---|
-| Costo per clic Google | Google Ads | sotto 1,50 € |
-| Clic → prenotazioni | Calendly + telefono ("come ci hai trovato?") | almeno 1 ogni 20–30 clic |
-| Costo per prenotazione | spesa totale ÷ prenotazioni | sotto il prezzo di una seduta |
-| Commenti sotto gli annunci Meta | Facebook | rispondi entro la giornata, sempre |
+### Il numero da ricordare: **5 sedute**
+La prova costa circa **440 €** in 3 settimane
+(Google 12,50 €/giorno × 21 = 262 € · Meta 8,50 €/giorno × 21 = 178 €).
+Una seduta costa 90 €. **440 ÷ 90 = 5 sedute** per rientrare della spesa.
+Se in 3 settimane la pubblicità porta 5 sedute pagate, è già gratis; tutto il resto è guadagno.
 
-Spesa di prova consigliata: **circa 400–500 € in 3 settimane** fra le due
-piattaforme. Se il costo per prenotazione è sotto il prezzo di una seduta, si
-continua fino a marzo; se no, si cambia testo prima di cambiare budget.
+> ⚠️ **Chiedi al commercialista:** se sei in regime forfettario, sulla pubblicità
+> Google e Meta (fatturata dall'Irlanda) paghi l'IVA al 22% in reverse charge senza
+> poterla recuperare. In quel caso la spesa vera è ~540 € e il pareggio sale a **6 sedute**.
+
+### Quattro scenari (stime, non promesse)
+Le ipotesi: costo per clic e percentuale di persone che, dopo aver cliccato, prenotano
+davvero. Sono valori tipici per servizi locali alla persona in una città come Modena;
+i numeri veri li sapremo solo dopo le 3 settimane.
+
+| | Male | Prudente | Realistico | Buono |
+|---|---|---|---|---|
+| Costo per clic Google / Meta | 1,80 € / 1,00 € | 1,50 € / 0,90 € | 1,20 € / 0,70 € | 1,00 € / 0,50 € |
+| Clic totali | ~320 | ~370 | ~470 | ~620 |
+| Chi clicca e prenota (Google / Meta) | 1% / 0,4% | 2% / 0,6% | 4% / 1% | 6% / 2% |
+| **Clienti nuovi** | **2** | **5** | **11** | **23** |
+| Sedute per cliente | 1 | 1,5 | 2 | 3 |
+| **Sedute totali** | 2 | 7 | 23 | 69 |
+| **Incasso** (× 90 €) | 196 € | 633 € | 2.034 € | 6.180 € |
+| Spesa pubblicità | 441 € | 441 € | 441 € | 441 € |
+| **Guadagno netto** | **−245 €** | **+192 €** | **+1.593 €** | **+5.739 €** |
+| **ROI** (guadagno ÷ spesa) | **−56%** | **+44%** | **+361%** | **+1.301%** |
+| Ogni euro speso ne rende | 0,44 € | 1,44 € | 4,61 € | 14 € |
+| Costo per cliente nuovo | 203 € | 94 € | 39 € | 19 € |
+
+**Come leggerla:**
+- Il rischio massimo della prova è **perdere circa 250 €** (scenario "Male"), e ce ne
+  accorgiamo dopo 7–10 giorni, non dopo 3 settimane: se Google non ha portato nemmeno
+  una prenotazione in 10 giorni, si ferma e si cambia testo.
+- Nello scenario "Buono" il limite non è più il budget ma **le tue ore libere**:
+  69 sedute in più sono quasi 3 settimane piene. Prima di aumentare il budget,
+  guarda se l'agenda ha posto.
+- Il "Realistico" è quello su cui conterei: gli annunci sono in una stagione in cui
+  il problema c'è davvero, a Modena ci sono pochi concorrenti su queste parole, e
+  hai 128 recensioni a 5 stelle che aumentano molto la percentuale di chi prenota.
+
+### Quello che la tabella non conta (e che vale di più)
+- **Chi torna:** un cliente che si trova bene con il naso, torna per la schiena, il
+  collo, il check-up. Con l'app e i promemoria a 7–60 giorni, un cliente nuovo vale
+  facilmente 3–5 sedute in un anno, non 1–3.
+- **Il passaparola:** il buono "10 € a testa" dell'app fa portare altre persone.
+- **Le recensioni nuove** migliorano anche la posizione su Google Maps, gratis.
+
+Se contiamo un valore di un anno di **270 € per cliente** (3 sedute), anche lo scenario
+"Prudente" diventa: 5 clienti × 270 € = 1.350 € su 441 € spesi, **ROI +200%**.
+
+### Come si calcola il ROI vero dopo 3 settimane
+Serve solo segnare, per ogni cliente nuovo, **"come ci hai trovato?"** (Google,
+Facebook, Instagram, passaparola). Poi:
+
+```
+Incasso dai clienti arrivati dalla pubblicità  = sedute × 90 €
+Guadagno netto                                 = incasso − spesa pubblicità
+ROI                                            = guadagno netto ÷ spesa × 100
+Costo per cliente                              = spesa ÷ clienti nuovi
+```
+
+**Regola per decidere:**
+| Risultato dopo 3 settimane | Cosa fare |
+|---|---|
+| Costo per cliente sotto 45 € | Aumenta il budget del 30%, e continua fino a marzo |
+| Tra 45 € e 90 € | Continua così: rientri già dalla prima seduta di ogni cliente |
+| Sopra 90 € | Tieni solo la piattaforma che ha portato clienti, cambia i testi, riprova 2 settimane |
+| Zero clienti in 10 giorni | Ferma e rivediamo insieme parole chiave e pagina |
+
+Con il tracciamento sistemato (punto 3), Google e Meta ti mostrano da soli costo per
+prenotazione e "valore conversioni / costo" (è il ROAS: 90 € per prenotazione è già
+impostato nella pagina), senza dover contare a mano.
