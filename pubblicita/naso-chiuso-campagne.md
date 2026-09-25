@@ -38,22 +38,26 @@ Autunno è il momento giusto: l'annuncio va acceso ora e lasciato girare fino a 
 
 ---
 
-## ▶️ Si parte da qui: la prova piccola (circa 150 €)
+## ▶️ Si parte da qui: la prova piccola (circa 170 €)
 
 Prima di spendere 440 €, una prova ridotta per vedere se funziona.
 
-**Solo Google, niente Meta a pagamento.** Con pochi soldi conviene pagare solo chi
-sta già cercando "naso chiuso" a Modena. Meta con 3–4 € al giorno non fa in tempo a
-imparare a chi mostrare l'annuncio, e i soldi si disperdono.
+**Google + un po' di Meta pensato per essere condiviso.** Google raccoglie chi
+sta già cercando. Meta qui non serve a trovare *chi* ha il naso chiuso, ma a farlo
+**girare**: a Modena, tra nebbia, umidità e aria della pianura, quasi tutti o ce
+l'hanno o conoscono qualcuno che ce l'ha. Chi vede il post lo manda alla moglie,
+alla madre, al collega.
 
 | | |
 |---|---|
-| Budget | **7 € al giorno × 21 giorni = circa 147 €** (se sei forfettario, con l'IVA ~180 €) |
-| Zona | Modena + **10 km** (più stretta, per non sprecare clic lontani) |
-| Orari | lun–sab 8–21 |
-| Offerta | "Massimizza i clic", tetto **1,20 € a clic** |
-| Parole chiave | solo le 6 più mirate (sotto) |
-| Annuncio e pagina | quelli della sezione 1, senza cambiare niente |
+| Google | **5 € al giorno × 21 = 105 €** |
+| Meta | **3 € al giorno × 21 = 63 €** (un solo annuncio, il Testo D qui sotto, meglio se video) |
+| Totale | **circa 170 €** (se sei forfettario, con l'IVA ~210 €) |
+| Zona | Google: Modena + **10 km** · Meta: Modena + **15 km**, 30–65 anni |
+| Orari Google | lun–sab 8–21 |
+| Offerta Google | "Massimizza i clic", tetto **1,20 € a clic** |
+| Obiettivo Meta | **"Traffico"** verso la pagina (non "Interazione") |
+| Parole chiave Google | solo le 6 più mirate (sotto) |
 
 Parole chiave della prova piccola:
 ```
@@ -66,28 +70,53 @@ Parole chiave della prova piccola:
 ```
 + tutte le parole negative della sezione 1.
 
-**Per Meta, gratis:** pubblica il **Testo A** (quello del cliente di stamattina) come
-post normale sulla pagina Facebook e su Instagram, con la foto delle mani sul viso.
-Se in 2–3 giorni riceve commenti o messaggi, lo sponsorizzi con **3 € al giorno per
-7 giorni (21 €)** dal tasto "Metti in evidenza". Se nessuno reagisce, hai risparmiato.
+### Testo D: fatto per essere mandato a qualcuno
+> Nebbia, umidità, l'aria della pianura. A Modena, da ottobre a marzo, il naso che
+> non si libera e la fronte pesante li conosce quasi ogni famiglia.
+>
+> Da vent'anni in studio faccio un trattamento manuale del viso: collo, sacchetti di
+> sale caldi, attrezzi in legno, drenaggio verso la gola. Sempre in quest'ordine, e
+> sempre dopo aver escluso quello che spetta al medico.
+>
+> Nella pagina è spiegato passo per passo, così chi lo legge sa cosa aspettarsi.
+> Kinesiologia Studio, Via Capilupi 21, Modena.
+
+**Titolo:** Il naso chiuso d'autunno, a Modena
+**Pulsante:** Scopri di più
+
+Perché è scritto così:
+- non dice mai "tu hai", quindi Meta non lo boccia;
+- **non chiede "tagga un amico" o "condividi"**: Meta abbassa la diffusione dei post
+  che lo chiedono esplicitamente. Si condivide da solo perché parla di una cosa che
+  conoscono tutti;
+- chi lo riceve da un conoscente arriva sulla pagina già fidandosi.
+
+**In più, gratis:** pubblica lo stesso testo anche come post normale sulla tua pagina
+e ricorda ai clienti che già vengono il buono dell'app **"10 € a testa"** se portano
+qualcuno: è la stessa idea del passaparola, ma premiata.
 
 ### Cosa aspettarsi
-**Pareggio: 3 sedute** (147 € ÷ 70 € = 2,1).
+**Pareggio: 3 sedute** (170 € ÷ 70 € = 2,4).
 
 | | Male | Prudente | Buono |
 |---|---|---|---|
-| Clic (costo per clic) | ~100 (1,50 €) | ~120 (1,20 €) | ~150 (1,00 €) |
+| Clic Google + Meta | ~70 + ~65 | ~90 + ~90 | ~105 + ~125 |
 | Clienti nuovi | 1 | 3 | 6 |
 | Sedute | 1 | 4–5 | 12 |
 | Incasso | 70 € | 315 € | 840 € |
-| **Guadagno netto** | **−77 €** | **+168 €** | **+693 €** |
-| **ROI** | −52% | +114% | +471% |
+| **Guadagno netto** | **−100 €** | **+145 €** | **+670 €** |
+| **ROI** | −59% | +85% | +394% |
+
+Il passaparola generato dal post (chi arriva dopo settimane perché gliel'ha detto
+un'amica) non è nella tabella: si vede solo chiedendo "come ci hai trovato?".
 
 ### Le regole per decidere
-- **Dopo 60 clic senza nessuna telefonata o prenotazione:** fermi tutto. Hai speso
-  circa 70 € e sappiamo che va cambiato qualcosa (parole, testo o pagina).
+- **Dopo 60 clic Google senza nessuna telefonata o prenotazione:** fermi Google. Hai
+  speso circa 70 € e sappiamo che va cambiato qualcosa (parole, testo o pagina).
+- **Meta dopo 7 giorni:** se il post ha poche condivisioni e nessun messaggio, cambia
+  immagine (meglio un video) prima di cambiare testo.
 - **Dopo 21 giorni, 3 sedute o più arrivate da Google:** la prova si è ripagata.
-  Si passa al piano completo della sezione 1 e 2 (Google 12,50 €/giorno + Meta).
+  Si passa al piano completo delle sezioni 1 e 2 (Google 12,50 €/giorno + Meta 8,50 €/giorno).
 - **1–2 sedute:** si tiene lo stesso budget ancora 3 settimane cambiando i titoli
   che Google segna come "Basso rendimento".
 
