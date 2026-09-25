@@ -38,7 +38,7 @@ Autunno è il momento giusto: l'annuncio va acceso ora e lasciato girare fino a 
 
 ---
 
-## ▶️ Si parte da qui: la prova piccola (circa 170 €)
+## ▶️ Si parte da qui: la prova piccola (circa 150 €)
 
 Prima di spendere 440 €, una prova ridotta per vedere se funziona.
 
@@ -51,8 +51,8 @@ alla madre, al collega.
 | | |
 |---|---|
 | Google | **5 € al giorno × 21 = 105 €** |
-| Meta | **3 € al giorno × 21 = 63 €** (un solo annuncio, il Testo D qui sotto, meglio se video) |
-| Totale | **circa 170 €** (se sei forfettario, con l'IVA ~210 €) |
+| Meta | **1ª settimana gratis** (3 video come Reel), poi **3 € al giorno × 14 = 42 €** sul video più condiviso. Piano completo del video in `meta-video-piano.md` |
+| Totale | **circa 150 €** (se sei forfettario, con l'IVA ~185 €), più ~40 € una tantum per microfono e treppiede |
 | Zona | Google: Modena + **10 km** · Meta: Modena + **15 km**, 30–65 anni |
 | Orari Google | lun–sab 8–21 |
 | Offerta Google | "Massimizza i clic", tetto **1,20 € a clic** |
@@ -96,16 +96,16 @@ e ricorda ai clienti che già vengono il buono dell'app **"10 € a testa"** se 
 qualcuno: è la stessa idea del passaparola, ma premiata.
 
 ### Cosa aspettarsi
-**Pareggio: 3 sedute** (170 € ÷ 70 € = 2,4).
+**Pareggio: 3 sedute** (147 € ÷ 70 € = 2,1).
 
 | | Male | Prudente | Buono |
 |---|---|---|---|
-| Clic Google + Meta | ~70 + ~65 | ~90 + ~90 | ~105 + ~125 |
+| Clic Google + Meta | ~70 + ~40 | ~90 + ~60 | ~105 + ~85 |
 | Clienti nuovi | 1 | 3 | 6 |
 | Sedute | 1 | 4–5 | 12 |
 | Incasso | 70 € | 315 € | 840 € |
-| **Guadagno netto** | **−100 €** | **+145 €** | **+670 €** |
-| **ROI** | −59% | +85% | +394% |
+| **Guadagno netto** | **−77 €** | **+168 €** | **+693 €** |
+| **ROI** | −52% | +114% | +471% |
 
 Il passaparola generato dal post (chi arriva dopo settimane perché gliel'ha detto
 un'amica) non è nella tabella: si vede solo chiedendo "come ci hai trovato?".
@@ -113,8 +113,9 @@ un'amica) non è nella tabella: si vede solo chiedendo "come ci hai trovato?".
 ### Le regole per decidere
 - **Dopo 60 clic Google senza nessuna telefonata o prenotazione:** fermi Google. Hai
   speso circa 70 € e sappiamo che va cambiato qualcosa (parole, testo o pagina).
-- **Meta dopo 7 giorni:** se il post ha poche condivisioni e nessun messaggio, cambia
-  immagine (meglio un video) prima di cambiare testo.
+- **Meta:** si sponsorizza solo il video che nella settimana gratuita ha avuto più
+  condivisioni. Se dopo 7 giorni di sponsorizzazione il clic costa più di 0,80 €,
+  si passa al secondo video.
 - **Dopo 21 giorni, 3 sedute o più arrivate da Google:** la prova si è ripagata.
   Si passa al piano completo delle sezioni 1 e 2 (Google 12,50 €/giorno + Meta 8,50 €/giorno).
 - **1–2 sedute:** si tiene lo stesso budget ancora 3 settimane cambiando i titoli
