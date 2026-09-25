@@ -4,6 +4,9 @@ Immagini:
 - `cartolina-post-4x5.png` → post Facebook e Instagram (formato 4:5)
 - `cartolina-storia-9x16.png` → Storie Facebook e Instagram (aggiungi l'adesivo "Link" nella parte bassa, sopra l'indirizzo)
 
+Tutte e due le cartoline hanno in basso l'indirizzo della pagina e un **QR code** che la apre
+(utile anche se le stampi o le fai girare su WhatsApp).
+
 Link della pagina:
 https://davidemcb.github.io/kinesiologia-studio/naso-chiuso-viso/
 
