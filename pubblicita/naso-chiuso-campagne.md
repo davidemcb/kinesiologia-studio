@@ -38,6 +38,64 @@ Autunno è il momento giusto: l'annuncio va acceso ora e lasciato girare fino a 
 
 ---
 
+## ▶️ Si parte da qui: la prova piccola (circa 150 €)
+
+Prima di spendere 440 €, una prova ridotta per vedere se funziona.
+
+**Solo Google, niente Meta a pagamento.** Con pochi soldi conviene pagare solo chi
+sta già cercando "naso chiuso" a Modena. Meta con 3–4 € al giorno non fa in tempo a
+imparare a chi mostrare l'annuncio, e i soldi si disperdono.
+
+| | |
+|---|---|
+| Budget | **7 € al giorno × 21 giorni = circa 147 €** (se sei forfettario, con l'IVA ~180 €) |
+| Zona | Modena + **10 km** (più stretta, per non sprecare clic lontani) |
+| Orari | lun–sab 8–21 |
+| Offerta | "Massimizza i clic", tetto **1,20 € a clic** |
+| Parole chiave | solo le 6 più mirate (sotto) |
+| Annuncio e pagina | quelli della sezione 1, senza cambiare niente |
+
+Parole chiave della prova piccola:
+```
+"naso chiuso modena"
+"naso chiuso dopo raffreddore"
+"massaggio seni paranasali"
+"drenaggio seni paranasali"
+"sinusite massaggio"
+"pressione seni paranasali"
+```
++ tutte le parole negative della sezione 1.
+
+**Per Meta, gratis:** pubblica il **Testo A** (quello del cliente di stamattina) come
+post normale sulla pagina Facebook e su Instagram, con la foto delle mani sul viso.
+Se in 2–3 giorni riceve commenti o messaggi, lo sponsorizzi con **3 € al giorno per
+7 giorni (21 €)** dal tasto "Metti in evidenza". Se nessuno reagisce, hai risparmiato.
+
+### Cosa aspettarsi
+**Pareggio: 3 sedute** (147 € ÷ 70 € = 2,1).
+
+| | Male | Prudente | Buono |
+|---|---|---|---|
+| Clic (costo per clic) | ~100 (1,50 €) | ~120 (1,20 €) | ~150 (1,00 €) |
+| Clienti nuovi | 1 | 3 | 6 |
+| Sedute | 1 | 4–5 | 12 |
+| Incasso | 70 € | 315 € | 840 € |
+| **Guadagno netto** | **−77 €** | **+168 €** | **+693 €** |
+| **ROI** | −52% | +114% | +471% |
+
+### Le regole per decidere
+- **Dopo 60 clic senza nessuna telefonata o prenotazione:** fermi tutto. Hai speso
+  circa 70 € e sappiamo che va cambiato qualcosa (parole, testo o pagina).
+- **Dopo 21 giorni, 3 sedute o più arrivate da Google:** la prova si è ripagata.
+  Si passa al piano completo della sezione 1 e 2 (Google 12,50 €/giorno + Meta).
+- **1–2 sedute:** si tiene lo stesso budget ancora 3 settimane cambiando i titoli
+  che Google segna come "Basso rendimento".
+
+Ricorda di chiedere a ogni cliente nuovo **"come ci hai trovato?"**: con una prova
+così piccola, ogni cliente conta e va segnato.
+
+---
+
 ## 1. Google Ads (ricerca). La più importante: arriva chi sta già cercando
 
 Hai già l'account (le conversioni `AW-969285863` sono nella pagina).
