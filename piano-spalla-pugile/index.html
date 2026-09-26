@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<title>Spalla operata, ritorno al sacco</title>
+<meta name="description" content="Piano di rinforzo della spalla in 12 settimane con manubri da 1, 2 e 3 kg e corpo libero, per tornare a colpire il sacco dopo l'intervento.">
+<style>
+:root{
+  color-scheme:light dark;
+  --nero:#14100F;
+  --nero-2:#211A18;
+  --bordeaux:#7B2233;
+  --bordeaux-chiaro:#9B2C3D;
+  --carta:#F4F1EC;
+  --carta-2:#E5DED5;
+  --riquadro:#EDE7E0;
+  --inchiostro:#1C1614;
+  --testo:#4A403B;
+  --tenue:#7A6D67;
+  --misura:38rem;
+  --allerta-bg:#EDE3E1;
+  --allerta-testo:#7B2233;
+  --accento:#7B2233;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --carta:#14100F;
+    --carta-2:#3A302C;
+    --riquadro:#211A18;
+    --inchiostro:#F4F1EC;
+    --testo:#CBC0B9;
+    --tenue:#9A8D86;
+    --allerta-bg:#2A1B1C;
+    --allerta-testo:#E08A9B;
+    --accento:#D4738A;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--carta);color:var(--testo);
+  font:400 1.0625rem/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;color:var(--inchiostro);font-weight:700}
+h1{font-size:clamp(2rem,6.4vw,3rem);line-height:1.12;letter-spacing:-.015em;margin:0 0 1rem}
+h2{font-size:clamp(1.4rem,4.2vw,1.85rem);line-height:1.22;margin:0 0 .85rem}
+h3{font-size:1.1rem;line-height:1.35;margin:1.75rem 0 .5rem}
+p{margin:0 0 1.05rem;max-width:var(--misura)}
+ul,ol{max-width:var(--misura);padding-left:1.15rem;margin:0 0 1.05rem}
+li{margin-bottom:.45rem}
+strong{color:var(--inchiostro)}
+.wrap{width:100%;max-width:52rem;margin:0 auto;padding:0 1rem}
+@media (min-width:640px){.wrap{padding:0 1.5rem}}
+section{padding:3rem 0}
+section+section{border-top:1px solid var(--carta-2)}
+
+.hero{background:var(--nero);color:#EDE8E3;padding:3rem 0 2.75rem}
+.hero h1{color:#F7F4F0}
+.hero .luogo{font-size:.9rem;color:#C79BA4;margin:0 0 1.4rem;padding-bottom:1.4rem;
+  border-bottom:1px solid rgba(199,155,164,.28);max-width:var(--misura)}
+.hero .somm{color:#C6BAB4;font-size:1.1rem}
+.scheda{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:1px;
+  background:rgba(199,155,164,.22);margin:1.75rem 0 0;border:1px solid rgba(199,155,164,.22)}
+.scheda div{background:var(--nero);padding:.85rem 1rem}
+.scheda b{display:block;font:700 1.35rem/1.2 Georgia,serif;color:#F7F4F0}
+.scheda span{font-size:.85rem;color:#9C8C86}
+
+.allerta{border-left:4px solid var(--accento);background:var(--allerta-bg);padding:1.25rem 1.4rem;
+  margin:1.5rem 0;max-width:var(--misura)}
+.allerta h3{color:var(--allerta-testo);margin:0 0 .6rem}
+.allerta ul{margin:0}
+.allerta p:last-child{margin-bottom:0}
+
+.fase-testa{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;margin-bottom:.5rem}
+.fase-testa h2{margin:0}
+.etichetta{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#FBF7F5;background:var(--bordeaux-chiaro);padding:.2rem .6rem;border-radius:2px}
+.parametri{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 1.25rem;padding:0;list-style:none;max-width:none}
+.parametri li{margin:0;font-size:.9rem;background:var(--riquadro);color:var(--inchiostro);
+  padding:.35rem .7rem;border-radius:2px}
+
+.tabella{overflow-x:auto;margin:0 0 1.25rem;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:40rem;font-size:.93rem;line-height:1.45}
+th,td{text-align:left;vertical-align:top;padding:.6rem .65rem;border-bottom:1px solid var(--carta-2)}
+th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--tenue);font-weight:600;
+  border-bottom:2px solid var(--carta-2)}
+td:first-child{color:var(--inchiostro);font-weight:600;width:28%}
+td.dose{white-space:nowrap;font-variant-numeric:tabular-nums}
+td .come{display:block;font-weight:400;color:var(--testo);font-size:.88rem;margin-top:.2rem}
+tr.gruppo td{background:var(--riquadro);color:var(--accento);font-size:.78rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:.4rem .65rem}
+
+.mappa{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.25rem 0 0}
+.mappa div{background:var(--riquadro);padding:1rem 1.1rem}
+.mappa h3{margin:0 0 .35rem;font-size:1rem}
+.mappa p{margin:0;font-size:.92rem}
+
+.sacco{list-style:none;padding:0;margin:1rem 0 0;max-width:var(--misura)}
+.sacco li{display:grid;grid-template-columns:5.5rem 1fr;gap:.75rem;padding:.75rem 0;
+  border-bottom:1px solid var(--carta-2);margin:0}
+.sacco li b{font-family:Georgia,serif;color:var(--accento)}
+
+.check{list-style:none;padding:0}
+.check li{padding-left:1.6rem;position:relative}
+.check li::before{content:"";position:absolute;left:0;top:.35rem;width:.9rem;height:.9rem;
+  border:1.5px solid var(--accento);border-radius:2px}
+
+.diario td{height:2.2rem}
+.diario td:first-child{width:auto;font-weight:600}
+
+footer{background:#0C0908;color:#9C8C86;font-size:.85rem;padding:2rem 0}
+footer p{margin:.2rem 0}
+
+@media print{
+  :root{--carta:#fff;--carta-2:#ccc;--riquadro:#f1f1f1;--inchiostro:#000;--testo:#222;--tenue:#555;
+    --allerta-bg:#f6eeee;--accento:#7B2233}
+  body{font-size:10.5pt;background:#fff}
+  .hero{background:#fff;color:#000;padding:0 0 1rem;border-bottom:2px solid #000}
+  .hero h1,.scheda b{color:#000}
+  .hero .somm,.hero .luogo,.scheda span{color:#333}
+  .scheda,.scheda div{background:#fff;border-color:#bbb}
+  section{padding:1.25rem 0;break-inside:auto}
+  .fase{break-before:page}
+  tr,.allerta,.mappa div{break-inside:avoid}
+  table{min-width:0}
+  footer{background:#fff;color:#555}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="luogo">Kinesiologia Studio, Modena · Scheda personale</p>
+    <h1>Spalla operata, ritorno al sacco</h1>
+    <p class="somm">Dodici settimane per rinforzare tutta la spalla: extrarotatori, intrarotatori, abduttori, adduttori e i muscoli che tengono ferma la scapola. Solo manubri da 1, 2 e 3 kg e il peso del corpo. Alla fine, il sacco.</p>
+    <div class="scheda">
+      <div><b>12 settimane</b><span>3 fasi da 4 settimane</span></div>
+      <div><b>3 sedute</b><span>a settimana, a giorni alterni</span></div>
+      <div><b>45–60 min</b><span>riscaldamento compreso</span></div>
+      <div><b>1 · 2 · 3 kg</b><span>più corpo libero</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Prima di cominciare</h2>
+    <div class="allerta">
+      <h3>Il via libera lo dà chi ha operato</h3>
+      <p>Questo piano parte dal presupposto che il chirurgo o il fisioterapista abbiano già autorizzato il <strong>rinforzo con carico</strong> e che il movimento della spalla sia completo o quasi. Il tipo di intervento cambia le regole:</p>
+      <ul>
+        <li><strong>Riparazione della cuffia dei rotatori:</strong> niente sollevamenti laterali con peso finché il chirurgo non lo consente; di solito non prima di 12 settimane dall'intervento.</li>
+        <li><strong>Stabilizzazione per lussazione (Bankart, Latarjet):</strong> niente extrarotazione con il braccio a 90° e niente piegamenti profondi prima della fase 3.</li>
+        <li><strong>Decompressione subacromiale o pulizia articolare:</strong> in genere si può seguire il piano così com'è.</li>
+      </ul>
+    </div>
+
+    <h3>La regola del dolore</h3>
+    <p>Durante l'esercizio il fastidio può arrivare al massimo a <strong>3 su 10</strong> e deve tornare come prima entro il mattino dopo. Se supera il 3, se la spalla fa male di notte o se il giorno dopo è più rigida: si torna al carico della settimana precedente per una settimana.</p>
+
+    <h3>Come si esegue</h3>
+    <ul>
+      <li><strong>Prima la scapola, poi il braccio.</strong> Spalle basse e leggermente indietro, collo lungo. Se la spalla sale verso l'orecchio, il peso è troppo.</li>
+      <li><strong>Mai sopra la spalla con peso</strong> nelle fasi 1 e 2: i sollevamenti si fermano a 90° (braccio parallelo al pavimento).</li>
+      <li><strong>Pollice verso l'alto</strong> in tutti i sollevamenti: apre lo spazio sotto l'acromion.</li>
+      <li><strong>Lento vuol dire lento.</strong> Il ritmo scritto come 3-1-3 significa 3 secondi a salire, 1 fermo, 3 a scendere.</li>
+      <li><strong>Si passa al manubrio successivo</strong> quando tutte le serie riescono pulite, con l'ultima ripetizione ancora controllata.</li>
+      <li><strong>Si allena anche la spalla sana,</strong> con lo stesso carico: serve come confronto.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Cosa lavora ogni esercizio</h2>
+    <p>Un pugno parte dalle gambe, passa dal tronco e arriva alla spalla. La spalla deve saper spingere, ma soprattutto frenare il braccio quando torna indietro e tenere la testa dell'omero centrata nell'impatto. Per questo ogni gruppo muscolare ha il suo posto nel piano.</p>
+    <div class="mappa">
+      <div><h3>Extrarotatori</h3><p>Sottospinato e piccolo rotondo. Frenano il braccio dopo il colpo e proteggono l'articolazione. I più deboli dopo l'intervento: li alleniamo per primi e di più.</p></div>
+      <div><h3>Intrarotatori</h3><p>Sottoscapolare, gran pettorale, gran dorsale, grande rotondo. Chiudono il gancio e il montante e tengono la spalla stabile davanti.</p></div>
+      <div><h3>Abduttori</h3><p>Deltoide medio e sovraspinato. Sollevano il braccio di lato e tengono la guardia alta per tutto il round.</p></div>
+      <div><h3>Adduttori</h3><p>Gran pettorale, gran dorsale, grande rotondo, coracobrachiale. Riportano il braccio verso il corpo e danno forza al gancio.</p></div>
+      <div><h3>Flessori ed estensori</h3><p>Deltoide anteriore (il diretto) e deltoide posteriore con il gran dorsale (il ritorno in guardia).</p></div>
+      <div><h3>Stabilizzatori della scapola</h3><p>Dentato anteriore, trapezio medio e inferiore, romboidi. Sono la base su cui la spalla si appoggia quando il pugno arriva sul sacco.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Riscaldamento, ogni seduta (8–10 minuti)</h2>
+    <ol>
+      <li><strong>Pendolo:</strong> busto in avanti, braccio operato che pende rilassato, piccoli cerchi. 30 secondi per senso.</li>
+      <li><strong>Rotazioni delle spalle</strong> avanti e indietro, gomiti morbidi. 10 + 10.</li>
+      <li><strong>Scivolamento al muro:</strong> avambracci appoggiati al muro, salire scivolando fin dove non fa male. 10 ripetizioni.</li>
+      <li><strong>Gatto e cammello a quattro zampe,</strong> spingendo il pavimento lontano. 10 ripetizioni.</li>
+      <li><strong>Attivazione generale:</strong> fasi 1–2 marcia sul posto o cyclette 3 minuti; fase 3 corda o saltelli 3 minuti.</li>
+    </ol>
+    <p>A fine seduta: allungamento della capsula posteriore (braccio operato incrociato davanti al petto, tirato piano con l'altra mano, 3 × 30 secondi) e del pettorale allo stipite della porta (3 × 30 secondi).</p>
+  </div>
+</section>
+
+<section class="fase">
+  <div class="wrap">
+    <div class="fase-testa"><span class="etichetta">Settimane 1–4</span><h2>Fase 1. Riattivare e controllare</h2></div>
+    <p>L'obiettivo è ridare ai muscoli della cuffia l'abitudine di lavorare, senza irritare la spalla. Molte tenute isometriche, carichi leggerissimi, tanta attenzione alla scapola.</p>
+    <ul class="parametri">
+      <li>Manubrio da 1 kg</li>
+      <li>2–3 serie × 12–15 ripetizioni</li>
+      <li>Ritmo 3-1-3</li>
+      <li>Recupero 45–60 s</li>
+      <li>Dolore massimo 3/10</li>
+    </ul>
+    <div class="tabella">
+    <table>
+      <thead><tr><th>Esercizio</th><th>Muscoli</th><th>Dose</th><th>Progressione</th></tr></thead>
+      <tbody>
+        <tr class="gruppo"><td colspan="4">Rotatori</td></tr>
+        <tr><td>Isometria in extrarotazione al muro<span class="come">In piedi di fianco al muro, gomito a 90° attaccato al fianco, dorso della mano che spinge contro il muro.</span></td><td>Sottospinato, piccolo rotondo</td><td class="dose">5 × 10 s<br>al 30–50%</td><td>Sett. 3–4: al 60–70%</td></tr>
+        <tr><td>Isometria in intrarotazione allo stipite<span class="come">Stessa posizione, palmo che spinge contro lo stipite della porta.</span></td><td>Sottoscapolare, gran pettorale</td><td class="dose">5 × 10 s<br>al 30–50%</td><td>Sett. 3–4: al 60–70%</td></tr>
+        <tr><td>Extrarotazione sul fianco<span class="come">Sdraiato sul lato sano, asciugamano arrotolato fra gomito e fianco, gomito a 90°. Ruotare l'avambraccio verso il soffitto.</span></td><td>Sottospinato, piccolo rotondo</td><td class="dose">3 × 15<br>1 kg</td><td>Sett. 1–2 senza peso, poi 1 kg</td></tr>
+        <tr><td>Intrarotazione supina<span class="come">Supino, gomito al fianco a 90°, avambraccio aperto verso l'esterno. Portare la mano verso la pancia.</span></td><td>Sottoscapolare</td><td class="dose">3 × 15<br>1 kg</td><td>Sett. 1–2 senza peso, poi 1 kg</td></tr>
+        <tr class="gruppo"><td colspan="4">Abduttori e adduttori</td></tr>
+        <tr><td>Abduzione sul fianco 0–45°<span class="come">Sdraiato sul lato sano, braccio teso lungo il corpo, pollice in su. Sollevare fino a 45°.</span></td><td>Sovraspinato, deltoide medio</td><td class="dose">3 × 12<br>0–1 kg</td><td>Solo se la cuffia non è stata riparata; altrimenti isometria al muro 5 × 10 s</td></tr>
+        <tr><td>Isometria in adduzione<span class="come">Cuscino fra braccio e fianco, gomito piegato. Stringere il cuscino contro il corpo.</span></td><td>Gran pettorale, gran dorsale, grande rotondo</td><td class="dose">5 × 10 s</td><td>Aumentare la forza, non il tempo</td></tr>
+        <tr class="gruppo"><td colspan="4">Scapola e corpo libero</td></tr>
+        <tr><td>Retrazione della scapola<span class="come">Seduto, braccia lungo il corpo. Avvicinare le scapole senza alzare le spalle.</span></td><td>Romboidi, trapezio medio</td><td class="dose">3 × 12<br>tenuta 5 s</td><td>—</td></tr>
+        <tr><td>Piegamenti al muro con spinta finale<span class="come">Mani al muro all'altezza delle spalle. Piegamento, poi in fondo spingere ancora allontanando le scapole.</span></td><td>Dentato anteriore, gran pettorale</td><td class="dose">3 × 12</td><td>Sett. 3–4: piedi più lontani dal muro</td></tr>
+        <tr><td>Remata con manubrio<span class="come">Mano sana e ginocchio su una sedia. Tirare il gomito verso il fianco, scapola che scivola indietro.</span></td><td>Gran dorsale, romboidi, deltoide posteriore</td><td class="dose">3 × 15<br>1 kg</td><td>Sett. 3–4: 2 kg</td></tr>
+        <tr><td>Plank sulle ginocchia<span class="come">Avambracci a terra, corpo in linea da testa a ginocchia.</span></td><td>Core, stabilizzatori della scapola</td><td class="dose">3 × 20 s</td><td>Sett. 3–4: 30 s</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>Per passare alla fase 2:</strong> movimento completo senza dolore, extrarotazione sul fianco 3 × 15 con 1 kg senza fatica, nessun dolore notturno.</p>
+  </div>
+</section>
+
+<section class="fase">
+  <div class="wrap">
+    <div class="fase-testa"><span class="etichetta">Settimane 5–8</span><h2>Fase 2. Costruire forza</h2></div>
+    <p>Si sale di carico, si allenano posizioni più vicine a quelle del pugilato e si comincia a caricare il peso del corpo sulle braccia. Negli ultimi giorni della fase torna la tecnica, ancora senza sacco.</p>
+    <ul class="parametri">
+      <li>Manubrio da 2 kg</li>
+      <li>3 serie × 10–12 ripetizioni</li>
+      <li>Ritmo 2-1-3</li>
+      <li>Recupero 60 s</li>
+      <li>Dolore massimo 3/10</li>
+    </ul>
+    <div class="tabella">
+    <table>
+      <thead><tr><th>Esercizio</th><th>Muscoli</th><th>Dose</th><th>Progressione</th></tr></thead>
+      <tbody>
+        <tr class="gruppo"><td colspan="4">Rotatori</td></tr>
+        <tr><td>Extrarotazione sul fianco<span class="come">Come in fase 1. Discesa lenta: è la frenata del pugno.</span></td><td>Sottospinato, piccolo rotondo</td><td class="dose">3 × 12<br>2 kg</td><td>Discesa in 4 s</td></tr>
+        <tr><td>Extrarotazione prona a 90°<span class="come">Prono sul letto, braccio fuori dal bordo, gomito a 90° all'altezza della spalla. Ruotare l'avambraccio in avanti fino all'orizzontale.</span></td><td>Sottospinato, piccolo rotondo, trapezio inferiore</td><td class="dose">3 × 10<br>1 kg</td><td>Dopo stabilizzazione: rimandare alla fase 3</td></tr>
+        <tr><td>Intrarotazione supina<span class="come">Come in fase 1, poi con il gomito staccato dal fianco a 45°.</span></td><td>Sottoscapolare, gran pettorale</td><td class="dose">3 × 12<br>2 kg</td><td>Sett. 7–8: gomito a 45°</td></tr>
+        <tr class="gruppo"><td colspan="4">Abduttori e adduttori</td></tr>
+        <tr><td>Elevazione nel piano della scapola<span class="come">In piedi, braccia a 30° davanti al fianco, pollici in su. Salire fino all'altezza delle spalle.</span></td><td>Sovraspinato, deltoide medio e anteriore</td><td class="dose">3 × 12<br>1 → 2 kg</td><td>Cuffia riparata: solo 1 kg, solo con via libera</td></tr>
+        <tr><td>Alzata laterale fino a 90°<span class="come">Gomiti appena piegati, pollici leggermente in su, niente slancio.</span></td><td>Deltoide medio</td><td class="dose">3 × 10<br>1 → 2 kg</td><td>—</td></tr>
+        <tr><td>Croci su panca o a terra<span class="come">Supino, braccia aperte con gomiti morbidi. Richiudere sopra il petto. A terra la spalla non va oltre il pavimento.</span></td><td>Gran pettorale (adduzione orizzontale)</td><td class="dose">3 × 12<br>2 kg</td><td>—</td></tr>
+        <tr><td>Pullover corto<span class="come">Supino, un manubrio a due mani sopra il petto. Portarlo indietro solo fino a sopra la fronte e tornare.</span></td><td>Gran dorsale, grande rotondo, gran pettorale</td><td class="dose">3 × 12<br>2 → 3 kg</td><td>Aumentare l'escursione se non c'è dolore</td></tr>
+        <tr class="gruppo"><td colspan="4">Flessori, estensori e scapola</td></tr>
+        <tr><td>Alzata frontale alternata<span class="come">Braccio teso davanti, pollice in su, fino all'altezza della spalla.</span></td><td>Deltoide anteriore</td><td class="dose">3 × 10<br>2 kg</td><td>—</td></tr>
+        <tr><td>T e Y proni<span class="come">Prono, fronte su un asciugamano. Braccia aperte a T, poi a Y, pollici in su. Prima la scapola, poi il braccio.</span></td><td>Trapezio medio e inferiore, deltoide posteriore</td><td class="dose">2 × 10<br>ciascuno</td><td>Sett. 7–8: con 1 kg</td></tr>
+        <tr><td>Remata con manubrio</td><td>Gran dorsale, romboidi, deltoide posteriore</td><td class="dose">3 × 12<br>3 kg</td><td>Pausa di 2 s in alto</td></tr>
+        <tr><td>Piegamenti inclinati<span class="come">Mani su un tavolo o sul bordo del letto. Spinta finale con le scapole.</span></td><td>Gran pettorale, tricipite, dentato anteriore</td><td class="dose">3 × 10</td><td>Sett. 7–8: sulle ginocchia a terra</td></tr>
+        <tr><td>Remata inversa sotto il tavolo<span class="come">Sotto un tavolo robusto, mani sul bordo, talloni a terra. Tirare il petto verso il bordo.</span></td><td>Gran dorsale, romboidi, bicipite</td><td class="dose">3 × 8</td><td>Più orizzontale = più difficile</td></tr>
+        <tr><td>Plank completo con tocchi di spalla<span class="come">Sulle mani, bacino fermo. Toccare la spalla opposta alternando.</span></td><td>Core, stabilizzatori della scapola</td><td class="dose">3 × 20 s → 3 × 10 tocchi</td><td>—</td></tr>
+        <tr><td>Plank laterale sulle ginocchia</td><td>Obliqui, stabilità della spalla d'appoggio</td><td class="dose">3 × 20 s<br>per lato</td><td>—</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>Settimane 7–8, tecnica senza sacco:</strong> a fine seduta 3 round da 1 minuto di shadow boxing a velocità lenta, solo diretti (jab e diretto), braccio mai completamente disteso a scatto. Guardia alta, si respira.</p>
+    <p><strong>Per passare alla fase 3:</strong> tutte le serie con 2 kg senza dolore, 10 piegamenti sulle ginocchia puliti, extrarotazione del lato operato con almeno l'80% delle ripetizioni del lato sano (stesso peso, fino a esaurimento).</p>
+  </div>
+</section>
+
+<section class="fase">
+  <div class="wrap">
+    <div class="fase-testa"><span class="etichetta">Settimane 9–12</span><h2>Fase 3. Velocità, resistenza e sacco</h2></div>
+    <p>Il pugno è veloce e ripetuto. La spalla deve reggere carichi rapidi e tanti round. Si lavora sulla fase di frenata (eccentrica), sulla velocità e sulla resistenza, e si torna al sacco in modo graduale.</p>
+    <ul class="parametri">
+      <li>Manubrio da 3 kg</li>
+      <li>3–4 serie × 8–12 ripetizioni</li>
+      <li>Concentrico veloce, discesa in 3–4 s</li>
+      <li>Recupero 60–90 s</li>
+      <li>Dolore massimo 2/10</li>
+    </ul>
+    <div class="tabella">
+    <table>
+      <thead><tr><th>Esercizio</th><th>Muscoli</th><th>Dose</th><th>Progressione</th></tr></thead>
+      <tbody>
+        <tr class="gruppo"><td colspan="4">Rotatori</td></tr>
+        <tr><td>Extrarotazione sul fianco, eccentrica<span class="come">Salita aiutata dall'altra mano, discesa da soli in 4 secondi.</span></td><td>Sottospinato, piccolo rotondo</td><td class="dose">3 × 10<br>3 kg</td><td>—</td></tr>
+        <tr><td>Extrarotazione prona a 90°</td><td>Sottospinato, piccolo rotondo, trapezio inferiore</td><td class="dose">3 × 10<br>2 kg</td><td>Sett. 11–12: 3 kg</td></tr>
+        <tr><td>Intrarotazione supina a 90°<span class="come">Supino, braccio aperto a 90°, gomito a 90°. Dalla mano verso il pavimento alla mano verso il soffitto.</span></td><td>Sottoscapolare, gran pettorale, gran dorsale</td><td class="dose">3 × 12<br>3 kg</td><td>Salita veloce, discesa lenta</td></tr>
+        <tr><td>Rotazioni rapide in guardia<span class="come">In piedi in guardia, 1 kg per mano. Piccole rotazioni dentro-fuori il più veloci possibile, senza perdere la posizione.</span></td><td>Tutta la cuffia (resistenza)</td><td class="dose">4 × 20 s</td><td>Sett. 11–12: 30 s</td></tr>
+        <tr class="gruppo"><td colspan="4">Abduttori e adduttori</td></tr>
+        <tr><td>Elevazione nel piano della scapola</td><td>Sovraspinato, deltoide</td><td class="dose">3 × 10<br>3 kg</td><td>Pausa di 2 s in alto</td></tr>
+        <tr><td>Alzata laterale con tenuta in guardia<span class="come">Salire a 90°, tenere 5 secondi, scendere in 3.</span></td><td>Deltoide medio, sovraspinato</td><td class="dose">3 × 8<br>2 → 3 kg</td><td>—</td></tr>
+        <tr><td>Croci + pullover in serie</td><td>Gran pettorale, gran dorsale, grande rotondo</td><td class="dose">3 × 10 + 10<br>3 kg</td><td>Senza pausa fra i due</td></tr>
+        <tr class="gruppo"><td colspan="4">Spinta, trazione e corpo libero</td></tr>
+        <tr><td>Piegamenti completi<span class="come">Scapole attive, gomiti a 45° dal busto. Dopo stabilizzazione: fermarsi con il petto un palmo sopra il pavimento.</span></td><td>Gran pettorale, tricipite, dentato anteriore</td><td class="dose">3 × 8–12</td><td>Sett. 11–12: salita esplosiva</td></tr>
+        <tr><td>Remata inversa</td><td>Gran dorsale, romboidi</td><td class="dose">3 × 10–12</td><td>Corpo più orizzontale</td></tr>
+        <tr><td>Y-T-W proni con peso</td><td>Trapezio inferiore e medio, deltoide posteriore, extrarotatori</td><td class="dose">2 × 8 ciascuno<br>1 kg</td><td>Sett. 11–12: 2 kg</td></tr>
+        <tr><td>Pugni con manubri<span class="come">In guardia, 1 kg per mano. Diretti alternati controllati, braccio mai bloccato in fondo.</span></td><td>Deltoide anteriore, dentato anteriore, cuffia</td><td class="dose">3 × 30 s</td><td>Sett. 11–12: 2 kg, 45 s</td></tr>
+        <tr><td>Camminata in plank verso il muro<span class="come">Da piegamento, piccoli passi laterali con le mani a destra e sinistra.</span></td><td>Stabilizzatori, dentato anteriore</td><td class="dose">3 × 6 passi<br>per lato</td><td>—</td></tr>
+        <tr><td>Plank laterale completo</td><td>Obliqui, stabilità della spalla</td><td class="dose">3 × 30 s</td><td>Con sollevamento della gamba</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Il ritorno al sacco</h3>
+    <p>Sempre dopo gli esercizi del giorno solo se la seduta è andata bene, sempre con bende e guantoni. Si sale di un gradino solo se il gradino prima non ha lasciato dolore il giorno dopo.</p>
+    <ul class="sacco">
+      <li><b>Sett. 9</b><span>Solo diretti (jab e diretto) al 30–40% della forza. 3 round da 1 minuto, 1 minuto di pausa.</span></li>
+      <li><b>Sett. 10</b><span>Diretti al 50–60%. Si aggiunge il gancio largo e lento. 4 round da 1 minuto e mezzo.</span></li>
+      <li><b>Sett. 11</b><span>Diretti e ganci al 70%, si aggiunge il montante. Combinazioni brevi (2–3 colpi). 4 round da 2 minuti.</span></li>
+      <li><b>Sett. 12</b><span>Tutti i colpi all'80%. 5–6 round da 2 minuti. Il colpo pieno al 100% si prova solo dopo la verifica finale.</span></li>
+    </ul>
+    <p><strong>Si torna al gradino prima</strong> se compare dolore in avanti o sopra la spalla all'impatto, la sensazione che la spalla "si sposti", o formicolio verso la mano.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>La settimana tipo</h2>
+    <div class="tabella">
+    <table>
+      <thead><tr><th>Giorno</th><th>Cosa si fa</th></tr></thead>
+      <tbody>
+        <tr><td>Lunedì</td><td>Riscaldamento, tutti gli esercizi della fase, allungamenti</td></tr>
+        <tr><td>Martedì</td><td>Riposo attivo: camminata o bici 30 minuti, esercizi del riscaldamento</td></tr>
+        <tr><td>Mercoledì</td><td>Seduta completa (in fase 3 con il sacco)</td></tr>
+        <tr><td>Giovedì</td><td>Riposo attivo, gambe e tronco se vuole (squat, affondi, ponte)</td></tr>
+        <tr><td>Venerdì</td><td>Seduta completa (in fase 3 con il sacco)</td></tr>
+        <tr><td>Sabato e domenica</td><td>Riposo</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Le gambe e il tronco contano: gran parte della forza del pugno nasce lì, e più sono forti meno la spalla deve compensare. Nei giorni di riposo attivo vanno bene squat, affondi, ponte per i glutei e plank.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Verifica a fine piano</h2>
+    <p>Alla settimana 12 rifacciamo insieme questi controlli in studio. Se passano tutti, si può tornare ad allenarsi al sacco a pieno regime.</p>
+    <ul class="check">
+      <li>Movimento completo della spalla operata, uguale all'altra, senza dolore.</li>
+      <li>Extrarotazione sul fianco con 3 kg: il lato operato fa almeno il 90% delle ripetizioni del lato sano.</li>
+      <li>Rapporto fra extrarotatori e intrarotatori equilibrato: gli extrarotatori reggono almeno due terzi delle ripetizioni degli intrarotatori con lo stesso peso.</li>
+      <li>Test di stabilità in catena chiusa (CKCUEST): in posizione di piegamento, mani a 90 cm, toccare alternando la mano opposta per 15 secondi. Obiettivo: almeno 21 tocchi, 3 prove.</li>
+      <li>15 piegamenti completi puliti, senza scapola alata.</li>
+      <li>6 round da 2 minuti al sacco all'80% senza dolore né il giorno stesso né il giorno dopo.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Diario delle sedute</h2>
+    <p>Da compilare dopo ogni seduta: bastano due numeri. Il dolore da 0 a 10 durante l'esercizio e il mattino dopo. Lo guardiamo insieme a ogni controllo.</p>
+    <div class="tabella">
+    <table class="diario">
+      <thead><tr><th>Settimana</th><th>Lun: durante / dopo</th><th>Mer: durante / dopo</th><th>Ven: durante / dopo</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>2</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>3</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>4</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>5</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>6</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>7</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>8</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>9</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>10</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>11</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>12</td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="allerta">
+      <h3>Quando fermarsi e chiamare</h3>
+      <ul>
+        <li>Dolore che supera 5 su 10 o che non passa dopo 48 ore.</li>
+        <li>Sensazione di spalla che esce o si sposta, un "clunk" con dolore.</li>
+        <li>Gonfiore, calore o arrossamento sulla cicatrice.</li>
+        <li>Formicolio o perdita di forza improvvisa nel braccio o nella mano.</li>
+      </ul>
+      <p>In questi casi si sospende il piano e si sente il chirurgo.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Kinesiologia Studio · Via Capilupi 21, Direzionale Toscanini, Modena · 348 151 4382</p>
+    <p>Scheda di esercizio personale. Non sostituisce le indicazioni del chirurgo ortopedico e del fisioterapista che seguono il post-operatorio.</p>
+  </div>
+</footer>
+
+</body>
+</html>
