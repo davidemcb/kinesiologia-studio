@@ -115,7 +115,7 @@ footer p{margin:.2rem 0}
 @media print{
   :root{--carta:#fff;--carta-2:#ccc;--riquadro:#f1f1f1;--inchiostro:#000;--testo:#222;--tenue:#555;
     --allerta-bg:#f6eeee;--accento:#7B2233}
-  body{font-size:10.5pt;background:#fff}
+  body{font-size:9.5pt;line-height:1.45;background:#fff}
   .hero{background:#fff;color:#000;padding:0 0 1rem;border-bottom:2px solid #000}
   .hero h1,.scheda b{color:#000}
   .hero .somm,.hero .luogo,.scheda span{color:#333}
@@ -123,7 +123,14 @@ footer p{margin:.2rem 0}
   section{padding:1.25rem 0;break-inside:auto}
   .fase{break-before:page}
   tr,.allerta,.mappa div{break-inside:avoid}
-  table{min-width:0}
+  table{min-width:0;font-size:9pt}
+  th,td{padding:.3rem .4rem}
+  td:first-child{width:38%}
+  td .come{font-size:8.5pt}
+  h2{font-size:15pt}
+  h3{font-size:11pt;margin-top:1rem}
+  .wrap{max-width:none;padding:0}
+  .diario td{height:1.4rem}
   footer{background:#fff;color:#555}
 }
 </style>
