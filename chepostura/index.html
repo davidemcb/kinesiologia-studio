@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Area riservata · Kinesiologia Studio</title>
+<title>Che Postura · Kinesiologia Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -124,7 +124,7 @@
 <body>
 <header class="bar">
   <div class="bar-in">
-    <div class="brand">Area riservata<small>Kinesiologia Studio · Dott. Davide Scuderi · Dott.ssa Morena Anastasi</small></div>
+    <div class="brand">Che Postura<small>Area riservata · Kinesiologia Studio · Dott. Davide Scuderi · Dott.ssa Morena Anastasi</small></div>
     <span class="sp"></span>
     <span class="who" id="who"></span>
     <button class="btn" id="btnOut" type="button" hidden>Esci</button>
@@ -283,7 +283,7 @@ async function renderDashboard() {
     const data = await Api.backup();
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' }));
-    a.download = `backup-area-riservata-${today()}.json`; a.click();
+    a.download = `backup-che-postura-${today()}.json`; a.click();
   });
 }
 
@@ -322,7 +322,7 @@ function showCode(card, p, code) {
     <p style="margin:0">1. Vai su <b>${esc(site)}</b><br>2. Premi "Crea il tuo accesso" e scegli email e password.<br>3. Inserisci il codice <b>${esc(code)}</b>.</p>
     <div class="row"><button class="btn" type="button" id="cCopy">Copia le istruzioni</button><button class="btn primary" type="button" id="cOpen">Apri la scheda</button></div>`;
   $('#cCopy').addEventListener('click', () => {
-    const t = `Area riservata Kinesiologia Studio\n1. Vai su ${site}\n2. Premi "Crea il tuo accesso" e scegli email e password\n3. Inserisci il codice ${code}`;
+    const t = `Che Postura · Kinesiologia Studio\n1. Vai su ${site}\n2. Premi "Crea il tuo accesso" e scegli email e password\n3. Inserisci il codice ${code}`;
     navigator.clipboard.writeText(t).then(() => { $('#cCopy').textContent = 'Copiate'; }, () => {});
   });
   $('#cOpen').addEventListener('click', () => go('#p-' + p.id));

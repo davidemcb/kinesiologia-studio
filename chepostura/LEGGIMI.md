@@ -1,4 +1,7 @@
-# Area riservata
+# Che Postura
+
+Area riservata dello studio, online all'indirizzo `/chepostura/` del sito.
+
 
 Gestionale posturale dello studio: Davide e Morena vedono tutti i pazienti, ogni paziente entra con email e password e vede solo le sue visite, foto, esercizi e referti.
 

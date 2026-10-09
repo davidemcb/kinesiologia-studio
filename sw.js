@@ -34,7 +34,7 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
   var url = new URL(e.request.url);
   if (url.origin !== self.location.origin) return; // fonts, Calendly: rete diretta
-  if (url.pathname.indexOf('/area/') !== -1) return; // area riservata: sempre dalla rete, mai dalla cache
+  if (url.pathname.indexOf('/chepostura/') !== -1) return; // Che Postura, area riservata: sempre dalla rete, mai dalla cache
 
   if (e.request.mode === 'navigate') {
     // network-first: l'app si aggiorna appena pubblichiamo, offline usa la cache
