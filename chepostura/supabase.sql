@@ -89,12 +89,16 @@ create table if not exists public.sessions (
   date date not null default current_date,
   kind text not null check (kind in ('trattamento', 'allenamento', 'altro')),
   text text,
+  zones jsonb not null default '[]',      -- [{zone, side, tech: []}]
+  tests jsonb not null default '[]',      -- [{name, side, result, note}]
   exercises jsonb not null default '[]',
   visible_to_patient boolean not null default false,
   author_id uuid references auth.users (id) on delete set null,
   author_name text,
   created_at timestamptz not null default now()
 );
+alter table public.sessions add column if not exists zones jsonb not null default '[]';
+alter table public.sessions add column if not exists tests jsonb not null default '[]';
 create index if not exists sessions_patient_date on public.sessions (patient_id, date desc);
 alter table public.sessions enable row level security;
 drop policy if exists "sedute: amministratori" on public.sessions;

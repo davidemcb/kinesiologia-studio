@@ -126,7 +126,7 @@
       },
       async addSession(pid, e) {
         const s = await this.session();
-        check(await sb.from('sessions').insert({ ...e, patient_id: pid, author_id: s ? s.user.id : null, author_name: s ? s.name : null }));
+        return check(await sb.from('sessions').insert({ ...e, patient_id: pid, author_id: s ? s.user.id : null, author_name: s ? s.name : null }).select().single());
       },
       async deleteSession(id) { check(await sb.from('sessions').delete().eq('id', id)); },
       async backup() {
@@ -238,7 +238,8 @@
       },
       async addSession(pid, e) {
         const d = load(); d.sessions = d.sessions || [];
-        d.sessions.push({ ...e, id: uid(), patient_id: pid, author_name: d.session ? d.session.name : '', created_at: new Date().toISOString() }); save();
+        const row = { ...e, id: uid(), patient_id: pid, author_name: d.session ? d.session.name : '', created_at: new Date().toISOString() };
+        d.sessions.push(row); save(); return row;
       },
       async deleteSession(id) { const d = load(); d.sessions = (d.sessions || []).filter(x => x.id !== id); save(); },
       async backup() { const d = load(); return { esportato: new Date().toISOString(), pazienti: d.patients, visite: d.visits, sedute: d.sessions || [] }; },
@@ -267,13 +268,18 @@
       session: null,
       sessions: [
         { id: 's1', patient_id: 'p1', date: '2026-06-10', kind: 'trattamento', author_name: 'Davide Scuderi', visible_to_patient: false, exercises: [], created_at: '2026-06-10T10:00:00Z',
-          text: 'Trattamento quadrato dei lombi dx e adduttori dx, riattivazione medio gluteo dx. Manipolazione sacroiliaca dx. Dolore lombare da 5 a 3 su 10 a fine seduta.' },
+          zones: [{ zone: 'Lombare', side: 'dx', tech: ['Miofasciale', 'Decontratturante'] }, { zone: 'Bacino e sacro-iliache', side: 'dx', tech: ['Manipolazioni'] }, { zone: 'Coscia (adduttori)', side: 'dx', tech: ['Stretching'] }],
+          tests: [{ name: 'Lasègue', side: 'dx', result: 'Negativo', note: '' }, { name: 'FABER (Patrick)', side: 'dx', result: 'Positivo', note: 'dolore sacro-iliaco' }],
+          text: 'Dolore lombare da 5 a 3 su 10 a fine seduta.' },
         { id: 's2', patient_id: 'p1', date: '2026-06-17', kind: 'allenamento', author_name: 'Morena Anastasi', visible_to_patient: true, created_at: '2026-06-17T18:00:00Z',
+          zones: [{ zone: 'Glutei', side: 'bilaterale', tech: ['Rinforzo'] }, { zone: 'Dorsale', side: '', tech: ['Pilates mat work', 'Mobilità'] }], tests: [],
           text: 'Prima seduta di rinforzo, buona esecuzione. Da curare la posizione del bacino nel clamshell.',
           exercises: [{ name: 'Clamshell con elastico', dose: '3×15 per lato', load: 'elastico leggero', note: 'una serie in più a dx' }, { name: 'Y, T, W da prono', dose: '2×8', load: 'corpo libero', note: '' }, { name: 'Mermaid', dose: '2×6 per lato', load: '', note: '' }] },
         { id: 's3', patient_id: 'p1', date: '2026-07-01', kind: 'allenamento', author_name: 'Morena Anastasi', visible_to_patient: true, created_at: '2026-07-01T18:00:00Z',
+          zones: [{ zone: 'Core e addome', side: '', tech: ['Pilates mat work'] }, { zone: 'Glutei', side: 'bilaterale', tech: ['Rinforzo'] }],
+          tests: [{ name: 'Trendelenburg', side: 'dx', result: 'Migliorato', note: '' }],
           text: 'Aumentato il carico, nessun fastidio lombare.',
-          exercises: [{ name: 'Clamshell con elastico', dose: '3×15 per lato', load: 'elastico medio', note: '' }, { name: 'Ponte su una gamba', dose: '3×8 per lato', load: 'corpo libero', note: 'nuovo' }] }
+          exercises: [{ name: 'The Hundred', dose: '1×100', load: '', note: '' }, { name: 'Shoulder bridge', dose: '3×8 per lato', load: 'corpo libero', note: 'nuovo' }, { name: 'Clamshell', dose: '3×15 per lato', load: 'elastico medio', note: '' }] }
       ],
       patients: [
         { id: 'p1', full_name: 'Maria Rossi', birth: '1988-04-12', phone: '333 000 0001', email: 'maria.rossi@esempio.it', consent_date: '2026-06-03', notes: 'Impiegata, molte ore al computer. Lombalgia saltuaria.', user_id: 'demo-maria', demo_code: null, code_created_at: null },
