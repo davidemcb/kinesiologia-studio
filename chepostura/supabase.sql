@@ -40,6 +40,7 @@ create table if not exists public.visits (
   exercises jsonb not null default '[]',
   plan jsonb not null default '{}',
   extras jsonb not null default '[]',
+  mobility jsonb,                          -- indice e angoli di mobilità articolare
   notes text,
   photos jsonb not null default '{}',
   pdf_path text,
@@ -83,11 +84,13 @@ create policy "visite: le proprie" on public.visits for select
   using (patient_id = public.my_patient_id());
 
 -- Diario delle sedute: trattamenti (Davide) e allenamenti (Morena)
+alter table public.visits add column if not exists mobility jsonb;
+
 create table if not exists public.sessions (
   id uuid primary key default gen_random_uuid(),
   patient_id uuid not null references public.patients (id) on delete cascade,
   date date not null default current_date,
-  kind text not null check (kind in ('trattamento', 'allenamento', 'altro')),
+  kind text not null check (kind in ('trattamento', 'allenamento', 'colloquio', 'altro')),
   text text,
   zones jsonb not null default '[]',      -- [{zone, side, tech: []}]
   tests jsonb not null default '[]',      -- [{name, side, result, note}]

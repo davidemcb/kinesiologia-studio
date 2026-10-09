@@ -124,7 +124,11 @@
   .seg button + button { border-left: 1px solid var(--line); }
   .seg button[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); }
   .srow { padding: 12px; border-radius: 12px; background: var(--surface-2); display: grid; gap: 6px; border-left: 4px solid var(--line); }
-  .srow.trattamento { border-left-color: var(--brand); } .srow.allenamento { border-left-color: var(--accent); }
+  .srow.trattamento { border-left-color: var(--brand); } .srow.allenamento { border-left-color: var(--accent); } .srow.colloquio { border-left-color: var(--muted); }
+  .btn.rec { background: #C0392B; border-color: #C0392B; color: #fff; }
+  .disc { font-size: .85rem; color: var(--muted); font-style: italic; margin: 4px 2px 12px; }
+  .mobidx { display: flex; gap: 14px; flex-wrap: wrap; align-items: baseline; margin: 4px 0 8px; } .mobidx .big { font-size: 1.8rem; font-weight: 700; } .mobidx .sub { color: var(--muted); font-size: .9rem; }
+  td.ok { color: var(--ok, #3E7A5E); } td.warn { color: #B26B12; } td.alert { color: #C0392B; }
   .srow .top { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .srow p { margin: 0; font-size: .92rem; white-space: pre-wrap; }
   .srow table { font-size: .86rem; } .srow td, .srow th { padding: 5px 8px; white-space: normal; }
@@ -374,7 +378,7 @@ async function renderPatient(id) {
   <div class="card"><h2>Visite</h2><div class="vlist" id="vlist"></div></div>
   <div class="card"><div class="phero"><div><h2>Diario delle sedute</h2><p class="hint">Trattamenti e allenamenti, con autore e data. Le voci con "visibile al paziente" compaiono anche nella sua area.</p></div><button class="btn primary" type="button" id="bSess">Nuova seduta</button></div>
     <div id="sessForm" hidden></div><div class="vlist" id="slist"></div></div>
-  <div class="card"><h2>Note dello studio</h2><p class="hint">Visibili solo a Davide e Morena.</p><textarea id="pNotes">${esc(p.notes || '')}</textarea><div class="row"><button class="btn" type="button" id="bNotes">Salva note</button><span class="hint" id="nOk"></span></div></div>`;
+  <div class="card"><h2>Note dello studio</h2><p class="hint">Visibili solo a Davide e Morena.</p><textarea id="pNotes">${esc(p.notes || '')}</textarea><div class="row"><button class="btn" type="button" id="bNotesMic">🎤 Detta</button><button class="btn" type="button" id="bNotes">Salva note</button><span class="hint" id="nOk"></span></div></div>`;
   bindDemo();
   const vl = $('#vlist');
   if (!vs.length) vl.innerHTML = '<p class="empty">Nessuna visita. Premi "Nuova visita": carichi le foto, l\'analisi parte da sola e si salva qui.</p>';
@@ -394,6 +398,7 @@ async function renderPatient(id) {
     $('#dNo').addEventListener('click', () => { extra.innerHTML = ''; });
     $('#dYes').addEventListener('click', async () => { await Api.deletePatient(p.id); say(`${p.full_name} eliminato, con visite e foto.`); go(''); });
   });
+  dictation($('#bNotesMic'), $('#pNotes'), t => { $('#nOk').textContent = t; });
   $('#bNotes').addEventListener('click', async () => { await Api.updatePatient(p.id, { notes: $('#pNotes').value }); $('#nOk').textContent = 'Salvate.'; });
 }
 
@@ -437,8 +442,32 @@ function trendCard(vs) {
   return `<div class="card"><h2>Come sta cambiando</h2><div class="tablewrap"><table><thead><tr><th>Misura</th>${asc.map(v => `<th>${itDate(v.date)}</th>`).join('')}<th>Dal primo all'ultimo</th></tr></thead><tbody>${body}</tbody></table></div><p class="hint">Verde: l'asimmetria si è ridotta.</p></div>`;
 }
 
+/* ---------------- dettatura a voce ---------------- */
+function dictation(btn, ta, say) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, base = '';
+  const fix = t => t.replace(/\s*\bpunto e a capo\b/gi, '.\n').replace(/\s*\ba capo\b/gi, '\n').replace(/\s*\bpunto interrogativo\b/gi, '?')
+    .replace(/\s*\bvirgola\b/gi, ',').replace(/\s*\bpunto\b/gi, '.');
+  btn.addEventListener('click', () => {
+    if (rec) { rec.stop(); return; }
+    if (!SR) { say('Qui la dettatura non è disponibile: tocca il riquadro e usa il microfono della tastiera del telefono.'); ta.focus(); return; }
+    rec = new SR(); rec.lang = 'it-IT'; rec.continuous = true; rec.interimResults = true;
+    base = ta.value && !/\s$/.test(ta.value) ? ta.value + ' ' : ta.value;
+    rec.onresult = e => {
+      let fin = '', tmp = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) { const r = e.results[i]; if (r.isFinal) fin += r[0].transcript; else tmp += r[0].transcript; }
+      if (fin) base += fix(fin.trim()) + ' ';
+      ta.value = base + tmp;
+    };
+    rec.onerror = e => say(e.error === 'not-allowed' || e.error === 'service-not-allowed' ? 'Il microfono non è autorizzato: consentilo al sito, oppure usa il microfono della tastiera.' : e.error === 'no-speech' ? 'Non ho sentito nulla: riprova.' : 'Dettatura interrotta: riprova.');
+    rec.onend = () => { rec = null; btn.textContent = '🎤 Detta'; btn.classList.remove('rec'); ta.value = base.replace(/\s+$/, ''); };
+    try { rec.start(); btn.textContent = '■ Ferma'; btn.classList.add('rec'); say('Parla pure. Di\' «virgola», «punto», «a capo» per la punteggiatura.'); }
+    catch (err) { rec = null; say('Non riesco ad avviare la dettatura: usa il microfono della tastiera.'); }
+  });
+}
+
 /* ---------------- diario delle sedute ---------------- */
-const KIND = { trattamento: 'Trattamento', allenamento: 'Allenamento', altro: 'Altro' };
+const KIND = { trattamento: 'Trattamento', allenamento: 'Allenamento', colloquio: 'Colloquio', altro: 'Altro' };
 // Elenchi dei menu: si possono allungare liberamente.
 const ZONES = ['Cervicale', 'Dorsale', 'Lombare', 'Bacino e sacro-iliache', 'ATM e mandibola', 'Testa e cranio', 'Spalla', 'Gomito e avambraccio', 'Polso e mano', 'Diaframma', 'Addome', 'Core e addome', 'Glutei', 'Anca', 'Coscia (quadricipite)', 'Coscia (ischiocrurali)', 'Coscia (adduttori)', 'Ginocchio', 'Polpaccio', 'Caviglia e piede', 'Arti inferiori', 'Arti superiori', 'Corpo intero'];
 const SIDES = { '': '—', dx: 'dx', sx: 'sx', bilaterale: 'bilaterale' };
@@ -447,6 +476,7 @@ const TECH = {
   allenamento: ['Pilates mat work', 'Rinforzo', 'Mobilità', 'Allungamento', 'Respirazione', 'Propriocezione', 'Equilibrio']
 };
 TECH.altro = [...TECH.trattamento, ...TECH.allenamento];
+TECH.colloquio = [];
 const EXLIB = {
   'Pilates mat work': ['The Hundred', 'Roll up', 'Roll over', 'Single leg circle', 'Rolling like a ball', 'Single leg stretch', 'Double leg stretch', 'Single straight leg stretch (Scissors)', 'Double straight leg stretch (Lower lift)', 'Criss cross', 'Spine stretch forward', 'Open leg rocker', 'Corkscrew', 'Saw', 'Swan', 'Single leg kick', 'Double leg kick', 'Neck pull', 'Shoulder bridge', 'Spine twist', 'Jackknife', 'Side kick series', 'Teaser', 'Hip circles', 'Swimming', 'Leg pull front', 'Leg pull back', 'Side kick kneeling', 'Side bend', 'Boomerang', 'Seal', 'Crab', 'Rocking', 'Control balance', 'Push up', 'Mermaid'],
   'Pilates propedeutici': ['Respirazione laterale', 'Imprinting del bacino', 'Pelvic curl', 'Chest lift', 'Toe taps', 'Dead bug', 'Bird dog', 'Cat-cow', 'Book opening', 'Clamshell', 'Side lying leg lift', 'Spine stretch da seduto', 'Plank', 'Side plank', 'Roll down in piedi'],
@@ -526,7 +556,8 @@ function sessionForm(box, p, lastVisit) {
     <div class="field"><span class="lbl" id="sZl">Zone trattate</span><div class="exrows" id="sZ"></div><div class="row"><button class="btn" type="button" id="sAddZ">+ Aggiungi zona</button></div></div>
     <div class="field"><span class="lbl">Esercizi svolti</span><div class="exrows" id="sEx"></div><div class="row"><button class="btn" type="button" id="sAdd">+ Aggiungi esercizio</button></div></div>
     <div class="field"><span class="lbl">Test svolti</span><div class="exrows" id="sT"></div><div class="row"><button class="btn" type="button" id="sAddT">+ Aggiungi test</button></div></div>
-    <div class="field"><label class="lbl" for="sText">Note</label><textarea id="sText" placeholder="Es. come ha risposto, dolore prima e dopo, consigli per casa"></textarea></div>
+    <div class="field"><label class="lbl" for="sText">Note</label><textarea id="sText" placeholder="Es. come ha risposto, dolore prima e dopo, consigli per casa"></textarea>
+      <div class="row"><button class="btn" type="button" id="sMic">🎤 Detta</button><span class="hint" id="sMicMsg"></span></div></div>
     <label class="row hint"><input type="checkbox" id="sVis"> Visibile al paziente nella sua area</label>
     <div class="row"><button class="btn primary" type="button" id="sSaveWa">Salva e prepara WhatsApp</button><button class="btn" type="button" id="sSave">Salva</button><button class="btn" type="button" id="sCancel">Annulla</button></div>`;
   const techChips = (wrap, sel) => {
@@ -538,6 +569,7 @@ function sessionForm(box, p, lastVisit) {
     const k = $('#sKind'); k.innerHTML = '';
     for (const [v, l] of Object.entries(KIND)) { const b = document.createElement('button'); b.type = 'button'; b.textContent = l; b.setAttribute('aria-pressed', String(st.kind === v)); b.addEventListener('click', () => { st.kind = v; kindSeg(); $('#sVis').checked = v === 'allenamento'; box.querySelectorAll('.zrow').forEach(r => techChips(r.querySelector('.chips'), readTech(r))); }); k.appendChild(b); }
     $('#sZl').textContent = st.kind === 'allenamento' ? 'Zone lavorate e metodo' : 'Zone trattate e tecniche';
+    for (const id of ['#sZ', '#sEx', '#sT']) $(id).closest('.field').hidden = st.kind === 'colloquio';
   };
   const addZone = () => {
     const r = h(`<div class="zrow"><select aria-label="Zona"><option value="">Scegli la zona…</option>${opts(ZONES)}</select><select aria-label="Lato">${Object.entries(SIDES).map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><button class="btn" type="button" aria-label="Togli">×</button><div class="chips"></div></div>`);
@@ -567,6 +599,7 @@ function sessionForm(box, p, lastVisit) {
     $('#sT').appendChild(r); sel.focus();
   };
   kindSeg(); $('#sVis').checked = st.kind === 'allenamento';
+  dictation($('#sMic'), $('#sText'), t => { $('#sMicMsg').textContent = t; });
   addZone(); $('#sDate').focus();
   $('#sAddZ').addEventListener('click', addZone); $('#sAdd').addEventListener('click', addEx); $('#sAddT').addEventListener('click', addTest);
   $('#sCancel').addEventListener('click', () => { box.hidden = true; box.innerHTML = ''; });
@@ -606,7 +639,9 @@ async function fillPhotos(box, v) {
   for (const [vk, path] of entries) {
     const url = await Api.fileUrl(path);
     if (!url) continue;
-    const f = h(`<figure><img alt="${esc(VIEW_LABEL[vk] || vk)}" src="${esc(url)}"><figcaption>${esc(VIEW_LABEL[vk] || vk)}</figcaption></figure>`);
+    const mr = vk.startsWith('mob_') && v.mobility ? (v.mobility.rows || []).find(r => 'mob_' + r.key === vk) : null;
+    const lab = VIEW_LABEL[vk] || (mr ? mr.label : vk);
+    const f = h(`<figure><img alt="${esc(lab)}" src="${esc(url)}"><figcaption>${esc(lab)}</figcaption></figure>`);
     f.querySelector('img').addEventListener('click', () => { const z = $('#zoom'); z.querySelector('img').src = url; z.hidden = false; });
     box.appendChild(f);
   }
@@ -621,7 +656,18 @@ function visitBody(v, admin) {
   <div class="card"><h2>Parti in disfunzione</h2>${fs.length ? fs.map(f => `<div class="prob"><b>${esc(f.title)}</b><p>${esc(f.text)}</p>${(f.corti || []).length ? `<p><b>Tese / accorciate:</b> ${esc(f.corti.join(', '))}</p>` : ''}${(f.lunghi || []).length ? `<p><b>Deboli / inibite:</b> ${esc(f.lunghi.join(', '))}</p>` : ''}</div>`).join('') : '<p class="empty">Nessuna asimmetria importante in questa visita.</p>'}</div>
   <div class="card"><h2>${admin ? 'Esercizi assegnati' : 'I tuoi esercizi'}</h2>${exs.length ? `<div class="list">${exs.map(e => `<div class="ex"><b>${esc(e.name)}</b><span class="dose">${esc(e.dose)}</span><span>Perché: ${esc(e.why)}.</span>${e.how ? `<span class="how">Come: ${esc(e.how)}</span>` : ''}</div>`).join('')}</div>` : '<p class="empty">Nessun esercizio assegnato.</p>'}</div>
   ${next.length ? `<div class="card"><h2>Prossimi appuntamenti</h2><ul class="tl">${next.map(n => `<li><span class="date">${itDate(n.date)}</span><span>${esc(n.label)}</span></li>`).join('')}</ul></div>` : ''}
-  ${admin && v.notes ? `<div class="card"><h2>Note della visita</h2><p style="margin:0">${esc(v.notes)}</p></div>` : ''}`;
+  ${mobCard(v.mobility)}
+  ${admin && v.notes ? `<div class="card"><h2>Note della visita</h2><p style="margin:0">${esc(v.notes)}</p></div>` : ''}
+  <p class="disc">Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.</p>`;
+}
+function mobCard(mob) {
+  if (!mob || !(mob.rows || []).length) return '';
+  const col = x => (x >= 90 ? 'ok' : x >= 70 ? 'warn' : 'alert');
+  return `<div class="card"><h2>Mobilità articolare</h2>
+    <div class="mobidx"><span class="big ${col(mob.index)}" style="color:${mob.index >= 90 ? '#3E7A5E' : mob.index >= 70 ? '#B26B12' : '#C0392B'}">${mob.index}/100</span>${(mob.groups || []).map(g => `<span class="sub">${esc(g.label)} ${g.index}</span>`).join('')}</div>
+    <p class="hint">Indice di mobilità globale: media dei movimenti misurati rispetto ai valori normali (100 = tutti nella norma).</p>
+    <div class="tablewrap"><table><thead><tr><th>Movimento</th><th>Angolo</th><th>Normale</th><th>%</th></tr></thead><tbody>${mob.rows.map(r => `<tr><td>${esc(r.label)}${r.extra && r.extra !== 'goniometro' ? ' · ' + esc(r.extra) : ''}</td><td class="num ${esc(r.sev)}">${r.val}°</td><td class="num">${r.normal}°</td><td class="num ${esc(r.sev)}">${r.pct}%</td></tr>`).join('')}</tbody></table></div>
+    ${(mob.asym || []).length ? `<p><b>Differenze tra destra e sinistra:</b> ${esc(mob.asym.join('; '))}.</p>` : ''}</div>`;
 }
 
 /* ---------------- paziente: la mia area ---------------- */
@@ -631,7 +677,7 @@ async function renderMyArea() {
   const last = vs[0];
   const first = (p.full_name || '').split(' ')[0];
   app.innerHTML = `${demoBanner()}${msgEl()}
-  <div><p class="hello">Ciao ${esc(first)}</p><p class="hint">Qui trovi le tue valutazioni posturali, i tuoi esercizi e i prossimi controlli.</p></div>
+  <div><p class="hello">Ciao ${esc(first)}</p><p class="hint">Qui trovi le tue valutazioni posturali, i tuoi esercizi e i prossimi controlli.</p><p class="disc">Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.</p></div>
   ${last ? `<div class="card"><div class="phero"><div><h2>La tua ultima valutazione</h2><p class="hint">${itDate(last.date)}</p></div>${last.pdf_path ? '<button class="btn primary" type="button" id="bLastPdf">Scarica il referto</button>' : ''}</div><div class="photos" id="ph"></div></div>${visitBody(last, false)}` : '<div class="card"><p class="empty">Non ci sono ancora valutazioni. Compariranno qui dopo la tua prima visita.</p></div>'}
   ${trendCard(vs)}
   ${vs.length > 1 ? '<div class="card"><h2>Tutte le visite</h2><div class="vlist" id="vlist"></div></div>' : ''}`;

@@ -234,6 +234,21 @@
   .foot { margin-top: 26px; color: var(--muted); font-size: .84rem; max-width: 80ch; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
   .guide { margin-top: 8px; font-size: .9rem; }
+  .btn.rec { background: #C0392B; border-color: #C0392B; color: #fff; }
+  .mobtable td.v { font-family: "JetBrains Mono", monospace; white-space: nowrap; }
+  .mobtable td.ok { color: var(--ok, #3E7A5E); } .mobtable td.warn { color: #B26B12; } .mobtable td.alert { color: #C0392B; }
+  .mobtable tr { cursor: pointer; } .mobtable tr.cur td { background: var(--surface-2); }
+  .mobtable th, .mobtable td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--line); font-size: .9rem; }
+  .mobtable { width: 100%; border-collapse: collapse; }
+  .mobidx { display: flex; gap: 14px; flex-wrap: wrap; align-items: baseline; margin: 6px 0 10px; }
+  .mobidx .big { font-size: 2rem; font-weight: 700; font-family: "JetBrains Mono", monospace; }
+  .mobidx .sub { font-size: .9rem; color: var(--muted); }
+  .tablewrap2 { overflow-x: auto; }
+  #mobCv { cursor: crosshair; }
+  #tab-mobilita .card + .card { margin-top: 14px; }
+  @media (max-width: 480px) { .mobtable th, .mobtable td { padding: 6px 4px; font-size: .84rem; } }
+  .mobpick { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; }
+  .mobpick select { max-width: 100%; }
   .guide summary { cursor: pointer; font-weight: 600; }
   .guide ul { margin: 6px 0; padding-left: 18px; }
   .closework { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 16px; margin-top: 10px; align-items: start; }
@@ -254,6 +269,7 @@
     <nav class="tabs" role="tablist" aria-label="Sezioni">
       <button role="tab" id="t-veloce" aria-selected="true" data-tab="veloce">Valutazione veloce</button>
       <button role="tab" id="t-completa" aria-selected="false" data-tab="valuta">Visita completa</button>
+      <button role="tab" id="t-mobilita" aria-selected="false" data-tab="mobilita">Mobilità</button>
       <button role="tab" id="t-archivio" aria-selected="false" data-tab="archivio" hidden>Archivio</button>
       <a class="btn" href="index.html" id="toArea" style="align-self:center">Tutti i pazienti</a>
     </nav>
@@ -297,6 +313,12 @@
       </div>
       <p class="msg" id="qStatus" hidden></p>
     </div>
+    <div class="card">
+      <h2>Note del colloquio</h2>
+      <p class="hint">Appunti personali, solo per voi: scrivili o dettali a voce. Salvando la visita finiscono nel diario della scheda come «Colloquio», non nel referto e non al paziente.</p>
+      <textarea id="qTalk" rows="4" placeholder="Es. dolore lombare da 3 mesi, peggiora da seduta, lavora al computer…"></textarea>
+      <div class="row"><button class="btn" type="button" id="qTalkMic">🎤 Detta</button><span class="hint" id="qTalkMsg"></span></div>
+    </div>
     <div id="qResult"></div>
     <div class="card" id="closeCard">
       <h2>Approfondimenti facoltativi</h2>
@@ -309,6 +331,29 @@
         <div><p class="instr" id="closeInstr"></p><ul class="pts" id="closePts"></ul><div class="meas" id="closeMeas"></div></div>
       </div>
     </div>
+  </section>
+
+  <!-- MOBILITÀ -->
+  <section id="tab-mobilita" hidden>
+    <div class="card">
+      <h2>Mobilità articolare</h2>
+      <p class="hint">Una foto per ogni movimento: il programma trova i punti (correggili trascinandoli) e calcola l'angolo. Se misuri con il goniometro, scrivi i gradi. Alla fine trovi l'indice di mobilità globale. Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.</p>
+      <div class="mobpick">
+        <div class="field"><label class="lbl" for="mobSel">Movimento</label><select id="mobSel"></select></div>
+        <div class="field" id="mobSideF"><span class="lbl">Lato</span><div class="seg" id="mobSide"></div></div>
+      </div>
+      <p class="hint" id="mobHow"></p>
+      <div class="row">
+        <label class="btn primary" for="mobFile">Carica la foto</label><input type="file" id="mobFile" accept="image/*" hidden>
+        <div class="field" style="flex-direction:row;align-items:center;gap:6px"><label class="lbl" for="mobManual" style="margin:0">oppure gradi</label><input id="mobManual" type="number" inputmode="decimal" min="0" max="200" style="width:90px"></div>
+        <button class="btn" type="button" id="mobClear">Azzera i punti</button><button class="btn" type="button" id="mobDel">Togli</button>
+      </div>
+      <div class="closework">
+        <div class="canvas-box" id="mobBox"><canvas id="mobCv" aria-label="Foto del movimento con i punti"></canvas></div>
+        <div><p class="instr" id="mobInstr"></p><ul class="pts" id="mobPts"></ul><div class="meas" id="mobMeas"></div></div>
+      </div>
+    </div>
+    <div class="card" id="mobRes"></div>
   </section>
 
   <!-- VALUTAZIONE -->
@@ -1553,6 +1598,322 @@ $('#closeDel').addEventListener('click', () => { state.close[CL.view] = null; CL
   ccv.addEventListener('pointerup', end); ccv.addEventListener('pointercancel', end);
 }
 
+// ---------- Dettatura a voce ----------
+function dictation(btn, ta, say) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, base = '';
+  const fix = t => t.replace(/\s*\bpunto e a capo\b/gi, '.\n').replace(/\s*\ba capo\b/gi, '\n').replace(/\s*\bpunto interrogativo\b/gi, '?')
+    .replace(/\s*\bvirgola\b/gi, ',').replace(/\s*\bpunto\b/gi, '.');
+  btn.addEventListener('click', () => {
+    if (rec) { rec.stop(); return; }
+    if (!SR) { say('Qui la dettatura non è disponibile: tocca il riquadro e usa il microfono della tastiera del telefono.'); ta.focus(); return; }
+    rec = new SR(); rec.lang = 'it-IT'; rec.continuous = true; rec.interimResults = true;
+    base = ta.value && !/\s$/.test(ta.value) ? ta.value + ' ' : ta.value;
+    rec.onresult = e => {
+      let fin = '', tmp = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) { const r = e.results[i]; if (r.isFinal) fin += r[0].transcript; else tmp += r[0].transcript; }
+      if (fin) base += fix(fin.trim()) + ' ';
+      ta.value = base + tmp; ta.dispatchEvent(new Event('input'));
+    };
+    rec.onerror = e => say(e.error === 'not-allowed' || e.error === 'service-not-allowed' ? 'Il microfono non è autorizzato: consentilo al sito, oppure usa il microfono della tastiera.' : e.error === 'no-speech' ? 'Non ho sentito nulla: riprova.' : 'Dettatura interrotta: riprova.');
+    rec.onend = () => { rec = null; btn.textContent = '🎤 Detta'; btn.classList.remove('rec'); ta.value = base.replace(/\s+$/, ''); ta.dispatchEvent(new Event('input')); };
+    try { rec.start(); btn.textContent = '■ Ferma'; btn.classList.add('rec'); say('Parla pure. Di\' «virgola», «punto», «a capo» per la punteggiatura.'); }
+    catch (err) { rec = null; say('Non riesco ad avviare la dettatura: usa il microfono della tastiera.'); }
+  });
+}
+// ---------- Mobilità articolare ----------
+const LR = (r, l) => [r, l]; // indici MediaPipe del lato destro e sinistro
+const MOB_GROUPS = [['colonna', 'Colonna'], ['collo', 'Cervicale'], ['spalla', 'Spalla'], ['anca', 'Anca']];
+const MOB = [
+  { id: 'flex_tr', g: 'colonna', label: 'Flessione del tronco', normal: 90, calc: 'incl',
+    how: 'Foto di lato, a figura intera. Il paziente si piega in avanti a gambe tese e lascia scendere le braccia verso terra. Misura l\'inclinazione del tronco (anca–spalla) dalla verticale e la distanza dita–pavimento. Normale: circa 90° o più.',
+    pts: [['anca', 'Anca (grande trocantere)', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)], ['malleolo', 'Malleolo', LR(28, 27)], ['dita', 'Punta delle dita', LR(20, 19)]] },
+  { id: 'ext_tr', g: 'colonna', label: 'Estensione del tronco', normal: 25, calc: 'incl',
+    how: 'Foto di lato, a figura intera. Mani sui fianchi, il paziente si piega indietro senza piegare le ginocchia. Misura l\'inclinazione del tronco (anca–spalla) dalla verticale. Normale: circa 25–30°.',
+    pts: [['anca', 'Anca (grande trocantere)', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)]] },
+  { id: 'lat_tr', g: 'colonna', label: 'Inclinazione laterale del tronco', side: true, normal: 25, calc: 'incl',
+    how: 'Foto da dietro, a figura intera. Il paziente si inclina di lato facendo scivolare la mano lungo la coscia, senza ruotare né piegarsi in avanti. Misura l\'inclinazione della linea bacino–C7 dalla verticale. Normale: circa 25–35°.',
+    pts: [['bacino', 'Centro del bacino (tra le SIPS)', 'hips'], ['c7', 'C7', 'shoulders']] },
+  { id: 'rot_tr', g: 'colonna', label: 'Rotazione del tronco', side: true, normal: 45, calc: 'lines',
+    how: 'Foto dall\'alto: paziente seduto, braccia incrociate sul petto, ruota il busto. Chi scatta sta in piedi dietro e tiene il telefono sopra la testa del paziente. Misura l\'angolo tra la linea delle ginocchia e quella delle spalle. Normale: circa 40–50°.',
+    pts: [['gin_dx', 'Ginocchio dx'], ['gin_sx', 'Ginocchio sx'], ['acr_dx', 'Spalla dx (acromion)'], ['acr_sx', 'Spalla sx (acromion)']] },
+  { id: 'flex_cv', g: 'collo', label: 'Flessione del collo', normal: 45, calc: 'head', dir: -1,
+    how: 'Foto di lato, testa e spalle. Il paziente porta il mento verso il petto. Misura quanto scende la linea orecchio–occhio rispetto alla posizione neutra (circa 10° sopra l\'orizzontale). Normale: circa 45–50°.',
+    pts: [['trago', 'Trago (orecchio)', LR(8, 7)], ['occhio', 'Occhio', LR(5, 2)]] },
+  { id: 'ext_cv', g: 'collo', label: 'Estensione del collo', normal: 60, calc: 'head', dir: 1,
+    how: 'Foto di lato, testa e spalle. Il paziente guarda il soffitto portando la testa indietro, senza aprire la bocca. Misura quanto sale la linea orecchio–occhio rispetto alla posizione neutra. Normale: circa 60–70°.',
+    pts: [['trago', 'Trago (orecchio)', LR(8, 7)], ['occhio', 'Occhio', LR(5, 2)]] },
+  { id: 'lat_cv', g: 'collo', label: 'Inclinazione laterale del collo', side: true, normal: 40, calc: 'lines',
+    how: 'Foto di fronte, testa e spalle. Il paziente porta l\'orecchio verso la spalla senza ruotare il viso né alzare la spalla. Misura l\'angolo tra la linea degli occhi e quella delle spalle. Normale: circa 40–45°.',
+    pts: [['occ_dx', 'Occhio dx', 5], ['occ_sx', 'Occhio sx', 2], ['acr_dx', 'Spalla dx', 12], ['acr_sx', 'Spalla sx', 11]] },
+  { id: 'rot_cv', g: 'collo', label: 'Rotazione del collo', side: true, normal: 70, calc: 'lines',
+    how: 'Foto dall\'alto: paziente seduto, chi scatta sta dietro con il telefono sopra la testa. Il paziente ruota la testa guardando di lato, senza ruotare le spalle. Misura l\'angolo tra la linea delle orecchie e quella delle spalle. Normale: circa 70–80°.',
+    pts: [['acr_dx', 'Spalla dx (acromion)'], ['acr_sx', 'Spalla sx (acromion)'], ['ore_dx', 'Orecchio dx'], ['ore_sx', 'Orecchio sx']] },
+  { id: 'flex_sp', g: 'spalla', label: 'Flessione della spalla', side: true, normal: 170, calc: 'joint',
+    how: 'Foto di lato, dal lato del braccio da misurare, a figura intera. Il paziente porta il braccio teso in avanti e in alto più che può, senza inarcare la schiena. Angolo tra tronco e braccio. Normale: circa 170–180°.',
+    pts: [['anca', 'Anca (trocantere)', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)], ['polso', 'Polso', LR(16, 15)]] },
+  { id: 'ext_sp', g: 'spalla', label: 'Estensione della spalla', side: true, normal: 50, calc: 'joint',
+    how: 'Foto di lato, dal lato del braccio, a figura intera. Il paziente porta il braccio teso indietro senza piegare il busto in avanti. Angolo tra tronco e braccio. Normale: circa 50–60°.',
+    pts: [['anca', 'Anca (trocantere)', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)], ['polso', 'Polso', LR(16, 15)]] },
+  { id: 'abd_sp', g: 'spalla', label: 'Abduzione della spalla', side: true, normal: 170, calc: 'joint',
+    how: 'Foto di fronte o da dietro, a figura intera. Il paziente apre il braccio teso di lato e lo porta in alto, palmo verso l\'alto, senza inclinare il busto. Angolo tra tronco e braccio. Normale: circa 170–180°.',
+    pts: [['anca', 'Anca', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)], ['polso', 'Polso', LR(16, 15)]] },
+  { id: 'er_sp', g: 'spalla', label: 'Extrarotazione della spalla', side: true, normal: 90, calc: 'forearm', dir: 1,
+    how: 'Foto di lato, dal lato del braccio. Braccio aperto a 90° e gomito piegato a 90°, con il gomito verso la fotocamera e l\'avambraccio in avanti. Il paziente ruota l\'avambraccio verso l\'alto e indietro senza muovere il gomito. Angolo dell\'avambraccio dall\'orizzontale. Normale: circa 90°.',
+    pts: [['naso', 'Naso', LR(0, 0)], ['gomito', 'Gomito', LR(14, 13)], ['polso', 'Polso', LR(16, 15)]] },
+  { id: 'ir_sp', g: 'spalla', label: 'Intrarotazione della spalla', side: true, normal: 70, calc: 'forearm', dir: -1,
+    how: 'Foto di lato, dal lato del braccio. Braccio aperto a 90° e gomito piegato a 90°, avambraccio in avanti. Il paziente ruota l\'avambraccio verso il basso senza portare avanti la spalla. Angolo dell\'avambraccio dall\'orizzontale. Normale: circa 70°.',
+    pts: [['naso', 'Naso', LR(0, 0)], ['gomito', 'Gomito', LR(14, 13)], ['polso', 'Polso', LR(16, 15)]] },
+  { id: 'flex_an', g: 'anca', label: 'Flessione dell\'anca', side: true, normal: 120, calc: 'joint180',
+    how: 'Foto di lato, paziente supino. Porta il ginocchio verso il petto con le mani, l\'altra gamba resta distesa. Angolo tra tronco e coscia. Normale: circa 120°.',
+    pts: [['spalla', 'Spalla', LR(12, 11)], ['anca', 'Anca (trocantere)', LR(24, 23)], ['ginocchio', 'Ginocchio', LR(26, 25)]] },
+  { id: 'ext_an', g: 'anca', label: 'Estensione dell\'anca', side: true, normal: 15, calc: 'joint180',
+    how: 'Foto di lato, paziente prono. Solleva la gamba tesa senza staccare il bacino dal lettino. Angolo tra tronco e coscia. Normale: circa 10–20°.',
+    pts: [['spalla', 'Spalla', LR(12, 11)], ['anca', 'Anca (trocantere)', LR(24, 23)], ['ginocchio', 'Ginocchio', LR(26, 25)]] },
+  { id: 'abd_an', g: 'anca', label: 'Abduzione dell\'anca', side: true, normal: 40, calc: 'joint180',
+    how: 'Foto dall\'alto o di fronte, paziente supino. Apre la gamba tesa di lato tenendo fermo il bacino. Angolo tra tronco e gamba. Normale: circa 40–45°.',
+    pts: [['spalla', 'Spalla', LR(12, 11)], ['anca', 'Anca', LR(24, 23)], ['caviglia', 'Caviglia', LR(28, 27)]] },
+  { id: 'ir_an', g: 'anca', label: 'Intrarotazione dell\'anca', side: true, normal: 35, calc: 'shank', dir: 1,
+    how: 'Foto di fronte, paziente seduto sul bordo del lettino con le ginocchia a 90°. Il piede va verso l\'esterno (così l\'anca ruota all\'interno) senza alzare il bacino. Angolo della gamba dalla verticale. Normale: circa 35–45°.',
+    pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Caviglia', LR(28, 27)]] },
+  { id: 'er_an', g: 'anca', label: 'Extrarotazione dell\'anca', side: true, normal: 40, calc: 'shank', dir: -1,
+    how: 'Foto di fronte, paziente seduto sul bordo del lettino con le ginocchia a 90°. Il piede va verso l\'interno (così l\'anca ruota all\'esterno) senza alzare il bacino. Angolo della gamba dalla verticale. Normale: circa 40–45°.',
+    pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Caviglia', LR(28, 27)]] }
+];
+const MOBD = Object.fromEntries(MOB.map(m => [m.id, m]));
+const MS = { id: 'flex_tr', side: 'dx', next: null, drag: null };
+state.mob = {};
+const mobKey = (id, side) => id + (MOBD[id].side ? '_' + side : '');
+const curMob = () => state.mob[mobKey(MS.id, MS.side)] || null;
+const DEG = r => r * 180 / Math.PI;
+function lineAngle(a, b, c, d) { // angolo acuto tra le rette ab e cd
+  let x = Math.abs(DEG(Math.atan2(b[1] - a[1], b[0] - a[0]) - Math.atan2(d[1] - c[1], d[0] - c[0]))) % 180;
+  return x > 90 ? 180 - x : x;
+}
+function mobCalc(m, side, P) {
+  const ids = m.pts.map(p => p[0]), q = ids.map(i => P[i]);
+  const need = n => q.slice(0, n).every(Boolean);
+  if (m.calc === 'incl') {
+    if (!need(2)) return null;
+    const [a, b] = q, val = DEG(Math.atan2(Math.abs(b[0] - a[0]), a[1] - b[1]));
+    let extra = '';
+    if (m.id === 'flex_tr' && P.malleolo && P.dita && state.height > 0) {
+      const ppc = Math.hypot(a[0] - P.malleolo[0], a[1] - P.malleolo[1]) / (0.48 * state.height);
+      const floor = P.malleolo[1] + 0.04 * state.height * ppc, cm = Math.max(0, (floor - P.dita[1]) / ppc);
+      extra = cm < 2 ? 'dita a terra' : `dita a circa ${Math.round(cm)} cm da terra`;
+    }
+    return { val, extra };
+  }
+  if (m.calc === 'head') {
+    if (!need(2)) return null;
+    const v = [q[1][0] - q[0][0], q[1][1] - q[0][1]], ang = DEG(Math.atan2(-v[1], Math.abs(v[0])));
+    return { val: Math.max(0, m.dir > 0 ? ang - 10 : 10 - ang) };
+  }
+  if (m.calc === 'lines') return need(4) ? { val: lineAngle(q[0], q[1], q[2], q[3]) } : null;
+  if (m.calc === 'joint' || m.calc === 'joint180') {
+    if (!need(3)) return null;
+    const [a, o, b] = q, u = [a[0] - o[0], a[1] - o[1]], w = [b[0] - o[0], b[1] - o[1]];
+    const inner = DEG(Math.acos(Math.max(-1, Math.min(1, (u[0] * w[0] + u[1] * w[1]) / ((Math.hypot(...u) * Math.hypot(...w)) || 1)))));
+    return { val: m.calc === 'joint' ? inner : 180 - inner };
+  }
+  if (m.calc === 'forearm') {
+    if (!need(3)) return null;
+    const [n, e, w] = q, dir = Math.sign(n[0] - e[0]) || 1;
+    const ang = DEG(Math.atan2(e[1] - w[1], (w[0] - e[0]) * dir));
+    return { val: Math.max(0, m.dir > 0 ? ang : -ang) };
+  }
+  if (m.calc === 'shank') {
+    if (!need(2)) return null;
+    const [k, a] = q, out = side === 'dx' ? -1 : 1; // di fronte l'esterno della gamba dx è a sinistra nella foto
+    const ang = DEG(Math.atan2((a[0] - k[0]) * out, a[1] - k[1]));
+    return { val: Math.max(0, m.dir > 0 ? ang : -ang) };
+  }
+  return null;
+}
+function mobValue(id, side) {
+  const md = state.mob[mobKey(id, side)];
+  if (!md) return null;
+  if (md.manual != null && md.manual !== '') return { val: +md.manual, extra: 'goniometro', manual: true };
+  return md.img ? mobCalc(MOBD[id], side, md.pts) : null;
+}
+const mobSev = pct => (pct >= 90 ? 'ok' : pct >= 70 ? 'warn' : 'alert');
+function mobSummary() {
+  const rows = [], groups = {};
+  for (const m of MOB) for (const side of (m.side ? ['dx', 'sx'] : [null])) {
+    const r = mobValue(m.id, side);
+    if (!r) continue;
+    const pct = Math.min(150, r.val / m.normal * 100);
+    rows.push({ key: mobKey(m.id, side), id: m.id, g: m.g, label: m.label + (side ? ' ' + side : ''), side, val: Math.round(r.val), normal: m.normal, pct: Math.round(pct), sev: mobSev(pct), extra: r.extra || '' });
+    (groups[m.g] = groups[m.g] || []).push(Math.min(100, pct));
+  }
+  if (!rows.length) return null;
+  const mean = a => Math.round(a.reduce((x, y) => x + y, 0) / a.length);
+  const asym = [];
+  for (const m of MOB.filter(x => x.side)) {
+    const a = rows.find(r => r.key === m.id + '_dx'), b = rows.find(r => r.key === m.id + '_sx');
+    if (a && b && Math.abs(a.val - b.val) >= Math.max(8, 0.15 * m.normal)) asym.push(`${m.label}: ${a.val}° a destra, ${b.val}° a sinistra`);
+  }
+  return { index: mean(rows.map(r => Math.min(100, r.pct))), groups: MOB_GROUPS.filter(([g]) => groups[g]).map(([g, l]) => ({ g, label: l, index: mean(groups[g]) })), rows, asym };
+}
+function drawMob(canvas, key, cssW, opt = {}) {
+  const md = state.mob[key], ctx = canvas.getContext('2d'), dpr = window.devicePixelRatio || 1;
+  const [id, side] = key in MOBD ? [key, null] : [key.replace(/_(dx|sx)$/, ''), key.slice(-2)];
+  const m = MOBD[id];
+  if (!md || !md.img) {
+    const cssH = Math.round(cssW * 0.55);
+    canvas.style.width = cssW + 'px'; canvas.style.height = cssH + 'px';
+    canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssH * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = '#F1F0EA'; ctx.fillRect(0, 0, cssW, cssH);
+    ctx.fillStyle = '#5C6B64'; ctx.font = '500 15px "Instrument Sans", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(md && md.manual != null && md.manual !== '' ? `${m.label}: ${md.manual}° (goniometro)` : 'Carica la foto del movimento', cssW / 2, cssH / 2); ctx.textAlign = 'start';
+    return;
+  }
+  const W = md.W, H = md.H, cssH = cssW * H / W, s = cssW / W, kk = 1 / s;
+  canvas.style.width = cssW + 'px'; canvas.style.height = cssH + 'px';
+  canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssH * dpr);
+  ctx.setTransform(dpr * s, 0, 0, dpr * s, 0, 0); ctx.drawImage(md.img, 0, 0, W, H);
+  const P = md.pts, q = m.pts.map(p => P[p[0]]), r = mobCalc(m, side, P);
+  const pct = r ? Math.min(150, r.val / m.normal * 100) : 100, col = COL[mobSev(pct)];
+  const L = W * 0.25;
+  ctx.lineWidth = 3 * kk;
+  const dash = (a, b) => { ctx.strokeStyle = COL.plumb; ctx.lineWidth = 2 * kk; ctx.setLineDash([8 * kk, 5 * kk]); line(ctx, a[0], a[1], b[0], b[1]); ctx.setLineDash([]); ctx.lineWidth = 3 * kk; };
+  let anchor = null;
+  if (m.calc === 'incl' && q[0] && q[1]) { dash(q[0], [q[0][0], q[0][1] - L]); ctx.strokeStyle = col; line(ctx, q[0][0], q[0][1], q[1][0], q[1][1]); anchor = q[0]; }
+  if (m.calc === 'head' && q[0] && q[1]) { const d = Math.sign(q[1][0] - q[0][0]) || 1; dash(q[0], [q[0][0] + d * L * 0.6, q[0][1]]); ctx.strokeStyle = col; line(ctx, q[0][0], q[0][1], q[1][0], q[1][1]); anchor = q[1]; }
+  if (m.calc === 'lines') { ctx.strokeStyle = COL.plumb; if (q[0] && q[1]) line(ctx, q[0][0], q[0][1], q[1][0], q[1][1]); ctx.strokeStyle = col; if (q[2] && q[3]) { line(ctx, q[2][0], q[2][1], q[3][0], q[3][1]); anchor = q[3]; } }
+  if ((m.calc === 'joint' || m.calc === 'joint180') && q[1]) { ctx.strokeStyle = COL.plumb; if (q[0]) line(ctx, q[1][0], q[1][1], q[0][0], q[0][1]); ctx.strokeStyle = col; if (q[2]) line(ctx, q[1][0], q[1][1], q[2][0], q[2][1]); anchor = q[1]; }
+  if (m.calc === 'forearm' && q[1] && q[2]) { const d = Math.sign((q[0] || q[2])[0] - q[1][0]) || 1; dash(q[1], [q[1][0] + d * L * 0.6, q[1][1]]); ctx.strokeStyle = col; line(ctx, q[1][0], q[1][1], q[2][0], q[2][1]); anchor = q[1]; }
+  if (m.calc === 'shank' && q[0] && q[1]) { dash(q[0], [q[0][0], q[0][1] + L * 0.6]); ctx.strokeStyle = col; line(ctx, q[0][0], q[0][1], q[1][0], q[1][1]); anchor = q[0]; }
+  if (m.id === 'flex_tr' && P.malleolo) { ctx.strokeStyle = COL.plumb; ctx.lineWidth = 2 * kk; line(ctx, P.malleolo[0] - L * 0.5, P.malleolo[1], P.malleolo[0] + L * 0.5, P.malleolo[1]); }
+  for (const [pid, label] of m.pts) {
+    const p = P[pid]; if (!p) continue;
+    ctx.beginPath(); ctx.arc(p[0], p[1], (opt.active === pid ? 7 : 5) * kk, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.lineWidth = 2.2 * kk; ctx.strokeStyle = COL.brand; ctx.stroke();
+    if (opt.names) { ctx.font = `600 ${11 * kk}px "Instrument Sans", system-ui, sans-serif`; ctx.fillStyle = COL.ink; ctx.textBaseline = 'middle'; ctx.fillText(label.split(' (')[0], p[0] + 9 * kk, p[1] - 9 * kk); }
+  }
+  if (r && anchor && opt.labels !== false) tag(ctx, anchor[0] + 14 * kk, anchor[1] - 22 * kk, `${Math.round(r.val)}°`, col, kk);
+}
+const mobTarget = () => { const md = curMob(); return md && md.img ? (MS.next || MOBD[MS.id].pts.map(p => p[0]).find(i => !md.pts[i]) || null) : null; };
+function mobSize() { const md = curMob(), maxW = $('#mobBox').clientWidth || 520; return md && md.img ? Math.min(maxW, Math.max(360, window.innerHeight - 180) * md.W / md.H) : Math.min(maxW, 520); }
+function renderMob() {
+  const m = MOBD[MS.id], md = curMob(), sel = $('#mobSel');
+  if (!sel.options.length) {
+    sel.innerHTML = MOB_GROUPS.map(([g, l]) => `<optgroup label="${l}">${MOB.filter(x => x.g === g).map(x => `<option value="${x.id}">${esc(x.label)}</option>`).join('')}</optgroup>`).join('');
+    sel.addEventListener('change', () => { MS.id = sel.value; MS.next = null; renderMob(); });
+  }
+  sel.value = MS.id;
+  $('#mobSideF').hidden = !m.side;
+  seg($('#mobSide'), [['dx', 'Destra'], ['sx', 'Sinistra']], () => MS.side, v => { MS.side = v; MS.next = null; renderMob(); });
+  $('#mobHow').textContent = m.how;
+  $('#mobManual').value = md && md.manual != null ? md.manual : '';
+  const t = mobTarget(), lab = Object.fromEntries(m.pts.map(p => [p[0], p[1]]));
+  $('#mobInstr').innerHTML = !md || !md.img ? 'Carica la foto: il programma prova a trovare i punti da solo.' : t ? `Tocca la foto per segnare: <b>${esc(lab[t])}</b>` : 'Punti segnati. Trascinali per correggere.';
+  const ul = $('#mobPts'); ul.innerHTML = '';
+  if (md && md.img) for (const [pid, label] of m.pts) {
+    const li = document.createElement('li'), b = document.createElement('button');
+    b.type = 'button'; b.className = (md.pts[pid] ? 'done' : '') + (t === pid ? ' next' : '');
+    b.innerHTML = `<span class="dot"></span>${esc(label)}`;
+    b.addEventListener('click', () => { MS.next = pid; renderMob(); });
+    li.appendChild(b); ul.appendChild(li);
+  }
+  const r = mobValue(MS.id, MS.side), box = $('#mobMeas'); box.innerHTML = '';
+  if (r) {
+    const pct = Math.min(150, r.val / m.normal * 100), d = document.createElement('div'); d.className = 'm ' + mobSev(pct);
+    d.innerHTML = `<span>${esc(m.label)}${m.side ? ' ' + MS.side : ''}</span><span class="v">${Math.round(r.val)}°</span><span class="d">Normale circa ${m.normal}°: ${Math.round(pct)}%${r.extra ? ' · ' + esc(r.extra) : ''}.</span>`;
+    box.appendChild(d);
+  }
+  $('#mobClear').hidden = !(md && md.img); $('#mobDel').hidden = !md;
+  drawMob($('#mobCv'), mobKey(MS.id, MS.side), mobSize(), { names: true });
+  renderMobRes();
+}
+function renderMobRes() {
+  const box = $('#mobRes'), sum = mobSummary();
+  if (!sum) { box.innerHTML = '<h2>Risultati</h2><p class="empty">Qui compaiono gli angoli misurati, il confronto destra–sinistra e l\'indice di mobilità globale.</p>'; return; }
+  const cell = (id, side) => { const r = sum.rows.find(x => x.key === mobKey(id, side)); return r ? `<td class="v ${r.sev}">${r.val}°</td>` : '<td class="v">—</td>'; };
+  const body = MOB_GROUPS.map(([g, l]) => {
+    const ms = MOB.filter(m => m.g === g && sum.rows.some(r => r.id === m.id));
+    if (!ms.length) return '';
+    return `<tr><th colspan="4">${l}</th></tr>` + ms.map(m => `<tr data-id="${m.id}" class="${m.id === MS.id ? 'cur' : ''}"><td>${esc(m.label)}</td>${m.side ? cell(m.id, 'dx') + cell(m.id, 'sx') : cell(m.id, null) + '<td></td>'}<td class="v">${m.normal}°</td></tr>`).join('');
+  }).join('');
+  const sv = mobSev(sum.index);
+  box.innerHTML = `<h2>Indice di mobilità globale</h2>
+    <div class="mobidx"><span class="big" style="color:${COL[sv]}">${sum.index}<small style="font-size:1rem">/100</small></span>${sum.groups.map(x => `<span class="sub">${x.label} ${x.index}</span>`).join('')}</div>
+    <p class="hint">Media degli angoli misurati rispetto ai valori normali (100 = tutti nella norma). Tocca una riga per rivedere il movimento.</p>
+    <div class="tablewrap2"><table class="mobtable"><thead><tr><th>Movimento</th><th>Dx</th><th>Sx</th><th>Norma</th></tr></thead><tbody>${body}</tbody></table></div>
+    ${sum.asym.length ? `<p><b>Differenze tra destra e sinistra:</b> ${esc(sum.asym.join('; '))}.</p>` : ''}
+    <p class="hint">Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.</p>
+    <div class="row" id="mobAct"></div>`;
+  box.querySelectorAll('tr[data-id]').forEach(tr => tr.addEventListener('click', () => { MS.id = tr.dataset.id; MS.next = null; renderMob(); $('#mobSel').scrollIntoView({ block: 'center' }); }));
+  const act = box.querySelector('#mobAct'), msg = document.createElement('p'); msg.className = 'hint'; msg.hidden = true;
+  const pdf = document.createElement('button'); pdf.type = 'button'; pdf.className = 'btn'; pdf.textContent = 'Scarica il PDF';
+  pdf.addEventListener('click', () => exportPdf(pdf, true, msg));
+  if (typeof REC !== 'undefined' && REC.patient) {
+    const sv2 = document.createElement('button'); sv2.type = 'button'; sv2.className = 'btn primary'; sv2.textContent = `Salva nella scheda di ${REC.patient.full_name}`;
+    sv2.addEventListener('click', () => saveToRecord(sv2, msg)); act.appendChild(sv2);
+  }
+  act.append(pdf, msg);
+}
+async function prefillMob(md, m, side) {
+  try {
+    const pose = await getPose(), r = pose.detect(md.img), lm = r.landmarks && r.landmarks[0];
+    if (!lm) return;
+    const vis = i => (lm[i].visibility == null ? 1 : lm[i].visibility);
+    const sd = m.side ? side : (vis(12) >= vis(11) ? 'dx' : 'sx');
+    const at = i => [lm[i].x * md.W, lm[i].y * md.H];
+    for (const [pid, , spec] of m.pts) {
+      if (spec == null) continue;
+      let q = null;
+      if (spec === 'hips') q = [(at(23)[0] + at(24)[0]) / 2, (at(23)[1] + at(24)[1]) / 2];
+      else if (spec === 'shoulders') q = [(at(11)[0] + at(12)[0]) / 2, (at(11)[1] + at(12)[1]) / 2];
+      else { const i = Array.isArray(spec) ? spec[sd === 'dx' ? 0 : 1] : spec; if (vis(i) > 0.3) q = at(i); }
+      if (q) md.pts[pid] = q;
+    }
+  } catch (e) { /* punti a mano */ }
+}
+$('#mobFile').addEventListener('change', async e => {
+  const f = e.target.files && e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  const key = mobKey(MS.id, MS.side), m = MOBD[MS.id], side = MS.side;
+  try {
+    const im = await loadDownscaled(f);
+    const md = { img: im.img, W: im.W, H: im.H, blob: im.blob, pts: {}, manual: null };
+    state.mob[key] = md; MS.next = null;
+    $('#mobInstr').textContent = 'Cerco i punti del corpo…'; drawMob($('#mobCv'), key, mobSize(), { names: true });
+    await prefillMob(md, m, side);
+  } catch (err) { $('#mobInstr').textContent = 'Non riesco ad aprire questa foto.'; return; }
+  renderMob();
+});
+$('#mobManual').addEventListener('input', e => {
+  const key = mobKey(MS.id, MS.side), v = e.target.value.trim();
+  const md = state.mob[key] || (state.mob[key] = { img: null, pts: {}, manual: null });
+  md.manual = v === '' ? null : v;
+  if (!md.img && md.manual == null) delete state.mob[key];
+  const r = mobValue(MS.id, MS.side), box = $('#mobMeas'); box.innerHTML = '';
+  if (r) { const m = MOBD[MS.id], pct = Math.min(150, r.val / m.normal * 100); box.innerHTML = `<div class="m ${mobSev(pct)}"><span>${esc(m.label)}${m.side ? ' ' + MS.side : ''}</span><span class="v">${Math.round(r.val)}°</span><span class="d">Normale circa ${m.normal}°: ${Math.round(pct)}%.</span></div>`; }
+  renderMobRes();
+});
+$('#mobClear').addEventListener('click', () => { const md = curMob(); if (md) { md.pts = {}; MS.next = null; renderMob(); } });
+$('#mobDel').addEventListener('click', () => { delete state.mob[mobKey(MS.id, MS.side)]; MS.next = null; renderMob(); });
+{
+  const mcv = $('#mobCv');
+  const toM = (e, md) => { const r = mcv.getBoundingClientRect(); return [Math.max(0, Math.min(md.W, (e.clientX - r.left) / r.width * md.W)), Math.max(0, Math.min(md.H, (e.clientY - r.top) / r.height * md.H))]; };
+  mcv.addEventListener('pointerdown', e => {
+    const md = curMob(); if (!md || !md.img) return;
+    const p = toM(e, md), r = mcv.getBoundingClientRect(), tol = 20 * md.W / r.width;
+    let best = null, bd = Infinity;
+    for (const [pid, q] of Object.entries(md.pts)) { const d = Math.hypot(q[0] - p[0], q[1] - p[1]); if (d < bd) { bd = d; best = pid; } }
+    const t = mobTarget();
+    if (best && bd < tol && best !== MS.next) MS.drag = best;
+    else if (t) { md.pts[t] = p; MS.next = null; MS.drag = t; }
+    else return;
+    mcv.setPointerCapture(e.pointerId);
+    drawMob(mcv, mobKey(MS.id, MS.side), mobSize(), { names: true, active: MS.drag });
+  });
+  mcv.addEventListener('pointermove', e => { const md = curMob(); if (!MS.drag || !md) return; md.pts[MS.drag] = toM(e, md); drawMob(mcv, mobKey(MS.id, MS.side), mobSize(), { names: true, active: MS.drag }); });
+  const end = () => { if (MS.drag) { MS.drag = null; renderMob(); } };
+  mcv.addEventListener('pointerup', end); mcv.addEventListener('pointercancel', end);
+}
+
 // ---------- Consulto bacino ----------
 function sagMuscles(v) {
   if (v === 'antero') return {
@@ -2570,7 +2931,8 @@ function buildPdf(quick) {
   // intestazione
   h1('Che Postura · Analisi posturale');
   text(`${name || 'Paziente'} · ${date} · altezza ${state.height} cm · seduta ${sess === 'prima' ? 'Prima' : 'Dopo'}`, { color: MUTED });
-  text('Dott. Davide Scuderi · Dott.ssa Morena Anastasi', { color: MUTED, after: 3 });
+  text('Dott. Davide Scuderi · Dott.ssa Morena Anastasi', { color: MUTED, after: 1 });
+  text('Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.', { italic: true, color: GREEN, after: 3 });
 
   // quadro
   const fs = activeFindings();
@@ -2657,6 +3019,14 @@ function buildPdf(quick) {
     }
   }
 
+  const mob = mobSummary();
+  if (mob) {
+    h2('Mobilità articolare');
+    text(`Indice di mobilità globale: ${mob.index}/100` + (mob.groups.length > 1 ? ` (${mob.groups.map(x => x.label.toLowerCase() + ' ' + x.index).join(', ')})` : '') + '.', { bold: true });
+    mob.rows.forEach(r => bullet(`${r.label}: ${r.val}° (normale circa ${r.normal}°, ${r.pct}%)${r.extra ? ', ' + r.extra : ''}.`));
+    if (mob.asym.length) text('Differenze tra destra e sinistra: ' + mob.asym.join('; ') + '.', { after: 2 });
+  }
+
   const posT = Object.values(TESTS).flatMap(g => g.list).filter(t => (c.tests[t.id] || '').startsWith('pos'));
   if (posT.length && !quick) {
     h2('Test positivi');
@@ -2701,7 +3071,7 @@ function buildPdf(quick) {
   const n = doc.getNumberOfPages();
   for (let i = 1; i <= n; i++) {
     doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...MUTED);
-    doc.text(pdfTxt('Analisi di supporto alla valutazione posturale: non sostituisce la valutazione medica. Muscoli e misure vanno confermati con i test.'), M, 290);
+    doc.text(pdfTxt('Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica. Muscoli e misure vanno confermati con i test.'), M, 290);
     doc.text(`${i} / ${n}`, W - M, 290, { align: 'right' });
   }
   return doc.output('blob');
@@ -2747,6 +3117,7 @@ async function initRecord() {
   $('#qName').value = n; $('#qName').readOnly = true; $('#patient').value = n;
   if (REC.patient.birth) {}
   $('#recSaveRow').hidden = false;
+  applyAutoToConsult({}); // visita nuova: si parte dal consulto vuoto, non dall'esempio
   $('#btnRecSave').textContent = `Salva nella scheda di ${n}`;
   $('#btnRecSave').addEventListener('click', e => saveToRecord(e.currentTarget, $('#pdfMsg')));
   $('#toArea').href = 'index.html#p-' + REC.patient.id;
@@ -2759,13 +3130,15 @@ async function saveToRecord(btn, msgEl) {
   const say = t => { if (msgEl) { msgEl.hidden = false; msgEl.textContent = t; } };
   const sess = 'prima';
   const views = VIEW_KEYS.filter(vk => state.data[sess][vk].img);
-  if (!views.length && !hasClose()) { say('Carica prima le foto.'); return; }
+  if (!views.length && !hasClose() && !mobSummary() && !$('#qTalk').value.trim()) { say('Carica prima le foto.'); return; }
   btn.disabled = true; say('Salvataggio in corso…');
   try {
     const c = state.consult, date = $('#cdate').value || new Date().toISOString().slice(0, 10);
     const files = {};
     for (const vk of views) { const cv = document.createElement('canvas'); drawView(cv, state.data[sess][vk], vk, 900, { labels: true }); files[vk] = await canvasBlob(cv); }
     for (const k of CLOSE_KEYS) if (state.close[k] && state.close[k].img) { const cv = document.createElement('canvas'); drawClose(cv, k, 900, { labels: true }); files[k] = await canvasBlob(cv); }
+    for (const [k, md] of Object.entries(state.mob)) if (md.img) { const cv = document.createElement('canvas'); drawMob(cv, k, 700, { labels: true }); files['mob_' + k] = await canvasBlob(cv); }
+    const mob = mobSummary(), talk = $('#qTalk').value.trim();
     const exs = computeExercises();
     const exercises = [...exs.rinforzo, ...exs.allungamento].filter(i => i.on).map(it => ({
       group: exs.rinforzo.includes(it) ? 'rinforzo' : 'allungamento', name: it.ex.name, dose: it.ex.dose,
@@ -2779,10 +3152,12 @@ async function saveToRecord(btn, msgEl) {
       findings, exercises,
       extras: c.extras.map(it => ({ label: extraLabel(it), ...extraInfo(it), warn: undefined })),
       plan: { name: PLANS[plan.level].name, next: plan.steps.filter(st => st[0] > 0).map(st => ({ date: isoPlus(date, st[0]), label: st[1] })) },
-      notes: $('#notes').value.trim() || null };
+      notes: $('#notes').value.trim() || null, mobility: mob };
     let pdf = null;
     try { if (window.jspdf) pdf = buildPdf(true); } catch (e) { pdf = null; }
+    if (!views.length && !hasClose()) { visit.findings = []; visit.exercises = []; visit.auto = []; }
     await Api.saveVisit(p.id, JSON.parse(JSON.stringify(visit)), files, pdf);
+    if (talk) await Api.addSession(p.id, { date, kind: 'colloquio', text: talk, zones: [], tests: [], exercises: [], visible_to_patient: false });
     location.href = 'index.html#p-' + p.id;
   } catch (e) {
     btn.disabled = false; say('Non sono riuscito a salvare: ' + (e.userMessage || e.message || 'riprova.'));
@@ -2901,7 +3276,7 @@ function renderVeloce() {
   }
   card.appendChild(ex);
   const tail = document.createElement('p'); tail.className = 'hint';
-  tail.textContent = 'Sono misure e indizi, non diagnosi: si confermano con i test della visita completa, che parte già da questi dati. Antero/retroversione e torsione del bacino servono gli adesivi su SIAS e SIPS; per mandibola e piedi le foto di approfondimento qui sotto.';
+  tail.textContent = 'Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica. Si confermano con i test della visita completa, che parte già da questi dati. Antero/retroversione e torsione del bacino servono gli adesivi su SIAS e SIPS; per mandibola e piedi le foto di approfondimento qui sotto.';
   card.appendChild(tail);
 }
 
@@ -2912,8 +3287,9 @@ function setTab(t) {
   $('#t-veloce').setAttribute('aria-selected', String(t === 'veloce'));
   $('#t-completa').setAttribute('aria-selected', String(inFull));
   $('#t-archivio').setAttribute('aria-selected', String(t === 'archivio'));
-  for (const x of ['veloce', 'valuta', 'confronto', 'consulto', 'archivio']) $('#tab-' + x).hidden = x !== t;
-  $('#patbar').hidden = t === 'veloce';
+  $('#t-mobilita').setAttribute('aria-selected', String(t === 'mobilita'));
+  for (const x of ['veloce', 'valuta', 'confronto', 'consulto', 'archivio', 'mobilita']) $('#tab-' + x).hidden = x !== t;
+  $('#patbar').hidden = t === 'veloce' || t === 'mobilita';
   $('#subnav').hidden = !inFull;
   seg($('#subnav'), SUB, () => state.tab, v => setTab(v));
   renderAll();
@@ -2924,9 +3300,12 @@ function renderAll() {
   else if (state.tab === 'valuta') renderValuta();
   else if (state.tab === 'confronto') renderConfronto();
   else if (state.tab === 'archivio') renderArchivio();
+  else if (state.tab === 'mobilita') renderMob();
   else renderConsulto();
 }
 document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+dictation($('#qTalkMic'), $('#qTalk'), t => { $('#qTalkMsg').textContent = t; });
+$('#qTalk').addEventListener('input', () => { state.consult.colloquio = $('#qTalk').value; });
 state.tab = ['#valuta', '#confronto', '#consulto'].includes(location.hash) ? location.hash.slice(1) : 'veloce';
 setTab(state.tab);
 initRecord();
