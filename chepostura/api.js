@@ -145,8 +145,8 @@
       open() {
         if (!this.p) this.p = new Promise((res) => {
           try {
-            const r = indexedDB.open('area_demo_files', 1);
-            r.onupgradeneeded = () => r.result.createObjectStore('f');
+            const r = indexedDB.open('area_demo_files', 2);
+            r.onupgradeneeded = () => { if (!r.result.objectStoreNames.contains('f')) r.result.createObjectStore('f'); };
             r.onsuccess = () => res(r.result); r.onerror = () => res(null);
           } catch (e) { res(null); }
         });
@@ -157,9 +157,19 @@
       async del(k) { const db = await this.open(); if (!db) return; db.transaction('f', 'readwrite').objectStore('f').delete(k); }
     };
     const urls = {};
+    // pazienti in piu' pubblicati accanto alla demo (file facoltativo, privato)
+    const extraP = fetch('demo-extra.json').then(r => (r.ok ? r.json() : null)).catch(() => null);
+    async function mergeExtra() {
+      const ex = await extraP, d = load();
+      if (!ex) return;
+      let changed = false;
+      for (const p of ex.patients || []) if (!d.patients.some(x => x.id === p.id)) { d.patients.push(p); changed = true; }
+      for (const v of ex.visits || []) if (!d.visits.some(x => x.id === v.id)) { d.visits.push(v); changed = true; }
+      if (changed) save();
+    }
     return {
       mode: 'demo',
-      async session() { return load().session || null; },
+      async session() { await mergeExtra(); return load().session || null; },
       async demoLogin(who) {
         const d = load();
         const maria = d.patients.find(p => p.user_id === 'demo-maria');
@@ -208,12 +218,13 @@
       },
       async fileUrl(path) {
         if (!path) return null;
+        if (path.startsWith('demo/')) return path;
         if (urls[path]) return urls[path];
         const b = await idb.get(path);
         return b ? (urls[path] = URL.createObjectURL(b)) : null;
       },
       async backup() { const d = load(); return { esportato: new Date().toISOString(), pazienti: d.patients, visite: d.visits }; },
-      async resetDemo() { mem.data = seed(); save(); }
+      async resetDemo() { mem.data = seed(); save(); await mergeExtra(); }
     };
   }
 
