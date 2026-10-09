@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Che Postura · Kinesiologia Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: area riservata dello studio. Barra in alto, colonna centrale di schede; stessi colori e caratteri dell'app dello studio. */
+  :root {
+    --bg: #F4F3EC; --surface: #FFFFFF; --surface-2: #ECEDE3; --ink: #22302B; --muted: #5C6B64; --line: #DDE0D2;
+    --brand: #2F5D51; --brand-ink: #F2F7F3; --brand-soft: #E2ECE5; --accent: #C98632; --warn-soft: #F6ECD9;
+    --danger: #AC4530; --danger-soft: #F4E2DC; --ok: #3E7A5E; --ok-soft: #DFEDE4;
+    --font-display: 'Fraunces', Georgia, serif; --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif; --font-data: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A17; --surface: #1D2521; --surface-2: #242D28; --ink: #E8ECE6; --muted: #9AA79F; --line: #2E3833;
+      --brand: #7FB5A3; --brand-ink: #10201A; --brand-soft: #24352E; --accent: #DFA24C; --warn-soft: #3A3020;
+      --danger: #E07A62; --danger-soft: #3A2521; --ok: #72B894; --ok-soft: #1F3329; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A17; --surface: #1D2521; --surface-2: #242D28; --ink: #E8ECE6; --muted: #9AA79F; --line: #2E3833;
+    --brand: #7FB5A3; --brand-ink: #10201A; --brand-soft: #24352E; --accent: #DFA24C; --warn-soft: #3A3020;
+    --danger: #E07A62; --danger-soft: #3A2521; --ok: #72B894; --ok-soft: #1F3329; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; line-height: 1.2; text-wrap: balance; }
+  h1 { font-size: 1.6rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.02rem; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  a { color: var(--brand); }
+  .bar { position: sticky; top: 0; z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px; }
+  .bar-in { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .brand { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
+  .brand small { display: block; font-family: var(--font-body); font-weight: 500; font-size: .78rem; color: var(--muted); }
+  .bar .sp { flex: 1; }
+  .who { font-size: .88rem; color: var(--muted); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding-inline: 16px; padding-block: 18px 48px; display: grid; gap: 16px; }
+  .demo { background: var(--warn-soft); border-radius: 12px; padding: 10px 14px; font-size: .9rem; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .btn { border: 1px solid var(--line); background: var(--surface); padding: 8px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: .92rem; text-decoration: none; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; }
+  .btn:hover { border-color: var(--brand); }
+  .btn.primary { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+  .btn.danger { color: var(--danger); }
+  .btn.big { padding: 12px 20px; font-size: 1rem; border-radius: 12px; }
+  .btn:disabled { opacity: .55; cursor: default; }
+  .field { display: grid; gap: 4px; min-width: 0; }
+  .lbl { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+  input[type=text], input[type=email], input[type=password], input[type=date], input[type=tel], input[type=search], select, textarea { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 11px; min-width: 0; width: 100%; }
+  textarea { min-height: 80px; resize: vertical; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 620px) { .grid2 { grid-template-columns: 1fr; } }
+  .hint { color: var(--muted); font-size: .86rem; margin: 0; }
+  .msg { padding: 9px 12px; border-radius: 10px; background: var(--ok-soft); font-size: .9rem; margin: 0; }
+  .msg.err { background: var(--danger-soft); }
+  .login { max-width: 440px; margin: 6vh auto 0; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .stat b { display: block; font-family: var(--font-display); font-size: 1.7rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: .84rem; color: var(--muted); }
+  @media (max-width: 560px) { .stats { grid-template-columns: 1fr; } }
+  .plist { display: grid; gap: 6px; }
+  .prow { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.3fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); cursor: pointer; border: 1px solid transparent; text-align: left; width: 100%; }
+  .prow:hover { border-color: var(--brand); }
+  .prow .n { font-weight: 600; }
+  .prow small { color: var(--muted); font-size: .8rem; display: block; }
+  .phead { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; padding: 0 12px; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.3fr) auto; gap: 10px; }
+  @media (max-width: 700px) { .prow, .phead { grid-template-columns: minmax(0, 1fr) auto; } .prow .c2, .prow .c3, .phead .c2, .phead .c3 { display: none; } }
+  .pill { display: inline-block; font-size: .74rem; font-weight: 600; padding: 3px 9px; border-radius: 99px; background: var(--surface); border: 1px solid var(--line); white-space: nowrap; }
+  .pill.ok { background: var(--ok-soft); border-color: transparent; }
+  .pill.warn { background: var(--warn-soft); border-color: transparent; }
+  .pill.late { background: var(--danger-soft); border-color: transparent; }
+  .date { font-family: var(--font-data); font-size: .82rem; font-variant-numeric: tabular-nums; }
+  .phero { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+  .vlist { display: grid; gap: 8px; }
+  .vrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; padding: 12px; border-radius: 12px; background: var(--surface-2); }
+  .vrow p { margin: 2px 0 0; font-size: .86rem; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .photos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .photos figure { margin: 0; display: grid; gap: 4px; }
+  .photos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); background: #fff; cursor: zoom-in; }
+  .photos figcaption { font-size: .78rem; color: var(--muted); font-weight: 600; }
+  @media (max-width: 620px) { .photos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .m { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 8px 11px; border-radius: 9px; border-left: 4px solid var(--line); background: var(--surface-2); }
+  .m .v { font-family: var(--font-data); font-size: .84rem; text-align: right; font-variant-numeric: tabular-nums; }
+  .m .d { grid-column: 1 / -1; font-size: .8rem; color: var(--muted); }
+  .m.ok { border-left-color: var(--ok); } .m.warn { border-left-color: var(--accent); } .m.alert { border-left-color: var(--danger); }
+  .list { display: grid; gap: 6px; }
+  .prob { padding: 10px 12px; border-radius: 10px; background: var(--surface-2); display: grid; gap: 4px; }
+  .prob p { margin: 0; font-size: .9rem; max-width: 75ch; }
+  .ex { padding: 10px 12px; border-radius: 10px; background: var(--brand-soft); display: grid; gap: 2px; }
+  .ex b { font-weight: 600; }
+  .ex .dose { font-family: var(--font-data); font-size: .8rem; color: var(--brand); }
+  .ex span { font-size: .88rem; }
+  .ex .how { color: var(--muted); }
+  .tl { list-style: none; margin: 0; padding: 0; display: grid; }
+  .tl li { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .tl li:last-child { border-bottom: 0; }
+  .tl .date { color: var(--brand); }
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+  th { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  td.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+  .better { color: var(--ok); font-weight: 600; } .worse { color: var(--danger); font-weight: 600; }
+  .codebox { font-family: var(--font-data); font-size: 1.6rem; letter-spacing: .12em; background: var(--brand-soft); border-radius: 12px; padding: 12px 16px; text-align: center; font-weight: 500; }
+  .confirm { background: var(--danger-soft); border-radius: 10px; padding: 10px 12px; display: grid; gap: 8px; }
+  .back { justify-self: start; }
+  .zoom { position: fixed; inset: 0; background: rgba(0, 0, 0, .85); display: grid; place-items: center; z-index: 20; padding: 16px; cursor: zoom-out; }
+  .zoom img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+  .empty { color: var(--muted); margin: 0; }
+  .hello { font-family: var(--font-display); font-size: 1.8rem; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); flex-wrap: wrap; }
+  .seg button { border: 0; background: transparent; padding: 7px 12px; cursor: pointer; font-weight: 600; font-size: .9rem; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); }
+  .srow { padding: 12px; border-radius: 12px; background: var(--surface-2); display: grid; gap: 6px; border-left: 4px solid var(--line); }
+  .srow.trattamento { border-left-color: var(--brand); } .srow.allenamento { border-left-color: var(--accent); } .srow.colloquio { border-left-color: var(--muted); }
+  .btn.rec { background: #C0392B; border-color: #C0392B; color: #fff; }
+  .disc { font-size: .85rem; color: var(--muted); font-style: italic; margin: 4px 2px 12px; }
+  .mobidx { display: flex; gap: 14px; flex-wrap: wrap; align-items: baseline; margin: 4px 0 8px; } .mobidx .big { font-size: 1.8rem; font-weight: 700; } .mobidx .sub { color: var(--muted); font-size: .9rem; }
+  td.ok { color: var(--ok, #3E7A5E); } td.warn { color: #B26B12; } td.alert { color: #C0392B; }
+  .srow .top { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .srow p { margin: 0; font-size: .92rem; white-space: pre-wrap; }
+  .srow table { font-size: .86rem; } .srow td, .srow th { padding: 5px 8px; white-space: normal; }
+  .exrows { display: grid; gap: 6px; }
+  .exrow { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr) auto; gap: 6px; }
+  @media (max-width: 700px) { .exrow { grid-template-columns: 1fr 1fr; } }
+  .exrow input { padding: 7px 9px; }
+  .zrow, .trow { display: grid; gap: 6px; padding: 8px; border-radius: 10px; background: var(--surface-2); }
+  .zrow { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto; }
+  .zrow .chips { grid-column: 1 / -1; }
+  .trow { grid-template-columns: minmax(0, 2fr) minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1.4fr) auto; }
+  .exrow .other, .trow .other, .trow .tinfo { grid-column: 1 / -1; }
+  .tinfo { margin: 0; font-size: .86rem; color: var(--muted); line-height: 1.45; }
+  @media (max-width: 700px) { .trow { grid-template-columns: 1fr 1fr; } }
+  .zrow select, .trow select, .exrow select, .trow input { padding: 7px 9px; min-width: 0; }
+  .tog { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px; font-size: .86rem; cursor: pointer; }
+  .tog[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+  .zl { margin: 0; padding-left: 18px; font-size: .92rem; }
+  .wa textarea { font-size: .88rem; }
+  .chipbtn { border: 1px dashed var(--brand); background: var(--brand-soft); color: var(--ink); border-radius: 99px; padding: 3px 10px; font-size: .82rem; cursor: pointer; }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand">Che Postura<small>Area riservata · Kinesiologia Studio · Dott. Davide Scuderi · Dott.ssa Morena Anastasi</small></div>
+    <span class="sp"></span>
+    <span class="who" id="who"></span>
+    <button class="btn" id="btnOut" type="button" hidden>Esci</button>
+  </div>
+</header>
+<main class="wrap" id="app" aria-live="polite"></main>
+<div class="zoom" id="zoom" hidden><img alt="Foto ingrandita"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="test-catalogo.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const esc = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const itDate = iso => (iso ? new Date(String(iso).slice(0, 10) + 'T12:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short', year: 'numeric' }) : '—');
+const today = () => new Date().toISOString().slice(0, 10);
+const addDaysIso = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+const VIEW_LABEL = { frontale: 'Frontale', posteriore: 'Posteriore', lat_dx: 'Laterale dx', lat_sx: 'Laterale sx', bocca: 'Bocca aperta', talloni: 'Talloni' };
+const TREND = ['Spalle', 'Bacino (livello delle anche)', 'Testa sul piano laterale', 'Spalle sul piano laterale'];
+let S = null;          // sessione
+let flash = null;      // messaggio da mostrare una volta
+
+function h(html) { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; }
+function msgEl() { if (!flash) return ''; const f = flash; flash = null; return `<p class="msg${f.err ? ' err' : ''}">${esc(f.t)}</p>`; }
+const say = (t, err) => { flash = { t, err }; };
+const go = hash => { if (location.hash === hash) route(); else location.hash = hash; };
+
+async function boot() {
+  try { S = await Api.session(); } catch (e) { S = null; }
+  $('#btnOut').hidden = !S;
+  $('#who').textContent = S ? (S.name || S.user.email) + (S.role === 'admin' ? ' · studio' : '') : '';
+  route();
+}
+$('#btnOut').addEventListener('click', async () => { await Api.signOut(); location.hash = ''; boot(); });
+window.addEventListener('hashchange', route);
+$('#zoom').addEventListener('click', () => { $('#zoom').hidden = true; });
+
+function demoBanner() {
+  if (Api.mode !== 'demo') return '';
+  return `<div class="demo"><b>Versione dimostrativa.</b> Pazienti e visite sono di esempio e restano solo in questo browser. <button class="btn" type="button" id="btnReset">Ripristina gli esempi</button></div>`;
+}
+function bindDemo() { const b = $('#btnReset'); if (b) b.addEventListener('click', async () => { await Api.resetDemo(); await Api.demoLogin(S && S.role === 'patient' ? 'paziente' : 'davide'); location.hash = ''; boot(); }); }
+
+async function route() {
+  const hsh = location.hash.slice(1);
+  if (!S) return renderLogin();
+  if (!S.role) return renderClaim();
+  try {
+    if (S.role === 'admin') {
+      if (hsh.startsWith('p-')) return await renderPatient(hsh.slice(2));
+      if (hsh.startsWith('v-')) return await renderVisit(hsh.slice(2));
+      return await renderDashboard();
+    }
+    if (hsh.startsWith('v-')) return await renderVisit(hsh.slice(2));
+    return await renderMyArea();
+  } catch (e) {
+    app.innerHTML = `${demoBanner()}<div class="card"><p class="msg err">${esc(e.userMessage || 'Qualcosa non ha funzionato. Ricarica la pagina.')}</p><button class="btn back" type="button" onclick="location.hash=''">Torna all'inizio</button></div>`;
+  }
+}
+
+/* ---------------- accesso ---------------- */
+function renderLogin(mode = 'in') {
+  app.innerHTML = `${demoBanner()}
+  <div class="card login">
+    <h1>${mode === 'in' ? 'Entra' : 'Primo accesso'}</h1>
+    <p class="hint">${mode === 'in' ? 'Pazienti e studio entrano con la propria email e password.' : 'Crea il tuo accesso con email e password. Subito dopo inserirai il codice che ti ha dato lo studio.'}</p>
+    ${msgEl()}
+    <form class="card" style="border:0;padding:0" id="fLogin">
+      <div class="field"><label class="lbl" for="em">Email</label><input id="em" type="email" autocomplete="email" required></div>
+      <div class="field"><label class="lbl" for="pw">Password</label><input id="pw" type="password" autocomplete="${mode === 'in' ? 'current-password' : 'new-password'}" minlength="8" required></div>
+      <button class="btn primary big" type="submit">${mode === 'in' ? 'Entra' : 'Crea il mio accesso'}</button>
+    </form>
+    <p class="hint">${mode === 'in' ? 'Prima volta? <a href="#" id="toUp">Crea il tuo accesso con il codice dello studio</a>.' : 'Hai già un accesso? <a href="#" id="toIn">Entra</a>.'}</p>
+    <p class="hint">Password dimenticata? Chiedi allo studio un nuovo codice di accesso.</p>
+    ${Api.mode === 'demo' ? `<div class="card" style="background:var(--surface-2);border:0"><b>Prova la demo</b><div class="row">
+      <button class="btn primary" type="button" data-demo="davide">Entra come Davide (studio)</button>
+      <button class="btn" type="button" data-demo="morena">Entra come Morena (studio)</button>
+      <button class="btn" type="button" data-demo="paziente">Entra come paziente (Maria Rossi)</button></div></div>` : ''}
+  </div>`;
+  bindDemo();
+  $('#fLogin').addEventListener('submit', async e => {
+    e.preventDefault();
+    const em = $('#em').value.trim(), pw = $('#pw').value;
+    try { if (mode === 'in') await Api.signIn(em, pw); else await Api.signUp(em, pw); await boot(); }
+    catch (x) { say(x.userMessage || x.message, true); renderLogin(mode); }
+  });
+  const up = $('#toUp'), inn = $('#toIn');
+  if (up) up.addEventListener('click', e => { e.preventDefault(); renderLogin('up'); });
+  if (inn) inn.addEventListener('click', e => { e.preventDefault(); renderLogin('in'); });
+  app.querySelectorAll('[data-demo]').forEach(b => b.addEventListener('click', async () => { await Api.demoLogin(b.dataset.demo); location.hash = ''; boot(); }));
+}
+
+function renderClaim() {
+  app.innerHTML = `${demoBanner()}
+  <div class="card login">
+    <h1>Collega la tua scheda</h1>
+    <p class="hint">Inserisci il codice di accesso che ti ha dato lo studio. Serve una volta sola.</p>
+    ${msgEl()}
+    <form id="fClaim" class="row">
+      <input id="code" type="text" placeholder="Es. K7MP-Q4XZ" autocomplete="off" style="flex:1;font-family:var(--font-data);letter-spacing:.1em;text-transform:uppercase">
+      <button class="btn primary" type="submit">Collega</button>
+    </form>
+  </div>`;
+  bindDemo();
+  $('#fClaim').addEventListener('submit', async e => {
+    e.preventDefault();
+    try { const name = await Api.claim($('#code').value); say(`Benvenuta o benvenuto, ${name}: la tua scheda è collegata.`); await boot(); }
+    catch (x) { say(x.userMessage || x.message, true); renderClaim(); }
+  });
+}
+
+/* ---------------- studio: elenco pazienti ---------------- */
+async function renderDashboard() {
+  const ps = await Api.listPatients();
+  const t = today(), in14 = addDaysIso(14), ago30 = addDaysIso(-30);
+  const visits30 = ps.reduce((n, p) => n + (p.last_visit && p.last_visit >= ago30 ? 1 : 0), 0);
+  const due = ps.filter(p => p.next_control && p.next_control.date <= in14).length;
+  app.innerHTML = `${demoBanner()}${msgEl()}
+  <div class="phero"><div><h1>Pazienti</h1><p class="hint">Tutte le schede dello studio, visibili a Davide e Morena.</p></div>
+    <div class="row"><button class="btn primary big" type="button" id="btnNew">Nuovo paziente</button><button class="btn" type="button" id="btnBackup">Scarica backup</button></div></div>
+  <div class="stats">
+    <div class="stat"><b>${ps.length}</b><span>pazienti in archivio</span></div>
+    <div class="stat"><b>${visits30}</b><span>visti negli ultimi 30 giorni</span></div>
+    <div class="stat"><b>${due}</b><span>controlli entro 14 giorni</span></div>
+  </div>
+  <div class="card" id="newCard" hidden></div>
+  <div class="card">
+    <input type="search" id="q" placeholder="Cerca per nome" aria-label="Cerca paziente">
+    <div class="phead"><span>Paziente</span><span class="c2">Ultima visita</span><span class="c3">Prossimo controllo</span><span>Accesso</span></div>
+    <div class="plist" id="plist"></div>
+  </div>`;
+  bindDemo();
+  const draw = () => {
+    const q = $('#q').value.trim().toLowerCase(), box = $('#plist'); box.innerHTML = '';
+    const list = ps.filter(p => !q || p.full_name.toLowerCase().includes(q));
+    if (!list.length) box.innerHTML = `<p class="empty">${ps.length ? 'Nessun paziente con questo nome.' : 'Nessun paziente ancora: aggiungi il primo con "Nuovo paziente".'}</p>`;
+    for (const p of list) {
+      const nc = p.next_control;
+      const late = nc && nc.date < t;
+      const b = h(`<button class="prow" type="button">
+        <span><span class="n">${esc(p.full_name)}</span><small>${p.visits_count} ${p.visits_count === 1 ? 'visita' : 'visite'}${p.phone ? ' · ' + esc(p.phone) : ''}</small></span>
+        <span class="c2 date">${itDate(p.last_visit)}</span>
+        <span class="c3">${nc ? `<span class="date">${itDate(nc.date)}</span><small>${esc(nc.label)}</small>` : '<small>—</small>'}</span>
+        <span>${p.user_id ? '<span class="pill ok">Attivo</span>' : '<span class="pill warn">Codice da usare</span>'}</span></button>`);
+      if (late) b.querySelector('.c3 .date').insertAdjacentHTML('afterend', ' <span class="pill late">in ritardo</span>');
+      b.addEventListener('click', () => go('#p-' + p.id));
+      box.appendChild(b);
+    }
+  };
+  $('#q').addEventListener('input', draw); draw();
+  $('#btnNew').addEventListener('click', () => newPatientForm($('#newCard')));
+  $('#btnBackup').addEventListener('click', async () => {
+    const data = await Api.backup();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' }));
+    a.download = `backup-che-postura-${today()}.json`; a.click();
+  });
+}
+
+function patientFields(p = {}) {
+  return `<div class="grid2">
+    <div class="field"><label class="lbl" for="fn">Nome e cognome</label><input id="fn" type="text" value="${esc(p.full_name || '')}" required></div>
+    <div class="field"><label class="lbl" for="fb">Data di nascita</label><input id="fb" type="date" value="${esc(p.birth || '')}"></div>
+    <div class="field"><label class="lbl" for="fp">Telefono</label><input id="fp" type="tel" value="${esc(p.phone || '')}"></div>
+    <div class="field"><label class="lbl" for="fe">Email</label><input id="fe" type="email" value="${esc(p.email || '')}"></div>
+    <div class="field"><label class="lbl" for="fc">Consenso privacy firmato il</label><input id="fc" type="date" value="${esc(p.consent_date || today())}" required></div>
+  </div>`;
+}
+const readFields = () => ({ full_name: $('#fn').value.trim(), birth: $('#fb').value || null, phone: $('#fp').value.trim() || null, email: $('#fe').value.trim() || null, consent_date: $('#fc').value });
+
+function newPatientForm(card) {
+  card.hidden = false;
+  card.innerHTML = `<h2>Nuovo paziente</h2>${patientFields()}
+    <label class="row hint"><input type="checkbox" id="fok"> Ha firmato il consenso per foto, dati e area riservata.</label>
+    <div class="row"><button class="btn primary" type="button" id="fsave">Crea la scheda</button><button class="btn" type="button" id="fcancel">Annulla</button></div><p class="msg err" id="ferr" hidden></p>`;
+  $('#fcancel').addEventListener('click', () => { card.hidden = true; });
+  $('#fsave').addEventListener('click', async () => {
+    const d = readFields(), er = $('#ferr');
+    if (!d.full_name) { er.hidden = false; er.textContent = 'Scrivi nome e cognome.'; return; }
+    if (!$('#fok').checked || !d.consent_date) { er.hidden = false; er.textContent = 'Serve il consenso firmato, con la data.'; return; }
+    try { const { patient, code } = await Api.createPatient(d); showCode(card, patient, code); }
+    catch (x) { er.hidden = false; er.textContent = x.userMessage || x.message; }
+  });
+}
+
+function showCode(card, p, code) {
+  const site = location.href.split('#')[0];
+  card.hidden = false;
+  card.innerHTML = `<h2>Codice di accesso per ${esc(p.full_name)}</h2>
+    <div class="codebox">${esc(code)}</div>
+    <p class="hint">Dallo al paziente insieme a queste istruzioni. Vale 60 giorni e si usa una volta sola. Il codice non resta salvato in chiaro: se si perde, se ne crea uno nuovo.</p>
+    <p style="margin:0">1. Vai su <b>${esc(site)}</b><br>2. Premi "Crea il tuo accesso" e scegli email e password.<br>3. Inserisci il codice <b>${esc(code)}</b>.</p>
+    <div class="row"><button class="btn" type="button" id="cCopy">Copia le istruzioni</button><button class="btn primary" type="button" id="cOpen">Apri la scheda</button></div>`;
+  $('#cCopy').addEventListener('click', () => {
+    const t = `Che Postura · Kinesiologia Studio\n1. Vai su ${site}\n2. Premi "Crea il tuo accesso" e scegli email e password\n3. Inserisci il codice ${code}`;
+    navigator.clipboard.writeText(t).then(() => { $('#cCopy').textContent = 'Copiate'; }, () => {});
+  });
+  $('#cOpen').addEventListener('click', () => go('#p-' + p.id));
+}
+
+/* ---------------- studio: scheda paziente ---------------- */
+async function renderPatient(id) {
+  const [p, vs, ss] = await Promise.all([Api.getPatient(id), Api.listVisits(id), Api.listSessions(id)]);
+  app.innerHTML = `${demoBanner()}${msgEl()}
+  <button class="btn back" type="button" onclick="location.hash=''">← Tutti i pazienti</button>
+  <div class="card">
+    <div class="phero">
+      <div><h1>${esc(p.full_name)}</h1>
+        <p class="hint">${p.birth ? 'Nato/a il ' + itDate(p.birth) + ' · ' : ''}${p.phone ? esc(p.phone) + ' · ' : ''}${p.email ? esc(p.email) + ' · ' : ''}consenso del ${itDate(p.consent_date)}</p>
+        <div class="row" style="margin-top:6px">${p.user_id ? '<span class="pill ok">Area riservata attiva</span>' : '<span class="pill warn">Il paziente non ha ancora usato il codice</span>'}</div></div>
+      <div class="row"><a class="btn primary big" href="analisi.html#p-${esc(p.id)}">Nuova visita</a></div>
+    </div>
+    <div class="row"><button class="btn" type="button" id="bCode">Nuovo codice di accesso</button><button class="btn" type="button" id="bEdit">Modifica dati</button><button class="btn danger" type="button" id="bDel">Elimina paziente</button></div>
+    <div id="pExtra"></div>
+  </div>
+  ${trendCard(vs)}
+  <div class="card"><h2>Visite</h2><div class="vlist" id="vlist"></div></div>
+  <div class="card"><div class="phero"><div><h2>Diario delle sedute</h2><p class="hint">Trattamenti e allenamenti, con autore e data. Le voci con "visibile al paziente" compaiono anche nella sua area.</p></div><button class="btn primary" type="button" id="bSess">Nuova seduta</button></div>
+    <div id="sessForm" hidden></div><div class="vlist" id="slist"></div></div>
+  <div class="card"><h2>Note dello studio</h2><p class="hint">Visibili solo a Davide e Morena.</p><textarea id="pNotes">${esc(p.notes || '')}</textarea><div class="row"><button class="btn" type="button" id="bNotesMic">🎤 Detta</button><button class="btn" type="button" id="bNotes">Salva note</button><span class="hint" id="nOk"></span></div></div>`;
+  bindDemo();
+  const vl = $('#vlist');
+  if (!vs.length) vl.innerHTML = '<p class="empty">Nessuna visita. Premi "Nuova visita": carichi le foto, l\'analisi parte da sola e si salva qui.</p>';
+  for (const v of vs) vl.appendChild(visitRow(v, true));
+  drawSessions($('#slist'), ss, true, p);
+  $('#bSess').addEventListener('click', () => sessionForm($('#sessForm'), p, vs[0]));
+  const extra = $('#pExtra');
+  $('#bCode').addEventListener('click', async () => { const code = await Api.newAccessCode(p.id); showCode(extra, p, code); extra.className = 'card'; });
+  $('#bEdit').addEventListener('click', () => {
+    extra.className = 'card';
+    extra.innerHTML = `<h3>Modifica dati</h3>${patientFields(p)}<div class="row"><button class="btn primary" type="button" id="eSave">Salva</button></div>`;
+    $('#eSave').addEventListener('click', async () => { await Api.updatePatient(p.id, readFields()); say('Dati aggiornati.'); route(); });
+  });
+  $('#bDel').addEventListener('click', () => {
+    extra.className = '';
+    extra.innerHTML = `<div class="confirm"><span>Eliminare ${esc(p.full_name)} con tutte le visite, le foto e i referti? Non si può annullare.</span><div class="row"><button class="btn danger" type="button" id="dYes">Sì, elimina tutto</button><button class="btn" type="button" id="dNo">Annulla</button></div></div>`;
+    $('#dNo').addEventListener('click', () => { extra.innerHTML = ''; });
+    $('#dYes').addEventListener('click', async () => { await Api.deletePatient(p.id); say(`${p.full_name} eliminato, con visite e foto.`); go(''); });
+  });
+  dictation($('#bNotesMic'), $('#pNotes'), t => { $('#nOk').textContent = t; });
+  $('#bNotes').addEventListener('click', async () => { await Api.updatePatient(p.id, { notes: $('#pNotes').value }); $('#nOk').textContent = 'Salvate.'; });
+}
+
+function visitRow(v, admin) {
+  const f = (v.findings || []).map(x => x.title);
+  const row = h(`<div class="vrow"><div><b class="date">${itDate(v.date)}</b><p>${esc(f.join(', ') || 'Nessuna asimmetria importante')}${v.plan && v.plan.name ? ' · ' + esc(v.plan.name.toLowerCase()) : ''}</p></div>
+    <div class="row"><button class="btn" type="button" data-a="open">Apri</button>${v.pdf_path ? '<button class="btn" type="button" data-a="pdf">PDF</button>' : ''}${admin ? '<button class="btn danger" type="button" data-a="del">Elimina</button>' : ''}</div></div>`);
+  row.querySelector('[data-a=open]').addEventListener('click', () => go('#v-' + v.id));
+  const pdf = row.querySelector('[data-a=pdf]'); if (pdf) pdf.addEventListener('click', () => openPdf(v));
+  const del = row.querySelector('[data-a=del]');
+  if (del) del.addEventListener('click', () => {
+    const c = h(`<div class="confirm" style="grid-column:1/-1"><span>Eliminare la visita del ${itDate(v.date)} con foto e referto?</span><div class="row"><button class="btn danger" type="button">Elimina</button><button class="btn" type="button">Annulla</button></div></div>`);
+    const [y, n] = c.querySelectorAll('button');
+    y.addEventListener('click', async () => { await Api.deleteVisit(v); say('Visita eliminata.'); route(); });
+    n.addEventListener('click', () => c.remove());
+    row.appendChild(c);
+  });
+  return row;
+}
+async function openPdf(v) {
+  const url = await Api.fileUrl(v.pdf_path);
+  if (!url) { say('Referto non disponibile in questo browser.', true); route(); return; }
+  const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener';
+  a.download = `Referto ${v.date}.pdf`; a.click();
+}
+
+function trendCard(vs) {
+  const asc = vs.slice().sort((a, b) => (a.date < b.date ? -1 : 1));
+  if (asc.length < 2) return '';
+  const rows = TREND.map(lbl => ({ lbl, cells: asc.map(v => (v.auto || []).find(a => a.label === lbl) || null) })).filter(r => r.cells.some(Boolean));
+  if (!rows.length) return '';
+  const body = rows.map(r => {
+    const first = r.cells.find(Boolean), last = [...r.cells].reverse().find(Boolean);
+    let d = '';
+    if (first && last && first !== last && first.num != null && last.num != null) {
+      const diff = last.num - first.num;
+      d = `<td class="num ${diff < -0.05 ? 'better' : diff > 0.05 ? 'worse' : ''}">${diff > 0 ? '+' : diff < 0 ? '−' : ''}${Math.abs(diff).toFixed(1).replace('.', ',')} cm</td>`;
+    } else d = '<td class="num">—</td>';
+    return `<tr><td>${esc(r.lbl)}</td>${r.cells.map(c => `<td class="num">${c ? esc(c.val) : '—'}</td>`).join('')}${d}</tr>`;
+  }).join('');
+  return `<div class="card"><h2>Come sta cambiando</h2><div class="tablewrap"><table><thead><tr><th>Misura</th>${asc.map(v => `<th>${itDate(v.date)}</th>`).join('')}<th>Dal primo all'ultimo</th></tr></thead><tbody>${body}</tbody></table></div><p class="hint">Verde: l'asimmetria si è ridotta.</p></div>`;
+}
+
+/* ---------------- dettatura a voce ---------------- */
+function dictation(btn, ta, say) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, base = '';
+  const fix = t => t.replace(/\s*\bpunto e a capo\b/gi, '.\n').replace(/\s*\ba capo\b/gi, '\n').replace(/\s*\bpunto interrogativo\b/gi, '?')
+    .replace(/\s*\bvirgola\b/gi, ',').replace(/\s*\bpunto\b/gi, '.');
+  btn.addEventListener('click', () => {
+    if (rec) { rec.stop(); return; }
+    if (!SR) { say('Qui la dettatura non è disponibile: tocca il riquadro e usa il microfono della tastiera del telefono.'); ta.focus(); return; }
+    rec = new SR(); rec.lang = 'it-IT'; rec.continuous = true; rec.interimResults = true;
+    base = ta.value && !/\s$/.test(ta.value) ? ta.value + ' ' : ta.value;
+    rec.onresult = e => {
+      let fin = '', tmp = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) { const r = e.results[i]; if (r.isFinal) fin += r[0].transcript; else tmp += r[0].transcript; }
+      if (fin) base += fix(fin.trim()) + ' ';
+      ta.value = base + tmp;
+    };
+    rec.onerror = e => say(e.error === 'not-allowed' || e.error === 'service-not-allowed' ? 'Il microfono non è autorizzato: consentilo al sito, oppure usa il microfono della tastiera.' : e.error === 'no-speech' ? 'Non ho sentito nulla: riprova.' : 'Dettatura interrotta: riprova.');
+    rec.onend = () => { rec = null; btn.textContent = '🎤 Detta'; btn.classList.remove('rec'); ta.value = base.replace(/\s+$/, ''); };
+    try { rec.start(); btn.textContent = '■ Ferma'; btn.classList.add('rec'); say('Parla pure. Di\' «virgola», «punto», «a capo» per la punteggiatura.'); }
+    catch (err) { rec = null; say('Non riesco ad avviare la dettatura: usa il microfono della tastiera.'); }
+  });
+}
+
+/* ---------------- diario delle sedute ---------------- */
+const KIND = { trattamento: 'Trattamento', allenamento: 'Allenamento', colloquio: 'Colloquio', altro: 'Altro' };
+// Elenchi dei menu: si possono allungare liberamente.
+const ZONES = ['Cervicale', 'Dorsale', 'Lombare', 'Bacino e sacro-iliache', 'ATM e mandibola', 'Testa e cranio', 'Spalla', 'Gomito e avambraccio', 'Polso e mano', 'Diaframma', 'Addome', 'Core e addome', 'Glutei', 'Anca', 'Coscia (quadricipite)', 'Coscia (ischiocrurali)', 'Coscia (adduttori)', 'Ginocchio', 'Polpaccio', 'Caviglia e piede', 'Arti inferiori', 'Arti superiori', 'Corpo intero'];
+const SIDES = { '': '—', dx: 'dx', sx: 'sx', bilaterale: 'bilaterale' };
+const TECH = {
+  trattamento: ['Miofasciale', 'Decontratturante', 'Maderoterapia', 'Decompressioni', 'Stretching', 'Manipolazioni', 'Linfodrenaggio', 'Massaggio benessere'],
+  allenamento: ['Pilates mat work', 'Rinforzo', 'Mobilità', 'Allungamento', 'Respirazione', 'Propriocezione', 'Equilibrio']
+};
+TECH.altro = [...TECH.trattamento, ...TECH.allenamento];
+TECH.colloquio = [];
+const EXLIB = {
+  'Pilates mat work': ['The Hundred', 'Roll up', 'Roll over', 'Single leg circle', 'Rolling like a ball', 'Single leg stretch', 'Double leg stretch', 'Single straight leg stretch (Scissors)', 'Double straight leg stretch (Lower lift)', 'Criss cross', 'Spine stretch forward', 'Open leg rocker', 'Corkscrew', 'Saw', 'Swan', 'Single leg kick', 'Double leg kick', 'Neck pull', 'Shoulder bridge', 'Spine twist', 'Jackknife', 'Side kick series', 'Teaser', 'Hip circles', 'Swimming', 'Leg pull front', 'Leg pull back', 'Side kick kneeling', 'Side bend', 'Boomerang', 'Seal', 'Crab', 'Rocking', 'Control balance', 'Push up', 'Mermaid'],
+  'Pilates propedeutici': ['Respirazione laterale', 'Imprinting del bacino', 'Pelvic curl', 'Chest lift', 'Toe taps', 'Dead bug', 'Bird dog', 'Cat-cow', 'Book opening', 'Clamshell', 'Side lying leg lift', 'Spine stretch da seduto', 'Plank', 'Side plank', 'Roll down in piedi'],
+  'Mobilità e allungamento': ['Chin tuck', 'Mobilità cervicale', 'Allungamento trapezio superiore', 'Allungamento pettorali', 'Allungamento ileopsoas', 'Allungamento ischiocrurali', 'Allungamento piriforme', 'Allungamento quadrato dei lombi', 'Allungamento polpacci', 'Thread the needle', 'Child pose']
+};
+// test dal catalogo condiviso con il programma di analisi (test-catalogo.js)
+const TESTS = Object.fromEntries(Object.values(window.CP_TESTS || {}).map(g => [g.title, g.list.map(t => t.name)]));
+const TEST_INFO = Object.fromEntries(Object.values(window.CP_TESTS || {}).flatMap(g => g.list.map(t => [t.name, t])));
+const RESULTS = ['', 'Negativo', 'Positivo', 'Migliorato', 'Invariato', 'Peggiorato'];
+const opts = (list, sel) => list.map(x => `<option${x === sel ? ' selected' : ''}>${esc(x)}</option>`).join('');
+const groups = (obj, sel, extra) => (extra || '') + Object.entries(obj).map(([g, l]) => `<optgroup label="${esc(g)}">${opts(l, sel)}</optgroup>`).join('');
+const sideTxt = s => (s ? ' ' + s : '');
+const shortDate = d => d.split('-').reverse().join('/');
+
+function sessionText(s, p) {
+  const first = p && p.full_name ? p.full_name.split(' ')[0] : '';
+  const when = s.date === today() ? `di oggi (${shortDate(s.date)})` : `del ${shortDate(s.date)}`;
+  const L = [`Ciao${first ? ' ' + first : ''}, ecco il riepilogo della seduta ${when}${s.author_name ? ' con ' + s.author_name : ''}.`];
+  const zs = (s.zones || []).filter(z => z.zone);
+  if (zs.length) { L.push('', `*${s.kind === 'allenamento' ? 'Zone lavorate' : 'Zone trattate'}*`); for (const z of zs) L.push(`• ${z.zone}${sideTxt(z.side)}${(z.tech || []).length ? ': ' + z.tech.join(', ').toLowerCase() : ''}`); }
+  const ex = (s.exercises || []).filter(e => e.name);
+  if (ex.length) { L.push('', '*Esercizi svolti*'); for (const e of ex) L.push(`• ${e.name}${e.dose ? ' – ' + e.dose : ''}${e.load ? ' (' + e.load + ')' : ''}${e.note ? ' · ' + e.note : ''}`); }
+  const ts = (s.tests || []).filter(t => t.name);
+  if (ts.length) { L.push('', '*Test svolti*'); for (const t of ts) L.push(`• ${t.name}${sideTxt(t.side)}${t.result ? ': ' + t.result.toLowerCase() : ''}${t.note ? ' (' + t.note + ')' : ''}`); }
+  if (s.text) L.push('', `*Note*`, s.text);
+  L.push('', 'Kinesiologia Studio · Che Postura');
+  return L.join('\n');
+}
+function waNumber(phone) {
+  let n = String(phone || '').replace(/[^\d+]/g, '');
+  if (n.startsWith('+')) n = n.slice(1); else if (n.startsWith('00')) n = n.slice(2); else if (/^3\d{8,9}$/.test(n)) n = '39' + n;
+  return n;
+}
+function waPanel(row, s, p) {
+  const old = row.querySelector('.wa'); if (old) { old.remove(); return; }
+  const text = sessionText(s, p), num = waNumber(p && p.phone);
+  const c = h(`<div class="wa field"><span class="lbl">Riepilogo per WhatsApp${num ? '' : ' (nessun telefono in scheda: sceglierai il contatto in WhatsApp)'}</span><textarea rows="10"></textarea>
+    <div class="row"><a class="btn primary" target="_blank" rel="noopener">Apri WhatsApp</a><button class="btn" type="button">Copia testo</button></div></div>`);
+  const ta = c.querySelector('textarea'), a = c.querySelector('a');
+  const link = () => { a.href = `https://wa.me/${num}?text=${encodeURIComponent(ta.value)}`; };
+  ta.value = text; link(); ta.addEventListener('input', link);
+  c.querySelector('button').addEventListener('click', e => { ta.select(); (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).then(() => { e.target.textContent = 'Copiato'; }, () => { document.execCommand('copy'); e.target.textContent = 'Copiato'; }); });
+  row.appendChild(c);
+}
+let openWa = null;
+function drawSessions(box, ss, admin, p) {
+  box.innerHTML = '';
+  if (!ss.length) { box.innerHTML = '<p class="empty">Nessuna seduta annotata.</p>'; return; }
+  for (const s of ss) {
+    const ex = (s.exercises || []).filter(e => e.name), zs = (s.zones || []).filter(z => z.zone), ts = (s.tests || []).filter(t => t.name);
+    const row = h(`<div class="srow ${esc(s.kind)}"><div class="top"><b class="date">${itDate(s.date)}</b><span class="pill">${esc(KIND[s.kind] || s.kind)}</span>${s.author_name ? `<span class="hint">${esc(s.author_name)}</span>` : ''}${admin ? (s.visible_to_patient ? '<span class="pill ok">Visibile al paziente</span>' : '<span class="pill">Solo studio</span>') : ''}</div>
+      ${zs.length ? `<ul class="zl">${zs.map(z => `<li><b>${esc(z.zone)}${esc(sideTxt(z.side))}</b>${(z.tech || []).length ? ' · ' + esc(z.tech.join(', ')) : ''}</li>`).join('')}</ul>` : ''}
+      ${ex.length ? `<div class="tablewrap"><table><thead><tr><th>Esercizio</th><th>Serie e ripetizioni</th><th>Carico</th><th>Note</th></tr></thead><tbody>${ex.map(e => `<tr><td>${esc(e.name)}</td><td>${esc(e.dose || '')}</td><td>${esc(e.load || '')}</td><td>${esc(e.note || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
+      ${ts.length ? `<div class="tablewrap"><table><thead><tr><th>Test</th><th>Lato</th><th>Esito</th><th>Note</th></tr></thead><tbody>${ts.map(t => `<tr><td>${esc(t.name)}</td><td>${esc(t.side || '')}</td><td>${esc(t.result || '')}</td><td>${esc(t.note || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
+      ${s.text ? `<p>${esc(s.text)}</p>` : ''}
+      ${admin ? '<div class="row"><button class="btn" type="button" data-a="wa">Riepilogo WhatsApp</button><button class="btn danger" type="button" data-a="del">Elimina</button></div>' : ''}</div>`);
+    const wa = row.querySelector('[data-a=wa]');
+    if (wa) { wa.addEventListener('click', () => waPanel(row, s, p)); if (openWa === s.id) { openWa = null; waPanel(row, s, p); setTimeout(() => row.scrollIntoView({ block: 'start' }), 50); } }
+    const del = row.querySelector('[data-a=del]');
+    if (del) del.addEventListener('click', () => {
+      const c = h(`<div class="confirm"><span>Eliminare questa seduta?</span><div class="row"><button class="btn danger" type="button">Elimina</button><button class="btn" type="button">Annulla</button></div></div>`);
+      const [y, n] = c.querySelectorAll('button');
+      y.addEventListener('click', async () => { await Api.deleteSession(s.id); say('Seduta eliminata.'); route(); });
+      n.addEventListener('click', () => c.remove());
+      row.appendChild(c);
+    });
+    box.appendChild(row);
+  }
+}
+function sessionForm(box, p, lastVisit) {
+  const st = { kind: (S.name || '').startsWith('Morena') ? 'allenamento' : 'trattamento' };
+  const plan = ((lastVisit && lastVisit.exercises) || []).filter(e => e.name);
+  box.hidden = false; box.className = 'card';
+  box.innerHTML = `<h3>Nuova seduta</h3>
+    <div class="row"><div class="field"><label class="lbl" for="sDate">Data</label><input id="sDate" type="date" value="${today()}"></div>
+    <div class="field"><span class="lbl">Tipo</span><div class="seg" id="sKind"></div></div></div>
+    <div class="field"><span class="lbl" id="sZl">Zone trattate</span><div class="exrows" id="sZ"></div><div class="row"><button class="btn" type="button" id="sAddZ">+ Aggiungi zona</button></div></div>
+    <div class="field"><span class="lbl">Esercizi svolti</span><div class="exrows" id="sEx"></div><div class="row"><button class="btn" type="button" id="sAdd">+ Aggiungi esercizio</button></div></div>
+    <div class="field"><span class="lbl">Test svolti</span><div class="exrows" id="sT"></div><div class="row"><button class="btn" type="button" id="sAddT">+ Aggiungi test</button></div></div>
+    <div class="field"><label class="lbl" for="sText">Note</label><textarea id="sText" placeholder="Es. come ha risposto, dolore prima e dopo, consigli per casa"></textarea>
+      <div class="row"><button class="btn" type="button" id="sMic">🎤 Detta</button><span class="hint" id="sMicMsg"></span></div></div>
+    <label class="row hint"><input type="checkbox" id="sVis"> Visibile al paziente nella sua area</label>
+    <div class="row"><button class="btn primary" type="button" id="sSaveWa">Salva e prepara WhatsApp</button><button class="btn" type="button" id="sSave">Salva</button><button class="btn" type="button" id="sCancel">Annulla</button></div>`;
+  const techChips = (wrap, sel) => {
+    wrap.innerHTML = '';
+    for (const t of TECH[st.kind]) { const b = h(`<button class="tog" type="button" aria-pressed="${sel.includes(t)}">${esc(t)}</button>`); b.addEventListener('click', () => b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'))); wrap.appendChild(b); }
+  };
+  const readTech = r => [...r.querySelectorAll('.tog[aria-pressed=true]')].map(b => b.textContent);
+  const kindSeg = () => {
+    const k = $('#sKind'); k.innerHTML = '';
+    for (const [v, l] of Object.entries(KIND)) { const b = document.createElement('button'); b.type = 'button'; b.textContent = l; b.setAttribute('aria-pressed', String(st.kind === v)); b.addEventListener('click', () => { st.kind = v; kindSeg(); $('#sVis').checked = v === 'allenamento'; box.querySelectorAll('.zrow').forEach(r => techChips(r.querySelector('.chips'), readTech(r))); }); k.appendChild(b); }
+    $('#sZl').textContent = st.kind === 'allenamento' ? 'Zone lavorate e metodo' : 'Zone trattate e tecniche';
+    for (const id of ['#sZ', '#sEx', '#sT']) $(id).closest('.field').hidden = st.kind === 'colloquio';
+  };
+  const addZone = () => {
+    const r = h(`<div class="zrow"><select aria-label="Zona"><option value="">Scegli la zona…</option>${opts(ZONES)}</select><select aria-label="Lato">${Object.entries(SIDES).map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><button class="btn" type="button" aria-label="Togli">×</button><div class="chips"></div></div>`);
+    techChips(r.querySelector('.chips'), []);
+    r.querySelector('button').addEventListener('click', () => r.remove());
+    $('#sZ').appendChild(r); r.querySelector('select').focus();
+  };
+  const addEx = () => {
+    const r = h(`<div class="exrow"><select aria-label="Esercizio"><option value="">Scegli l'esercizio…</option>${plan.length ? `<optgroup label="Dalla scheda del paziente">${plan.map((e, i) => `<option value="plan:${i}">${esc(e.name)}</option>`).join('')}</optgroup>` : ''}${groups(EXLIB)}<option value="*">Altro (scrivi)…</option></select><input type="text" placeholder="Serie × rip." aria-label="Serie e ripetizioni"><input type="text" placeholder="Carico" aria-label="Carico"><input type="text" placeholder="Note" aria-label="Note"><button class="btn" type="button" aria-label="Togli">×</button><input type="text" class="other" placeholder="Nome dell'esercizio" aria-label="Nome dell'esercizio" hidden></div>`);
+    const sel = r.querySelector('select'), [dose, , , other] = r.querySelectorAll('input');
+    sel.addEventListener('change', () => {
+      other.hidden = sel.value !== '*'; if (!other.hidden) other.focus();
+      if (sel.value.startsWith('plan:') && !dose.value) dose.value = plan[+sel.value.slice(5)].dose || '';
+    });
+    r.querySelector('button').addEventListener('click', () => r.remove());
+    $('#sEx').appendChild(r); sel.focus();
+  };
+  const addTest = () => {
+    const r = h(`<div class="trow"><select aria-label="Test"><option value="">Scegli il test…</option>${groups(TESTS)}<option value="*">Altro (scrivi)…</option></select><select aria-label="Lato">${Object.entries(SIDES).map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><select aria-label="Esito">${RESULTS.map(x => `<option value="${x}">${x || 'Esito…'}</option>`).join('')}</select><input type="text" placeholder="Valore o note" aria-label="Valore o note"><button class="btn" type="button" aria-label="Togli">×</button><input type="text" class="other" placeholder="Nome del test" aria-label="Nome del test" hidden><p class="tinfo" hidden></p></div>`);
+    const sel = r.querySelector('select'), other = r.querySelector('.other'), info = r.querySelector('.tinfo');
+    sel.addEventListener('change', () => {
+      other.hidden = sel.value !== '*'; if (!other.hidden) other.focus();
+      const ti = TEST_INFO[sel.value];
+      info.hidden = !ti; info.innerHTML = ti ? `<b>A cosa serve:</b> ${esc(ti.why)}<br><b>Come si fa:</b> ${esc(ti.how)}` : '';
+    });
+    r.querySelector('button').addEventListener('click', () => r.remove());
+    $('#sT').appendChild(r); sel.focus();
+  };
+  kindSeg(); $('#sVis').checked = st.kind === 'allenamento';
+  dictation($('#sMic'), $('#sText'), t => { $('#sMicMsg').textContent = t; });
+  addZone(); $('#sDate').focus();
+  $('#sAddZ').addEventListener('click', addZone); $('#sAdd').addEventListener('click', addEx); $('#sAddT').addEventListener('click', addTest);
+  $('#sCancel').addEventListener('click', () => { box.hidden = true; box.innerHTML = ''; });
+  const nameOf = (sel, other) => sel.value === '*' ? other.value.trim() : sel.value.startsWith('plan:') ? plan[+sel.value.slice(5)].name : sel.value;
+  const save = async wa => {
+    const zones = [...box.querySelectorAll('.zrow')].map(r => { const [z, sd] = r.querySelectorAll('select'); return { zone: z.value, side: sd.value, tech: readTech(r) }; }).filter(z => z.zone);
+    const exercises = [...box.querySelectorAll('.exrow')].map(r => { const i = r.querySelectorAll('input'); return { name: nameOf(r.querySelector('select'), i[3]), dose: i[0].value.trim(), load: i[1].value.trim(), note: i[2].value.trim() }; }).filter(e => e.name);
+    const tests = [...box.querySelectorAll('.trow')].map(r => { const [t, sd, rs] = r.querySelectorAll('select'), i = r.querySelectorAll('input'); return { name: nameOf(t, i[1]), side: sd.value, result: rs.value, note: i[0].value.trim() }; }).filter(t => t.name);
+    const text = $('#sText').value.trim();
+    if (!text && !zones.length && !exercises.length && !tests.length) { say('Scegli almeno una zona, un esercizio o un test, oppure scrivi una nota.', true); return; }
+    const row = await Api.addSession(p.id, { date: $('#sDate').value || today(), kind: st.kind, zones, tests, text, exercises, visible_to_patient: $('#sVis').checked });
+    if (wa && row) openWa = row.id;
+    say('Seduta salvata nel diario.'); route();
+  };
+  $('#sSave').addEventListener('click', () => save(false));
+  $('#sSaveWa').addEventListener('click', () => save(true));
+}
+
+/* ---------------- visita (studio e paziente) ---------------- */
+async function renderVisit(id) {
+  const v = await Api.getVisit(id);
+  const admin = S.role === 'admin';
+  app.innerHTML = `${demoBanner()}
+  <button class="btn back" type="button" id="bBack">← ${admin ? 'Scheda del paziente' : 'La mia area'}</button>
+  <div class="card"><div class="phero"><div><h1>Visita del ${itDate(v.date)}</h1><p class="hint">${v.height ? 'Altezza ' + esc(v.height) + ' cm · ' : ''}${v.plan && v.plan.name ? esc(v.plan.name) : ''}</p></div>
+    ${v.pdf_path ? '<button class="btn primary big" type="button" id="bPdf">Scarica il referto PDF</button>' : ''}</div>
+    <div class="photos" id="ph"></div></div>
+  ${visitBody(v, admin)}`;
+  bindDemo();
+  $('#bBack').addEventListener('click', () => go(admin ? '#p-' + v.patient_id : ''));
+  const b = $('#bPdf'); if (b) b.addEventListener('click', () => openPdf(v));
+  fillPhotos($('#ph'), v);
+}
+async function fillPhotos(box, v) {
+  const entries = Object.entries(v.photos || {});
+  if (!entries.length) { box.outerHTML = '<p class="hint">Foto non disponibili per questa visita.</p>'; return; }
+  for (const [vk, path] of entries) {
+    const url = await Api.fileUrl(path);
+    if (!url) continue;
+    const mr = vk.startsWith('mob_') && v.mobility ? (v.mobility.rows || []).find(r => 'mob_' + r.key === vk) : null;
+    const lab = VIEW_LABEL[vk] || (mr ? mr.label : vk);
+    const f = h(`<figure><img alt="${esc(lab)}" src="${esc(url)}"><figcaption>${esc(lab)}</figcaption></figure>`);
+    f.querySelector('img').addEventListener('click', () => { const z = $('#zoom'); z.querySelector('img').src = url; z.hidden = false; });
+    box.appendChild(f);
+  }
+}
+function visitBody(v, admin) {
+  const rank = { alert: 0, warn: 1, ok: 2 };
+  const auto = (v.auto || []).slice().sort((a, b) => rank[a.sev] - rank[b.sev]);
+  const fs = v.findings || [], exs = v.exercises || [];
+  const t = today(), next = (v.plan && v.plan.next || []).filter(n => n.date >= t);
+  return `
+  ${auto.length ? `<div class="card"><h2>Cosa abbiamo trovato</h2><div class="list">${auto.map(r => `<div class="m ${esc(r.sev)}"><span>${esc(r.label)}</span><span class="v">${esc(r.val)}</span><span class="d">${esc(r.desc)}</span></div>`).join('')}</div></div>` : ''}
+  <div class="card"><h2>Parti in disfunzione</h2>${fs.length ? fs.map(f => `<div class="prob"><b>${esc(f.title)}</b><p>${esc(f.text)}</p>${(f.corti || []).length ? `<p><b>Tese / accorciate:</b> ${esc(f.corti.join(', '))}</p>` : ''}${(f.lunghi || []).length ? `<p><b>Deboli / inibite:</b> ${esc(f.lunghi.join(', '))}</p>` : ''}</div>`).join('') : '<p class="empty">Nessuna asimmetria importante in questa visita.</p>'}</div>
+  <div class="card"><h2>${admin ? 'Esercizi assegnati' : 'I tuoi esercizi'}</h2>${exs.length ? `<div class="list">${exs.map(e => `<div class="ex"><b>${esc(e.name)}</b><span class="dose">${esc(e.dose)}</span><span>Perché: ${esc(e.why)}.</span>${e.how ? `<span class="how">Come: ${esc(e.how)}</span>` : ''}</div>`).join('')}</div>` : '<p class="empty">Nessun esercizio assegnato.</p>'}</div>
+  ${next.length ? `<div class="card"><h2>Prossimi appuntamenti</h2><ul class="tl">${next.map(n => `<li><span class="date">${itDate(n.date)}</span><span>${esc(n.label)}</span></li>`).join('')}</ul></div>` : ''}
+  ${mobCard(v.mobility)}
+  ${admin && v.notes ? `<div class="card"><h2>Note della visita</h2><p style="margin:0">${esc(v.notes)}</p></div>` : ''}
+  <p class="disc">Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.</p>`;
+}
+function mobCard(mob) {
+  if (!mob || !(mob.rows || []).length) return '';
+  const col = x => (x >= 90 ? 'ok' : x >= 70 ? 'warn' : 'alert');
+  return `<div class="card"><h2>Mobilità articolare</h2>
+    <div class="mobidx"><span class="big ${col(mob.index)}" style="color:${mob.index >= 90 ? '#3E7A5E' : mob.index >= 70 ? '#B26B12' : '#C0392B'}">${mob.index}/100</span>${(mob.groups || []).map(g => `<span class="sub">${esc(g.label)} ${g.index}</span>`).join('')}</div>
+    <p class="hint">Indice di mobilità globale: media dei movimenti misurati rispetto ai valori normali (100 = tutti nella norma).</p>
+    <div class="tablewrap"><table><thead><tr><th>Movimento</th><th>Angolo</th><th>Normale</th><th>%</th></tr></thead><tbody>${mob.rows.map(r => `<tr><td>${esc(r.label)}${r.extra && r.extra !== 'goniometro' ? ' · ' + esc(r.extra) : ''}</td><td class="num ${esc(r.sev)}">${r.val}°</td><td class="num">${r.normal}°</td><td class="num ${esc(r.sev)}">${r.pct}%</td></tr>`).join('')}</tbody></table></div>
+    ${(mob.asym || []).length ? `<p><b>Differenze tra destra e sinistra:</b> ${esc(mob.asym.join('; '))}.</p>` : ''}</div>`;
+}
+
+/* ---------------- paziente: la mia area ---------------- */
+async function renderMyArea() {
+  if (!S.patientId) return renderClaim();
+  const [p, vs, ss] = await Promise.all([Api.getPatient(S.patientId), Api.listVisits(S.patientId), Api.listSessions(S.patientId)]);
+  const last = vs[0];
+  const first = (p.full_name || '').split(' ')[0];
+  app.innerHTML = `${demoBanner()}${msgEl()}
+  <div><p class="hello">Ciao ${esc(first)}</p><p class="hint">Qui trovi le tue valutazioni posturali, i tuoi esercizi e i prossimi controlli.</p><p class="disc">Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.</p></div>
+  ${last ? `<div class="card"><div class="phero"><div><h2>La tua ultima valutazione</h2><p class="hint">${itDate(last.date)}</p></div>${last.pdf_path ? '<button class="btn primary" type="button" id="bLastPdf">Scarica il referto</button>' : ''}</div><div class="photos" id="ph"></div></div>${visitBody(last, false)}` : '<div class="card"><p class="empty">Non ci sono ancora valutazioni. Compariranno qui dopo la tua prima visita.</p></div>'}
+  ${trendCard(vs)}
+  ${vs.length > 1 ? '<div class="card"><h2>Tutte le visite</h2><div class="vlist" id="vlist"></div></div>' : ''}`;
+  bindDemo();
+  if (last) { fillPhotos($('#ph'), last); const b = $('#bLastPdf'); if (b) b.addEventListener('click', () => openPdf(last)); }
+  const vl = $('#vlist'); if (vl) for (const v of vs) vl.appendChild(visitRow(v, false));
+  if (ss.length) { const c = h('<div class="card"><h2>Le tue sedute</h2><div class="vlist"></div></div>'); app.appendChild(c); drawSessions(c.querySelector('.vlist'), ss, false); }
+}
+
+boot();
+})();
+</script>
+</body>
+</html>

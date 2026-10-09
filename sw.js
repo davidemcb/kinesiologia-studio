@@ -3,7 +3,7 @@ try {
   importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
 } catch (e) {}
 
-var CACHE = 'ks-v50';
+var CACHE = 'ks-v51';
 var ASSETS = [
   './',
   './index.html',
@@ -34,6 +34,7 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
   var url = new URL(e.request.url);
   if (url.origin !== self.location.origin) return; // fonts, Calendly: rete diretta
+  if (url.pathname.indexOf('/chepostura/') !== -1) return; // Che Postura, area riservata: sempre dalla rete, mai dalla cache
 
   if (e.request.mode === 'navigate') {
     // network-first: l'app si aggiorna appena pubblichiamo, offline usa la cache
