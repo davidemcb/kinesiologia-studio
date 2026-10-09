@@ -233,6 +233,14 @@
   .qactions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
   .foot { margin-top: 26px; color: var(--muted); font-size: .84rem; max-width: 80ch; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  .guide { margin-top: 8px; font-size: .9rem; }
+  .guide summary { cursor: pointer; font-weight: 600; }
+  .guide ul { margin: 6px 0; padding-left: 18px; }
+  .closework { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 16px; margin-top: 10px; align-items: start; }
+  @media (max-width: 760px) { .closework { grid-template-columns: 1fr; } }
+  #closeCv { cursor: crosshair; }
+  #closeCard .instr { margin: 0 0 8px; }
+  #closeCard .pts { margin: 0 0 12px; }
 </style>
 
 </head>
@@ -274,12 +282,33 @@
             <label class="btn primary big" for="qFiles">Carica le foto</label>
             <input type="file" id="qFiles" accept="image/*" multiple hidden>
             <p class="hint">Davanti, dietro e i due lati, anche tutte insieme. Il programma riconosce da solo le viste.</p>
+            <details class="guide">
+              <summary>Adesivi sul bacino: dove metterli</summary>
+              <p>Adesivi <b>rotondi, verdi o blu, di 1,5–2 cm</b>: il programma li riconosce da solo perché la pelle non ha questi colori. Evita biancheria verde o blu.</p>
+              <ul>
+                <li><b>SIAS</b>, davanti: mani sui fianchi, scendi in avanti con i pollici fino alla punta ossea in alto sul davanti del bacino. Un adesivo per lato.</li>
+                <li><b>SIPS</b>, dietro: le due fossette sopra i glutei; l'adesivo va sulla sporgenza ossea appena sotto la fossetta.</li>
+                <li>Nelle <b>foto laterali</b> si devono vedere SIAS e SIPS dello stesso lato: braccia incrociate sul petto e biancheria che non le copre. Da qui il programma misura antiversione e retroversione e, confrontando destra e sinistra, la torsione del bacino.</li>
+                <li>Se usi adesivi di un altro colore, nella visita completa tocchi SIAS e SIPS sulla foto laterale e le misure compaiono lo stesso.</li>
+              </ul>
+            </details>
           </div>
         </div>
       </div>
       <p class="msg" id="qStatus" hidden></p>
     </div>
     <div id="qResult"></div>
+    <div class="card" id="closeCard">
+      <h2>Approfondimenti facoltativi</h2>
+      <p class="hint">Foto a bocca aperta per la mandibola e foto dei talloni per l'appoggio del piede. Carica la foto e tocca i punti che il programma ti chiede.</p>
+      <div class="seg" id="segClose"></div>
+      <p class="hint" id="closeHow"></p>
+      <div class="row"><label class="btn primary" for="closeFile">Carica la foto</label><input type="file" id="closeFile" accept="image/*" hidden><button class="btn" type="button" id="closeClear">Azzera i punti</button><button class="btn" type="button" id="closeDel">Togli la foto</button></div>
+      <div class="closework">
+        <div class="canvas-box" id="closeBox"><canvas id="closeCv" aria-label="Foto di approfondimento con i punti"></canvas></div>
+        <div><p class="instr" id="closeInstr"></p><ul class="pts" id="closePts"></ul><div class="meas" id="closeMeas"></div></div>
+      </div>
+    </div>
   </section>
 
   <!-- VALUTAZIONE -->
@@ -398,6 +427,12 @@
           <div class="field"><span class="lbl">Serramento o bruxismo</span><div class="seg" id="segClench"></div></div>
           <p class="hint">Per la mandibola guarda il mento mentre il paziente apre lentamente la bocca davanti a te.</p>
         </div>
+        <div class="card">
+          <h2>Respiro e piedi</h2>
+          <div class="field"><span class="lbl">Respirazione alta o diaframma in tensione</span><div class="seg" id="segBreath"></div></div>
+          <div class="field"><span class="lbl">Appoggio del piede (tallone)</span><div class="seg" id="segFeet"></div></div>
+          <p class="hint">Il respiro non si vede in foto: con testa avanti o spalle anteposte il programma propone comunque i test del diaframma. Il tallone si misura con la foto dei talloni.</p>
+        </div>
         <div class="card" id="extrasCard"></div>
         <div id="findings" class="panel"></div>
         <div class="card">
@@ -470,6 +505,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 <script src="api.js"></script>
+<script src="test-catalogo.js"></script>
 <script>
 (() => {
 'use strict';
@@ -523,7 +559,7 @@ const state = {
   show: { grid: true, plumb: true, lines: true, labels: true },
   next: null, drag: null,
   data: { prima: {}, dopo: {} },
-  consult: { sag: 'antero', incl: 'dx', rot: 'dx', head: 'avanti', tilt: 'none', hrot: 'none', shoulder: 'sx', protr: 'none', jaw: 'none', clench: 'none', marks: {}, tests: {}, exSel: {}, exMore: {}, extras: [], xform: { kind: 'cicatrice', sede: 'Addome: taglio cesareo', lato: 'centrale', anno: '', note: '', aderente: false, dolorosa: false, recente: false, approccio: 'Non so' }, phase: 'cronico', pain: 3, override: 'auto', plantari: false, bite: false, work: new Set(['Pilates', 'Sovraccarico', 'Allungamento', 'Mobilità']) }
+  consult: { sag: 'antero', incl: 'dx', rot: 'dx', head: 'avanti', tilt: 'none', hrot: 'none', shoulder: 'sx', protr: 'none', jaw: 'none', clench: 'none', breath: 'none', feet: 'none', marks: {}, tests: {}, exSel: {}, exMore: {}, extras: [], xform: { kind: 'cicatrice', sede: 'Addome: taglio cesareo', lato: 'centrale', anno: '', note: '', aderente: false, dolorosa: false, recente: false, approccio: 'Non so' }, phase: 'cronico', pain: 3, override: 'auto', plantari: false, bite: false, work: new Set(['Pilates', 'Sovraccarico', 'Allungamento', 'Mobilità']) }
 };
 for (const s of ['prima', 'dopo']) for (const v of VIEW_KEYS) state.data[s][v] = sampleView(s, v);
 const cur = () => state.data[state.session][state.view];
@@ -1052,6 +1088,85 @@ function buildPoints(vk, lm, W, H, height) {
   return { pts, ppc };
 }
 
+// ---------- Adesivi colorati sui punti ossei ----------
+// Trova adesivi rotondi verdi o blu (colori che la pelle non ha) dentro un riquadro della foto.
+function findBlobs(img, W, H, box, ppc) {
+  const x0 = Math.max(0, Math.round(box[0])), y0 = Math.max(0, Math.round(box[1]));
+  const x1 = Math.min(W, Math.round(box[2])), y1 = Math.min(H, Math.round(box[3]));
+  const w = x1 - x0, h = y1 - y0;
+  if (w < 6 || h < 6) return [];
+  const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+  const ctx = cv.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(img, x0, y0, w, h, 0, 0, w, h);
+  const d = ctx.getImageData(0, 0, w, h).data, mask = new Uint8Array(w * h);
+  for (let i = 0, j = 0; i < mask.length; i++, j += 4) {
+    const r = d[j], g = d[j + 1], b = d[j + 2], mx = Math.max(r, g, b), ch = mx - Math.min(r, g, b);
+    if (mx < 60 || ch < 40 || ch < 0.35 * mx) continue;
+    let hue = 60 * (mx === r ? ((g - b) / ch + 6) % 6 : mx === g ? (b - r) / ch + 2 : (r - g) / ch + 4);
+    if (hue >= 80 && hue <= 260) mask[i] = 1;
+  }
+  const exp = Math.PI * Math.pow(0.8 * ppc, 2); // adesivo di circa 1,6 cm
+  const out = [], stack = [];
+  for (let s0 = 0; s0 < mask.length; s0++) {
+    if (mask[s0] !== 1) continue;
+    let n = 0, sx = 0, sy = 0, minx = w, maxx = 0, miny = h, maxy = 0;
+    mask[s0] = 2; stack.push(s0);
+    while (stack.length) {
+      const p = stack.pop(), x = p % w, y = (p - x) / w;
+      n++; sx += x; sy += y;
+      if (x < minx) minx = x; if (x > maxx) maxx = x; if (y < miny) miny = y; if (y > maxy) maxy = y;
+      if (x > 0 && mask[p - 1] === 1) { mask[p - 1] = 2; stack.push(p - 1); }
+      if (x < w - 1 && mask[p + 1] === 1) { mask[p + 1] = 2; stack.push(p + 1); }
+      if (y > 0 && mask[p - w] === 1) { mask[p - w] = 2; stack.push(p - w); }
+      if (y < h - 1 && mask[p + w] === 1) { mask[p + w] = 2; stack.push(p + w); }
+    }
+    const bw = maxx - minx + 1, bh = maxy - miny + 1;
+    if (n < Math.max(8, 0.15 * exp) || n > 6 * exp) continue;
+    if (Math.max(bw, bh) / Math.min(bw, bh) > 2.6 || n / (bw * bh) < 0.35) continue;
+    out.push({ x: x0 + sx / n, y: y0 + sy / n, n });
+  }
+  return out.sort((a, b) => b.n - a.n);
+}
+// Coppia di adesivi con distanza orizzontale e verticale plausibili
+function bestPair(bl, minDx, maxDx, maxDy) {
+  let best = null;
+  for (let i = 0; i < bl.length; i++) for (let j = i + 1; j < bl.length; j++) {
+    const dx = Math.abs(bl[i].x - bl[j].x), dy = Math.abs(bl[i].y - bl[j].y);
+    if (dx < minDx || dx > maxDx || dy > maxDy) continue;
+    const sc = bl[i].n + bl[j].n;
+    if (!best || sc > best.sc) best = { a: bl[i], b: bl[j], sc };
+  }
+  return best;
+}
+// SIAS e SIPS dagli adesivi: laterali (antero/retroversione), frontale (SIAS), posteriore (SIPS)
+function placeStickers(vk, lm, im, pts, ppc) {
+  if (!ppc || ppc <= 0) return '';
+  const P = i => [lm[i].x * im.W, lm[i].y * im.H], cm = v => v * ppc, V = VIEWS[vk];
+  if (V.lateral) {
+    const hip = P(V.facing > 0 ? 24 : 23);
+    const bl = findBlobs(im.img, im.W, im.H, [hip[0] - cm(18), hip[1] - cm(16), hip[0] + cm(18), hip[1] + cm(4)], ppc).slice(0, 6);
+    const best = bestPair(bl, cm(6), cm(24), cm(9));
+    if (!best) return '';
+    const [ant, post] = (best.a.x - best.b.x) * V.facing > 0 ? [best.a, best.b] : [best.b, best.a];
+    pts.sias = [ant.x, ant.y]; pts.sips = [post.x, post.y];
+    return `${V.label}: adesivi su SIAS e SIPS trovati.`;
+  }
+  const ha = P(23), hb = P(24), [hl, hr] = ha[0] < hb[0] ? [ha, hb] : [hb, ha];
+  if (vk === 'frontale') {
+    const pick = q => findBlobs(im.img, im.W, im.H, [q[0] - cm(8), q[1] - cm(14), q[0] + cm(8), q[1] + cm(1)], ppc)[0];
+    const L = pick(hl), R = pick(hr);
+    if (!L || !R || Math.abs(L.x - R.x) < cm(10)) return '';
+    pts.sias_dx = [L.x, L.y]; pts.sias_sx = [R.x, R.y]; // di fronte il lato destro del paziente è a sinistra
+    return 'Frontale: adesivi sulle SIAS trovati.';
+  }
+  const mid = (hl[0] + hr[0]) / 2, y = (hl[1] + hr[1]) / 2;
+  const best = bestPair(findBlobs(im.img, im.W, im.H, [mid - cm(11), y - cm(15), mid + cm(11), y + cm(2)], ppc).slice(0, 5), cm(4), cm(16), cm(5));
+  if (!best) return '';
+  const [l, r] = best.a.x < best.b.x ? [best.a, best.b] : [best.b, best.a];
+  pts.sips_sx = [l.x, l.y]; pts.sips_dx = [r.x, r.y]; // da dietro il lato destro è a destra
+  return 'Posteriore: adesivi sulle SIPS trovati.';
+}
+
 // Lettura automatica delle misure: concordanza tra le viste e soglie prudenti
 function autoFindings(sess) {
   const D = state.data[sess], out = [], set = {};
@@ -1095,6 +1210,28 @@ function autoFindings(sess) {
     }
   }
   const mean = a => a.reduce((x, y) => x + y, 0) / a.length;
+  // bacino sul piano sagittale: adesivi su SIAS e SIPS nelle foto laterali
+  const tiltV = {};
+  for (const vk of ['lat_dx', 'lat_sx']) {
+    const r = row(vk, 'pelvis');
+    if (r) tiltV[vk === 'lat_dx' ? 'dx' : 'sx'] = r.mag;
+  }
+  const tv = Object.values(tiltV);
+  if (tv.length) {
+    const m = mean(tv);
+    if (m > 12) set.sag = 'antero'; else if (m < 5) set.sag = 'retro';
+    out.push({ label: 'Bacino sul piano laterale', num: m, sev: m > 15 || m < 3 ? 'alert' : m > 12 || m < 5 ? 'warn' : 'ok',
+      val: `${fmt(m)}°${m > 12 ? ', anteroversione' : m < 5 ? ', retroversione' : ''}`,
+      desc: (tv.length > 1 ? `Destra ${fmt(tiltV.dx)}°, sinistra ${fmt(tiltV.sx)}°. ` : '') + 'Inclinazione della linea SIPS–SIAS dagli adesivi: normale circa 5–12° (un po\' di più nelle donne).' });
+    if (tv.length === 2) {
+      const dd = tiltV.dx - tiltV.sx, ant = dd > 0 ? 'dx' : 'sx';
+      if (Math.abs(dd) >= 4) {
+        set.rot = other(ant);
+        out.push({ label: 'Torsione del bacino', sev: Math.abs(dd) >= 7 ? 'alert' : 'warn', val: `emipelvi ${ant} più anteriore`,
+          desc: `Il bacino è inclinato ${fmt(Math.abs(dd))}° in più a ${ant}: iliaco ${ant} anteriore, la SIAS ${ant} avanza. Conferma con flessione in piedi, da seduto e Gillet.` });
+      } else out.push({ label: 'Torsione del bacino', sev: 'ok', val: 'non evidente', desc: `Differenza tra destra e sinistra ${fmt(Math.abs(dd))}°, sotto i 4°.` });
+    }
+  }
   if (fwd.length) {
     const v = mean(fwd);
     if (v >= 5) set.head = 'avanti';
@@ -1111,12 +1248,19 @@ function autoFindings(sess) {
   }
   const shift = [row('frontale', 'shift_sh'), row('posteriore', 'shift_sh')].filter(Boolean).find(r => r.sev !== 'ok');
   if (shift) out.push({ label: 'Tronco', sev: shift.sev, val: shift.val, desc: shift.desc });
+  // foto di approfondimento
+  const mouth = closeMetrics('bocca'), heel = closeMetrics('talloni');
+  for (const r of [...mouth, ...heel]) out.push({ label: r.label, num: r.mag == null ? null : r.mag, sev: r.sev, val: r.val, desc: r.desc });
+  const dev = mouth.find(r => r.key === 'dev');
+  if (dev && dev.side) set.jaw = dev.side;
+  const cal = heel.filter(r => r.valgo != null);
+  if (cal.some(r => r.valgo > 6)) set.feet = 'pron'; else if (cal.some(r => r.valgo < -2)) set.feet = 'sup';
   return { out, set };
 }
 
 function applyAutoToConsult(set) {
   const c = state.consult;
-  Object.assign(c, { sag: 'none', incl: 'none', rot: 'none', head: 'none', tilt: 'none', hrot: 'none', shoulder: 'none', protr: 'none', jaw: 'none', clench: 'none', marks: {}, exSel: {} });
+  Object.assign(c, { sag: 'none', incl: 'none', rot: 'none', head: 'none', tilt: 'none', hrot: 'none', shoulder: 'none', protr: 'none', jaw: 'none', clench: 'none', feet: 'none', marks: {}, exSel: {} });
   Object.assign(c, set);
 }
 
@@ -1147,7 +1291,9 @@ async function autoAnalyze(files, forcedView) {
         if (guess !== forcedView) notes.push(`Questa foto sembra ${VIEWS[guess].label.toLowerCase()}, ma l'ho messa in ${VIEWS[forcedView].label.toLowerCase()} come hai scelto.`);
       }
       if (AUTO.views[sess + vk]) notes.push(`Due foto sembrano ${VIEWS[vk].label.toLowerCase()}: tengo l'ultima.`);
-      const { pts } = buildPoints(vk, lm, im.W, im.H, state.height);
+      const { pts, ppc } = buildPoints(vk, lm, im.W, im.H, state.height);
+      const stk = placeStickers(vk, lm, im, pts, ppc);
+      if (stk) notes.push(stk);
       const lowFoot = [27, 28, 29, 30, 31, 32].some(j => lm[j] && lm[j].y > 0.985);
       const eyeTop = Math.min(lm[2].y, lm[5].y);
       if (lowFoot) notes.push(`${VIEWS[vk].label}: i piedi toccano il bordo della foto, lascia più spazio sotto.`);
@@ -1189,7 +1335,7 @@ function renderAuto() {
   }
   rep.appendChild(list);
   const p = document.createElement('p'); p.className = 'hint';
-  p.textContent = 'Il bacino è stimato dal livello delle anche. Antero/retroversione, rotazione del bacino e mandibola non si leggono bene in foto: completali nel consulto dopo i test. Se un punto è sbagliato, trascinalo sulla foto e le misure si aggiornano.';
+  p.textContent = 'Senza adesivi il bacino è stimato dal livello delle anche. Antero/retroversione e torsione si misurano con gli adesivi su SIAS e SIPS nelle foto laterali; mandibola e piedi con le foto di approfondimento della valutazione veloce. Se un punto è sbagliato, trascinalo sulla foto e le misure si aggiornano.';
   rep.appendChild(p);
   const r = document.createElement('div'); r.className = 'row';
   const go = document.createElement('button'); go.type = 'button'; go.className = 'btn primary'; go.textContent = 'Apri il consulto compilato';
@@ -1199,6 +1345,212 @@ function renderAuto() {
   const pdf = document.createElement('button'); pdf.type = 'button'; pdf.className = 'btn'; pdf.textContent = 'Scarica il referto PDF';
   pdf.addEventListener('click', () => exportPdf(pdf));
   r.append(go, re, pdf); rep.appendChild(r);
+}
+
+// ---------- Foto di approfondimento: bocca aperta e talloni ----------
+const CLOSE = {
+  bocca: { label: 'Bocca aperta',
+    pts: [['pup_dx', 'Pupilla dx'], ['pup_sx', 'Pupilla sx'], ['inc_sup', 'Centro degli incisivi superiori'], ['inc_inf', 'Centro degli incisivi inferiori']],
+    how: 'Di fronte, viso dritto, bocca aperta al massimo senza dolore. Fotocamera all\'altezza del viso, a circa 50 cm. Le pupille servono da misura: la loro distanza media è circa 63 mm.' },
+  talloni: { label: 'Talloni da dietro',
+    pts: [['gamba_dx', 'Polpaccio dx: centro, 15 cm sopra il malleolo'], ['achille_dx', 'Achille dx: centro, all\'altezza del malleolo'], ['tallone_dx', 'Tallone dx: centro, vicino a terra'],
+      ['gamba_sx', 'Polpaccio sx: centro, 15 cm sopra il malleolo'], ['achille_sx', 'Achille sx: centro, all\'altezza del malleolo'], ['tallone_sx', 'Tallone sx: centro, vicino a terra']],
+    how: 'Da dietro, piedi alla larghezza del bacino e peso su entrambi. Fotocamera all\'altezza delle caviglie, a circa 60 cm. Aiutano un adesivo sul tendine d\'Achille e uno al centro del tallone.' }
+};
+const CLOSE_KEYS = Object.keys(CLOSE);
+state.close = { bocca: null, talloni: null };
+const CL = { view: 'bocca', next: null, drag: null };
+const hasClose = () => CLOSE_KEYS.some(k => state.close[k] && state.close[k].img);
+
+function closeMetrics(k) {
+  const cd = state.close[k]; if (!cd || !cd.img) return [];
+  const P = cd.pts, rows = [];
+  if (k === 'bocca') {
+    if (!P.pup_dx || !P.pup_sx) return rows;
+    const e = [P.pup_sx[0] - P.pup_dx[0], P.pup_sx[1] - P.pup_dx[1]], ipd = Math.hypot(e[0], e[1]);
+    if (ipd < 5) return rows;
+    const ux = [e[0] / ipd, e[1] / ipd], uy = [-ux[1], ux[0]], mm = 63 / ipd; // ux: dal lato dx al lato sx del paziente
+    const mid = [(P.pup_dx[0] + P.pup_sx[0]) / 2, (P.pup_dx[1] + P.pup_sx[1]) / 2];
+    const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
+    if (P.inc_sup && P.inc_inf) {
+      const d = [P.inc_inf[0] - P.inc_sup[0], P.inc_inf[1] - P.inc_sup[1]];
+      const open = dot(d, uy) * mm, lat = dot(d, ux) * mm, a = Math.abs(lat), side = lat > 0 ? 'sx' : 'dx';
+      rows.push({ key: 'open', label: 'Apertura della bocca', mag: open, val: `circa ${Math.round(open)} mm`,
+        sev: open < 35 ? 'alert' : open < 40 || open > 60 ? 'warn' : 'ok',
+        desc: open < 40 ? 'Sotto i 40 mm: apertura limitata. Conferma con il righello (normale 40–55 mm, circa tre dita).' : open > 60 ? 'Oltre 55–60 mm: possibile ipermobilità dell\'articolazione.' : 'Nella norma (40–55 mm). È una stima dalla distanza tra le pupille: per il valore preciso usa il righello.' });
+      rows.push({ key: 'dev', label: 'Mandibola in apertura', mag: a, side: a >= 2 ? side : null,
+        val: a < 2 ? 'centrata' : `devia a ${side} di circa ${fmt(a)} mm`, sev: a < 2 ? 'ok' : a < 4 ? 'warn' : 'alert',
+        desc: a < 2 ? 'A bocca aperta gli incisivi inferiori restano sotto i superiori.' : `A bocca aperta gli incisivi inferiori sono spostati verso ${side}. Guarda anche il movimento: se il mento torna al centro è una deviazione, se resta di lato una deflessione (dentista).` });
+    }
+    if (P.inc_sup) {
+      const off = dot([P.inc_sup[0] - mid[0], P.inc_sup[1] - mid[1]], ux) * mm;
+      if (Math.abs(off) >= 3) rows.push({ key: 'mid', label: 'Linea degli incisivi superiori', sev: 'warn', val: `${fmt(Math.abs(off))} mm verso ${off > 0 ? 'sx' : 'dx'}`,
+        desc: 'La linea tra gli incisivi superiori non è al centro del viso: può dipendere dai denti o da una testa ruotata.' });
+    }
+    return rows;
+  }
+  const ang = v => Math.atan2(v[0], v[1]) * 180 / Math.PI; // scostamento dalla verticale, positivo verso destra nella foto
+  const val = {};
+  for (const sd of ['dx', 'sx']) {
+    const g = P['gamba_' + sd], a = P['achille_' + sd], t = P['tallone_' + sd];
+    if (!g || !a || !t) continue;
+    const rear = ang([t[0] - a[0], t[1] - a[1]]) - ang([a[0] - g[0], a[1] - g[1]]);
+    const valgo = sd === 'dx' ? rear : -rear; // da dietro il lato esterno del piede dx è a destra nella foto
+    val[sd] = valgo;
+    rows.push({ key: 'calc_' + sd, label: `Tallone ${sd}`, mag: valgo, valgo,
+      val: valgo >= 0 ? `valgo ${fmt(valgo)}°` : `varo ${fmt(-valgo)}°`,
+      sev: valgo > 10 ? 'alert' : valgo > 6 || valgo < -2 ? 'warn' : 'ok',
+      desc: valgo > 6 ? 'Il tallone cade verso l\'interno: piede pronato. Controlla navicular drop e pedana.' : valgo < -2 ? 'Il tallone cade verso l\'esterno: piede supinato. Controlla appoggio e pedana.' : 'Nel range abituale (0–6° di valgo).' });
+  }
+  if (val.dx != null && val.sx != null && Math.abs(val.dx - val.sx) >= 4) {
+    const more = val.dx > val.sx ? 'dx' : 'sx';
+    rows.push({ key: 'calc_diff', label: 'Differenza tra i talloni', sev: 'warn', val: `${fmt(Math.abs(val.dx - val.sx))}°`,
+      desc: `Il piede ${more} è più pronato: l'appoggio è asimmetrico e può salire fino al bacino.` });
+  }
+  return rows;
+}
+
+function drawClose(canvas, k, cssW, opt = {}) {
+  const cd = state.close[k], dpr = window.devicePixelRatio || 1;
+  const ctx = canvas.getContext('2d');
+  if (!cd || !cd.img) {
+    const cssH = Math.round(cssW * 0.55);
+    canvas.style.width = cssW + 'px'; canvas.style.height = cssH + 'px';
+    canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssH * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = '#F1F0EA'; ctx.fillRect(0, 0, cssW, cssH);
+    ctx.fillStyle = '#5C6B64'; ctx.font = '500 15px "Instrument Sans", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(`Carica la foto: ${CLOSE[k].label.toLowerCase()}`, cssW / 2, cssH / 2); ctx.textAlign = 'start';
+    return;
+  }
+  const W = cd.W, H = cd.H, cssH = cssW * H / W, s = cssW / W, kk = 1 / s;
+  canvas.style.width = cssW + 'px'; canvas.style.height = cssH + 'px';
+  canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssH * dpr);
+  ctx.setTransform(dpr * s, 0, 0, dpr * s, 0, 0);
+  ctx.drawImage(cd.img, 0, 0, W, H);
+  const P = cd.pts, rows = Object.fromEntries(closeMetrics(k).map(r => [r.key, r]));
+  ctx.lineWidth = 2 * kk;
+  if (k === 'bocca' && P.pup_dx && P.pup_sx) {
+    const e = [P.pup_sx[0] - P.pup_dx[0], P.pup_sx[1] - P.pup_dx[1]], L = Math.hypot(e[0], e[1]) || 1;
+    const ux = [e[0] / L, e[1] / L], uy = [-ux[1], ux[0]], mid = [(P.pup_dx[0] + P.pup_sx[0]) / 2, (P.pup_dx[1] + P.pup_sx[1]) / 2];
+    ctx.strokeStyle = COL.plumb; ctx.setLineDash([8 * kk, 5 * kk]);
+    line(ctx, P.pup_dx[0] - ux[0] * L * 0.4, P.pup_dx[1] - ux[1] * L * 0.4, P.pup_sx[0] + ux[0] * L * 0.4, P.pup_sx[1] + ux[1] * L * 0.4);
+    line(ctx, mid[0] - uy[0] * L * 0.6, mid[1] - uy[1] * L * 0.6, mid[0] + uy[0] * L * 3, mid[1] + uy[1] * L * 3);
+    ctx.setLineDash([]);
+    if (P.inc_sup && P.inc_inf) {
+      const dv = rows.dev; ctx.strokeStyle = COL[dv ? dv.sev : 'ok']; ctx.lineWidth = 3 * kk;
+      line(ctx, P.inc_sup[0], P.inc_sup[1], P.inc_inf[0], P.inc_inf[1]);
+      if (opt.labels !== false && rows.open) {
+        tag(ctx, Math.max(P.inc_sup[0], P.inc_inf[0]) + 14 * kk, (P.inc_sup[1] + P.inc_inf[1]) / 2 - 11 * kk, rows.open.val, COL[rows.open.sev], kk);
+        tag(ctx, Math.max(P.inc_sup[0], P.inc_inf[0]) + 14 * kk, (P.inc_sup[1] + P.inc_inf[1]) / 2 + 11 * kk, dv.val, COL[dv.sev], kk);
+      }
+    }
+  }
+  if (k === 'talloni') for (const sd of ['dx', 'sx']) {
+    const g = P['gamba_' + sd], a = P['achille_' + sd], t = P['tallone_' + sd];
+    if (!g || !a) continue;
+    const v = [a[0] - g[0], a[1] - g[1]];
+    ctx.strokeStyle = COL.plumb; ctx.lineWidth = 2 * kk;
+    line(ctx, g[0], g[1], a[0], a[1]);
+    ctx.setLineDash([8 * kk, 5 * kk]); line(ctx, a[0], a[1], a[0] + v[0] * 0.7, a[1] + v[1] * 0.7); ctx.setLineDash([]);
+    if (t) {
+      const r = rows['calc_' + sd]; ctx.strokeStyle = COL[r ? r.sev : 'ok']; ctx.lineWidth = 3 * kk;
+      line(ctx, a[0], a[1], t[0], t[1]);
+      if (r && opt.labels !== false) tag(ctx, a[0] + (sd === 'dx' ? 16 : -16) * kk, a[1] - 48 * kk, r.val, COL[r.sev], kk, sd === 'dx' ? 'left' : 'right');
+    }
+  }
+  for (const [id, label] of CLOSE[k].pts) {
+    const p = P[id]; if (!p) continue;
+    const act = opt.active === id;
+    ctx.beginPath(); ctx.arc(p[0], p[1], (act ? 7 : 5) * kk, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.lineWidth = 2.2 * kk; ctx.strokeStyle = COL.brand; ctx.stroke();
+    if (opt.names) {
+      ctx.font = `600 ${11 * kk}px "Instrument Sans", system-ui, sans-serif`; ctx.fillStyle = COL.ink; ctx.textBaseline = 'middle';
+      ctx.fillText(label.split(':')[0], p[0] + 9 * kk, p[1] - 9 * kk);
+    }
+  }
+}
+const closeTarget = () => { const cd = state.close[CL.view]; return cd ? (CL.next || CLOSE[CL.view].pts.map(p => p[0]).find(id => !cd.pts[id]) || null) : null; };
+function closeSize() {
+  const cd = state.close[CL.view], box = $('#closeBox'), maxW = box.clientWidth || 520;
+  return cd ? Math.min(maxW, Math.max(360, window.innerHeight - 180) * cd.W / cd.H) : Math.min(maxW, 520);
+}
+function renderClose() {
+  if (!$('#closeCard')) return;
+  const k = CL.view, cd = state.close[k], def = CLOSE[k];
+  seg($('#segClose'), CLOSE_KEYS.map(x => [x, CLOSE[x].label + (state.close[x] && state.close[x].img ? ' ✓' : '')]), () => CL.view, v => { CL.view = v; CL.next = null; renderClose(); });
+  $('#closeHow').textContent = def.how;
+  const t = closeTarget(), lab = Object.fromEntries(def.pts);
+  $('#closeInstr').innerHTML = !cd ? 'Carica la foto, poi tocca i punti nell\'ordine indicato.' : t ? `Tocca la foto per segnare: <b>${esc(lab[t])}</b>` : 'Tutti i punti segnati. Trascinali per correggere.';
+  const ul = $('#closePts'); ul.innerHTML = '';
+  if (cd) for (const [id, label] of def.pts) {
+    const li = document.createElement('li'), b = document.createElement('button');
+    b.type = 'button'; b.className = (cd.pts[id] ? 'done' : '') + (t === id ? ' next' : '');
+    b.innerHTML = `<span class="dot"></span>${esc(label)}`;
+    b.addEventListener('click', () => { CL.next = id; renderClose(); });
+    li.appendChild(b); ul.appendChild(li);
+  }
+  const m = $('#closeMeas'); m.innerHTML = '';
+  for (const r of closeMetrics(k)) {
+    const d = document.createElement('div'); d.className = 'm ' + r.sev;
+    d.innerHTML = `<span>${esc(r.label)}</span><span class="v">${esc(r.val)}</span><span class="d">${esc(r.desc)}</span>`;
+    m.appendChild(d);
+  }
+  $('#closeClear').hidden = !cd; $('#closeDel').hidden = !cd;
+  drawClose($('#closeCv'), k, closeSize(), { names: true });
+}
+function refreshClose() {
+  AUTO.result = autoFindings('prima');
+  const st = AUTO.result.set, c = state.consult;
+  if (closeMetrics('bocca').some(r => r.key === 'dev')) c.jaw = st.jaw || 'none';
+  if (closeMetrics('talloni').some(r => r.valgo != null)) c.feet = st.feet || 'none';
+  if (state.tab === 'veloce') renderVeloce(); else renderClose();
+}
+async function prefillEyes(cd) {
+  try {
+    const pose = await getPose(), r = pose.detect(cd.img), lm = r.landmarks && r.landmarks[0];
+    if (!lm || (lm[2].visibility || 0) < 0.5 || (lm[5].visibility || 0) < 0.5) return;
+    const a = [lm[5].x * cd.W, lm[5].y * cd.H], b = [lm[2].x * cd.W, lm[2].y * cd.H];
+    const [dx, sx] = a[0] <= b[0] ? [a, b] : [b, a]; // di fronte l'occhio destro del paziente è a sinistra
+    if (Math.hypot(dx[0] - sx[0], dx[1] - sx[1]) > cd.W * 0.08) { cd.pts.pup_dx = dx; cd.pts.pup_sx = sx; }
+  } catch (e) { /* si segnano a mano */ }
+}
+$('#closeFile').addEventListener('change', async e => {
+  const f = e.target.files && e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  const k = CL.view;
+  try {
+    const im = await loadDownscaled(f);
+    const cd = { img: im.img, W: im.W, H: im.H, blob: im.blob, pts: {} };
+    state.close[k] = cd; CL.next = null; renderClose();
+    if (k === 'bocca') await prefillEyes(cd);
+  } catch (err) { $('#closeInstr').textContent = 'Non riesco ad aprire questa foto.'; return; }
+  refreshClose();
+});
+$('#closeClear').addEventListener('click', () => { const cd = state.close[CL.view]; if (cd) { cd.pts = {}; CL.next = null; refreshClose(); } });
+$('#closeDel').addEventListener('click', () => { state.close[CL.view] = null; CL.next = null; refreshClose(); });
+{
+  const ccv = $('#closeCv');
+  const toC = (e, cd) => { const r = ccv.getBoundingClientRect(); return [Math.max(0, Math.min(cd.W, (e.clientX - r.left) / r.width * cd.W)), Math.max(0, Math.min(cd.H, (e.clientY - r.top) / r.height * cd.H))]; };
+  ccv.addEventListener('pointerdown', e => {
+    const cd = state.close[CL.view]; if (!cd) return;
+    const p = toC(e, cd), r = ccv.getBoundingClientRect(), tol = 20 * cd.W / r.width;
+    let best = null, bd = Infinity;
+    for (const [id, q] of Object.entries(cd.pts)) { const d = Math.hypot(q[0] - p[0], q[1] - p[1]); if (d < bd) { bd = d; best = id; } }
+    const t = closeTarget();
+    if (best && bd < tol && best !== CL.next) CL.drag = best;
+    else if (t) { cd.pts[t] = p; CL.next = null; CL.drag = t; }
+    else return;
+    ccv.setPointerCapture(e.pointerId);
+    drawClose(ccv, CL.view, closeSize(), { names: true, active: CL.drag });
+  });
+  ccv.addEventListener('pointermove', e => {
+    const cd = state.close[CL.view]; if (!CL.drag || !cd) return;
+    cd.pts[CL.drag] = toC(e, cd);
+    drawClose(ccv, CL.view, closeSize(), { names: true, active: CL.drag });
+  });
+  const end = () => { if (CL.drag) { CL.drag = null; refreshClose(); } };
+  ccv.addEventListener('pointerup', end); ccv.addEventListener('pointercancel', end);
 }
 
 // ---------- Consulto bacino ----------
@@ -1263,6 +1615,18 @@ function neckFindings() {
     text: 'I denti restano a contatto troppo a lungo, di giorno o di notte. I masticatori lavorano sempre e portano in tensione anche nuca e collo.',
     corti: ['Massetere', 'Temporale', 'Pterigoideo mediale', 'Suboccipitali', 'SCM'],
     lunghi: ['Sopraioidei', 'Flessori profondi del collo'] }]);
+  if (c.breath === 'si') out.push(['breath', { title: 'Respirazione alta, diaframma in tensione',
+    text: 'Il respiro parte dal petto e dalle spalle invece che dal diaframma. Scaleni, SCM e piccolo pettorale lavorano come muscoli respiratori tutto il giorno e tengono testa e spalle in avanti; addominali profondi e pavimento pelvico perdono il loro ritmo con il diaframma.',
+    corti: ['Diaframma', 'Scaleni', 'SCM', 'Piccolo pettorale', 'Intercostali'],
+    lunghi: ['Trasverso dell\'addome', 'Obliquo interno', 'Pavimento pelvico'] }]);
+  if (c.feet === 'pron') out.push(['feet', { title: 'Piede pronato (tallone in valgo)',
+    text: 'Il tallone cade verso l\'interno e l\'arco si abbassa. La tibia ruota all\'interno e il ginocchio tende a entrare: la catena sale fino al bacino. Valuta pedana e plantari.',
+    corti: ['Peronei', 'Gastrocnemio', 'Soleo', 'Estensore lungo delle dita'],
+    lunghi: ['Tibiale posteriore', 'Tibiale anteriore', 'Flessore lungo dell\'alluce', 'Muscoli intrinseci del piede', 'Medio gluteo', 'Pelvitrocanterici'] }]);
+  if (c.feet === 'sup') out.push(['feet', { title: 'Piede supinato (tallone in varo)',
+    text: 'Il tallone cade verso l\'esterno e il carico va sul bordo esterno del piede: il piede ammortizza poco. Valuta pedana e plantari.',
+    corti: ['Tibiale posteriore', 'Gastrocnemio', 'Soleo', 'Flessore lungo dell\'alluce'],
+    lunghi: ['Peronei', 'Muscoli intrinseci del piede'] }]);
   return out;
 }
 function activeFindings() {
@@ -1314,7 +1678,8 @@ function renderConsulto() {
   const LR = [['none', 'No'], ['dx', 'Destra'], ['sx', 'Sinistra']];
   for (const [id, key, items] of [['#segHead', 'head', [['none', 'Allineata'], ['avanti', 'Avanti']]], ['#segTilt', 'tilt', LR], ['#segHrot', 'hrot', LR],
     ['#segShoulder', 'shoulder', [['none', 'In asse'], ['dx', 'Destra'], ['sx', 'Sinistra']]], ['#segProtr', 'protr', [['none', 'No'], ['si', 'Sì']]],
-    ['#segJaw', 'jaw', [['none', 'Centrata'], ['dx', 'Destra'], ['sx', 'Sinistra']]], ['#segClench', 'clench', [['none', 'No'], ['si', 'Sì']]]])
+    ['#segJaw', 'jaw', [['none', 'Centrata'], ['dx', 'Destra'], ['sx', 'Sinistra']]], ['#segClench', 'clench', [['none', 'No'], ['si', 'Sì']]],
+    ['#segBreath', 'breath', [['none', 'No'], ['si', 'Sì']]], ['#segFeet', 'feet', [['none', 'Normale'], ['pron', 'Pronato (valgo)'], ['sup', 'Supinato (varo)']]]])
     seg($(id), items, () => c[key], v => { c[key] = v; renderConsulto(); });
   seg($('#segRot'), [['none', 'Nessuna'], ['dx', 'Destra'], ['sx', 'Sinistra']], () => c.rot, v => { c.rot = v; renderConsulto(); });
 
@@ -1341,84 +1706,8 @@ function renderConsulto() {
 }
 
 // ---------- Test ----------
-const T = (id, name, how) => ({ id, name, how });
-const TESTS = {
-  screening: { title: 'Sicurezza, prima di trattare e manipolare', list: [
-    T('redflag', 'Anamnesi e segnali d\'allarme', 'Dolore notturno non meccanico, calo di peso, febbre, trauma recente, osteoporosi, anticoagulanti, disturbi di vescica o sensibilità a sella. Se presenti: invio al medico e niente manipolazioni.'),
-    T('neuro', 'Screening neurologico L4–S1', 'Riflessi rotuleo e achilleo, forza di dorsiflessione, estensione dell\'alluce e flessione plantare, sensibilità dei dermatomeri. Deficit: approfondire prima di trattare.'),
-    T('slr', 'SLR (Lasègue) e Slump', 'Dolore irradiato sotto il ginocchio tra 30° e 70°, che aumenta con la dorsiflessione o la flessione del capo: componente neurale.') ] },
-  origine: { title: 'Da dove arriva: alto, basso o bacino', list: [
-    T('seduto', 'Creste e SIAS in piedi e da seduto', 'Positivo = l\'asimmetria sparisce da seduto: viene dagli arti inferiori o dai piedi (pedana, plantari). Negativo = resta: è del bacino o della colonna.'),
-    T('dismetria', 'Lunghezza degli arti', 'Metro SIAS–malleolo mediale (reale) e ombelico–malleolo (apparente). Positivo = differenza reale oltre 1 cm: dismetria strutturale.'),
-    T('piede', 'Appoggio del piede', 'Foot Posture Index o navicular drop, destra contro sinistra. Positivo = un piede molto più pronato o supinato: componente ascendente.'),
-    T('rulli', 'Rulli salivari o bite', 'Rivaluta creste, spalle e pedana con i rulli tra le arcate. Positivo = l\'asimmetria cambia: componente discendente, invio al dentista.'),
-    T('fukuda', 'Test di Fukuda', '50 passi sul posto a occhi chiusi. Rotazione oltre 30–45° o spostamento oltre 1 m: controllo posturale asimmetrico, da verificare anche in pedana.') ] },
-  sacro: { title: 'Sacroiliaca', list: [
-    T('flexpiedi', 'Flessione in piedi', 'Pollici sulle SIPS: la SIPS che sale prima o di più indica il lato dell\'iliaco ipomobile.'),
-    T('flexseduto', 'Flessione da seduto', 'Positivo da seduto ma non in piedi: disfunzione più sacrale che iliaca.'),
-    T('gillet', 'Test di Gillet (cicogna)', 'La SIPS del lato che flette l\'anca non scende: ipomobilità sacroiliaca di quel lato.'),
-    T('laslett', 'Cluster di Laslett', 'Distrazione, thigh thrust, compressione, sacral thrust, Gaenslen. Almeno 3 su 5 che riproducono il dolore: la sacroiliaca è la fonte.'),
-    T('faber', 'FABER (Patrick)', 'Dolore inguinale: anca. Dolore posteriore: sacroiliaca. Ginocchio che resta alto: rigidità dell\'anca.') ] },
-  antero: { title: 'Anteroversione', list: [
-    T('thomas', 'Test di Thomas modificato', 'Coscia che si alza dal lettino: ileopsoas corto. Ginocchio che non flette a 80°: retto femorale. Coscia che va in abduzione: TFL.'),
-    T('ely', 'Test di Ely', 'Prono, flessione del ginocchio: se il bacino si alza il retto femorale è corto.'),
-    T('janda_est', 'Estensione d\'anca da prono (Janda)', 'Guarda l\'ordine di attivazione: se partono prima ischiocrurali o lombari del grande gluteo, il gluteo è inibito.'),
-    T('addome', 'Forza addominale', 'Curl-up per il retto, test di Kendall per gli obliqui, ASLR o biofeedback a pressione per il trasverso.') ] },
-  retro: { title: 'Retroversione', list: [
-    T('slrlen', 'Lunghezza degli ischiocrurali', 'SLR passivo o 90/90. Sotto i 70–80° gli ischiocrurali sono corti.'),
-    T('psoasf', 'Forza di ileopsoas e retto femorale', 'Test di Kendall, destra contro sinistra.'),
-    T('lombari', 'Controllo lombare', 'Estensione da quadrupedia o prono, forza e attivazione del multifido.') ] },
-  incl: { title: 'Inclinazione laterale', list: [
-    T('trend', 'Trendelenburg', 'Appoggio su una gamba per 30 s. Se il bacino scende dal lato sollevato, il medio gluteo del lato in appoggio è debole.'),
-    T('mediof', 'Forza del medio gluteo', 'Test di Kendall in decubito laterale, destra contro sinistra.'),
-    T('janda_abd', 'Abduzione d\'anca (Janda)', 'Se l\'anca flette lavora il TFL, se il bacino sale lavora il quadrato dei lombi: compenso del medio gluteo.'),
-    T('ober', 'Test di Ober', 'L\'arto non scende sotto l\'orizzontale: TFL e bandelletta corti.'),
-    T('ql', 'Quadrato dei lombi', 'Inclinazione laterale in piedi, distanza dita–pavimento destra contro sinistra, e palpazione.'),
-    T('addlen', 'Lunghezza degli adduttori', 'Abduzione passiva da supino, destra contro sinistra.') ] },
-  rot: { title: 'Rotazione', list: [
-    T('rire', 'Rotazioni d\'anca da prono', 'Goniometro, intra ed extrarotazione destra e sinistra. Nella rotazione destra: più intrarotazione a destra, più extrarotazione a sinistra.'),
-    T('piri', 'Piriforme', 'Test FAIR e test di lunghezza (flessione, adduzione, intrarotazione).'),
-    T('tronco', 'Rotazione da seduto', 'Se da seduto il bacino si riallinea ma il tronco resta ruotato, la rotazione viene dall\'alto: cerca la catena toracolombare.'),
-    T('rotf', 'Forza dei rotatori d\'anca', 'Rotatori esterni e interni da seduto, destra contro sinistra.') ] }
-};
-Object.assign(TESTS, {
-  screen_cerv: { title: 'Sicurezza cervicale, prima di trattare e manipolare', list: [
-    T('cad', 'Anamnesi vascolare cervicale', 'Vertigini, visione doppia, difficoltà a parlare o deglutire, cadute improvvise, nistagmo, nausea, formicolii al viso, mal di testa improvviso e mai avuto. Se presenti: invio al medico, niente manipolazioni cervicali.'),
-    T('instab', 'Stabilità cervicale alta', 'Sharp-Purser e test del legamento alare, soprattutto dopo traumi o con artrite reumatoide. Positivo: niente manipolazioni, invio al medico.'),
-    T('neuroup', 'Screening neurologico C5–T1', 'Riflessi bicipitale, stiloradiale e tricipitale, forza e sensibilità dell\'arto superiore. Deficit: approfondire prima di trattare.'),
-    T('spurling', 'Spurling e ULTT', 'Dolore irradiato al braccio in estensione, inclinazione e compressione, o nei test di tensione neurale dell\'arto superiore: componente radicolare.') ] },
-  collo: { title: 'Collo', list: [
-    T('ccft', 'Flessione cranio-cervicale (CCFT)', 'Biofeedback a pressione sotto la nuca, da 22 a 30 mmHg a gradini di 2. Se non tiene 10 s per livello o compensa con l\'SCM: flessori profondi deboli.'),
-    T('dnf', 'Resistenza dei flessori profondi', 'Supino, mento retratto, testa sollevata di 2–3 cm. Meno di 20–30 s: resistenza scarsa.'),
-    T('frt', 'Flexion-rotation test (C1–C2)', 'Collo in flessione massima, rotazione passiva. Meno di 32° o differenza oltre 10° tra i lati: C1–C2 ipomobile, spesso legata a mal di testa.'),
-    T('romc', 'Movimenti del collo', 'Rotazione (circa 70–80°) e inclinazione (circa 45°), destra contro sinistra.'),
-    T('janda_fl', 'Flessione del collo da supino (Janda)', 'Se il mento avanza invece di arrotolarsi, lavora l\'SCM al posto dei flessori profondi.'),
-    T('traplen', 'Lunghezza di trapezio superiore ed elevatore', 'Inclinazione e rotazione passive con spalla fissata, destra contro sinistra.') ] },
-  spalle: { title: 'Spalle', list: [
-    T('pmlen', 'Lunghezza del piccolo pettorale', 'Supino: acromion a più di 2,5 cm dal lettino, o più alto dell\'altro lato: piccolo pettorale corto.'),
-    T('gplen', 'Lunghezza del grande pettorale', 'Test di Kendall da supino, braccio in abduzione a 90° e a 135°.'),
-    T('janda_sp', 'Abduzione della spalla (Janda)', 'Se la spalla sale prima dei 60° domina il trapezio superiore.'),
-    T('trapsf', 'Forza di trapezio medio e inferiore', 'Prono, braccio a 90° (medio) e a 145° a Y (inferiore), destra contro sinistra.'),
-    T('dyskin', 'Discinesia scapolare', 'Flessione e abduzione ripetute con pesetti. Scapola alata o a scatti: dentato anteriore e trapezio inferiore da rinforzare.'),
-    T('rotsp', 'Rotazioni della spalla', 'Interna ed esterna a 90° di abduzione. Meno rotazione interna rispetto all\'altro lato: capsula posteriore rigida.') ] },
-  atm: { title: 'Mandibola (ATM)', list: [
-    T('open', 'Apertura della bocca', 'Distanza tra gli incisivi: normale 40–55 mm, circa tre dita. Sotto i 40 mm: apertura limitata.'),
-    T('path', 'Traiettoria di apertura', 'Il mento va di lato e torna al centro: deviazione. Resta di lato: deflessione, di solito un problema del disco da far vedere al dentista.'),
-    T('noise', 'Rumori articolari', 'Click in apertura e in chiusura: il disco si sposta e rientra. Crepitio: usura dell\'articolazione.'),
-    T('palp', 'Palpazione dei masticatori', 'Massetere, temporale, pterigoidei. Dolore che il paziente riconosce come il suo: componente muscolare.'),
-    T('lat', 'Lateralità e protrusione', 'Lateralità normale 8–10 mm per lato: confronta destra e sinistra.'),
-    T('occl', 'Postura con e senza contatto dei denti', 'Rivaluta spalle, bacino e pedana a denti stretti e a bocca socchiusa. Se l\'asimmetria cambia, l\'occlusione pesa sulla postura.') ] }
-});
-Object.assign(TESTS, {
-  cicatrici: { title: 'Cicatrici', list: [
-    T('cic_mob', 'Mobilità della cicatrice', 'Fai scorrere la pelle sopra e intorno alla cicatrice nelle quattro direzioni. Zone che non scorrono: aderenze da trattare.'),
-    T('cic_sens', 'Sensibilità della cicatrice', 'Tocco leggero e pressione. Zone insensibili o troppo sensibili: cicatrice ancora attiva.'),
-    T('cic_mt', 'Test muscolare con contatto sulla cicatrice', 'Testa un muscolo forte, poi ripeti con il paziente che tocca la cicatrice. Se il muscolo cede, la cicatrice interferisce: trattala e ritesta.') ] },
-  protesi: { title: 'Protesi e interventi', list: [
-    T('pro_rom', 'Mobilità attiva dell\'articolazione operata', 'Solo movimenti attivi, entro i gradi consentiti dal chirurgo. Confronta con l\'altro lato.'),
-    T('pro_forza', 'Forza intorno alla protesi', 'Medio gluteo e quadricipite per anca e ginocchio, cuffia dei rotatori per la spalla: dal lato operato di solito sono più deboli.'),
-    T('pro_carico', 'Distribuzione del carico', 'In piedi e in pedana: quanto peso va sul lato operato rispetto all\'altro.') ] }
-});
+// catalogo dei test (a cosa serve, come si fa): test-catalogo.js
+const TESTS = window.CP_TESTS;
 const RESULTS = [['', 'Non fatto'], ['neg', 'Negativo'], ['pos_dx', 'Positivo dx'], ['pos_sx', 'Positivo sx'], ['pos_bi', 'Positivo bilaterale']];
 // ---------- Cicatrici e protesi ----------
 const SEDI_CIC = ['Addome: taglio cesareo', 'Addome: appendice', 'Addome: laparoscopia', 'Addome: altro', 'Torace', 'Colonna', 'Collo / tiroide', 'Viso / mandibola', 'Spalla', 'Gomito / mano', 'Anca', 'Ginocchio', 'Caviglia / piede', 'Altro'];
@@ -1560,6 +1849,8 @@ function activeTestGroups() {
   if (c.head !== 'none' || c.tilt !== 'none' || c.hrot !== 'none') g.push('collo');
   if (c.shoulder !== 'none' || c.protr !== 'none') g.push('spalle');
   if (hasJaw()) g.push('atm');
+  if (c.breath === 'si' || c.head !== 'none' || c.protr !== 'none') g.push('diaframma');
+  if (c.feet !== 'none' || c.plantari) g.push('piedi');
   if (hasScar()) g.push('cicatrici');
   if (hasPro()) g.push('protesi');
   return g;
@@ -1572,7 +1863,7 @@ function renderTests() {
     for (const t of grp.list) {
       const r = c.tests[t.id] || '', row = document.createElement('div');
       row.className = 'test' + (r.startsWith('pos') ? ' pos' : r === 'neg' ? ' neg' : '');
-      row.innerHTML = `<div><b>${t.name}</b><p>${t.how}</p></div>`;
+      row.innerHTML = `<div><b>${esc(t.name)}</b><p><b>A cosa serve:</b> ${esc(t.why)}</p><p><b>Come si fa:</b> ${esc(t.how)}</p></div>`;
       const sel = document.createElement('select'); sel.id = 'test-' + t.id; sel.setAttribute('aria-label', 'Esito ' + t.name);
       for (const [v, l] of RESULTS) { const o = document.createElement('option'); o.value = v; o.textContent = l; o.selected = v === r; sel.appendChild(o); }
       sel.addEventListener('change', () => { c.tests[t.id] = sel.value; row.className = 'test' + (sel.value.startsWith('pos') ? ' pos' : sel.value === 'neg' ? ' neg' : ''); renderPlan(); renderScheda(); });
@@ -1773,7 +2064,17 @@ const EXERCISES = [
   E('irstretch', 'Allungamento dei rotatori interni con bastone', ['Allungamento'], [], ['sottoscapolare', 'grande pettorale'], '2×30 s per lato', 'Supino, gomito a 90° al fianco: con il bastone porta la mano verso l\'esterno.', 'base', true, 'uni'),
   E('masseter', 'Automassaggio di massetere e temporale', ['Mobilità'], [], ['massetere', 'temporale'], '2 min, 2 volte al giorno', 'Bocca socchiusa, cerchi lenti con due dita sotto lo zigomo e sulla tempia.', 'base', true, 'bi'),
   E('jawrest', 'Posizione di riposo della mandibola', ['Respirazione'], [], ['massetere', 'temporale', 'pterigoideo mediale'], 'Più volte al giorno', 'Labbra chiuse, denti separati, lingua appoggiata al palato. Controlla spesso durante la giornata.', 'base', true, 'bi'),
-  E('diaph', 'Respirazione diaframmatica', ['Respirazione'], [], ['scaleni', 'scm', 'trapezio superiore'], '5 min al giorno', 'Una mano sul petto che resta ferma, l\'altra sull\'addome che si gonfia. Espira più a lungo di quanto inspiri.', 'base', true, 'bi'),
+  E('diaph360', 'Respirazione a 360° con le mani sulle costole', ['Respirazione', 'Mobilità'], ['diaframma', 'trasverso dell\'addome'], ['intercostali', 'scaleni'], '5 min, 2 volte al giorno', 'Mani sui lati delle costole basse: inspira dal naso allargando le costole sotto le mani, espira lento dalla bocca lasciandole scendere. Le spalle restano ferme.', 'base', true, 'bi'),
+  E('crocodile', 'Respirazione del coccodrillo', ['Respirazione', 'Mobilità'], ['diaframma'], ['quadrato dei lombi'], '10 respiri lenti', 'Prono, fronte sulle mani: respira gonfiando la parte bassa della schiena e i fianchi contro il pavimento.', 'base', true, 'bi'),
+  E('diafrel', 'Rilascio del diaframma sotto le costole', ['Mobilità'], [], ['diaframma'], '1–2 min', 'Seduto, un po\' piegato in avanti: dita sotto l\'arcata costale, espira lentamente e lascia entrare le dita senza forzare.', 'base', true, 'bi'),
+  E('shortfoot', 'Short foot (piede corto)', ['Propriocezione'], ['muscoli intrinseci del piede', 'tibiale posteriore'], [], '3×10, tieni 5 s', 'Seduto e poi in piedi: avvicina la base dell\'alluce al tallone alzando l\'arco, senza piegare le dita.', 'base', true, 'bi'),
+  E('towel', 'Raccolta dell\'asciugamano con le dita', ['Propriocezione'], ['muscoli intrinseci del piede', 'flessore lungo dell\'alluce'], [], '3×1 min', 'Seduto, tallone fermo: arriccia le dita e tira verso di te un asciugamano steso a terra.', 'base', true, 'bi'),
+  E('heelball', 'Sollevamento sulle punte con pallina tra i talloni', ['Sovraccarico', 'Propriocezione'], ['tibiale posteriore', 'gastrocnemio', 'soleo'], [], '3×12', 'Pallina stretta tra i talloni: sali sulle punte tenendo i talloni dritti, scendi lentamente.', 'base', true, 'bi'),
+  E('tibant', 'Dorsiflessione con elastico', ['Sovraccarico'], ['tibiale anteriore'], [], '3×15 per lato', 'Seduto, elastico sul dorso del piede: porta la punta verso di te e un po\' verso l\'interno.', 'base', true, 'uni'),
+  E('evert', 'Eversione con elastico', ['Sovraccarico'], ['peronei'], [], '3×15 per lato', 'Seduto, elastico intorno all\'avampiede: porta la pianta verso l\'esterno contro l\'elastico, tallone fermo.', 'base', true, 'uni'),
+  E('calfwall', 'Allungamento del polpaccio al muro', ['Allungamento'], [], ['gastrocnemio', 'soleo'], '2×30 s per lato, a ginocchio teso e piegato', 'Mani al muro, gamba dietro con il tallone a terra e il piede dritto: prima a ginocchio teso (gastrocnemio), poi piegato (soleo).', 'base', true, 'uni'),
+  E('peronstretch', 'Allungamento dei peronei', ['Allungamento'], [], ['peronei', 'estensore lungo delle dita'], '2×30 s per lato', 'Seduto, gamba accavallata: con la mano porta la pianta del piede verso l\'interno e verso di te.', 'base', true, 'uni'),
+  E('diaph', 'Respirazione diaframmatica', ['Respirazione', 'Mobilità'], [], ['scaleni', 'scm', 'trapezio superiore'], '5 min al giorno', 'Una mano sul petto che resta ferma, l\'altra sull\'addome che si gonfia. Espira più a lungo di quanto inspiri.', 'base', true, 'bi'),
   E('breath', 'Respirazione 90/90 con palloncino', ['Respirazione'], ['obliquo interno', AB], ['multifido lombare', 'quadrato dei lombi', 'ileopsoas'], '4×5 respiri', 'Supino con i piedi al muro a 90°: espira a lungo nel palloncino e senti le costole scendere.', 'base', true, 'bi')
 ];
 function collectTargets() {
@@ -2301,9 +2602,24 @@ function buildPdf(quick) {
       y += hImg + 8;
     }
   }
+  const cks = CLOSE_KEYS.filter(k => state.close[k] && state.close[k].img);
+  if (cks.length) {
+    if (!views.length) h2('Foto analizzate');
+    const colW = (CW - 6) / 2;
+    const pair = cks.map(k => { const cd = state.close[k], cv = document.createElement('canvas'); drawClose(cv, k, 620, { labels: true }); return { k, url: cv.toDataURL('image/jpeg', 0.82), ratio: cd.H / cd.W }; });
+    const hImg = Math.min(quick ? 70 : 95, Math.max(...pair.map(q => colW * q.ratio)));
+    ensure(hImg + 8);
+    pair.forEach((q, j) => {
+      const w = Math.min(colW, hImg / q.ratio), x = M + j * (colW + 6) + (colW - w) / 2;
+      doc.addImage(q.url, 'JPEG', x, y, w, w * q.ratio);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...MUTED);
+      doc.text(CLOSE[q.k].label, M + j * (colW + 6), y + hImg + 4);
+    });
+    y += hImg + 8;
+  }
 
   // misure
-  if (views.length) {
+  if (views.length || cks.length) {
     h2('Parametri posturali');
     if (AUTO.result && AUTO.result.out.length) {
       h3('Lettura automatica');
@@ -2443,12 +2759,13 @@ async function saveToRecord(btn, msgEl) {
   const say = t => { if (msgEl) { msgEl.hidden = false; msgEl.textContent = t; } };
   const sess = 'prima';
   const views = VIEW_KEYS.filter(vk => state.data[sess][vk].img);
-  if (!views.length) { say('Carica prima le foto.'); return; }
+  if (!views.length && !hasClose()) { say('Carica prima le foto.'); return; }
   btn.disabled = true; say('Salvataggio in corso…');
   try {
     const c = state.consult, date = $('#cdate').value || new Date().toISOString().slice(0, 10);
     const files = {};
     for (const vk of views) { const cv = document.createElement('canvas'); drawView(cv, state.data[sess][vk], vk, 900, { labels: true }); files[vk] = await canvasBlob(cv); }
+    for (const k of CLOSE_KEYS) if (state.close[k] && state.close[k].img) { const cv = document.createElement('canvas'); drawClose(cv, k, 900, { labels: true }); files[k] = await canvasBlob(cv); }
     const exs = computeExercises();
     const exercises = [...exs.rinforzo, ...exs.allungamento].filter(i => i.on).map(it => ({
       group: exs.rinforzo.includes(it) ? 'rinforzo' : 'allungamento', name: it.ex.name, dose: it.ex.dose,
@@ -2500,9 +2817,10 @@ $('#qFiles').addEventListener('change', e => {
 });
 
 function renderVeloce() {
+  renderClose();
   const box = $('#qResult'); box.innerHTML = '';
   const found = VIEW_KEYS.filter(vk => state.data.prima[vk].img && state.data.prima[vk].auto);
-  if (!found.length) {
+  if (!found.length && !hasClose()) {
     box.innerHTML = '<div class="card"><h2>Risultato</h2><p class="empty">Qui compaiono le foto con le linee, cosa abbiamo trovato, le parti in disfunzione, gli esercizi per iniziare e il pulsante per il PDF.</p></div>';
     return;
   }
@@ -2537,6 +2855,15 @@ function renderVeloce() {
     cv.style.width = '100%'; cv.style.height = 'auto';
     fig.appendChild(cv);
     const cap = document.createElement('figcaption'); cap.textContent = VIEWS[vk].label; fig.appendChild(cap);
+    ph.appendChild(fig);
+  }
+  for (const k of CLOSE_KEYS) {
+    if (!state.close[k] || !state.close[k].img) continue;
+    const fig = document.createElement('figure'), cv = document.createElement('canvas');
+    drawClose(cv, k, colW, { labels: false });
+    cv.style.width = '100%'; cv.style.height = 'auto';
+    fig.appendChild(cv);
+    const cap = document.createElement('figcaption'); cap.textContent = CLOSE[k].label; fig.appendChild(cap);
     ph.appendChild(fig);
   }
   // cosa abbiamo trovato
@@ -2574,7 +2901,7 @@ function renderVeloce() {
   }
   card.appendChild(ex);
   const tail = document.createElement('p'); tail.className = 'hint';
-  tail.textContent = 'Dalle foto non si vedono antero/retroversione e rotazione del bacino, mandibola, cicatrici e protesi: si completano nella visita completa, che parte già da questi dati.';
+  tail.textContent = 'Sono misure e indizi, non diagnosi: si confermano con i test della visita completa, che parte già da questi dati. Antero/retroversione e torsione del bacino servono gli adesivi su SIAS e SIPS; per mandibola e piedi le foto di approfondimento qui sotto.';
   card.appendChild(tail);
 }
 

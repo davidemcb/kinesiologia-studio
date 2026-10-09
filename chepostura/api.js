@@ -269,7 +269,7 @@
       sessions: [
         { id: 's1', patient_id: 'p1', date: '2026-06-10', kind: 'trattamento', author_name: 'Davide Scuderi', visible_to_patient: false, exercises: [], created_at: '2026-06-10T10:00:00Z',
           zones: [{ zone: 'Lombare', side: 'dx', tech: ['Miofasciale', 'Decontratturante'] }, { zone: 'Bacino e sacro-iliache', side: 'dx', tech: ['Manipolazioni'] }, { zone: 'Coscia (adduttori)', side: 'dx', tech: ['Stretching'] }],
-          tests: [{ name: 'Lasègue', side: 'dx', result: 'Negativo', note: '' }, { name: 'FABER (Patrick)', side: 'dx', result: 'Positivo', note: 'dolore sacro-iliaco' }],
+          tests: [{ name: 'SLR (Lasègue) e Slump', side: 'dx', result: 'Negativo', note: '' }, { name: 'FABER (Patrick)', side: 'dx', result: 'Positivo', note: 'dolore sacro-iliaco' }],
           text: 'Dolore lombare da 5 a 3 su 10 a fine seduta.' },
         { id: 's2', patient_id: 'p1', date: '2026-06-17', kind: 'allenamento', author_name: 'Morena Anastasi', visible_to_patient: true, created_at: '2026-06-17T18:00:00Z',
           zones: [{ zone: 'Glutei', side: 'bilaterale', tech: ['Rinforzo'] }, { zone: 'Dorsale', side: '', tech: ['Pilates mat work', 'Mobilità'] }], tests: [],

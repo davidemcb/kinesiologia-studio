@@ -136,7 +136,8 @@
   .zrow { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto; }
   .zrow .chips { grid-column: 1 / -1; }
   .trow { grid-template-columns: minmax(0, 2fr) minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1.4fr) auto; }
-  .exrow .other, .trow .other { grid-column: 1 / -1; }
+  .exrow .other, .trow .other, .trow .tinfo { grid-column: 1 / -1; }
+  .tinfo { margin: 0; font-size: .86rem; color: var(--muted); line-height: 1.45; }
   @media (max-width: 700px) { .trow { grid-template-columns: 1fr 1fr; } }
   .zrow select, .trow select, .exrow select, .trow input { padding: 7px 9px; min-width: 0; }
   .tog { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px; font-size: .86rem; cursor: pointer; }
@@ -161,6 +162,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 <script src="api.js"></script>
+<script src="test-catalogo.js"></script>
 <script>
 (() => {
 'use strict';
@@ -170,7 +172,7 @@ const esc = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&am
 const itDate = iso => (iso ? new Date(String(iso).slice(0, 10) + 'T12:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short', year: 'numeric' }) : '—');
 const today = () => new Date().toISOString().slice(0, 10);
 const addDaysIso = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
-const VIEW_LABEL = { frontale: 'Frontale', posteriore: 'Posteriore', lat_dx: 'Laterale dx', lat_sx: 'Laterale sx' };
+const VIEW_LABEL = { frontale: 'Frontale', posteriore: 'Posteriore', lat_dx: 'Laterale dx', lat_sx: 'Laterale sx', bocca: 'Bocca aperta', talloni: 'Talloni' };
 const TREND = ['Spalle', 'Bacino (livello delle anche)', 'Testa sul piano laterale', 'Spalle sul piano laterale'];
 let S = null;          // sessione
 let flash = null;      // messaggio da mostrare una volta
@@ -450,12 +452,9 @@ const EXLIB = {
   'Pilates propedeutici': ['Respirazione laterale', 'Imprinting del bacino', 'Pelvic curl', 'Chest lift', 'Toe taps', 'Dead bug', 'Bird dog', 'Cat-cow', 'Book opening', 'Clamshell', 'Side lying leg lift', 'Spine stretch da seduto', 'Plank', 'Side plank', 'Roll down in piedi'],
   'Mobilità e allungamento': ['Chin tuck', 'Mobilità cervicale', 'Allungamento trapezio superiore', 'Allungamento pettorali', 'Allungamento ileopsoas', 'Allungamento ischiocrurali', 'Allungamento piriforme', 'Allungamento quadrato dei lombi', 'Allungamento polpacci', 'Thread the needle', 'Child pose']
 };
-const TESTS = {
-  'Colonna e bacino': ['Lasègue', 'Slump test', 'FABER (Patrick)', 'Gaenslen', 'Thomas', 'Ober', 'Trendelenburg', 'Adams (flessione avanti)', 'Schober', 'Test di flessione in piedi', 'Test di flessione da seduto', 'Gillet'],
-  'Collo e spalla': ['Spurling', 'Distrazione cervicale', 'Flessione-rotazione cervicale', 'Neer', 'Hawkins-Kennedy', 'Jobe', 'Apley scratch', 'Speed'],
-  'ATM e postura': ['Apertura bocca (cm)', 'Deviazione in apertura', 'Romberg', 'Fukuda (stepping test)', 'Convergenza oculare', 'Test dei rotatori'],
-  'Mobilità e forza': ['Sit and reach', 'Ischiocrurali 90-90', 'Test muscolare manuale', 'Squat monopodalico', 'Plank (secondi)', 'Equilibrio monopodalico (secondi)']
-};
+// test dal catalogo condiviso con il programma di analisi (test-catalogo.js)
+const TESTS = Object.fromEntries(Object.values(window.CP_TESTS || {}).map(g => [g.title, g.list.map(t => t.name)]));
+const TEST_INFO = Object.fromEntries(Object.values(window.CP_TESTS || {}).flatMap(g => g.list.map(t => [t.name, t])));
 const RESULTS = ['', 'Negativo', 'Positivo', 'Migliorato', 'Invariato', 'Peggiorato'];
 const opts = (list, sel) => list.map(x => `<option${x === sel ? ' selected' : ''}>${esc(x)}</option>`).join('');
 const groups = (obj, sel, extra) => (extra || '') + Object.entries(obj).map(([g, l]) => `<optgroup label="${esc(g)}">${opts(l, sel)}</optgroup>`).join('');
@@ -557,9 +556,13 @@ function sessionForm(box, p, lastVisit) {
     $('#sEx').appendChild(r); sel.focus();
   };
   const addTest = () => {
-    const r = h(`<div class="trow"><select aria-label="Test"><option value="">Scegli il test…</option>${groups(TESTS)}<option value="*">Altro (scrivi)…</option></select><select aria-label="Lato">${Object.entries(SIDES).map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><select aria-label="Esito">${RESULTS.map(x => `<option value="${x}">${x || 'Esito…'}</option>`).join('')}</select><input type="text" placeholder="Valore o note" aria-label="Valore o note"><button class="btn" type="button" aria-label="Togli">×</button><input type="text" class="other" placeholder="Nome del test" aria-label="Nome del test" hidden></div>`);
-    const sel = r.querySelector('select'), other = r.querySelector('.other');
-    sel.addEventListener('change', () => { other.hidden = sel.value !== '*'; if (!other.hidden) other.focus(); });
+    const r = h(`<div class="trow"><select aria-label="Test"><option value="">Scegli il test…</option>${groups(TESTS)}<option value="*">Altro (scrivi)…</option></select><select aria-label="Lato">${Object.entries(SIDES).map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select><select aria-label="Esito">${RESULTS.map(x => `<option value="${x}">${x || 'Esito…'}</option>`).join('')}</select><input type="text" placeholder="Valore o note" aria-label="Valore o note"><button class="btn" type="button" aria-label="Togli">×</button><input type="text" class="other" placeholder="Nome del test" aria-label="Nome del test" hidden><p class="tinfo" hidden></p></div>`);
+    const sel = r.querySelector('select'), other = r.querySelector('.other'), info = r.querySelector('.tinfo');
+    sel.addEventListener('change', () => {
+      other.hidden = sel.value !== '*'; if (!other.hidden) other.focus();
+      const ti = TEST_INFO[sel.value];
+      info.hidden = !ti; info.innerHTML = ti ? `<b>A cosa serve:</b> ${esc(ti.why)}<br><b>Come si fa:</b> ${esc(ti.how)}` : '';
+    });
     r.querySelector('button').addEventListener('click', () => r.remove());
     $('#sT').appendChild(r); sel.focus();
   };
