@@ -121,8 +121,16 @@
         urlCache[path] = { url: data.signedUrl, exp: Date.now() + 3000 * 1000 };
         return data.signedUrl;
       },
+      async listSessions(pid) {
+        return check(await sb.from('sessions').select('*').eq('patient_id', pid).order('date', { ascending: false }).order('created_at', { ascending: false }));
+      },
+      async addSession(pid, e) {
+        const s = await this.session();
+        check(await sb.from('sessions').insert({ ...e, patient_id: pid, author_id: s ? s.user.id : null, author_name: s ? s.name : null }));
+      },
+      async deleteSession(id) { check(await sb.from('sessions').delete().eq('id', id)); },
       async backup() {
-        return { esportato: new Date().toISOString(), pazienti: check(await sb.from('patients').select(PCOLS)), visite: check(await sb.from('visits').select('*')) };
+        return { esportato: new Date().toISOString(), pazienti: check(await sb.from('patients').select(PCOLS)), visite: check(await sb.from('visits').select('*')), sedute: check(await sb.from('sessions').select('*')) };
       }
     };
   }
@@ -223,7 +231,17 @@
         const b = await idb.get(path);
         return b ? (urls[path] = URL.createObjectURL(b)) : null;
       },
-      async backup() { const d = load(); return { esportato: new Date().toISOString(), pazienti: d.patients, visite: d.visits }; },
+      async listSessions(pid) {
+        const d = load(), s = d.session;
+        return (d.sessions || []).filter(x => x.patient_id === pid && (!s || s.role === 'admin' || x.visible_to_patient))
+          .sort((a, b) => (a.date === b.date ? (a.created_at < b.created_at ? 1 : -1) : a.date < b.date ? 1 : -1));
+      },
+      async addSession(pid, e) {
+        const d = load(); d.sessions = d.sessions || [];
+        d.sessions.push({ ...e, id: uid(), patient_id: pid, author_name: d.session ? d.session.name : '', created_at: new Date().toISOString() }); save();
+      },
+      async deleteSession(id) { const d = load(); d.sessions = (d.sessions || []).filter(x => x.id !== id); save(); },
+      async backup() { const d = load(); return { esportato: new Date().toISOString(), pazienti: d.patients, visite: d.visits, sedute: d.sessions || [] }; },
       async resetDemo() { mem.data = seed(); save(); await mergeExtra(); }
     };
   }
@@ -247,6 +265,16 @@
     const A = (label, val, desc, sev, num) => ({ label, val, desc, sev, num });
     return {
       session: null,
+      sessions: [
+        { id: 's1', patient_id: 'p1', date: '2026-06-10', kind: 'trattamento', author_name: 'Davide Scuderi', visible_to_patient: false, exercises: [], created_at: '2026-06-10T10:00:00Z',
+          text: 'Trattamento quadrato dei lombi dx e adduttori dx, riattivazione medio gluteo dx. Manipolazione sacroiliaca dx. Dolore lombare da 5 a 3 su 10 a fine seduta.' },
+        { id: 's2', patient_id: 'p1', date: '2026-06-17', kind: 'allenamento', author_name: 'Morena Anastasi', visible_to_patient: true, created_at: '2026-06-17T18:00:00Z',
+          text: 'Prima seduta di rinforzo, buona esecuzione. Da curare la posizione del bacino nel clamshell.',
+          exercises: [{ name: 'Clamshell con elastico', dose: '3×15 per lato', load: 'elastico leggero', note: 'una serie in più a dx' }, { name: 'Y, T, W da prono', dose: '2×8', load: 'corpo libero', note: '' }, { name: 'Mermaid', dose: '2×6 per lato', load: '', note: '' }] },
+        { id: 's3', patient_id: 'p1', date: '2026-07-01', kind: 'allenamento', author_name: 'Morena Anastasi', visible_to_patient: true, created_at: '2026-07-01T18:00:00Z',
+          text: 'Aumentato il carico, nessun fastidio lombare.',
+          exercises: [{ name: 'Clamshell con elastico', dose: '3×15 per lato', load: 'elastico medio', note: '' }, { name: 'Ponte su una gamba', dose: '3×8 per lato', load: 'corpo libero', note: 'nuovo' }] }
+      ],
       patients: [
         { id: 'p1', full_name: 'Maria Rossi', birth: '1988-04-12', phone: '333 000 0001', email: 'maria.rossi@esempio.it', consent_date: '2026-06-03', notes: 'Impiegata, molte ore al computer. Lombalgia saltuaria.', user_id: 'demo-maria', demo_code: null, code_created_at: null },
         { id: 'p2', full_name: 'Luca Bianchi', birth: '1975-11-02', phone: '333 000 0002', email: '', consent_date: '2026-09-20', notes: '', user_id: null, demo_code: 'K7MP-Q4XZ', code_created_at: '2026-09-20T10:00:00Z' },

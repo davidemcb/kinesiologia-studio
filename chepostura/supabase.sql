@@ -82,6 +82,28 @@ drop policy if exists "visite: le proprie" on public.visits;
 create policy "visite: le proprie" on public.visits for select
   using (patient_id = public.my_patient_id());
 
+-- Diario delle sedute: trattamenti (Davide) e allenamenti (Morena)
+create table if not exists public.sessions (
+  id uuid primary key default gen_random_uuid(),
+  patient_id uuid not null references public.patients (id) on delete cascade,
+  date date not null default current_date,
+  kind text not null check (kind in ('trattamento', 'allenamento', 'altro')),
+  text text,
+  exercises jsonb not null default '[]',
+  visible_to_patient boolean not null default false,
+  author_id uuid references auth.users (id) on delete set null,
+  author_name text,
+  created_at timestamptz not null default now()
+);
+create index if not exists sessions_patient_date on public.sessions (patient_id, date desc);
+alter table public.sessions enable row level security;
+drop policy if exists "sedute: amministratori" on public.sessions;
+create policy "sedute: amministratori" on public.sessions for all
+  using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "sedute: quelle condivise" on public.sessions;
+create policy "sedute: quelle condivise" on public.sessions for select
+  using (visible_to_patient and patient_id = public.my_patient_id());
+
 -- Il codice di accesso (cifrato) non si legge da nessuna pagina: si puo' solo scrivere
 revoke select on public.patients from anon, authenticated;
 grant select (id, full_name, birth, phone, email, consent_date, notes, user_id, code_created_at, created_at, updated_at)

@@ -119,6 +119,20 @@
   .zoom img { max-width: 100%; max-height: 100%; border-radius: 8px; }
   .empty { color: var(--muted); margin: 0; }
   .hello { font-family: var(--font-display); font-size: 1.8rem; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); flex-wrap: wrap; }
+  .seg button { border: 0; background: transparent; padding: 7px 12px; cursor: pointer; font-weight: 600; font-size: .9rem; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); }
+  .srow { padding: 12px; border-radius: 12px; background: var(--surface-2); display: grid; gap: 6px; border-left: 4px solid var(--line); }
+  .srow.trattamento { border-left-color: var(--brand); } .srow.allenamento { border-left-color: var(--accent); }
+  .srow .top { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .srow p { margin: 0; font-size: .92rem; white-space: pre-wrap; }
+  .srow table { font-size: .86rem; } .srow td, .srow th { padding: 5px 8px; white-space: normal; }
+  .exrows { display: grid; gap: 6px; }
+  .exrow { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr) auto; gap: 6px; }
+  @media (max-width: 700px) { .exrow { grid-template-columns: 1fr 1fr; } }
+  .exrow input { padding: 7px 9px; }
+  .chipbtn { border: 1px dashed var(--brand); background: var(--brand-soft); color: var(--ink); border-radius: 99px; padding: 3px 10px; font-size: .82rem; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -330,7 +344,7 @@ function showCode(card, p, code) {
 
 /* ---------------- studio: scheda paziente ---------------- */
 async function renderPatient(id) {
-  const [p, vs] = await Promise.all([Api.getPatient(id), Api.listVisits(id)]);
+  const [p, vs, ss] = await Promise.all([Api.getPatient(id), Api.listVisits(id), Api.listSessions(id)]);
   app.innerHTML = `${demoBanner()}${msgEl()}
   <button class="btn back" type="button" onclick="location.hash=''">← Tutti i pazienti</button>
   <div class="card">
@@ -345,11 +359,15 @@ async function renderPatient(id) {
   </div>
   ${trendCard(vs)}
   <div class="card"><h2>Visite</h2><div class="vlist" id="vlist"></div></div>
+  <div class="card"><div class="phero"><div><h2>Diario delle sedute</h2><p class="hint">Trattamenti e allenamenti, con autore e data. Le voci con "visibile al paziente" compaiono anche nella sua area.</p></div><button class="btn primary" type="button" id="bSess">Nuova seduta</button></div>
+    <div id="sessForm" hidden></div><div class="vlist" id="slist"></div></div>
   <div class="card"><h2>Note dello studio</h2><p class="hint">Visibili solo a Davide e Morena.</p><textarea id="pNotes">${esc(p.notes || '')}</textarea><div class="row"><button class="btn" type="button" id="bNotes">Salva note</button><span class="hint" id="nOk"></span></div></div>`;
   bindDemo();
   const vl = $('#vlist');
   if (!vs.length) vl.innerHTML = '<p class="empty">Nessuna visita. Premi "Nuova visita": carichi le foto, l\'analisi parte da sola e si salva qui.</p>';
   for (const v of vs) vl.appendChild(visitRow(v, true));
+  drawSessions($('#slist'), ss, true);
+  $('#bSess').addEventListener('click', () => sessionForm($('#sessForm'), p, vs[0]));
   const extra = $('#pExtra');
   $('#bCode').addEventListener('click', async () => { const code = await Api.newAccessCode(p.id); showCode(extra, p, code); extra.className = 'card'; });
   $('#bEdit').addEventListener('click', () => {
@@ -406,6 +424,65 @@ function trendCard(vs) {
   return `<div class="card"><h2>Come sta cambiando</h2><div class="tablewrap"><table><thead><tr><th>Misura</th>${asc.map(v => `<th>${itDate(v.date)}</th>`).join('')}<th>Dal primo all'ultimo</th></tr></thead><tbody>${body}</tbody></table></div><p class="hint">Verde: l'asimmetria si è ridotta.</p></div>`;
 }
 
+/* ---------------- diario delle sedute ---------------- */
+const KIND = { trattamento: 'Trattamento', allenamento: 'Allenamento', altro: 'Altro' };
+function drawSessions(box, ss, admin) {
+  box.innerHTML = '';
+  if (!ss.length) { box.innerHTML = '<p class="empty">Nessuna seduta annotata.</p>'; return; }
+  for (const s of ss) {
+    const ex = (s.exercises || []).filter(e => e.name);
+    const row = h(`<div class="srow ${esc(s.kind)}"><div class="top"><b class="date">${itDate(s.date)}</b><span class="pill">${esc(KIND[s.kind] || s.kind)}</span>${s.author_name ? `<span class="hint">${esc(s.author_name)}</span>` : ''}${admin ? (s.visible_to_patient ? '<span class="pill ok">Visibile al paziente</span>' : '<span class="pill">Solo studio</span>') : ''}</div>
+      ${s.text ? `<p>${esc(s.text)}</p>` : ''}
+      ${ex.length ? `<div class="tablewrap"><table><thead><tr><th>Esercizio</th><th>Serie e ripetizioni</th><th>Carico</th><th>Note</th></tr></thead><tbody>${ex.map(e => `<tr><td>${esc(e.name)}</td><td>${esc(e.dose || '')}</td><td>${esc(e.load || '')}</td><td>${esc(e.note || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
+      ${admin ? '<div class="row"><button class="btn danger" type="button">Elimina</button></div>' : ''}</div>`);
+    const del = row.querySelector('.btn.danger');
+    if (del) del.addEventListener('click', () => {
+      const c = h(`<div class="confirm"><span>Eliminare questa seduta?</span><div class="row"><button class="btn danger" type="button">Elimina</button><button class="btn" type="button">Annulla</button></div></div>`);
+      const [y, n] = c.querySelectorAll('button');
+      y.addEventListener('click', async () => { await Api.deleteSession(s.id); say('Seduta eliminata.'); route(); });
+      n.addEventListener('click', () => c.remove());
+      row.appendChild(c);
+    });
+    box.appendChild(row);
+  }
+}
+function sessionForm(box, p, lastVisit) {
+  const st = { kind: (S.name || '').startsWith('Morena') ? 'allenamento' : 'trattamento' };
+  box.hidden = false; box.className = 'card';
+  box.innerHTML = `<h3>Nuova seduta</h3>
+    <div class="row"><div class="field"><label class="lbl" for="sDate">Data</label><input id="sDate" type="date" value="${today()}"></div>
+    <div class="field"><span class="lbl">Tipo</span><div class="seg" id="sKind"></div></div></div>
+    <div class="field"><label class="lbl" for="sText">Cosa è stato fatto</label><textarea id="sText" placeholder="Es. trattamento muscoli, manipolazioni, come ha risposto, dolore prima e dopo"></textarea></div>
+    <div class="field"><span class="lbl">Esercizi svolti</span><div class="exrows" id="sEx"></div>
+      <div class="row"><button class="btn" type="button" id="sAdd">+ Aggiungi esercizio</button>${lastVisit && (lastVisit.exercises || []).length ? '<span class="hint">Dalla scheda esercizi:</span>' : ''}<span class="chips" id="sFromPlan"></span></div></div>
+    <label class="row hint"><input type="checkbox" id="sVis"> Visibile al paziente nella sua area</label>
+    <div class="row"><button class="btn primary" type="button" id="sSave">Salva seduta</button><button class="btn" type="button" id="sCancel">Annulla</button></div>`;
+  const kindSeg = () => {
+    const k = $('#sKind'); k.innerHTML = '';
+    for (const [v, l] of Object.entries(KIND)) { const b = document.createElement('button'); b.type = 'button'; b.textContent = l; b.setAttribute('aria-pressed', String(st.kind === v)); b.addEventListener('click', () => { st.kind = v; kindSeg(); $('#sVis').checked = v === 'allenamento'; }); k.appendChild(b); }
+  };
+  kindSeg(); $('#sVis').checked = st.kind === 'allenamento';
+  const addRow = (e = {}) => {
+    const r = h(`<div class="exrow"><input type="text" placeholder="Esercizio" value="${esc(e.name || '')}" aria-label="Esercizio"><input type="text" placeholder="Serie × rip." value="${esc(e.dose || '')}" aria-label="Serie e ripetizioni"><input type="text" placeholder="Carico" value="${esc(e.load || '')}" aria-label="Carico"><input type="text" placeholder="Note" value="${esc(e.note || '')}" aria-label="Note"><button class="btn" type="button" aria-label="Togli">×</button></div>`);
+    r.querySelector('button').addEventListener('click', () => r.remove());
+    $('#sEx').appendChild(r);
+  };
+  $('#sAdd').addEventListener('click', () => addRow());
+  for (const e of (lastVisit && lastVisit.exercises) || []) {
+    const b = h(`<button class="chipbtn" type="button">+ ${esc(e.name)}</button>`);
+    b.addEventListener('click', () => addRow({ name: e.name, dose: e.dose }));
+    $('#sFromPlan').appendChild(b);
+  }
+  $('#sCancel').addEventListener('click', () => { box.hidden = true; box.innerHTML = ''; });
+  $('#sSave').addEventListener('click', async () => {
+    const exercises = [...box.querySelectorAll('.exrow')].map(r => { const i = r.querySelectorAll('input'); return { name: i[0].value.trim(), dose: i[1].value.trim(), load: i[2].value.trim(), note: i[3].value.trim() }; }).filter(e => e.name);
+    const text = $('#sText').value.trim();
+    if (!text && !exercises.length) { $('#sText').focus(); return; }
+    await Api.addSession(p.id, { date: $('#sDate').value || today(), kind: st.kind, text, exercises, visible_to_patient: $('#sVis').checked });
+    say('Seduta salvata nel diario.'); route();
+  });
+}
+
 /* ---------------- visita (studio e paziente) ---------------- */
 async function renderVisit(id) {
   const v = await Api.getVisit(id);
@@ -448,7 +525,7 @@ function visitBody(v, admin) {
 /* ---------------- paziente: la mia area ---------------- */
 async function renderMyArea() {
   if (!S.patientId) return renderClaim();
-  const [p, vs] = await Promise.all([Api.getPatient(S.patientId), Api.listVisits(S.patientId)]);
+  const [p, vs, ss] = await Promise.all([Api.getPatient(S.patientId), Api.listVisits(S.patientId), Api.listSessions(S.patientId)]);
   const last = vs[0];
   const first = (p.full_name || '').split(' ')[0];
   app.innerHTML = `${demoBanner()}${msgEl()}
@@ -459,6 +536,7 @@ async function renderMyArea() {
   bindDemo();
   if (last) { fillPhotos($('#ph'), last); const b = $('#bLastPdf'); if (b) b.addEventListener('click', () => openPdf(last)); }
   const vl = $('#vlist'); if (vl) for (const v of vs) vl.appendChild(visitRow(v, false));
+  if (ss.length) { const c = h('<div class="card"><h2>Le tue sedute</h2><div class="vlist"></div></div>'); app.appendChild(c); drawSessions(c.querySelector('.vlist'), ss, false); }
 }
 
 boot();
