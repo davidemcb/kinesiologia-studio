@@ -114,6 +114,9 @@ section{padding:3.5rem 0;scroll-margin-top:3.5rem}
 .top nav a:hover{color:var(--ink)}
 @media (min-width:1080px){.top nav{display:flex}}
 .top .btn{padding:.55rem 1rem;font-size:.9rem;white-space:nowrap;flex:none}
+.top .logo{min-width:0;flex:1}
+.solo-largo{display:none}
+@media (min-width:480px){.solo-largo{display:inline}}
 
 /* ---------- Bottoni ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.5rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:1rem;border:1px solid transparent;cursor:pointer;font-family:var(--font-body);transition:transform .15s ease,background .15s ease}
@@ -325,7 +328,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
 
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="#inizio">Formazione Avanzata<small>Metodo Davide Scuderi · Olistika Academy</small></a>
+    <a class="logo" href="#inizio">Formazione Avanzata<small>Metodo Davide Scuderi<span class="solo-largo"> · Olistika Academy</span></small></a>
     <nav aria-label="Sezioni">
       <a href="#corsi">Tutti i corsi</a>
       <a href="#metodo">Il metodo</a>
