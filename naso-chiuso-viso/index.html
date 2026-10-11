@@ -117,11 +117,39 @@ footer a{color:#D4738A;text-decoration:underline;text-underline-offset:2px}
   body{padding-bottom:4.5rem}
   .azioni .btn{flex:1;text-align:center}
 }
+.cookie{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--nero-2);color:#EDE8E3;
+  padding:1.1rem 0 1.2rem;box-shadow:0 -8px 28px rgba(0,0,0,.4);font-size:.92rem;line-height:1.5}
+.cookie[hidden]{display:none}
+.cookie p{color:#EDE8E3;margin:0 0 .85rem;max-width:none}
+.cookie a{color:#D4738A;text-decoration:underline;text-underline-offset:2px}
+.cookie-azioni{display:flex;gap:.6rem}
+.cookie button{flex:1;max-width:14rem;padding:.75rem 1rem;border-radius:2px;cursor:pointer;
+  font-family:inherit;font-weight:600;font-size:.95rem}
+#cookie-accetta{background:var(--bordeaux);color:#FBF7F5;border:1px solid var(--bordeaux)}
+#cookie-rifiuta{background:transparent;color:#F7F4F0;border:1px solid rgba(247,244,240,.5)}
+.cookie button:focus-visible{outline:2px solid #D4738A;outline-offset:3px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <script>
-/* Meta Pixel — caricato SOLO dopo il consenso marketing.
-   Sostituire PIXEL_ID_DA_INSERIRE con l'ID del Pixel (Business Manager > Gestore eventi). */
+/* Google Ads (AW-969285863) e Meta Pixel: partono SOLO dopo il consenso marketing
+   dato nel banner in fondo alla pagina. Consent Mode v2: tutto negato finché non si accetta.
+   Il consenso resta salvato 6 mesi nel cookie cc_cookie. */
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});
+
+window.GOOGLE_ADS_ID='AW-969285863';
+window.initGoogleAds=function(){
+  if(window.__googleAdsAvviato)return;window.__googleAdsAvviato=true;
+  gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});
+  gtag('js',new Date());
+  gtag('config',window.GOOGLE_ADS_ID);
+  var s=document.createElement('script');s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id='+window.GOOGLE_ADS_ID;
+  document.head.appendChild(s);
+};
+
+/* Sostituire PIXEL_ID_DA_INSERIRE con l'ID del Pixel (Business Manager > Gestore eventi). */
 window.META_PIXEL_ID='PIXEL_ID_DA_INSERIRE';
 window.initMetaPixel=function(){
   if(window.fbq||!window.META_PIXEL_ID||window.META_PIXEL_ID==='PIXEL_ID_DA_INSERIRE')return;
@@ -132,11 +160,14 @@ window.initMetaPixel=function(){
   (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init',window.META_PIXEL_ID);fbq('track','PageView');
 };
-/* se il banner ha già registrato il consenso marketing, parte subito */
-try{
-  var c=(document.cookie.match(/cc_cookie=([^;]+)/)||[])[1];
-  if(c&&decodeURIComponent(c).indexOf('marketing')>-1)window.initMetaPixel();
-}catch(e){}
+
+window.avviaMarketing=function(){window.initGoogleAds();window.initMetaPixel();};
+window.leggiConsenso=function(){
+  try{var c=(document.cookie.match(/(?:^|; )cc_cookie=([^;]+)/)||[])[1];return c?decodeURIComponent(c):'';}
+  catch(e){return '';}
+};
+/* consenso marketing già dato in una visita precedente: parte subito */
+if(window.leggiConsenso().indexOf('marketing')>-1)window.avviaMarketing();
 </script>
 </head>
 <body>
@@ -342,6 +373,7 @@ try{
   <div class="wrap">
     <p>Kinesiologia Studio, Via Capilupi 21, Direzionale Toscanini, Modena</p>
     <p>Lunedì–venerdì 9–20, sabato 9–15. Telefono <a href="tel:+393481514382" onclick="if(window.gtag)gtag('event','conversion',{'send_to':'AW-969285863/z5vqCJaQ6eocEOfBmM4D','value':1.0,'currency':'EUR'});if(window.fbq)fbq('track','Contact');">348 151 4382</a>.</p>
+    <p><a href="../privacy.html#cookie">Informativa privacy</a> · <a href="#" id="cookie-preferenze">Preferenze cookie</a></p>
   </div>
 </footer>
 
@@ -351,6 +383,31 @@ try{
   <a class="btn btn-primario" href="https://calendly.com/infokinesiologia/consulenza" target="_blank" rel="noopener"
      onclick="if(window.gtag)gtag('event','conversion',{'send_to':'AW-969285863/o_dQCJmQ6eocEOfBmM4D','value':90.0,'currency':'EUR'});if(window.fbq)fbq('track','Schedule');">Prenota</a>
 </nav>
+
+<div class="cookie" id="cookie" role="dialog" aria-label="Cookie e privacy" hidden>
+  <div class="wrap">
+    <p>Solo se accetti, questa pagina usa i cookie di Google Ads e Meta per capire se gli annunci portano prenotazioni e chiamate. Se rifiuti non viene tracciato nulla e la pagina funziona lo stesso. <a href="../privacy.html#cookie">Informativa privacy</a></p>
+    <div class="cookie-azioni">
+      <button type="button" id="cookie-rifiuta">Rifiuta</button>
+      <button type="button" id="cookie-accetta">Accetta</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var banner=document.getElementById('cookie');
+  function salva(v){document.cookie='cc_cookie='+encodeURIComponent(v)+'; max-age='+(180*24*60*60)+'; path=/; SameSite=Lax';}
+  document.getElementById('cookie-accetta').addEventListener('click',function(){
+    salva('necessari,marketing');banner.hidden=true;window.avviaMarketing();
+  });
+  document.getElementById('cookie-rifiuta').addEventListener('click',function(){
+    salva('necessari');banner.hidden=true;
+  });
+  var pref=document.getElementById('cookie-preferenze');
+  if(pref)pref.addEventListener('click',function(e){e.preventDefault();banner.hidden=false;banner.querySelector('button').focus();});
+  if(!window.leggiConsenso())banner.hidden=false;
+})();
+</script>
 
 </body>
 </html>
