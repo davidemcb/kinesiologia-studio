@@ -1623,7 +1623,7 @@ function dictation(btn, ta, say) {
 }
 // ---------- Mobilità articolare ----------
 const LR = (r, l) => [r, l]; // indici MediaPipe del lato destro e sinistro
-const MOB_GROUPS = [['colonna', 'Colonna'], ['collo', 'Cervicale'], ['spalla', 'Spalla'], ['anca', 'Anca']];
+const MOB_GROUPS = [['colonna', 'Colonna'], ['collo', 'Cervicale'], ['spalla', 'Spalla'], ['anca', 'Anca'], ['ginocchio', 'Ginocchio'], ['caviglia', 'Caviglia']];
 const MOB = [
   { id: 'flex_tr', g: 'colonna', label: 'Flessione del tronco', normal: 90, calc: 'incl',
     how: 'Foto di lato, a figura intera. Il paziente si piega in avanti a gambe tese e lascia scendere le braccia verso terra. Misura l\'inclinazione del tronco (anca–spalla) dalla verticale e la distanza dita–pavimento. Normale: circa 90° o più.',
@@ -1678,7 +1678,19 @@ const MOB = [
     pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Caviglia', LR(28, 27)]] },
   { id: 'er_an', g: 'anca', label: 'Extrarotazione dell\'anca', side: true, normal: 40, calc: 'shank', dir: -1,
     how: 'Foto di fronte, paziente seduto sul bordo del lettino con le ginocchia a 90°. Il piede va verso l\'interno (così l\'anca ruota all\'esterno) senza alzare il bacino. Angolo della gamba dalla verticale. Normale: circa 40–45°.',
-    pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Caviglia', LR(28, 27)]] }
+    pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Caviglia', LR(28, 27)]] },
+  { id: 'flex_gi', g: 'ginocchio', label: 'Flessione del ginocchio', side: true, normal: 135, calc: 'joint180',
+    how: 'Foto di lato, paziente prono. Piega il ginocchio portando il tallone verso il gluteo, senza staccare il bacino (in alternativa supino, tallone verso il gluteo). Angolo tra coscia e gamba. Normale: circa 135–140°.',
+    pts: [['anca', 'Anca (trocantere)', LR(24, 23)], ['ginocchio', 'Ginocchio (centro)', LR(26, 25)], ['caviglia', 'Malleolo', LR(28, 27)]] },
+  { id: 'ext_gi', g: 'ginocchio', label: 'Estensione del ginocchio', side: true, normal: 180, calc: 'joint',
+    how: 'Foto di lato, paziente supino con la gamba distesa, o seduto che estende il ginocchio più che può. Angolo tra coscia e gamba: 180° = gamba dritta. Sotto i 175° c\'è un deficit di estensione; oltre i 185° un ginocchio recurvato.',
+    pts: [['anca', 'Anca (trocantere)', LR(24, 23)], ['ginocchio', 'Ginocchio (centro)', LR(26, 25)], ['caviglia', 'Malleolo', LR(28, 27)]] },
+  { id: 'df_ca', g: 'caviglia', label: 'Dorsiflessione della caviglia', side: true, normal: 20, calc: 'ankle', dir: 1,
+    how: 'Foto di lato, paziente seduto con il piede sollevato da terra: porta la punta del piede verso di sé più che può, senza muovere la gamba. Angolo tra la gamba e la pianta del piede (tallone–punta) rispetto ai 90° di partenza. Normale: circa 20°. Per il carico in piedi usa anche il test ginocchio-muro.',
+    pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Malleolo', LR(28, 27)], ['tallone', 'Tallone (sotto)', LR(30, 29)], ['punta', 'Punta del piede (base dell\'alluce)', LR(32, 31)]] },
+  { id: 'pf_ca', g: 'caviglia', label: 'Flessione plantare della caviglia', side: true, normal: 50, calc: 'ankle', dir: -1,
+    how: 'Foto di lato, paziente seduto con il piede sollevato da terra: spinge la punta del piede in basso più che può. Angolo tra la gamba e la pianta del piede (tallone–punta) rispetto ai 90° di partenza. Normale: circa 40–50°.',
+    pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Malleolo', LR(28, 27)], ['tallone', 'Tallone (sotto)', LR(30, 29)], ['punta', 'Punta del piede (base dell\'alluce)', LR(32, 31)]] }
 ];
 const MOBD = Object.fromEntries(MOB.map(m => [m.id, m]));
 const MS = { id: 'flex_tr', side: 'dx', next: null, drag: null };
@@ -1727,6 +1739,12 @@ function mobCalc(m, side, P) {
     const [k, a] = q, out = side === 'dx' ? -1 : 1; // di fronte l'esterno della gamba dx è a sinistra nella foto
     const ang = DEG(Math.atan2((a[0] - k[0]) * out, a[1] - k[1]));
     return { val: Math.max(0, m.dir > 0 ? ang : -ang) };
+  }
+  if (m.calc === 'ankle') {
+    if (!need(4)) return null;
+    const [k, a, hl, t] = q, u = [k[0] - a[0], k[1] - a[1]], w = [t[0] - hl[0], t[1] - hl[1]]; // gamba e pianta del piede
+    const inner = DEG(Math.acos(Math.max(-1, Math.min(1, (u[0] * w[0] + u[1] * w[1]) / ((Math.hypot(...u) * Math.hypot(...w)) || 1)))));
+    return { val: Math.max(0, m.dir > 0 ? 90 - inner : inner - 90) };
   }
   return null;
 }
@@ -1783,6 +1801,7 @@ function drawMob(canvas, key, cssW, opt = {}) {
   if (m.calc === 'lines') { ctx.strokeStyle = COL.plumb; if (q[0] && q[1]) line(ctx, q[0][0], q[0][1], q[1][0], q[1][1]); ctx.strokeStyle = col; if (q[2] && q[3]) { line(ctx, q[2][0], q[2][1], q[3][0], q[3][1]); anchor = q[3]; } }
   if ((m.calc === 'joint' || m.calc === 'joint180') && q[1]) { ctx.strokeStyle = COL.plumb; if (q[0]) line(ctx, q[1][0], q[1][1], q[0][0], q[0][1]); ctx.strokeStyle = col; if (q[2]) line(ctx, q[1][0], q[1][1], q[2][0], q[2][1]); anchor = q[1]; }
   if (m.calc === 'forearm' && q[1] && q[2]) { const d = Math.sign((q[0] || q[2])[0] - q[1][0]) || 1; dash(q[1], [q[1][0] + d * L * 0.6, q[1][1]]); ctx.strokeStyle = col; line(ctx, q[1][0], q[1][1], q[2][0], q[2][1]); anchor = q[1]; }
+  if (m.calc === 'ankle' && q[1]) { ctx.strokeStyle = COL.plumb; if (q[0]) line(ctx, q[1][0], q[1][1], q[0][0], q[0][1]); ctx.strokeStyle = col; if (q[2] && q[3]) line(ctx, q[2][0], q[2][1], q[3][0], q[3][1]); anchor = q[1]; }
   if (m.calc === 'shank' && q[0] && q[1]) { dash(q[0], [q[0][0], q[0][1] + L * 0.6]); ctx.strokeStyle = col; line(ctx, q[0][0], q[0][1], q[1][0], q[1][1]); anchor = q[0]; }
   if (m.id === 'flex_tr' && P.malleolo) { ctx.strokeStyle = COL.plumb; ctx.lineWidth = 2 * kk; line(ctx, P.malleolo[0] - L * 0.5, P.malleolo[1], P.malleolo[0] + L * 0.5, P.malleolo[1]); }
   for (const [pid, label] of m.pts) {
