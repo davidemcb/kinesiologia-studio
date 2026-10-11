@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#1A2622;--bg2:#22302B;--ink:#F7FAF6;--muted:#AEBBB3;--brand:#7FB5A3;--accent:#C98632;--accent2:#DFA24C;--soft:rgba(127,181,163,.14);--line:rgba(238,242,236,.14)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:'Instrument Sans',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.card{position:relative;width:1080px;background:var(--bg);overflow:hidden;display:flex;flex-direction:column}
+.card::before{content:"";position:absolute;right:-320px;top:-260px;width:900px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(127,181,163,.28),transparent 70%)}
+.card::after{content:"";position:absolute;left:-360px;bottom:-200px;width:800px;height:800px;border-radius:50%;background:radial-gradient(closest-side,rgba(201,134,50,.16),transparent 70%)}
+.in{position:relative;z-index:1;padding:0 80px;display:flex;flex-direction:column;height:100%}
+.eyebrow{font-size:26px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand)}
+.name{font-family:'Fraunces',serif;font-weight:600;font-size:54px;line-height:1.1;margin-top:10px}
+h1{font-family:'Fraunces',serif;font-weight:600;font-size:74px;line-height:1.08;letter-spacing:-.01em;margin-top:44px}
+h1 em{font-style:normal;color:var(--accent2)}
+.pills{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.pill{border:2px solid var(--line);border-radius:999px;padding:12px 24px;font-size:26px;font-weight:600;color:var(--ink)}
+.pill.acc{background:var(--accent);border-color:var(--accent);color:#26190A}
+.lista{margin-top:44px;background:var(--bg2);border:1px solid var(--line);border-radius:28px;padding:30px 36px}
+.lista h2{font-size:24px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin-bottom:14px}
+.lista ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;column-gap:34px}
+.lista li{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line);font-size:25px;line-height:1.25}
+.lista li:nth-last-child(-n+2){border-bottom:none}
+.lista .d{font-family:'Fraunces',serif;font-weight:600;color:var(--accent2);font-size:26px;white-space:nowrap}
+.lista .n{font-weight:500}
+.lista .n small{display:block;font-size:20px;color:var(--muted);font-weight:400}
+.fondo{margin-top:auto;padding-bottom:0}
+.fondo .cta{font-family:'Fraunces',serif;font-size:40px;font-weight:600;line-height:1.2}
+.fondo .sub{font-size:26px;color:var(--muted);margin-top:10px}
+.fondo .wa{display:inline-flex;align-items:center;gap:14px;margin-top:26px;font-size:28px;font-weight:600}
+.fondo .wa i{width:46px;height:46px;border-radius:50%;background:var(--brand);display:inline-flex;align-items:center;justify-content:center;color:#10201A;font-style:normal;font-size:24px;font-weight:700}
+.link-spazio{margin-top:36px;height:170px}
+/* storia */
+.story{height:1920px}
+.story .in{padding-top:230px;padding-bottom:40px}
+/* post feed */
+.post{height:1350px}
+.post .in{padding-top:88px;padding-bottom:80px}
+.post h1{font-size:64px;margin-top:30px}
+.post .name{font-size:46px}
+.post .lista{margin-top:34px;padding:24px 32px}
+.post .lista li{font-size:22px;padding:8px 0}
+.post .lista .d{font-size:23px}
+.post .lista .n small{font-size:18px}
+.post .fondo .cta{font-size:34px}
+.post .link-spazio{display:none}
+.post .fondo .sito{margin-top:22px;font-size:26px;color:var(--brand);font-weight:600;letter-spacing:.01em}
+.story .fondo .sito{display:none}
+</style></head><body>
+
+<div class="card story" id="story"><div class="in">
+  <p class="eyebrow">Formazione professionale</p>
+  <p class="name">Metodo Davide Scuderi</p>
+  <h1>Impara a far sentire ai tuoi clienti un cambiamento <em>già dalla prima seduta.</em></h1>
+  <div class="pills"><span class="pill acc">Max 10 allievi</span><span class="pill">Corsi pratici</span><span class="pill">Modena</span><span class="pill">Senza acconto</span></div>
+  <div class="lista"><h2>Calendario 2026-2027</h2><ul>
+    <li><span class="d">17–18 ott</span><span class="n">Kinesiologico Posturale<small>1° livello</small></span></li>
+    <li><span class="d">31 ott</span><span class="n">Mapinda<small>viso e cranio</small></span></li>
+    <li><span class="d">12–13 dic</span><span class="n">Massaggio Viscerale<small>2° livello</small></span></li>
+    <li><span class="d">30–31 gen</span><span class="n">Kinesiologico Posturale<small>2° livello</small></span></li>
+    <li><span class="d">20–21 feb</span><span class="n">Madero Functional<small>1° livello</small></span></li>
+    <li><span class="d">10 apr</span><span class="n">Coppettazione<small>base e avanzata</small></span></li>
+    <li><span class="d">11 apr</span><span class="n">Mapinda<small>schiena e collo</small></span></li>
+    <li><span class="d">29–30 mag</span><span class="n">Massaggio Viscerale<small>1° livello</small></span></li>
+    <li><span class="d">19–20 giu</span><span class="n">Anatomia &amp; Biomeccanica<small>da qui si parte</small></span></li>
+    <li><span class="d">26–27 giu</span><span class="n">Madero Functional<small>2° livello</small></span></li>
+    <li><span class="d">24–25 lug</span><span class="n">Massaggio Viscerale<small>2° livello</small></span></li>
+    <li><span class="d"></span><span class="n"><small>Tutti i corsi a Modena, via Capilupi 21</small></span></li>
+  </ul></div>
+  <div class="fondo">
+    <p class="cta">Programmi, benefici e pre-iscrizione sul sito.</p>
+    <p class="sub">Tocca il link qui sotto: scegli il corso e scrivimi.</p>
+    <p class="wa"><i>W</i> WhatsApp 348 151 4382</p>
+    <div class="link-spazio"></div>
+  </div>
+</div></div>
+
+<div class="card post" id="post"><div class="in">
+  <p class="eyebrow">Formazione professionale</p>
+  <p class="name">Metodo Davide Scuderi</p>
+  <h1>Impara a far sentire ai tuoi clienti un cambiamento <em>già dalla prima seduta.</em></h1>
+  <div class="pills"><span class="pill acc">Max 10 allievi</span><span class="pill">Corsi pratici</span><span class="pill">Modena</span><span class="pill">Senza acconto</span></div>
+  <div class="lista"><h2>Calendario 2026-2027</h2><ul>
+    <li><span class="d">17–18 ott</span><span class="n">Kinesiologico Posturale<small>1° livello</small></span></li>
+    <li><span class="d">31 ott</span><span class="n">Mapinda<small>viso e cranio</small></span></li>
+    <li><span class="d">12–13 dic</span><span class="n">Massaggio Viscerale<small>2° livello</small></span></li>
+    <li><span class="d">30–31 gen</span><span class="n">Kinesiologico Posturale<small>2° livello</small></span></li>
+    <li><span class="d">20–21 feb</span><span class="n">Madero Functional<small>1° livello</small></span></li>
+    <li><span class="d">10 apr</span><span class="n">Coppettazione<small>base e avanzata</small></span></li>
+    <li><span class="d">11 apr</span><span class="n">Mapinda<small>schiena e collo</small></span></li>
+    <li><span class="d">29–30 mag</span><span class="n">Massaggio Viscerale<small>1° livello</small></span></li>
+    <li><span class="d">19–20 giu</span><span class="n">Anatomia &amp; Biomeccanica<small>da qui si parte</small></span></li>
+    <li><span class="d">26–27 giu</span><span class="n">Madero Functional<small>2° livello</small></span></li>
+    <li><span class="d">24–25 lug</span><span class="n">Massaggio Viscerale<small>2° livello</small></span></li>
+    <li><span class="d"></span><span class="n"><small>Tutti i corsi a Modena, via Capilupi 21</small></span></li>
+  </ul></div>
+  <div class="fondo">
+    <p class="cta">Programmi, benefici e pre-iscrizione sul sito: link in bio.</p>
+    <p class="wa"><i>W</i> WhatsApp 348 151 4382</p>
+    <p class="sito">davidemcb.github.io/kinesiologia-studio/formazione</p>
+  </div>
+</div></div>
+</body></html>
