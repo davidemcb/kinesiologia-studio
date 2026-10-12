@@ -41,6 +41,7 @@ create table if not exists public.visits (
   plan jsonb not null default '{}',
   extras jsonb not null default '[]',
   mobility jsonb,                          -- indice e angoli di mobilità articolare
+  label text,                              -- es. «Prima del trattamento», «Dopo il trattamento»
   notes text,
   photos jsonb not null default '{}',
   pdf_path text,
@@ -85,6 +86,7 @@ create policy "visite: le proprie" on public.visits for select
 
 -- Diario delle sedute: trattamenti (Davide) e allenamenti (Morena)
 alter table public.visits add column if not exists mobility jsonb;
+alter table public.visits add column if not exists label text;
 
 create table if not exists public.sessions (
   id uuid primary key default gen_random_uuid(),

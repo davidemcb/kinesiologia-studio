@@ -404,7 +404,7 @@ async function renderPatient(id) {
 
 function visitRow(v, admin) {
   const f = (v.findings || []).map(x => x.title);
-  const row = h(`<div class="vrow"><div><b class="date">${itDate(v.date)}</b><p>${esc(f.join(', ') || 'Nessuna asimmetria importante')}${v.plan && v.plan.name ? ' · ' + esc(v.plan.name.toLowerCase()) : ''}</p></div>
+  const row = h(`<div class="vrow"><div><b class="date">${itDate(v.date)}</b>${v.label ? ` <span class="pill">${esc(v.label)}</span>` : ''}<p>${esc(f.join(', ') || 'Nessuna asimmetria importante')}${v.plan && v.plan.name ? ' · ' + esc(v.plan.name.toLowerCase()) : ''}</p></div>
     <div class="row"><button class="btn" type="button" data-a="open">Apri</button>${v.pdf_path ? '<button class="btn" type="button" data-a="pdf">PDF</button>' : ''}${admin ? '<button class="btn danger" type="button" data-a="del">Elimina</button>' : ''}</div></div>`);
   row.querySelector('[data-a=open]').addEventListener('click', () => go('#v-' + v.id));
   const pdf = row.querySelector('[data-a=pdf]'); if (pdf) pdf.addEventListener('click', () => openPdf(v));
@@ -426,7 +426,7 @@ async function openPdf(v) {
 }
 
 function trendCard(vs) {
-  const asc = vs.slice().sort((a, b) => (a.date < b.date ? -1 : 1));
+  const asc = vs.slice().sort((a, b) => (a.date === b.date ? (a.created_at < b.created_at ? -1 : 1) : a.date < b.date ? -1 : 1));
   if (asc.length < 2) return '';
   const rows = TREND.map(lbl => ({ lbl, cells: asc.map(v => (v.auto || []).find(a => a.label === lbl) || null) })).filter(r => r.cells.some(Boolean));
   if (!rows.length) return '';
@@ -434,12 +434,12 @@ function trendCard(vs) {
     const first = r.cells.find(Boolean), last = [...r.cells].reverse().find(Boolean);
     let d = '';
     if (first && last && first !== last && first.num != null && last.num != null) {
-      const diff = last.num - first.num;
+      const diff = Math.abs(last.num) - Math.abs(first.num); // conta la distanza dalla posizione ideale, avanti o indietro
       d = `<td class="num ${diff < -0.05 ? 'better' : diff > 0.05 ? 'worse' : ''}">${diff > 0 ? '+' : diff < 0 ? '−' : ''}${Math.abs(diff).toFixed(1).replace('.', ',')} cm</td>`;
     } else d = '<td class="num">—</td>';
     return `<tr><td>${esc(r.lbl)}</td>${r.cells.map(c => `<td class="num">${c ? esc(c.val) : '—'}</td>`).join('')}${d}</tr>`;
   }).join('');
-  return `<div class="card"><h2>Come sta cambiando</h2><div class="tablewrap"><table><thead><tr><th>Misura</th>${asc.map(v => `<th>${itDate(v.date)}</th>`).join('')}<th>Dal primo all'ultimo</th></tr></thead><tbody>${body}</tbody></table></div><p class="hint">Verde: l'asimmetria si è ridotta.</p></div>`;
+  return `<div class="card"><h2>Come sta cambiando</h2><div class="tablewrap"><table><thead><tr><th>Misura</th>${asc.map(v => `<th>${itDate(v.date)}${v.label ? '<br>' + esc(v.label) : ''}</th>`).join('')}<th>Dal primo all'ultimo</th></tr></thead><tbody>${body}</tbody></table></div><p class="hint">Verde: l'asimmetria si è ridotta.</p></div>`;
 }
 
 /* ---------------- dettatura a voce ---------------- */
@@ -624,7 +624,7 @@ async function renderVisit(id) {
   const admin = S.role === 'admin';
   app.innerHTML = `${demoBanner()}
   <button class="btn back" type="button" id="bBack">← ${admin ? 'Scheda del paziente' : 'La mia area'}</button>
-  <div class="card"><div class="phero"><div><h1>Visita del ${itDate(v.date)}</h1><p class="hint">${v.height ? 'Altezza ' + esc(v.height) + ' cm · ' : ''}${v.plan && v.plan.name ? esc(v.plan.name) : ''}</p></div>
+  <div class="card"><div class="phero"><div><h1>Visita del ${itDate(v.date)}${v.label ? ' · ' + esc(v.label) : ''}</h1><p class="hint">${v.height ? 'Altezza ' + esc(v.height) + ' cm · ' : ''}${v.plan && v.plan.name ? esc(v.plan.name) : ''}</p></div>
     ${v.pdf_path ? '<button class="btn primary big" type="button" id="bPdf">Scarica il referto PDF</button>' : ''}</div>
     <div class="photos" id="ph"></div></div>
   ${visitBody(v, admin)}`;
