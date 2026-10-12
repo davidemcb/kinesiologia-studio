@@ -243,7 +243,9 @@ section{padding:3.5rem 0;scroll-margin-top:3.5rem}
 .incluso{font-size:.9rem;color:var(--muted);margin:1rem 0 0}
 .incluso b{color:var(--ink);font-weight:600}
 .corso .cta{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}
-.condividi{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.condividi{display:none;flex-wrap:wrap;align-items:center;gap:.4rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.condividi.aperto{display:flex}
+.condividi-btn{gap:.4rem}
 .condividi span{margin-right:.2rem}
 .condividi a,.condividi button{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 .82rem var(--font-body);text-decoration:none;cursor:pointer}
 .condividi a:hover,.condividi button:hover{border-color:var(--brand);color:var(--brand)}
@@ -538,7 +540,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Un trattamento total-body, dai piedi al cranio, in cui ogni zona si scioglie e si collega alle altre: la persona lo sente alzandosi dal lettino, al primo trattamento.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -577,7 +579,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Articolazioni più libere e un corpo meno legato: la persona si rialza dal lettino e sente più mobilità già alla prima seduta.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -619,7 +621,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Viso più leggero e luminoso, gonfiori ridotti, masseteri e cervicale che si sciolgono: lo si vede allo specchio e la persona lo sente alla fine della seduta.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -659,7 +661,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Addome più morbido e leggero, diaframma che si solleva, respiro più profondo e, spesso, spalle e schiena che si sciolgono senza essere state toccate. La persona lo sente alla prima sessione.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -703,7 +705,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>La persona si rialza dal lettino più sciolta, più lunga e più mobile, dai piedi al collo. Lo sente alla prima seduta, e lo vede nel movimento.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -751,7 +753,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Gambe più leggere, tessuti più morbidi, una sensazione di scorrimento che la persona nota appena si rialza.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -800,7 +802,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Tessuti che si sciolgono in pochi minuti, gambe più leggere e un movimento più libero che la persona sente alla fine della seduta, senza lividi.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Coppette:</b> non incluse, da portare al corso. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -841,7 +843,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Collo più libero di girare, spalle che scendono, schiena che si scioglie: prima il calore, poi il legno, e la persona lo sente già alla prima seduta.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -893,7 +895,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Un addome che si ammorbidisce, un respiro più ampio e una sensazione di leggerezza, anche emotiva, che la persona non si aspetta da un trattamento sulla pancia.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -935,7 +937,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Dalla prima mattina senti sotto le dita strutture che prima erano solo nomi. Inizi a vedere prima di toccare, e i tuoi trattamenti diventano subito più precisi.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -975,7 +977,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Un trattamento total-body, dai piedi al cranio, in cui ogni zona si scioglie e si collega alle altre: la persona lo sente alzandosi dal lettino, al primo trattamento.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -1015,7 +1017,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
             <p class="referente"><b>Informazioni e iscrizioni:</b> Dott. Davide Scuderi · <a href="https://wa.me/393481514382" target="_blank" rel="noopener">WhatsApp 348 151 4382</a> · <a href="mailto:infokinesiologia@gmail.com">infokinesiologia@gmail.com</a></p>
             <div class="risultato"><b>Risultato immediato</b><p>Addome più morbido e leggero, diaframma che si solleva, respiro più profondo e, spesso, spalle e schiena che si sciolgono senza essere state toccate. La persona lo sente alla prima sessione.</p></div>
             <p class="incluso"><b>Incluso:</b> slide del corso con tutto il programma svolto, attestato di partecipazione. <b>Prezzo:</b> chiedi informazioni, ti rispondo io.</p>
-            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a></div>
+            <div class="cta"><a class="btn btn-brand pre" href="#">Pre-iscriviti su WhatsApp</a><a class="btn btn-secondario info" href="#">Chiedi info e prezzo</a><button type="button" class="btn btn-secondario condividi-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1rem;height:1.1rem"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg> Condividi</button></div>
           </div>
         </div></div>
       </details></li>
@@ -1289,7 +1291,7 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
       '<a href="https://wa.me/?text='+encodeURIComponent(testo)+'" target="_blank" rel="noopener">'+ICO.wa+'WhatsApp</a>'+
       '<a href="https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url)+'" target="_blank" rel="noopener">'+ICO.fb+'Facebook</a>'+
       '<button type="button" class="copia">'+ICO.link+'Copia link</button>'+
-      '<button type="button" class="nativo">'+ICO.nat+'Altro…</button>';
+      '';
     var det=c.querySelector('.dettaglio'); if(det) det.appendChild(box);
     var copia=box.querySelector('.copia');
     copia.addEventListener('click',function(){
@@ -1297,8 +1299,11 @@ footer.piede .disclaimer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px sol
       if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(fatto,function(){ window.prompt('Copia il link:',url); }); }
       else { window.prompt('Copia il link:',url); }
     });
-    var nat=box.querySelector('.nativo');
-    if(navigator.share){ nat.style.display='inline-flex'; nat.addEventListener('click',function(){ navigator.share({title:nome+' · '+quando,text:testo.replace(url,'').trim(),url:url}).catch(function(){}); }); }
+    var btn=c.querySelector('.condividi-btn');
+    if(btn){ btn.addEventListener('click',function(){
+      if(navigator.share){ navigator.share({title:nome+' · '+quando,text:testo.replace(url,'').trim(),url:url}).catch(function(){}); }
+      else { box.classList.toggle('aperto'); if(box.classList.contains('aperto')) box.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+    }); }
   });
 
   /* Elenco e link diretti: filtro su "tutti", scheda aperta ed evidenziata */
