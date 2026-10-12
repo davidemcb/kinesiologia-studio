@@ -1,0 +1,12 @@
+name = "estetica-analisi"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Origine della pagina che può chiamare il worker (più valori separati da virgola). "*" solo per le prove.
+ALLOWED_ORIGIN = "*"
+
+# Segreti, da impostare con:
+#   npx wrangler secret put ANTHROPIC_API_KEY
+#   npx wrangler secret put APP_TOKEN        (facoltativo)

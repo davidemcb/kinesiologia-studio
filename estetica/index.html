@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scheda Estetica</title>
+<meta name="description" content="Prototipo: scheda cliente per il centro estetico con anamnesi, foto, lettura della pelle e piano di lavoro.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F6F1EE; --surface: #FFFFFF; --ink: #2B2522; --muted: #6E615B; --line: #E4D9D3;
+  --brand: #8A4F5E; --brand-ink: #FFF6F3; --brand-soft: #F2E2E4; --brand-strong: #6D3A48;
+  --accent: #C98632; --accent-soft: #F7E9D5; --ok: #3E7A5E; --ok-soft: #E1EFE7;
+  --danger: #AC4530; --danger-soft: #F4E2DC; --warn: #9A6B14; --warn-soft: #F7EBCF;
+  --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif; --font-display: 'Fraunces', Georgia, serif;
+  --shadow: 0 2px 12px rgba(60, 30, 30, .08); --r: 14px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1B1618; --surface: #251F21; --ink: #EDE5E1; --muted: #A79892; --line: #3A3033;
+  --brand: #C98A9A; --brand-ink: #2A1A1F; --brand-soft: #3A2A30; --brand-strong: #E0A7B5;
+  --accent: #DFA24C; --accent-soft: #3C3022; --ok: #79B694; --ok-soft: #22352B;
+  --danger: #E07B63; --danger-soft: #3A241E; --warn: #E0B35A; --warn-soft: #3A3120; --shadow: 0 2px 12px rgba(0,0,0,.4);
+} }
+:root[data-theme="dark"] {
+  --bg: #1B1618; --surface: #251F21; --ink: #EDE5E1; --muted: #A79892; --line: #3A3033;
+  --brand: #C98A9A; --brand-ink: #2A1A1F; --brand-soft: #3A2A30; --brand-strong: #E0A7B5;
+  --accent: #DFA24C; --accent-soft: #3C3022; --ok: #79B694; --ok-soft: #22352B;
+  --danger: #E07B63; --danger-soft: #3A241E; --warn: #E0B35A; --warn-soft: #3A3120; --shadow: 0 2px 12px rgba(0,0,0,.4);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0 0 .4em; line-height: 1.15; }
+h1 { font-size: 1.5rem; } h2 { font-size: 1.35rem; } h3 { font-size: 1.1rem; } h4 { font-size: 1rem; font-family: var(--font-body); }
+p { margin: 0 0 .8em; }
+button { font: inherit; cursor: pointer; }
+input, select, textarea { font: inherit; color: inherit; }
+.muted { color: var(--muted); } .small { font-size: .85rem; }
+
+header.top { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); padding: 10px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+header.top h1 { font-size: 1.15rem; margin: 0; flex: 1; min-width: 160px; }
+header.top h1 span { color: var(--muted); font-family: var(--font-body); font-weight: 400; font-size: .8rem; margin-left: 6px; }
+main { max-width: 980px; margin: 0 auto; padding: 16px 16px 80px; }
+
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 8px 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--brand); }
+.btn.primary { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.btn.primary:hover { background: var(--brand-strong); }
+.btn.danger { color: var(--danger); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.sm { padding: 5px 10px; font-size: .85rem; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; box-shadow: var(--shadow); margin-bottom: 14px; }
+.card h2 { display: flex; align-items: center; gap: 8px; }
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+
+.steps { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 10px; scrollbar-width: none; }
+.steps button { flex: 0 0 auto; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 14px; color: var(--muted); }
+.steps button.on { background: var(--brand-soft); color: var(--brand-strong); border-color: var(--brand); font-weight: 600; }
+.steps button .n { display: inline-block; width: 20px; height: 20px; border-radius: 50%; background: var(--line); color: var(--ink); font-size: .75rem; text-align: center; line-height: 20px; margin-right: 6px; }
+.steps button.on .n { background: var(--brand); color: var(--brand-ink); }
+.steps button.done .n { background: var(--ok); color: #fff; }
+
+.q { padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.q:last-child { border-bottom: 0; }
+.q label.t { display: block; font-weight: 500; margin-bottom: 6px; }
+.q label.t .req { color: var(--danger); }
+.q input[type=text], .q input[type=number], .q select, .q textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.q textarea { min-height: 72px; resize: vertical; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; flex-wrap: wrap; }
+.seg button { border: 0; background: transparent; padding: 7px 14px; color: var(--muted); }
+.seg button.on { background: var(--brand); color: var(--brand-ink); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 5px 11px; font-size: .9rem; color: var(--ink); }
+.chip.on { background: var(--brand-soft); border-color: var(--brand); color: var(--brand-strong); font-weight: 500; }
+.chip.sm { padding: 3px 9px; font-size: .8rem; }
+.scala { display: flex; gap: 6px; }
+.scala button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); }
+.scala button.on { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+
+.foto-slot { border: 1px dashed var(--line); border-radius: var(--r); padding: 10px; text-align: center; background: var(--bg); position: relative; }
+.foto-slot img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 10px; display: block; }
+.foto-slot .ph { aspect-ratio: 3/4; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); gap: 6px; }
+.foto-slot .ph svg { width: 42px; height: 42px; opacity: .5; }
+.foto-slot input { display: none; }
+.foto-slot .lab { font-weight: 600; margin-top: 8px; }
+.foto-slot .guida { font-size: .8rem; color: var(--muted); }
+.foto-slot .x { position: absolute; top: 14px; right: 14px; }
+
+.alert { border-radius: 12px; padding: 10px 14px; margin-bottom: 10px; border: 1px solid transparent; }
+.alert.danger { background: var(--danger-soft); border-color: var(--danger); }
+.alert.warn { background: var(--warn-soft); border-color: var(--warn); }
+.alert.ok { background: var(--ok-soft); border-color: var(--ok); }
+.alert.info { background: var(--brand-soft); border-color: var(--brand); }
+.alert b { display: block; }
+.alert ul { margin: 4px 0 0; padding-left: 18px; }
+
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.ines { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; background: var(--bg); }
+.ines.off { opacity: .55; }
+.ines .nome { font-weight: 600; }
+.ines .evid { font-size: .88rem; color: var(--muted); margin: 4px 0 6px; }
+.badge { display: inline-block; border-radius: 6px; padding: 1px 7px; font-size: .75rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; }
+.badge.ai { background: var(--accent-soft); color: var(--warn); }
+.badge.man { background: var(--brand-soft); color: var(--brand-strong); }
+.badge.viso { background: var(--ok-soft); color: var(--ok); }
+.badge.corpo { background: var(--brand-soft); color: var(--brand-strong); }
+.badge.conf-alta { background: var(--ok-soft); color: var(--ok); } .badge.conf-media { background: var(--warn-soft); color: var(--warn); } .badge.conf-bassa { background: var(--danger-soft); color: var(--danger); }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; }
+.tess { display: inline-block; background: var(--accent-soft); color: var(--warn); border-radius: 6px; padding: 1px 7px; font-size: .78rem; margin: 1px 2px 1px 0; }
+
+details.seduta { border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; background: var(--bg); }
+details.seduta summary { padding: 10px 14px; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; }
+details.seduta summary::-webkit-details-marker { display: none; }
+details.seduta .body { padding: 0 14px 12px; }
+.fase { display: grid; grid-template-columns: 120px 1fr; gap: 8px; padding: 7px 0; border-top: 1px dashed var(--line); font-size: .92rem; }
+.fase .fn { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; padding-top: 2px; }
+.fase .tn { font-weight: 600; }
+.fase .td { color: var(--muted); font-size: .85rem; }
+.fase .caut { color: var(--warn); font-size: .8rem; font-weight: 600; }
+
+.lista-schede .item { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.lista-schede .item:last-child { border-bottom: 0; }
+.vuoto { text-align: center; color: var(--muted); padding: 30px 10px; }
+
+dialog { border: 0; border-radius: var(--r); padding: 20px; max-width: 480px; width: calc(100% - 32px); background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+dialog::backdrop { background: rgba(0,0,0,.4); }
+dialog input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); margin-bottom: 10px; }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--line); border-top-color: var(--brand); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-size: .9rem; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 50; }
+.toast.on { opacity: 1; }
+.footer-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
+
+@media (max-width: 560px) { .fase { grid-template-columns: 1fr; gap: 2px; } main { padding: 12px 16px 80px; } }
+@media print {
+  header.top, .steps, .no-print, .footer-nav, .toast { display: none !important; }
+  body { background: #fff; color: #000; font-size: 12px; }
+  main { max-width: none; padding: 0; }
+  .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; page-break-inside: avoid; }
+  details.seduta { break-inside: avoid; } details.seduta .body { display: block !important; }
+  details.seduta:not([open]) .body { display: block; }
+  .print-only { display: block !important; }
+}
+.print-only { display: none; }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Scheda Estetica <span>prototipo</span></h1>
+  <button class="btn sm" id="btn-elenco">Schede</button>
+  <button class="btn sm primary" id="btn-nuova">+ Nuova</button>
+  <button class="btn sm" id="btn-impostazioni" title="Impostazioni">⚙</button>
+</header>
+<main id="app"><div class="vuoto">Caricamento…</div></main>
+<div class="toast" id="toast"></div>
+
+<dialog id="dlg-impostazioni">
+  <h3>Impostazioni</h3>
+  <p class="small muted">Indirizzo del worker che analizza le foto (cartella <code>worker/</code>). Senza, la lettura della pelle si compila a mano.</p>
+  <label class="small">URL del worker</label>
+  <input id="imp-url" type="url" placeholder="https://estetica-analisi.tuo-account.workers.dev">
+  <label class="small">Chiave di accesso (se impostata nel worker)</label>
+  <input id="imp-token" type="password" placeholder="facoltativa">
+  <label class="small">Nome del centro (sulla stampa)</label>
+  <input id="imp-centro" type="text" placeholder="Centro estetico …">
+  <div class="row between">
+    <button class="btn" id="imp-chiudi">Chiudi</button>
+    <button class="btn primary" id="imp-salva">Salva</button>
+  </div>
+</dialog>
+
+<script type="module">
+import { generaPiano, valutaAnamnesi } from './motore.js';
+
+/* ---------- stato ---------- */
+const S = { kb: null, an: null, schede: [], scheda: null, step: 0, vista: 'elenco', analisi: false };
+const SLOT_FOTO = [
+  { id: 'viso_frontale', area: 'viso', nome: 'Viso frontale', guida: 'Struccata, capelli indietro, luce naturale diffusa, espressione rilassata.' },
+  { id: 'viso_sx', area: 'viso', nome: 'Profilo sinistro', guida: 'Testa dritta, orecchio visibile.' },
+  { id: 'viso_dx', area: 'viso', nome: 'Profilo destro', guida: 'Stessa distanza del frontale.' },
+  { id: 'corpo_fronte', area: 'corpo', nome: 'Corpo di fronte', guida: 'Intimo neutro, piedi uniti, braccia leggermente aperte, sfondo uniforme.' },
+  { id: 'corpo_retro', area: 'corpo', nome: 'Corpo di spalle', guida: 'Stessa distanza, muscoli rilassati.' },
+  { id: 'corpo_lato', area: 'corpo', nome: 'Corpo di lato', guida: 'Postura naturale, non trattenere la pancia.' }
+];
+const STEP = ['Anamnesi', 'Foto', 'Lettura', 'Piano'];
+const imp = () => { try { return JSON.parse(localStorage.getItem('estetica.impostazioni') || '{}'); } catch { return {}; } };
+
+/* ---------- IndexedDB ---------- */
+const db = {
+  open() { return new Promise((ok, ko) => { const r = indexedDB.open('estetica', 1); r.onupgradeneeded = () => r.result.createObjectStore('schede', { keyPath: 'id' }); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }); },
+  async tutte() { const d = await this.open(); return new Promise((ok, ko) => { const r = d.transaction('schede').objectStore('schede').getAll(); r.onsuccess = () => ok(r.result.sort((a, b) => (b.aggiornata || '').localeCompare(a.aggiornata || ''))); r.onerror = () => ko(r.error); }); },
+  async salva(s) { const d = await this.open(); return new Promise((ok, ko) => { const t = d.transaction('schede', 'readwrite'); t.objectStore('schede').put(s); t.oncomplete = ok; t.onerror = () => ko(t.error); }); },
+  async elimina(id) { const d = await this.open(); return new Promise((ok, ko) => { const t = d.transaction('schede', 'readwrite'); t.objectStore('schede').delete(id); t.oncomplete = ok; t.onerror = () => ko(t.error); }); }
+};
+
+/* ---------- utilità ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'class') e.className = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (k === 'html') e.innerHTML = v; else if (v !== false && v != null) e.setAttribute(k, v === true ? '' : v); } for (const k of kids.flat()) if (k != null) e.append(k.nodeType ? k : document.createTextNode(k)); return e; };
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let toastT; const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2200); };
+const dataIt = iso => new Date(iso).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
+let salvaT; const salva = () => { if (!S.scheda) return; S.scheda.aggiornata = new Date().toISOString(); clearTimeout(salvaT); salvaT = setTimeout(() => db.salva(S.scheda).catch(e => toast('Salvataggio fallito: ' + e.message)), 300); };
+
+async function ridimensiona(file, max = 1280) {
+  const bmp = await createImageBitmap(file);
+  const k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const c = document.createElement('canvas'); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+  c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+  return { dataUrl: c.toDataURL('image/jpeg', .85), w: c.width, h: c.height };
+}
+
+/* ---------- viste ---------- */
+function render() {
+  const app = $('#app'); app.innerHTML = '';
+  if (S.vista === 'elenco') app.append(vistaElenco());
+  else app.append(vistaScheda());
+  window.scrollTo({ top: 0 });
+}
+
+function vistaElenco() {
+  const wrap = el('div');
+  wrap.append(el('div', { class: 'alert info no-print' }, el('b', {}, 'Prototipo di scheda estetica'), 'Anamnesi, foto, lettura della pelle (automatica o manuale) e piano di lavoro generato dalla base di conoscenza. I dati restano su questo dispositivo.'));
+  const card = el('div', { class: 'card lista-schede' }, el('h2', {}, 'Schede'));
+  if (!S.schede.length) card.append(el('div', { class: 'vuoto' }, 'Nessuna scheda. Tocca “Nuova” per iniziare.'));
+  for (const s of S.schede) {
+    const aree = [];
+    if ((s.lettura?.inestetismi || []).some(i => S.kb.inestetismi[i.id]?.area === 'viso')) aree.push(el('span', { class: 'badge viso' }, 'viso'));
+    if ((s.lettura?.inestetismi || []).some(i => S.kb.inestetismi[i.id]?.area === 'corpo')) aree.push(el('span', { class: 'badge corpo' }, 'corpo'));
+    card.append(el('div', { class: 'item' },
+      el('div', {}, el('div', { style: 'font-weight:600' }, s.risposte?.nome || 'Senza nome', ' ', ...aree), el('div', { class: 'small muted' }, 'aggiornata ', dataIt(s.aggiornata))),
+      el('div', { class: 'row' },
+        el('button', { class: 'btn sm', onclick: () => apri(s) }, 'Apri'),
+        el('button', { class: 'btn sm danger', onclick: async () => { if (!confirm('Eliminare la scheda di ' + (s.risposte?.nome || 'questa cliente') + '? Le foto vengono cancellate.')) return; await db.elimina(s.id); S.schede = await db.tutte(); render(); } }, 'Elimina'))
+    ));
+  }
+  wrap.append(card);
+  return wrap;
+}
+
+function apri(s) { S.scheda = s; S.vista = 'scheda'; S.step = 0; render(); }
+function nuova() { S.scheda = { id: 'sch_' + Date.now().toString(36), creata: new Date().toISOString(), aggiornata: new Date().toISOString(), risposte: {}, foto: {}, lettura: { ai: null, inestetismi: [], segnalazioni: [] } }; S.schede.unshift(S.scheda); S.vista = 'scheda'; S.step = 0; salva(); render(); }
+
+function vistaScheda() {
+  const s = S.scheda;
+  const wrap = el('div');
+  const steps = el('div', { class: 'steps no-print' });
+  const fatto = [Object.keys(s.risposte).length > 3, Object.keys(s.foto).length > 0, s.lettura.inestetismi.length > 0, false];
+  STEP.forEach((n, i) => steps.append(el('button', { class: (i === S.step ? 'on ' : '') + (fatto[i] && i !== S.step ? 'done' : ''), onclick: () => { S.step = i; render(); } }, el('span', { class: 'n' }, i + 1), n)));
+  wrap.append(steps);
+  wrap.append([stepAnamnesi, stepFoto, stepLettura, stepPiano][S.step]());
+  const nav = el('div', { class: 'footer-nav no-print' });
+  nav.append(S.step > 0 ? el('button', { class: 'btn', onclick: () => { S.step--; render(); } }, '← ', STEP[S.step - 1]) : el('span'));
+  if (S.step < 3) nav.append(el('button', { class: 'btn primary', onclick: () => { S.step++; render(); } }, STEP[S.step + 1], ' →'));
+  wrap.append(nav);
+  return wrap;
+}
+
+/* ---------- 1. anamnesi ---------- */
+function stepAnamnesi() {
+  const s = S.scheda, r = s.risposte, wrap = el('div');
+  const set = (id, v) => { r[id] = v; salva(); aggiornaAvvisi(); };
+  const avvisi = el('div', { id: 'avvisi' });
+  const aggiornaAvvisi = () => {
+    avvisi.innerHTML = '';
+    const v = valutaAnamnesi(S.kb, S.an, r);
+    if (v.controindicazioni.length) avvisi.append(el('div', { class: 'alert warn' }, el('b', {}, 'Attenzione nella scelta dei trattamenti'), el('ul', {}, v.controindicazioni.map(c => el('li', {}, el('strong', {}, c.nome), ': ', c.nota)))));
+    if (v.segnalazioni.length) avvisi.append(el('div', { class: 'alert danger' }, el('b', {}, 'Da segnalare al medico prima di procedere'), el('ul', {}, v.segnalazioni.map(id => { const seg = S.kb.segnalazioni_medico.find(x => x.id === id); const c = id.startsWith('controindicazione:') && S.kb.controindicazioni[id.split(':')[1]]; return el('li', {}, seg ? seg.nome + ' · ' + seg.azione : (c ? c.nome + ' · serve il nulla osta del medico' : id)); }))));
+  };
+  wrap.append(avvisi);
+  for (const sez of S.an.sezioni) {
+    const card = el('div', { class: 'card' }, el('h2', {}, sez.titolo));
+    if (sez.nota) card.append(el('p', { class: 'small muted' }, sez.nota));
+    for (const d of sez.domande) card.append(campo(d, r, set));
+    wrap.append(card);
+  }
+  aggiornaAvvisi();
+  return wrap;
+}
+
+function campo(d, r, set) {
+  const q = el('div', { class: 'q' });
+  q.append(el('label', { class: 't' }, d.testo, d.obbligatoria ? el('span', { class: 'req' }, ' *') : null));
+  const v = r[d.id];
+  if (d.tipo === 'testo' || d.tipo === 'numero') {
+    q.append(el('input', { type: d.tipo === 'numero' ? 'number' : 'text', value: v ?? '', min: d.min, max: d.max, step: d.passo, inputmode: d.tipo === 'numero' ? 'decimal' : null, oninput: e => set(d.id, d.tipo === 'numero' ? (e.target.value === '' ? '' : Number(e.target.value)) : e.target.value) }));
+  } else if (d.tipo === 'testo_lungo') {
+    q.append(el('textarea', { oninput: e => set(d.id, e.target.value) }, v ?? ''));
+  } else if (d.tipo === 'si_no') {
+    const seg = el('div', { class: 'seg' });
+    const b = (lab, val) => el('button', { type: 'button', class: v === val ? 'on' : '', onclick: () => { set(d.id, val); seg.querySelectorAll('button').forEach((x, i) => x.classList.toggle('on', (i === 0) === val)); if (d.dettaglio) q.querySelector('.dett')?.classList.toggle('nascosto', !val); } }, lab);
+    seg.append(b('Sì', true), b('No', false));
+    q.append(seg);
+    if (d.dettaglio) q.append(el('input', { class: 'dett', type: 'text', placeholder: d.dettaglio, value: r[d.id + '_dettaglio'] ?? '', style: 'margin-top:8px', oninput: e => set(d.id + '_dettaglio', e.target.value) }));
+  } else if (d.tipo === 'scelta') {
+    const opz = d.opzioni_frequenza ? S.an.opzioni_frequenza : d.opzioni;
+    if (opz.length <= 4 && opz.every(o => o.t.length < 24)) {
+      const seg = el('div', { class: 'seg' });
+      for (const o of opz) seg.append(el('button', { type: 'button', class: v === o.v ? 'on' : '', onclick: e => { set(d.id, o.v); seg.querySelectorAll('button').forEach(x => x.classList.remove('on')); e.currentTarget.classList.add('on'); } }, o.t));
+      q.append(seg);
+    } else {
+      const sel = el('select', { onchange: e => set(d.id, e.target.value) }, el('option', { value: '' }, '—'));
+      for (const o of opz) sel.append(el('option', { value: o.v, selected: v === o.v }, o.t));
+      q.append(sel);
+    }
+  } else if (d.tipo === 'multipla') {
+    let opz = d.opzioni;
+    if (d.opzioni_da) { const area = d.opzioni_da.split('_')[1]; opz = Object.entries(S.kb.inestetismi).filter(([, i]) => i.area === area).map(([id, i]) => ({ v: id, t: i.nome })); }
+    const sel = new Set(Array.isArray(v) ? v : []);
+    const chips = el('div', { class: 'chips' });
+    for (const o of opz) chips.append(el('button', { type: 'button', class: 'chip' + (sel.has(o.v) ? ' on' : ''), onclick: e => { sel.has(o.v) ? sel.delete(o.v) : sel.add(o.v); e.currentTarget.classList.toggle('on'); set(d.id, [...sel]); } }, o.t));
+    q.append(chips);
+  } else if (d.tipo === 'scala') {
+    const sc = el('div', { class: 'scala' });
+    for (let i = d.min; i <= d.max; i++) sc.append(el('button', { type: 'button', class: v === i ? 'on' : '', onclick: e => { set(d.id, i); sc.querySelectorAll('button').forEach(x => x.classList.remove('on')); e.currentTarget.classList.add('on'); } }, i));
+    q.append(sc);
+  }
+  return q;
+}
+
+/* ---------- 2. foto ---------- */
+function stepFoto() {
+  const s = S.scheda, wrap = el('div');
+  if (s.risposte.consenso_foto !== true) wrap.append(el('div', { class: 'alert warn' }, el('b', {}, 'Manca il consenso alle foto'), 'Compila la sezione “Consenso” dell’anamnesi prima di scattare.'));
+  wrap.append(el('div', { class: 'alert info' }, el('b', {}, 'Come scattare'), 'Stessa stanza, stessa distanza, stessa luce ogni volta: così il confronto nel tempo è onesto. Niente filtri, niente flash diretto, niente trucco sul viso. Le foto vengono ridotte e restano su questo dispositivo.'));
+  for (const area of ['viso', 'corpo']) {
+    const card = el('div', { class: 'card' }, el('h2', {}, area === 'viso' ? 'Viso' : 'Corpo'));
+    const grid = el('div', { class: 'grid' });
+    for (const slot of SLOT_FOTO.filter(x => x.area === area)) grid.append(slotFoto(slot));
+    card.append(grid); wrap.append(card);
+  }
+  return wrap;
+}
+
+function slotFoto(slot) {
+  const s = S.scheda, f = s.foto[slot.id];
+  const box = el('div', { class: 'foto-slot' });
+  const input = el('input', { type: 'file', accept: 'image/*', capture: 'environment', onchange: async e => { const file = e.target.files[0]; if (!file) return; try { s.foto[slot.id] = { ...(await ridimensiona(file)), data: new Date().toISOString() }; salva(); render(); } catch (err) { toast('Foto non leggibile: ' + err.message); } } });
+  if (f) {
+    box.append(el('img', { src: f.dataUrl, alt: slot.nome }));
+    box.append(el('button', { class: 'btn sm x', onclick: () => { delete s.foto[slot.id]; salva(); render(); } }, '✕'));
+  } else {
+    box.append(el('div', { class: 'ph', onclick: () => input.click() }, el('span', { html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>' }), 'Tocca per scattare o caricare'));
+  }
+  box.append(el('div', { class: 'lab' }, slot.nome), el('div', { class: 'guida' }, slot.guida), input);
+  if (f) box.append(el('button', { class: 'btn sm', style: 'margin-top:8px', onclick: () => input.click() }, 'Sostituisci'));
+  return box;
+}
+
+/* ---------- 3. lettura ---------- */
+function stepLettura() {
+  const s = S.scheda, L = s.lettura, wrap = el('div');
+  const cfg = imp();
+  const foto = Object.entries(s.foto);
+  const card = el('div', { class: 'card' }, el('h2', {}, 'Lettura della pelle'));
+  card.append(el('p', { class: 'small muted' }, 'La lettura automatica propone; l’estetista conferma, corregge il grado e le zone. Nulla finisce nel piano senza il tuo via libera.'));
+  const puo = cfg.url && foto.length && s.risposte.consenso_analisi === true;
+  const motivo = !cfg.url ? 'Imposta l’URL del worker nelle impostazioni (⚙).' : !foto.length ? 'Carica almeno una foto.' : s.risposte.consenso_analisi !== true ? 'Serve il consenso all’analisi automatica (sezione Consenso).' : '';
+  const btn = el('button', { class: 'btn primary', disabled: !puo || S.analisi, onclick: () => analizza() }, S.analisi ? el('span', { class: 'spinner' }) : '✦', S.analisi ? ' Analisi in corso…' : ' Analizza le foto');
+  card.append(el('div', { class: 'row' }, btn, el('span', { class: 'small muted' }, motivo)));
+  if (L.ai) {
+    const ai = L.ai;
+    const box = el('div', { style: 'margin-top:12px' });
+    const probl = (ai.qualita_foto || []).filter(q => !q.utilizzabile);
+    if (probl.length) box.append(el('div', { class: 'alert warn' }, el('b', {}, 'Foto da rifare'), el('ul', {}, probl.map(q => el('li', {}, (SLOT_FOTO.find(x => x.id === q.etichetta)?.nome || q.etichetta) + ': ' + q.problema)))));
+    box.append(el('p', {}, el('strong', {}, 'Tipo di pelle: '), ai.tipo_pelle || '—', ' · ', el('strong', {}, 'Fototipo stimato: '), ai.fototipo_stimato || '—', ai.note ? el('span', { class: 'muted' }, ' · ' + ai.note) : null));
+    if (ai.segnalazioni_medico?.length) box.append(el('div', { class: 'alert danger' }, el('b', {}, 'La lettura suggerisce di far vedere al medico'), el('ul', {}, ai.segnalazioni_medico.map(x => { const seg = S.kb.segnalazioni_medico.find(y => y.id === x.id); return el('li', {}, (seg?.nome || x.id) + (x.motivo ? ' · ' + x.motivo : '')); }))));
+    card.append(box);
+  }
+  wrap.append(card);
+
+  // elenco inestetismi (AI + manuali)
+  const lista = el('div', { class: 'card' }, el('h2', {}, 'Inestetismi rilevati'));
+  if (!L.inestetismi.length) lista.append(el('p', { class: 'muted' }, 'Nessuno ancora. Analizza le foto oppure aggiungili a mano qui sotto.'));
+  for (const i of L.inestetismi) lista.append(rigaInestetismo(i));
+  const sel = el('select', {}, el('option', { value: '' }, 'Aggiungi un inestetismo…'));
+  for (const area of ['viso', 'corpo']) { const g = el('optgroup', { label: area === 'viso' ? 'Viso' : 'Corpo' }); for (const [id, d] of Object.entries(S.kb.inestetismi)) if (d.area === area && !L.inestetismi.some(x => x.id === id)) g.append(el('option', { value: id }, d.nome)); sel.append(g); }
+  sel.addEventListener('change', () => { if (!sel.value) return; L.inestetismi.push({ id: sel.value, grado: 2, zone: [], fonte: 'manuale', attivo: true }); salva(); render(); });
+  lista.append(el('div', { class: 'q' }, sel));
+  wrap.append(lista);
+
+  // segnalazioni manuali
+  const segn = el('div', { class: 'card' }, el('h2', {}, 'Segnalazioni al medico'), el('p', { class: 'small muted' }, 'Spunta ciò che hai osservato tu o che la lettura ha proposto. Finisce in cima al piano.'));
+  const chips = el('div', { class: 'chips' });
+  const set = new Set((L.segnalazioni || []).map(x => x.id));
+  for (const sg of S.kb.segnalazioni_medico) chips.append(el('button', { class: 'chip' + (set.has(sg.id) ? ' on' : ''), onclick: e => { if (set.has(sg.id)) set.delete(sg.id); else set.add(sg.id); e.currentTarget.classList.toggle('on'); L.segnalazioni = [...set].map(id => (L.segnalazioni || []).find(x => x.id === id) || { id }); salva(); } }, sg.nome));
+  segn.append(chips); wrap.append(segn);
+  return wrap;
+}
+
+function rigaInestetismo(i) {
+  const d = S.kb.inestetismi[i.id]; if (!d) return el('span');
+  const L = S.scheda.lettura;
+  const row = el('div', { class: 'ines' + (i.attivo === false ? ' off' : '') });
+  const chk = el('input', { type: 'checkbox', checked: i.attivo !== false, onchange: e => { i.attivo = e.target.checked; salva(); row.classList.toggle('off', !i.attivo); } });
+  row.append(el('div', { class: 'row between' },
+    el('label', { class: 'row' }, chk, el('span', { class: 'nome' }, d.nome), el('span', { class: 'badge ' + d.area }, d.area), el('span', { class: 'badge ' + (i.fonte === 'ai' ? 'ai' : 'man') }, i.fonte === 'ai' ? 'lettura' : 'manuale'), i.confidenza ? el('span', { class: 'badge conf-' + i.confidenza }, 'conf. ' + i.confidenza) : null),
+    el('button', { class: 'btn sm danger', onclick: () => { L.inestetismi.splice(L.inestetismi.indexOf(i), 1); salva(); render(); } }, 'Togli')));
+  if (i.evidenza) row.append(el('div', { class: 'evid' }, '“', i.evidenza, '”'));
+  const gradi = el('div', { class: 'seg', style: 'margin:4px 8px 4px 0' });
+  [[1, 'lieve'], [2, 'moderato'], [3, 'marcato']].forEach(([g, t]) => gradi.append(el('button', { class: i.grado === g ? 'on' : '', onclick: e => { i.grado = g; salva(); gradi.querySelectorAll('button').forEach(x => x.classList.remove('on')); e.currentTarget.classList.add('on'); } }, t)));
+  const zone = el('div', { class: 'chips' });
+  const zs = new Set(i.zone || []);
+  for (const z of S.kb.zone[d.area]) zone.append(el('button', { class: 'chip sm' + (zs.has(z) ? ' on' : ''), onclick: e => { zs.has(z) ? zs.delete(z) : zs.add(z); i.zone = [...zs]; salva(); e.currentTarget.classList.toggle('on'); } }, z.replace(/_/g, ' ')));
+  row.append(el('div', { class: 'row' }, gradi, zone));
+  return row;
+}
+
+async function analizza() {
+  const s = S.scheda, cfg = imp();
+  S.analisi = true; render();
+  try {
+    const foto = Object.entries(s.foto).map(([etichetta, f]) => ({ etichetta, media_type: 'image/jpeg', data: f.dataUrl.split(',')[1] }));
+    const catalogo = {
+      inestetismi: Object.entries(S.kb.inestetismi).map(([id, d]) => ({ id, nome: d.nome, area: d.area, segni: d.segni, zone_tipiche: d.zone_tipiche })),
+      zone: S.kb.zone,
+      segnalazioni: S.kb.segnalazioni_medico.map(x => ({ id: x.id, nome: x.nome }))
+    };
+    const r = s.risposte;
+    const contesto = { eta: r.eta, fototipo_dichiarato: r.fototipo, pelle_percepita: r.pelle_percepita, obiettivi: [...(r.obiettivi_viso || []), ...(r.obiettivi_corpo || [])], note: r.obiettivo_libero || '' };
+    const res = await fetch(cfg.url.replace(/\/$/, '') + '/analizza', { method: 'POST', headers: { 'content-type': 'application/json', ...(cfg.token ? { authorization: 'Bearer ' + cfg.token } : {}) }, body: JSON.stringify({ foto, contesto, catalogo }) });
+    if (!res.ok) throw new Error('worker ' + res.status + ': ' + (await res.text()).slice(0, 200));
+    const ai = await res.json();
+    s.lettura.ai = { ...ai, data: new Date().toISOString() };
+    // unisce: tiene i manuali, sostituisce i precedenti da AI
+    const manuali = s.lettura.inestetismi.filter(i => i.fonte !== 'ai');
+    const nuovi = (ai.inestetismi || []).filter(i => S.kb.inestetismi[i.id] && !manuali.some(m => m.id === i.id)).map(i => ({ id: i.id, grado: Math.min(3, Math.max(1, Number(i.grado) || 2)), zone: (i.zone || []).filter(z => S.kb.zone[S.kb.inestetismi[i.id].area].includes(z)), fonte: 'ai', confidenza: i.confidenza, evidenza: i.evidenza, attivo: i.confidenza !== 'bassa' }));
+    s.lettura.inestetismi = [...nuovi, ...manuali];
+    const segAi = (ai.segnalazioni_medico || []).filter(x => S.kb.segnalazioni_medico.some(y => y.id === x.id));
+    const vecchie = (s.lettura.segnalazioni || []).filter(x => !segAi.some(y => y.id === x.id));
+    s.lettura.segnalazioni = [...segAi, ...vecchie];
+    salva(); toast('Lettura completata: ' + nuovi.length + ' inestetismi proposti');
+  } catch (e) { toast('Analisi non riuscita: ' + e.message); console.error(e); }
+  S.analisi = false; render();
+}
+
+/* ---------- 4. piano ---------- */
+function stepPiano() {
+  const s = S.scheda, wrap = el('div');
+  const inest = s.lettura.inestetismi.filter(i => i.attivo !== false);
+  if (!inest.length) { wrap.append(el('div', { class: 'card' }, el('h2', {}, 'Piano di lavoro'), el('p', { class: 'muted' }, 'Prima servono gli inestetismi nel passo “Lettura”.'))); return wrap; }
+  const piano = generaPiano(S.kb, S.an, { risposte: s.risposte, inestetismi: inest, segnalazioni: s.lettura.segnalazioni || [] });
+  s.piano = piano; salva();
+  const cfg = imp();
+
+  wrap.append(el('div', { class: 'row between no-print', style: 'margin-bottom:10px' },
+    el('span', { class: 'small muted' }, 'Generato dalla base di conoscenza: rivedi e adatta prima di proporlo.'),
+    el('div', { class: 'row' }, el('button', { class: 'btn', onclick: () => esporta(s) }, 'Esporta JSON'), el('button', { class: 'btn primary', onclick: () => window.print() }, 'Stampa / PDF'))));
+
+  const testa = el('div', { class: 'card' });
+  testa.append(el('div', { class: 'print-only small muted' }, cfg.centro || ''), el('h2', {}, 'Piano di lavoro · ', piano.cliente.nome || 'cliente'));
+  testa.append(el('p', { class: 'small muted' }, [piano.cliente.eta && piano.cliente.eta + ' anni', piano.cliente.fototipo && 'fototipo ' + piano.cliente.fototipo, 'redatto il ' + dataIt(piano.generato_il)].filter(Boolean).join(' · ')));
+  const fotoViso = s.foto.viso_frontale, fotoCorpo = s.foto.corpo_fronte;
+  if (fotoViso || fotoCorpo) testa.append(el('div', { class: 'row' }, fotoViso ? el('img', { src: fotoViso.dataUrl, style: 'width:90px;border-radius:8px' }) : null, fotoCorpo ? el('img', { src: fotoCorpo.dataUrl, style: 'width:90px;border-radius:8px' }) : null, el('span', { class: 'small muted' }, 'Foto di partenza per il confronto.')));
+  if (piano.segnalazioni.length) testa.append(el('div', { class: 'alert danger' }, el('b', {}, 'Prima di iniziare: segnalare al medico'), el('ul', {}, piano.segnalazioni.map(x => el('li', {}, el('strong', {}, x.nome), x.motivo ? ' (' + x.motivo + ')' : '', ' · ', x.azione)))));
+  if (piano.controindicazioni.length) testa.append(el('div', { class: 'alert warn' }, el('b', {}, 'Controindicazioni attive'), el('ul', {}, piano.controindicazioni.map(c => el('li', {}, el('strong', {}, c.nome), ': ', c.nota)))));
+  if (!piano.segnalazioni.length && !piano.controindicazioni.length) testa.append(el('div', { class: 'alert ok' }, 'Nessuna controindicazione dichiarata.'));
+  wrap.append(testa);
+
+  if (piano.abitudini.length) {
+    const ab = el('div', { class: 'card' }, el('h2', {}, 'Abitudini che alimentano gli inestetismi'));
+    ab.append(el('ul', { style: 'padding-left:18px;margin:0' }, piano.abitudini.map(a => el('li', { style: 'margin-bottom:6px' }, a.consiglio, a.impatto.length ? el('span', { class: 'small muted' }, ' Incide su: ' + a.impatto.join(', ') + '.') : null))));
+    wrap.append(ab);
+  }
+
+  for (const area of ['viso', 'corpo']) { const p = piano[area]; if (p) wrap.append(cardArea(p)); }
+  wrap.append(el('div', { class: 'card small muted' }, 'Il piano riguarda esclusivamente inestetismi e benessere estetico. Non è una diagnosi né una prescrizione: per qualsiasi dubbio sulla salute della pelle la cliente va indirizzata al medico.'));
+  return wrap;
+}
+
+function cardArea(p) {
+  const c = el('div', { class: 'card' }, el('h2', {}, p.area === 'viso' ? 'Viso' : 'Corpo'));
+  const t = el('table', {}, el('thead', {}, el('tr', {}, el('th', {}, 'Inestetismo'), el('th', {}, 'Grado'), el('th', {}, 'Zone'), el('th', {}, 'Tessuto su cui lavorare'))));
+  const tb = el('tbody');
+  for (const i of p.inestetismi) tb.append(el('tr', {}, el('td', {}, el('strong', {}, i.nome)), el('td', {}, ['', 'lieve', 'moderato', 'marcato'][i.grado] || '—'), el('td', {}, i.zone.map(z => z.replace(/_/g, ' ')).join(', ') || '—'), el('td', {}, i.tessuti.map(x => el('span', { class: 'tess' }, x)))));
+  t.append(tb); c.append(t);
+
+  c.append(el('h3', { style: 'margin-top:16px' }, 'Ciclo proposto'));
+  c.append(el('p', {}, el('strong', {}, p.ciclo.sedute + ' sedute'), ', ', p.ciclo.frequenza, ', circa ', p.ciclo.durata_media_min, ' minuti ciascuna. Controllo fotografico ogni 4 sedute.'));
+  c.append(el('p', { class: 'small' }, el('strong', {}, 'Tessuti bersaglio in ordine: '), p.tessuti.map(x => x.nome).join(' → ')));
+
+  c.append(el('h3', {}, 'Trattamenti scelti'));
+  const tt = el('table', {}, el('thead', {}, el('tr', {}, el('th', {}, 'Trattamento'), el('th', {}, 'Tipo'), el('th', {}, 'Perché'))));
+  const ttb = el('tbody');
+  for (const x of p.trattamenti) ttb.append(el('tr', {}, el('td', {}, el('strong', {}, x.nome), x.cautela ? el('span', { class: 'small', style: 'color:var(--warn)' }, ' · con cautela') : null), el('td', {}, x.tipo), el('td', { class: 'small muted' }, x.perche.join(', '))));
+  tt.append(ttb); c.append(tt);
+  if (p.esclusi.length) c.append(el('p', { class: 'small muted', style: 'margin-top:8px' }, el('strong', {}, 'Esclusi per sicurezza: '), p.esclusi.map(e => e.nome + ' (' + e.motivo + ')').join('; '), '.'));
+
+  c.append(el('h3', { style: 'margin-top:16px' }, 'Sequenza delle sedute'));
+  p.sedute.forEach((sd, k) => {
+    const det = el('details', { class: 'seduta', open: k < 2 });
+    det.append(el('summary', {}, el('span', {}, 'Seduta ', sd.numero), el('span', { class: 'muted small' }, sd.durata_min, ' min')));
+    const body = el('div', { class: 'body' });
+    for (const v of sd.voci) {
+      if (!v.trattamento) { body.append(el('div', { class: 'fase' }, el('div', { class: 'fn' }, v.fase), el('div', { class: 'td' }, k === 0 ? 'Anamnesi, consenso, foto di partenza.' : 'Novità dall’ultima seduta, reazioni, foto di controllo se prevista.'))); continue; }
+      const tr = v.trattamento;
+      body.append(el('div', { class: 'fase' }, el('div', { class: 'fn' }, v.fase), el('div', {}, el('span', { class: 'tn' }, tr.nome), el('span', { class: 'muted small' }, ' · ', tr.durata_min, ' min · ', tr.tessuti.join(', ')), tr.cautela ? el('div', { class: 'caut' }, 'Con cautela: vedi controindicazioni.') : null, el('div', { class: 'td' }, tr.descrizione))));
+    }
+    det.append(body); c.append(det);
+  });
+
+  c.append(el('h3', { style: 'margin-top:16px' }, 'Prodotti e principi attivi per casa'));
+  const at = el('table', {}, el('thead', {}, el('tr', {}, el('th', {}, 'Attivo'), el('th', {}, 'Azione'), el('th', {}, 'Quando'))));
+  const atb = el('tbody');
+  for (const a of p.attivi) atb.append(el('tr', {}, el('td', {}, el('strong', {}, a.nome)), el('td', { class: 'small' }, a.azione, a.cautela ? el('div', { style: 'color:var(--warn)' }, 'Cautela: ' + a.cautela) : null), el('td', { class: 'small muted' }, a.quando)));
+  at.append(atb); c.append(at);
+  if (p.attivi_evitati.length) c.append(el('p', { class: 'small muted', style: 'margin-top:8px' }, el('strong', {}, 'Da evitare in questo percorso: '), p.attivi_evitati.map(a => a.nome).join(', '), '.'));
+
+  c.append(el('h3', { style: 'margin-top:16px' }, 'Consigli per casa'));
+  c.append(el('ul', { style: 'padding-left:18px;margin:0' }, p.casa.map(x => el('li', {}, x))));
+  return c;
+}
+
+function esporta(s) {
+  const copia = { ...s, foto: Object.fromEntries(Object.entries(s.foto).map(([k, f]) => [k, { w: f.w, h: f.h, data: f.data }])) };
+  const blob = new Blob([JSON.stringify(copia, null, 2)], { type: 'application/json' });
+  const a = el('a', { href: URL.createObjectURL(blob), download: 'scheda-' + (s.risposte.nome || s.id).replace(/\s+/g, '-').toLowerCase() + '.json' });
+  document.body.append(a); a.click(); a.remove();
+}
+
+/* ---------- impostazioni ---------- */
+const dlg = $('#dlg-impostazioni');
+$('#btn-impostazioni').onclick = () => { const c = imp(); $('#imp-url').value = c.url || ''; $('#imp-token').value = c.token || ''; $('#imp-centro').value = c.centro || ''; dlg.showModal(); };
+$('#imp-chiudi').onclick = () => dlg.close();
+$('#imp-salva').onclick = () => { localStorage.setItem('estetica.impostazioni', JSON.stringify({ url: $('#imp-url').value.trim(), token: $('#imp-token').value.trim(), centro: $('#imp-centro').value.trim() })); dlg.close(); toast('Impostazioni salvate'); render(); };
+$('#btn-elenco').onclick = async () => { S.schede = await db.tutte(); S.vista = 'elenco'; render(); };
+$('#btn-nuova').onclick = nuova;
+
+/* ---------- avvio ---------- */
+(async () => {
+  try {
+    [S.kb, S.an] = await Promise.all([fetch('conoscenza.json').then(r => r.json()), fetch('anamnesi.json').then(r => r.json())]);
+    S.schede = await db.tutte();
+    render();
+  } catch (e) { $('#app').innerHTML = '<div class="alert danger"><b>Impossibile avviare</b>' + esc(e.message) + '. La pagina va aperta da un server web, non come file locale.</div>'; }
+})();
+</script>
+</body>
+</html>

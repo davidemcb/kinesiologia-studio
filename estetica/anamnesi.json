@@ -1,0 +1,106 @@
+{
+  "versione": 1,
+  "nota": "Questionario di anamnesi estetica. Ogni domanda può collegarsi a una controindicazione (campo 'controindicazione' o 'mappa'), a una segnalazione al medico ('segnala') o alle regole sulle abitudini della base di conoscenza (stesso id della domanda).",
+  "sezioni": [
+    {
+      "id": "dati",
+      "titolo": "Dati della cliente",
+      "domande": [
+        { "id": "nome", "testo": "Nome e cognome", "tipo": "testo", "obbligatoria": true },
+        { "id": "eta", "testo": "Età", "tipo": "numero", "min": 14, "max": 100, "obbligatoria": true },
+        { "id": "telefono", "testo": "Telefono", "tipo": "testo" },
+        { "id": "fototipo", "testo": "Fototipo (come reagisce al sole)", "tipo": "scelta", "opzioni": [
+          { "v": "I", "t": "I · pelle chiarissima, si scotta sempre, non si abbronza" },
+          { "v": "II", "t": "II · chiara, si scotta facilmente, si abbronza poco" },
+          { "v": "III", "t": "III · si scotta a volte, si abbronza gradualmente" },
+          { "v": "IV", "t": "IV · olivastra, si scotta raramente" },
+          { "v": "V", "t": "V · scura, non si scotta quasi mai" },
+          { "v": "VI", "t": "VI · molto scura" }
+        ], "mappa": { "V": "fototipo_scuro", "VI": "fototipo_scuro" } }
+      ]
+    },
+    {
+      "id": "obiettivi",
+      "titolo": "Obiettivi",
+      "domande": [
+        { "id": "obiettivi_viso", "testo": "Cosa vorresti migliorare sul viso?", "tipo": "multipla", "opzioni_da": "inestetismi_viso" },
+        { "id": "obiettivi_corpo", "testo": "Cosa vorresti migliorare sul corpo?", "tipo": "multipla", "opzioni_da": "inestetismi_corpo" },
+        { "id": "obiettivo_libero", "testo": "Con parole tue: cosa ti aspetti da questo percorso?", "tipo": "testo_lungo" },
+        { "id": "evento", "testo": "C'è una data entro cui vorresti vedere il risultato (matrimonio, vacanza, evento)?", "tipo": "testo" }
+      ]
+    },
+    {
+      "id": "salute",
+      "titolo": "Salute generale",
+      "nota": "Servono per scegliere i trattamenti in sicurezza. Non sono una visita medica.",
+      "domande": [
+        { "id": "gravidanza", "testo": "Sei in gravidanza o la stai cercando?", "tipo": "si_no", "controindicazione": "gravidanza" },
+        { "id": "allattamento", "testo": "Stai allattando?", "tipo": "si_no", "controindicazione": "allattamento" },
+        { "id": "pacemaker", "testo": "Hai un pacemaker o altri dispositivi elettronici impiantati?", "tipo": "si_no", "controindicazione": "pacemaker" },
+        { "id": "protesi", "testo": "Hai protesi metalliche, placche, viti o fili nelle zone da trattare?", "tipo": "si_no", "controindicazione": "protesi_metalliche" },
+        { "id": "epilessia", "testo": "Soffri di epilessia?", "tipo": "si_no", "controindicazione": "epilessia" },
+        { "id": "neoplasie", "testo": "Hai avuto tumori negli ultimi 5 anni o sei in cura?", "tipo": "si_no", "controindicazione": "neoplasie" },
+        { "id": "diabete", "testo": "Hai il diabete?", "tipo": "si_no", "controindicazione": "diabete" },
+        { "id": "cardio", "testo": "Hai problemi di cuore o pressione alta non controllata?", "tipo": "si_no", "controindicazione": "cardiopatie" },
+        { "id": "trombosi", "testo": "Hai avuto trombosi, flebiti o hai varici importanti?", "tipo": "si_no", "controindicazione": "trombosi_flebiti" },
+        { "id": "capillari", "testo": "Ti vengono lividi con facilità o hai capillari molto fragili?", "tipo": "si_no", "controindicazione": "fragilita_capillare" },
+        { "id": "tiroide", "testo": "Hai problemi di tiroide?", "tipo": "si_no", "controindicazione": "tiroide" },
+        { "id": "reni_fegato", "testo": "Hai problemi ai reni o al fegato?", "tipo": "si_no", "controindicazione": "patologie_renali_epatiche" },
+        { "id": "anticoagulanti", "testo": "Prendi anticoagulanti o fluidificanti del sangue?", "tipo": "si_no", "controindicazione": "anticoagulanti" },
+        { "id": "retinoidi", "testo": "Hai preso isotretinoina o retinoidi per bocca negli ultimi 6 mesi?", "tipo": "si_no", "controindicazione": "retinoidi_orali" },
+        { "id": "fotosens", "testo": "Prendi farmaci o integratori che rendono la pelle sensibile al sole (antibiotici, iperico, alcuni antinfiammatori, cortisone)?", "tipo": "si_no", "controindicazione": "fotosensibilizzanti" },
+        { "id": "interventi", "testo": "Hai subito interventi chirurgici negli ultimi 3 mesi?", "tipo": "si_no", "controindicazione": "interventi_recenti" },
+        { "id": "allergie", "testo": "Hai allergie a cosmetici, profumi, nichel o altro?", "tipo": "si_no", "controindicazione": "allergie_cosmetici", "dettaglio": "A cosa?" },
+        { "id": "farmaci", "testo": "Altri farmaci che prendi abitualmente", "tipo": "testo" }
+      ]
+    },
+    {
+      "id": "pelle",
+      "titolo": "La tua pelle e la tua routine",
+      "domande": [
+        { "id": "pelle_percepita", "testo": "Come definiresti la tua pelle?", "tipo": "scelta", "opzioni": [
+          { "v": "secca", "t": "Secca, tira" }, { "v": "grassa", "t": "Grassa, lucida" }, { "v": "mista", "t": "Mista" }, { "v": "sensibile", "t": "Sensibile, arrossa facilmente" }, { "v": "normale", "t": "Normale" } ] },
+        { "id": "lesioni", "testo": "Hai al momento ferite, infezioni, herpes, dermatiti o irritazioni nelle zone da trattare?", "tipo": "si_no", "controindicazione": "lesioni_attive" },
+        { "id": "herpes", "testo": "Soffri di herpes labiale ricorrente?", "tipo": "si_no", "controindicazione": "herpes_attivo" },
+        { "id": "melasma", "testo": "Hai macchie comparse in gravidanza o con la pillola (melasma)?", "tipo": "si_no", "controindicazione": "melasma" },
+        { "id": "nei", "testo": "Hai nei che sono cambiati, cresciuti o che sanguinano?", "tipo": "si_no", "segnala": "neo_sospetto" },
+        { "id": "sole_recente", "testo": "Ti sei esposta al sole o a lampade nelle ultime 3 settimane?", "tipo": "si_no", "controindicazione": "abbronzatura_recente" },
+        { "id": "medico_estetico", "testo": "Hai fatto filler, botulino, laser o altri trattamenti medico-estetici nelle ultime 4 settimane?", "tipo": "si_no", "controindicazione": "filler_botulino_recenti" },
+        { "id": "prodotti_casa", "testo": "Cosa usi a casa?", "tipo": "multipla", "opzioni": [
+          { "v": "detergente", "t": "Detergente specifico" }, { "v": "tonico", "t": "Tonico" }, { "v": "siero", "t": "Siero" }, { "v": "crema_giorno", "t": "Crema giorno" }, { "v": "crema_notte", "t": "Crema notte" }, { "v": "contorno_occhi", "t": "Contorno occhi" }, { "v": "acidi", "t": "Acidi esfolianti" }, { "v": "retinolo", "t": "Retinolo" }, { "v": "vitamina_c", "t": "Vitamina C" }, { "v": "spf", "t": "Protezione solare" }, { "v": "niente", "t": "Praticamente niente" } ] },
+        { "id": "struccarsi_sera", "testo": "Ti strucchi e detergi il viso ogni sera?", "tipo": "si_no" },
+        { "id": "spf_quotidiana", "testo": "Metti la protezione solare ogni mattina, anche d'inverno?", "tipo": "si_no" },
+        { "id": "trattamenti_precedenti", "testo": "Trattamenti estetici fatti in passato e come sono andati", "tipo": "testo_lungo" }
+      ]
+    },
+    {
+      "id": "abitudini",
+      "titolo": "Abitudini e alimentazione",
+      "nota": "Non è una dieta: servono a capire cosa, nelle abitudini, alimenta l'inestetismo.",
+      "domande": [
+        { "id": "acqua_litri", "testo": "Quanta acqua bevi al giorno (litri)?", "tipo": "numero", "min": 0, "max": 6, "passo": 0.5 },
+        { "id": "frutta_verdura", "testo": "Frutta e verdura", "tipo": "scelta", "opzioni": [ { "v": "raramente", "t": "Raramente" }, { "v": "qualche_volta", "t": "Qualche volta a settimana" }, { "v": "ogni_giorno", "t": "Ogni giorno" }, { "v": "molte_porzioni", "t": "Più porzioni al giorno" } ] },
+        { "id": "zuccheri", "testo": "Dolci, bibite zuccherate, snack", "tipo": "scelta", "opzioni_frequenza": true },
+        { "id": "sale", "testo": "Salumi, formaggi stagionati, cibi pronti, snack salati", "tipo": "scelta", "opzioni_frequenza": true },
+        { "id": "latticini", "testo": "Latte e latticini", "tipo": "scelta", "opzioni_frequenza": true },
+        { "id": "alcol", "testo": "Alcolici", "tipo": "scelta", "opzioni_frequenza": true },
+        { "id": "fumo", "testo": "Fumi?", "tipo": "si_no" },
+        { "id": "sonno_ore", "testo": "Quante ore dormi in media?", "tipo": "numero", "min": 3, "max": 12, "passo": 0.5 },
+        { "id": "attivita_fisica", "testo": "Attività fisica", "tipo": "scelta", "opzioni": [ { "v": "mai", "t": "Mai" }, { "v": "raramente", "t": "Raramente" }, { "v": "2_3_settimana", "t": "2-3 volte a settimana" }, { "v": "quotidiana", "t": "Quasi ogni giorno" } ] },
+        { "id": "lavoro", "testo": "Il tuo lavoro è", "tipo": "scelta", "opzioni": [ { "v": "seduto", "t": "Soprattutto seduto" }, { "v": "in_piedi", "t": "Soprattutto in piedi fermo" }, { "v": "attivo", "t": "In movimento" } ] },
+        { "id": "esposizione_sole", "testo": "Esposizione al sole o lampade durante l'anno", "tipo": "scelta", "opzioni": [ { "v": "poca", "t": "Poca" }, { "v": "media", "t": "Media" }, { "v": "molta", "t": "Molta" } ] },
+        { "id": "stress", "testo": "Quanto ti senti stressata (1 poco, 5 molto)?", "tipo": "scala", "min": 1, "max": 5 },
+        { "id": "ciclo", "testo": "Ciclo e ormoni", "tipo": "scelta", "opzioni": [ { "v": "regolare", "t": "Ciclo regolare" }, { "v": "irregolare", "t": "Ciclo irregolare" }, { "v": "contraccettivo", "t": "Contraccettivo ormonale" }, { "v": "menopausa", "t": "Menopausa" }, { "v": "non_applicabile", "t": "Non applicabile" } ] }
+      ]
+    },
+    {
+      "id": "consenso",
+      "titolo": "Consenso",
+      "domande": [
+        { "id": "consenso_foto", "testo": "Acconsento alla raccolta delle fotografie e dei dati di questa scheda per la valutazione estetica e il confronto nel tempo. So che posso chiederne la cancellazione in qualsiasi momento.", "tipo": "si_no", "obbligatoria": true },
+        { "id": "consenso_analisi", "testo": "Acconsento a che le fotografie siano analizzate da un sistema automatico, sotto il controllo dell'estetista, per individuare gli inestetismi. Le foto non vengono usate per altri scopi.", "tipo": "si_no", "obbligatoria": true }
+      ]
+    }
+  ],
+  "opzioni_frequenza": [ { "v": "mai", "t": "Mai o quasi" }, { "v": "raramente", "t": "Raramente" }, { "v": "spesso", "t": "Spesso" }, { "v": "ogni_giorno", "t": "Ogni giorno" } ]
+}
