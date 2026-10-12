@@ -173,6 +173,8 @@
       let changed = false;
       for (const p of ex.patients || []) if (!d.patients.some(x => x.id === p.id)) { d.patients.push(p); changed = true; }
       for (const v of ex.visits || []) if (!d.visits.some(x => x.id === v.id)) { d.visits.push(v); changed = true; }
+      d.sessions = d.sessions || [];
+      for (const x of ex.sessions || []) if (!d.sessions.some(y => y.id === x.id)) { d.sessions.push(x); changed = true; }
       if (changed) save();
     }
     return {
