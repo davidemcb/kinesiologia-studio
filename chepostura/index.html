@@ -167,6 +167,7 @@
 <script src="config.js"></script>
 <script src="api.js"></script>
 <script src="test-catalogo.js"></script>
+<script src="report.js"></script>
 <script>
 (() => {
 'use strict';
@@ -369,11 +370,12 @@ async function renderPatient(id) {
       <div><h1>${esc(p.full_name)}</h1>
         <p class="hint">${p.birth ? 'Nato/a il ' + itDate(p.birth) + ' · ' : ''}${p.phone ? esc(p.phone) + ' · ' : ''}${p.email ? esc(p.email) + ' · ' : ''}consenso del ${itDate(p.consent_date)}</p>
         <div class="row" style="margin-top:6px">${p.user_id ? '<span class="pill ok">Area riservata attiva</span>' : '<span class="pill warn">Il paziente non ha ancora usato il codice</span>'}</div></div>
-      <div class="row"><a class="btn primary big" href="analisi.html#p-${esc(p.id)}">Nuova visita</a></div>
+      <div class="row"><a class="btn primary big" href="analisi.html#p-${esc(p.id)}">Nuova visita</a><button class="btn big" type="button" id="bReport">Crea report e proposta</button></div>
     </div>
     <div class="row"><button class="btn" type="button" id="bCode">Nuovo codice di accesso</button><button class="btn" type="button" id="bEdit">Modifica dati</button><button class="btn danger" type="button" id="bDel">Elimina paziente</button></div>
     <div id="pExtra"></div>
   </div>
+  <div id="pReport"></div>
   ${trendCard(vs)}
   <div class="card"><h2>Visite</h2><div class="vlist" id="vlist"></div></div>
   <div class="card"><div class="phero"><div><h2>Diario delle sedute</h2><p class="hint">Trattamenti e allenamenti, con autore e data. Le voci con "visibile al paziente" compaiono anche nella sua area.</p></div><button class="btn primary" type="button" id="bSess">Nuova seduta</button></div>
@@ -385,6 +387,7 @@ async function renderPatient(id) {
   for (const v of vs) vl.appendChild(visitRow(v, true));
   drawSessions($('#slist'), ss, true, p);
   $('#bSess').addEventListener('click', () => sessionForm($('#sessForm'), p, vs[0]));
+  $('#bReport').addEventListener('click', () => { const b = $('#pReport'); window.CPReport.open(b, p, vs, ss); b.scrollIntoView({ block: 'start', behavior: 'smooth' }); });
   const extra = $('#pExtra');
   $('#bCode').addEventListener('click', async () => { const code = await Api.newAccessCode(p.id); showCode(extra, p, code); extra.className = 'card'; });
   $('#bEdit').addEventListener('click', () => {
