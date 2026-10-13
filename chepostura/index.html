@@ -222,6 +222,7 @@ async function route() {
 
 /* ---------------- accesso ---------------- */
 function renderLogin(mode = 'in') {
+  if (Api.mode === 'demo') return renderDemoLogin();
   app.innerHTML = `${demoBanner()}
   <div class="card login">
     <h1>${mode === 'in' ? 'Entra' : 'Primo accesso'}</h1>
@@ -234,10 +235,6 @@ function renderLogin(mode = 'in') {
     </form>
     <p class="hint">${mode === 'in' ? 'Prima volta? <a href="#" id="toUp">Crea il tuo accesso con il codice dello studio</a>.' : 'Hai già un accesso? <a href="#" id="toIn">Entra</a>.'}</p>
     <p class="hint">Password dimenticata? Chiedi allo studio un nuovo codice di accesso.</p>
-    ${Api.mode === 'demo' ? `<div class="card" style="background:var(--surface-2);border:0"><b>Prova la demo</b><div class="row">
-      <button class="btn primary" type="button" data-demo="davide">Entra come Davide (studio)</button>
-      <button class="btn" type="button" data-demo="morena">Entra come Morena (studio)</button>
-      <button class="btn" type="button" data-demo="paziente">Entra come paziente (Maria Rossi)</button></div></div>` : ''}
   </div>`;
   bindDemo();
   $('#fLogin').addEventListener('submit', async e => {
@@ -249,6 +246,23 @@ function renderLogin(mode = 'in') {
   const up = $('#toUp'), inn = $('#toIn');
   if (up) up.addEventListener('click', e => { e.preventDefault(); renderLogin('up'); });
   if (inn) inn.addEventListener('click', e => { e.preventDefault(); renderLogin('in'); });
+}
+
+/* Versione di prova: niente email e password, si sceglie con chi entrare. */
+function renderDemoLogin() {
+  app.innerHTML = `${demoBanner()}
+  <div class="card login">
+    <h1>Entra</h1>
+    <p class="hint">Questa è la versione di prova: <b>non servono email né password</b>. Scegli con chi entrare.</p>
+    ${msgEl()}
+    <div class="row" style="flex-direction:column;align-items:stretch">
+      <button class="btn primary big" type="button" data-demo="davide">Entra come Davide (studio)</button>
+      <button class="btn primary big" type="button" data-demo="morena">Entra come Morena (studio)</button>
+      <button class="btn big" type="button" data-demo="paziente">Entra come paziente (Maria Rossi)</button>
+    </div>
+    <p class="hint">L'accesso con email e password arriverà quando il gestionale sarà collegato al database dello studio.</p>
+  </div>`;
+  bindDemo();
   app.querySelectorAll('[data-demo]').forEach(b => b.addEventListener('click', async () => { await Api.demoLogin(b.dataset.demo); location.hash = ''; boot(); }));
 }
 
