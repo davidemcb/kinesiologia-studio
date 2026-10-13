@@ -11,6 +11,24 @@
   const shortDate = iso => { const [, m, d] = iso.split('-').map(Number); return `${d}/${m}`; };
   const addDays = (iso, n) => { const d = new Date(iso + 'T12:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
   const todayIso = () => new Date().toISOString().slice(0, 10);
+  const addMonths = (iso, n) => { const d = new Date(iso + 'T12:00'), day = d.getDate(); d.setDate(1); d.setMonth(d.getMonth() + n); d.setDate(Math.min(day, new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate())); return d.toISOString().slice(0, 10); };
+  // sedute di richiamo dopo i 3 mesi: ritmo, quando e perché
+  const RICHIAMI = {
+    scala: { label: 'A scalare: mensile, poi bimestrale, poi trimestrale (consigliato)',
+      rows: [['Una al mese', 'mesi 4–6', 'Il corpo sta ancora consolidando la nuova postura. In un mese le abitudini di ogni giorno (ore seduti, lavoro, sport, stress) riescono già a ricaricare le catene trattate: il richiamo le scarica prima che si riformino i compensi.'],
+        ['Ogni 2 mesi', 'mesi 7–12', 'La postura è più stabile e i muscoli profondi lavorano meglio. Il richiamo serve a controllare e liberare i punti che tendono a tornare, prima che diano fastidio.'],
+        ['Ogni 3 mesi', 'dal secondo anno', 'Mantenimento: un controllo a ogni cambio di stagione, con test muscolari e, una volta l\'anno, le foto per confrontare con oggi.']],
+      months: [1, 2, 3, 5, 7, 9, 12] },
+    mensile: { label: 'Una seduta al mese',
+      rows: [['Una al mese', 'dopo i 3 mesi', 'È il ritmo indicato quando le tensioni si ricaricano in fretta: lavoro sedentario o fisicamente pesante, sport intenso, più catene coinvolte o un dolore che in passato tornava spesso. Un mese è il tempo in cui, senza richiamo, i compensi iniziano a riformarsi.']],
+      months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+    bimestrale: { label: 'Una seduta ogni 2 mesi',
+      rows: [['Ogni 2 mesi', 'dopo i 3 mesi', 'È il ritmo indicato quando la postura è migliorata ed è stabile, l\'attività fisica è regolare e gli esercizi vengono fatti con costanza. Il richiamo controlla che il nuovo equilibrio regga e scarica le tensioni accumulate.']],
+      months: [2, 4, 6, 8, 10, 12] },
+    trimestrale: { label: 'Una seduta ogni 3 mesi',
+      rows: [['Ogni 3 mesi', 'dopo i 3 mesi', 'È il ritmo di mantenimento per chi ha raggiunto gli obiettivi e si allena in autonomia: un controllo a ogni cambio di stagione, con test muscolari e foto una volta l\'anno.']],
+      months: [3, 6, 9, 12] }
+  };
   // i caratteri che i font standard del PDF non hanno
   const pdfTxt = t => String(t).replace(/→/g, '->').replace(/≈/g, 'circa ').replace(/[“”«»]/g, '"').replace(/[‘’]/g, "'").replace(/…/g, '...').replace(/×/g, 'x').replace(/✓/g, '').replace(/≥/g, '>=').replace(/≤/g, '<=');
   const byDate = (a, b) => (a.date === b.date ? (a.created_at < b.created_at ? -1 : 1) : a.date < b.date ? -1 : 1);
@@ -80,6 +98,10 @@
           <tr><td>2 · stabilizzare e rinforzare</td><td><input id="rD2" type="number" min="0" max="4" value="2" style="width:70px"></td><td><input id="rM2" type="number" min="0" max="4" value="2" style="width:70px"></td></tr>
           <tr><td>3 · integrare e mantenere</td><td><input id="rD3" type="number" min="0" max="4" value="1" style="width:70px"></td><td><input id="rM3" type="number" min="0" max="4" value="3" style="width:70px"></td></tr>
         </tbody></table></div></div>
+      <div class="field"><label class="lbl" for="rRich">Sedute di richiamo dopo i 3 mesi (trattamento manuale)</label>
+        <select id="rRich">${Object.entries(RICHIAMI).map(([k, r]) => `<option value="${k}">${esc(r.label)}</option>`).join('')}<option value="no">Non inserire</option></select></div>
+      <div class="field"><label class="lbl" for="rRichWhy">Perché per questo paziente (facoltativo)</label>
+        <textarea id="rRichWhy" rows="2" placeholder="Es.: lavora 8 ore al computer e il bacino a sinistra tende a ricaricarsi"></textarea></div>
       <label class="row hint"><input type="checkbox" id="rEval" checked> Morena fa una prima valutazione del movimento nella fase 1</label>
       <label class="row hint"><input type="checkbox" id="rPhotos" checked> Inserisci le foto</label>
       <label class="row hint"><input type="checkbox" id="rWork" checked> Inserisci il lavoro fatto (zone e tecniche dal diario, senza le note)</label>
@@ -91,7 +113,8 @@
       const num = id => Math.max(0, Math.min(4, parseInt($(id).value, 10) || 0));
       const opt = { start: $('#rStart').value || start, who: $('#rWho').value.trim() || p.full_name,
         d: [num('#rD1'), num('#rD2'), num('#rD3')], m: [num('#rM1'), num('#rM2'), num('#rM3')],
-        evalM: $('#rEval').checked, photos: $('#rPhotos').checked, work: $('#rWork').checked, ex: $('#rEx').checked };
+        evalM: $('#rEval').checked, photos: $('#rPhotos').checked, work: $('#rWork').checked, ex: $('#rEx').checked,
+        rich: $('#rRich').value, richWhy: $('#rRichWhy').value.trim() };
       const btn = $('#rGo'), msg = $('#rMsg');
       btn.disabled = true; msg.textContent = 'Preparo il PDF…';
       try {
@@ -324,7 +347,22 @@
       ['3 · settimane 9–12', String(opt.d[2]), String(opt.m[2]), 'rivalutazione il ' + shortDate(addDays(s0, 84))],
       ['Totale', String(tot[0]), tot[1] + (opt.evalM ? ' + valutazione' : ''), '12 settimane']
     ], [46, 38, 44, CW - 128]);
-    text('Dopo i 3 mesi: percorso di mantenimento da concordare, con un controllo ogni 2–3 mesi.', { size: 8, color: MUTED });
+    const rich = RICHIAMI[opt.rich];
+    if (rich) {
+      const end = addDays(s0, 84);
+      h2('Dopo i 3 mesi: le sedute di richiamo');
+      text('Finito il percorso, il risultato va mantenuto. Le sedute di richiamo sono trattamenti manuali di massoterapia posturale a intervalli regolari. Servono per tre motivi:', { after: 1.5 });
+      bullet('Il corpo tende a tornare alle vecchie abitudini. Le ore seduti, il lavoro, lo sport e lo stress caricano ogni giorno le stesse catene muscolari: il richiamo scarica queste tensioni prima che si riformino i compensi.');
+      bullet('Muscoli e fasce si adattano lentamente. Il tessuto connettivo si rinnova nell\'arco di mesi: la nuova postura va sostenuta anche dopo che il fastidio è passato, finché non diventa stabile.');
+      bullet('Si interviene prima che torni il dolore. A ogni richiamo ritestiamo i muscoli e, quando serve, rifacciamo le foto: un piccolo squilibrio si corregge in una seduta, un dolore tornato richiede di ricominciare da capo.');
+      y += 1;
+      h3('Il ritmo che ti consigliamo: ' + rich.label.replace(' (consigliato)', '').toLowerCase());
+      table(['Frequenza', 'Quando', 'Perché'], rich.rows, [28, 30, CW - 58]);
+      if (opt.richWhy) box('Nel tuo caso: ' + opt.richWhy, BRAND);
+      const dates = rich.months.map(n => shortDate(addMonths(end, n)));
+      text(`Date indicative per il primo anno dopo il percorso: ${dates.join(' · ')}. Il ritmo definitivo lo decidiamo insieme alla rivalutazione del ${longDate(end)}.`, { size: 8.5 });
+      text('Se tra un richiamo e l\'altro tornano dolore o rigidità, non aspettare la data: anticipiamo la seduta.', { size: 8, color: MUTED });
+    } else text('Dopo i 3 mesi: percorso di mantenimento da concordare, con un controllo ogni 2–3 mesi.', { size: 8, color: MUTED });
 
     // progressi
     const keep = a => a.num != null || /tallone|mandibola|apertura/i.test(a.label);
