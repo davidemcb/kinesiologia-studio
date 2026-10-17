@@ -271,12 +271,12 @@
       <button role="tab" id="t-completa" aria-selected="false" data-tab="valuta">Visita completa</button>
       <button role="tab" id="t-mobilita" aria-selected="false" data-tab="mobilita">Mobilità</button>
       <button role="tab" id="t-archivio" aria-selected="false" data-tab="archivio" hidden>Archivio</button>
-      <a class="btn" href="index.html" id="toArea" style="align-self:center">Tutti i pazienti</a>
+      <a class="btn" href="index.html" id="toArea" style="align-self:center">Tutti i clienti</a>
     </nav>
   </header>
 
   <div class="patbar" id="patbar" hidden>
-    <div class="field"><label class="lbl" for="patient">Paziente</label><input id="patient" placeholder="Nome e cognome"></div>
+    <div class="field"><label class="lbl" for="patient">Cliente</label><input id="patient" placeholder="Nome e cognome"></div>
     <div class="field"><label class="lbl" for="cdate">Data</label><input id="cdate" type="date"></div>
     <div class="seg" id="subnav"></div>
   </div>
@@ -315,7 +315,7 @@
     </div>
     <div class="card">
       <h2>Note del colloquio</h2>
-      <p class="hint">Appunti personali, solo per voi: scrivili o dettali a voce. Salvando la visita finiscono nel diario della scheda come «Colloquio», non nel referto e non al paziente.</p>
+      <p class="hint">Appunti personali, solo per voi: scrivili o dettali a voce. Salvando la visita finiscono nel diario della scheda come «Colloquio», non nel referto e non al cliente.</p>
       <textarea id="qTalk" rows="4" placeholder="Es. dolore lombare da 3 mesi, peggiora da seduta, lavora al computer…"></textarea>
       <div class="row"><button class="btn" type="button" id="qTalkMic">🎤 Detta</button><span class="hint" id="qTalkMsg"></span></div>
     </div>
@@ -398,7 +398,7 @@
             <button class="btn" id="btnClear">Azzera punti</button>
           </div>
           <div class="two">
-            <div class="field"><label class="lbl" for="height">Altezza paziente (cm)</label><input id="height" type="number" min="80" max="230" value="168"></div>
+            <div class="field"><label class="lbl" for="height">Altezza cliente (cm)</label><input id="height" type="number" min="80" max="230" value="168"></div>
             <div class="field"><label class="lbl" for="gridCm">Quadretti</label>
               <select id="gridCm"><option value="2">2 cm</option><option value="5" selected>5 cm</option><option value="10">10 cm</option></select></div>
           </div>
@@ -470,7 +470,7 @@
           <div class="field"><span class="lbl">Spalle anteposte</span><div class="seg" id="segProtr"></div></div>
           <div class="field"><span class="lbl">In apertura la mandibola devia verso</span><div class="seg" id="segJaw"></div></div>
           <div class="field"><span class="lbl">Serramento o bruxismo</span><div class="seg" id="segClench"></div></div>
-          <p class="hint">Per la mandibola guarda il mento mentre il paziente apre lentamente la bocca davanti a te.</p>
+          <p class="hint">Per la mandibola guarda il mento mentre il cliente apre lentamente la bocca davanti a te.</p>
         </div>
         <div class="card">
           <h2>Respiro e piedi</h2>
@@ -502,9 +502,9 @@
       </div>
       <aside class="panel">
         <div class="card">
-          <div class="row" id="recSaveRow" hidden><button class="btn primary" type="button" id="btnRecSave">Salva nella scheda del paziente</button></div>
+          <div class="row" id="recSaveRow" hidden><button class="btn primary" type="button" id="btnRecSave">Salva nella scheda del cliente</button></div>
           <h3>Referto PDF</h3>
-          <p class="hint">Foto analizzate, misure, problemi trovati, muscoli in disfunzione, esercizi con il perché e date dei controlli, in un file da dare al paziente.</p>
+          <p class="hint">Foto analizzate, misure, problemi trovati, muscoli in disfunzione, esercizi con il perché e date dei controlli, in un file da dare al cliente.</p>
           <div class="row"><button class="btn primary" type="button" id="btnPdf">Scarica il referto PDF</button></div>
           <p class="hint" id="pdfMsg" hidden></p>
         </div>
@@ -521,7 +521,7 @@
           <div class="field"><label class="lbl" for="planOverride">Piano</label>
             <select id="planOverride"><option value="auto">Automatico</option><option value="lieve">Lieve</option><option value="moderato">Moderato</option><option value="complesso">Complesso</option><option value="acuto">Con dolore acuto</option></select></div>
           <ul class="timeline" id="timeline"></ul>
-          <p class="hint">Le date partono dalla data del consulto. Spostale in base a come risponde il paziente.</p>
+          <p class="hint">Le date partono dalla data del consulto. Spostale in base a come risponde il cliente.</p>
         </div>
         <div class="card">
           <h3>Scheda per chi segue il movimento</h3>
@@ -543,7 +543,7 @@
     </div>
   </section>
 
-  <p class="foot">Strumento di supporto alla valutazione posturale: le misure su foto dipendono da posizione, distanza e punti segnati, e non sostituiscono i test manuali. Foto e dati restano solo in questa pagina finché non li salvi nell'Archivio. L'Archivio lo vede solo chi ha accesso in modifica: salva solo pazienti che hanno firmato il consenso.</p>
+  <p class="foot">Strumento di supporto alla valutazione posturale: le misure su foto dipendono da posizione, distanza e punti segnati, e non sostituiscono i test manuali. Foto e dati restano solo in questa pagina finché non li salvi nell'Archivio. L'Archivio lo vede solo chi ha accesso in modifica: salva solo clienti che hanno firmato il consenso.</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -563,22 +563,22 @@ const VIEWS = {
   frontale: { label: 'Frontale', lateral: false, rightOnImage: 'left',
     pts: [['vertice','Vertice della testa'],['occhio_dx','Occhio dx'],['occhio_sx','Occhio sx'],['mento','Mento'],['acromion_dx','Acromion dx'],['acromion_sx','Acromion sx'],['sias_dx','SIAS dx'],['sias_sx','SIAS sx'],['rotula_dx','Rotula dx'],['rotula_sx','Rotula sx'],['malleolo_dx','Malleolo mediale dx'],['malleolo_sx','Malleolo mediale sx'],['pavimento','Pavimento']],
     pairs: [['occhio','Testa (occhi)'],['acromion','Spalle'],['sias','Bacino (SIAS)'],['rotula','Ginocchia'],['malleolo','Caviglie']],
-    hint: 'Foto di fronte: il lato destro del paziente è a sinistra nella foto.' },
+    hint: 'Foto di fronte: il lato destro del cliente è a sinistra nella foto.' },
   posteriore: { label: 'Posteriore', lateral: false, rightOnImage: 'right',
     pts: [['vertice','Vertice della testa'],['orecchio_dx','Lobo orecchio dx'],['orecchio_sx','Lobo orecchio sx'],['c7','C7 (vertebra prominente)'],['acromion_dx','Acromion dx'],['acromion_sx','Acromion sx'],['scapola_dx','Angolo inf. scapola dx'],['scapola_sx','Angolo inf. scapola sx'],['cresta_dx','Cresta iliaca dx'],['cresta_sx','Cresta iliaca sx'],['sips_dx','SIPS dx'],['sips_sx','SIPS sx'],['poplitea_dx','Piega poplitea dx'],['poplitea_sx','Piega poplitea sx'],['malleolo_dx','Tendine d\'Achille dx'],['malleolo_sx','Tendine d\'Achille sx'],['pavimento','Pavimento']],
     pairs: [['orecchio','Testa (orecchie)'],['acromion','Spalle'],['scapola','Scapole'],['cresta','Creste iliache'],['sips','SIPS'],['poplitea','Pieghe poplitee'],['malleolo','Caviglie']],
-    hint: 'Foto da dietro: il lato destro del paziente è a destra nella foto.' },
+    hint: 'Foto da dietro: il lato destro del cliente è a destra nella foto.' },
   lat_dx: { label: 'Laterale dx', lateral: true, facing: 1,
     pts: [['vertice','Vertice della testa'],['trago','Trago'],['c7','C7'],['acromion','Acromion'],['sias','SIAS'],['sips','SIPS'],['trocantere','Grande trocantere'],['ginocchio','Ginocchio (centro)'],['malleolo','Malleolo laterale'],['pavimento','Pavimento']],
-    hint: 'Lato destro verso la fotocamera: il paziente guarda a destra nella foto. Il filo passa poco davanti al malleolo.' },
+    hint: 'Lato destro verso la fotocamera: il cliente guarda a destra nella foto. Il filo passa poco davanti al malleolo.' },
   lat_sx: { label: 'Laterale sx', lateral: true, facing: -1,
     pts: [['vertice','Vertice della testa'],['trago','Trago'],['c7','C7'],['acromion','Acromion'],['sias','SIAS'],['sips','SIPS'],['trocantere','Grande trocantere'],['ginocchio','Ginocchio (centro)'],['malleolo','Malleolo laterale'],['pavimento','Pavimento']],
-    hint: 'Lato sinistro verso la fotocamera: il paziente guarda a sinistra nella foto. Il filo passa poco davanti al malleolo.' }
+    hint: 'Lato sinistro verso la fotocamera: il cliente guarda a sinistra nella foto. Il filo passa poco davanti al malleolo.' }
 };
 const VIEW_KEYS = Object.keys(VIEWS);
 const LAT_LANDMARKS = [['trago','Testa (trago)'],['acromion','Spalla (acromion)'],['trocantere','Anca (trocantere)'],['ginocchio','Ginocchio']];
 
-// ---------- Esempio (paziente fittizio, immagine 600×1000) ----------
+// ---------- Esempio (cliente fittizio, immagine 600×1000) ----------
 const mirror = o => Object.fromEntries(Object.entries(o).map(([k, [x, y]]) => [k, [600 - x, y]]));
 const SAMPLE = {
   prima: {
@@ -626,7 +626,7 @@ function geom(vd, vk) {
   else plumbX = P.pavimento ? P.pavimento[0] : vd.W / 2;
   return { ppc, floorY, plumbX };
 }
-// lato del paziente verso cui punta uno spostamento positivo in x nella foto
+// lato del cliente verso cui punta uno spostamento positivo in x nella foto
 const sideOfPlusX = vk => (VIEWS[vk].rightOnImage === 'right' ? 'dx' : 'sx');
 
 function sevOf(cm, deg, ppc, warnCm, alertCm, warnDeg, alertDeg) {
@@ -1105,7 +1105,7 @@ function buildPoints(vk, lm, W, H, height) {
     put('malleolo', ank);
     return { pts, ppc };
   }
-  // vista frontale o posteriore: il lato destro del paziente sta a sinistra (frontale) o a destra (posteriore) nella foto
+  // vista frontale o posteriore: il lato destro del cliente sta a sinistra (frontale) o a destra (posteriore) nella foto
   const rightOnLeft = vk === 'frontale';
   const pair = (iR, iL) => {
     let r = P(iR), l = P(iL);
@@ -1201,7 +1201,7 @@ function placeStickers(vk, lm, im, pts, ppc) {
     const pick = q => findBlobs(im.img, im.W, im.H, [q[0] - cm(8), q[1] - cm(14), q[0] + cm(8), q[1] + cm(1)], ppc)[0];
     const L = pick(hl), R = pick(hr);
     if (!L || !R || Math.abs(L.x - R.x) < cm(10)) return '';
-    pts.sias_dx = [L.x, L.y]; pts.sias_sx = [R.x, R.y]; // di fronte il lato destro del paziente è a sinistra
+    pts.sias_dx = [L.x, L.y]; pts.sias_sx = [R.x, R.y]; // di fronte il lato destro del cliente è a sinistra
     return 'Frontale: adesivi sulle SIAS trovati.';
   }
   const mid = (hl[0] + hr[0]) / 2, y = (hl[1] + hr[1]) / 2;
@@ -1414,7 +1414,7 @@ function closeMetrics(k) {
     if (!P.pup_dx || !P.pup_sx) return rows;
     const e = [P.pup_sx[0] - P.pup_dx[0], P.pup_sx[1] - P.pup_dx[1]], ipd = Math.hypot(e[0], e[1]);
     if (ipd < 5) return rows;
-    const ux = [e[0] / ipd, e[1] / ipd], uy = [-ux[1], ux[0]], mm = 63 / ipd; // ux: dal lato dx al lato sx del paziente
+    const ux = [e[0] / ipd, e[1] / ipd], uy = [-ux[1], ux[0]], mm = 63 / ipd; // ux: dal lato dx al lato sx del cliente
     const mid = [(P.pup_dx[0] + P.pup_sx[0]) / 2, (P.pup_dx[1] + P.pup_sx[1]) / 2];
     const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
     if (P.inc_sup && P.inc_inf) {
@@ -1556,7 +1556,7 @@ async function prefillEyes(cd) {
     const pose = await getPose(), r = pose.detect(cd.img), lm = r.landmarks && r.landmarks[0];
     if (!lm || (lm[2].visibility || 0) < 0.5 || (lm[5].visibility || 0) < 0.5) return;
     const a = [lm[5].x * cd.W, lm[5].y * cd.H], b = [lm[2].x * cd.W, lm[2].y * cd.H];
-    const [dx, sx] = a[0] <= b[0] ? [a, b] : [b, a]; // di fronte l'occhio destro del paziente è a sinistra
+    const [dx, sx] = a[0] <= b[0] ? [a, b] : [b, a]; // di fronte l'occhio destro del cliente è a sinistra
     if (Math.hypot(dx[0] - sx[0], dx[1] - sx[1]) > cd.W * 0.08) { cd.pts.pup_dx = dx; cd.pts.pup_sx = sx; }
   } catch (e) { /* si segnano a mano */ }
 }
@@ -1626,70 +1626,70 @@ const LR = (r, l) => [r, l]; // indici MediaPipe del lato destro e sinistro
 const MOB_GROUPS = [['colonna', 'Colonna'], ['collo', 'Cervicale'], ['spalla', 'Spalla'], ['anca', 'Anca'], ['ginocchio', 'Ginocchio'], ['caviglia', 'Caviglia']];
 const MOB = [
   { id: 'flex_tr', g: 'colonna', label: 'Flessione del tronco', normal: 90, calc: 'incl',
-    how: 'Foto di lato, a figura intera. Il paziente si piega in avanti a gambe tese e lascia scendere le braccia verso terra. Misura l\'inclinazione del tronco (anca–spalla) dalla verticale e la distanza dita–pavimento. Normale: circa 90° o più.',
+    how: 'Foto di lato, a figura intera. Il cliente si piega in avanti a gambe tese e lascia scendere le braccia verso terra. Misura l\'inclinazione del tronco (anca–spalla) dalla verticale e la distanza dita–pavimento. Normale: circa 90° o più.',
     pts: [['anca', 'Anca (grande trocantere)', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)], ['malleolo', 'Malleolo', LR(28, 27)], ['dita', 'Punta delle dita', LR(20, 19)]] },
   { id: 'ext_tr', g: 'colonna', label: 'Estensione del tronco', normal: 25, calc: 'incl',
-    how: 'Foto di lato, a figura intera. Mani sui fianchi, il paziente si piega indietro senza piegare le ginocchia. Misura l\'inclinazione del tronco (anca–spalla) dalla verticale. Normale: circa 25–30°.',
+    how: 'Foto di lato, a figura intera. Mani sui fianchi, il cliente si piega indietro senza piegare le ginocchia. Misura l\'inclinazione del tronco (anca–spalla) dalla verticale. Normale: circa 25–30°.',
     pts: [['anca', 'Anca (grande trocantere)', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)]] },
   { id: 'lat_tr', g: 'colonna', label: 'Inclinazione laterale del tronco', side: true, normal: 25, calc: 'incl',
-    how: 'Foto da dietro, a figura intera. Il paziente si inclina di lato facendo scivolare la mano lungo la coscia, senza ruotare né piegarsi in avanti. Misura l\'inclinazione della linea bacino–C7 dalla verticale. Normale: circa 25–35°.',
+    how: 'Foto da dietro, a figura intera. Il cliente si inclina di lato facendo scivolare la mano lungo la coscia, senza ruotare né piegarsi in avanti. Misura l\'inclinazione della linea bacino–C7 dalla verticale. Normale: circa 25–35°.',
     pts: [['bacino', 'Centro del bacino (tra le SIPS)', 'hips'], ['c7', 'C7', 'shoulders']] },
   { id: 'rot_tr', g: 'colonna', label: 'Rotazione del tronco', side: true, normal: 45, calc: 'lines',
-    how: 'Foto dall\'alto: paziente seduto, braccia incrociate sul petto, ruota il busto. Chi scatta sta in piedi dietro e tiene il telefono sopra la testa del paziente. Misura l\'angolo tra la linea delle ginocchia e quella delle spalle. Normale: circa 40–50°.',
+    how: 'Foto dall\'alto: cliente seduto, braccia incrociate sul petto, ruota il busto. Chi scatta sta in piedi dietro e tiene il telefono sopra la testa del cliente. Misura l\'angolo tra la linea delle ginocchia e quella delle spalle. Normale: circa 40–50°.',
     pts: [['gin_dx', 'Ginocchio dx'], ['gin_sx', 'Ginocchio sx'], ['acr_dx', 'Spalla dx (acromion)'], ['acr_sx', 'Spalla sx (acromion)']] },
   { id: 'flex_cv', g: 'collo', label: 'Flessione del collo', normal: 45, calc: 'head', dir: -1,
-    how: 'Foto di lato, testa e spalle. Il paziente porta il mento verso il petto. Misura quanto scende la linea orecchio–occhio rispetto alla posizione neutra (circa 10° sopra l\'orizzontale). Normale: circa 45–50°.',
+    how: 'Foto di lato, testa e spalle. Il cliente porta il mento verso il petto. Misura quanto scende la linea orecchio–occhio rispetto alla posizione neutra (circa 10° sopra l\'orizzontale). Normale: circa 45–50°.',
     pts: [['trago', 'Trago (orecchio)', LR(8, 7)], ['occhio', 'Occhio', LR(5, 2)]] },
   { id: 'ext_cv', g: 'collo', label: 'Estensione del collo', normal: 60, calc: 'head', dir: 1,
-    how: 'Foto di lato, testa e spalle. Il paziente guarda il soffitto portando la testa indietro, senza aprire la bocca. Misura quanto sale la linea orecchio–occhio rispetto alla posizione neutra. Normale: circa 60–70°.',
+    how: 'Foto di lato, testa e spalle. Il cliente guarda il soffitto portando la testa indietro, senza aprire la bocca. Misura quanto sale la linea orecchio–occhio rispetto alla posizione neutra. Normale: circa 60–70°.',
     pts: [['trago', 'Trago (orecchio)', LR(8, 7)], ['occhio', 'Occhio', LR(5, 2)]] },
   { id: 'lat_cv', g: 'collo', label: 'Inclinazione laterale del collo', side: true, normal: 40, calc: 'lines',
-    how: 'Foto di fronte, testa e spalle. Il paziente porta l\'orecchio verso la spalla senza ruotare il viso né alzare la spalla. Misura l\'angolo tra la linea degli occhi e quella delle spalle. Normale: circa 40–45°.',
+    how: 'Foto di fronte, testa e spalle. Il cliente porta l\'orecchio verso la spalla senza ruotare il viso né alzare la spalla. Misura l\'angolo tra la linea degli occhi e quella delle spalle. Normale: circa 40–45°.',
     pts: [['occ_dx', 'Occhio dx', 5], ['occ_sx', 'Occhio sx', 2], ['acr_dx', 'Spalla dx', 12], ['acr_sx', 'Spalla sx', 11]] },
   { id: 'rot_cv', g: 'collo', label: 'Rotazione del collo', side: true, normal: 70, calc: 'lines',
-    how: 'Foto dall\'alto: paziente seduto, chi scatta sta dietro con il telefono sopra la testa. Il paziente ruota la testa guardando di lato, senza ruotare le spalle. Misura l\'angolo tra la linea delle orecchie e quella delle spalle. Normale: circa 70–80°.',
+    how: 'Foto dall\'alto: cliente seduto, chi scatta sta dietro con il telefono sopra la testa. Il cliente ruota la testa guardando di lato, senza ruotare le spalle. Misura l\'angolo tra la linea delle orecchie e quella delle spalle. Normale: circa 70–80°.',
     pts: [['acr_dx', 'Spalla dx (acromion)'], ['acr_sx', 'Spalla sx (acromion)'], ['ore_dx', 'Orecchio dx'], ['ore_sx', 'Orecchio sx']] },
   { id: 'flex_sp', g: 'spalla', label: 'Flessione della spalla', side: true, normal: 170, calc: 'joint',
-    how: 'Foto di lato, dal lato del braccio da misurare, a figura intera. Il paziente porta il braccio teso in avanti e in alto più che può, senza inarcare la schiena. Angolo tra tronco e braccio. Normale: circa 170–180°.',
+    how: 'Foto di lato, dal lato del braccio da misurare, a figura intera. Il cliente porta il braccio teso in avanti e in alto più che può, senza inarcare la schiena. Angolo tra tronco e braccio. Normale: circa 170–180°.',
     pts: [['anca', 'Anca (trocantere)', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)], ['polso', 'Polso', LR(16, 15)]] },
   { id: 'ext_sp', g: 'spalla', label: 'Estensione della spalla', side: true, normal: 50, calc: 'joint',
-    how: 'Foto di lato, dal lato del braccio, a figura intera. Il paziente porta il braccio teso indietro senza piegare il busto in avanti. Angolo tra tronco e braccio. Normale: circa 50–60°.',
+    how: 'Foto di lato, dal lato del braccio, a figura intera. Il cliente porta il braccio teso indietro senza piegare il busto in avanti. Angolo tra tronco e braccio. Normale: circa 50–60°.',
     pts: [['anca', 'Anca (trocantere)', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)], ['polso', 'Polso', LR(16, 15)]] },
   { id: 'abd_sp', g: 'spalla', label: 'Abduzione della spalla', side: true, normal: 170, calc: 'joint',
-    how: 'Foto di fronte o da dietro, a figura intera. Il paziente apre il braccio teso di lato e lo porta in alto, palmo verso l\'alto, senza inclinare il busto. Angolo tra tronco e braccio. Normale: circa 170–180°.',
+    how: 'Foto di fronte o da dietro, a figura intera. Il cliente apre il braccio teso di lato e lo porta in alto, palmo verso l\'alto, senza inclinare il busto. Angolo tra tronco e braccio. Normale: circa 170–180°.',
     pts: [['anca', 'Anca', LR(24, 23)], ['spalla', 'Spalla (acromion)', LR(12, 11)], ['polso', 'Polso', LR(16, 15)]] },
   { id: 'er_sp', g: 'spalla', label: 'Extrarotazione della spalla', side: true, normal: 90, calc: 'forearm', dir: 1,
-    how: 'Foto di lato, dal lato del braccio. Braccio aperto a 90° e gomito piegato a 90°, con il gomito verso la fotocamera e l\'avambraccio in avanti. Il paziente ruota l\'avambraccio verso l\'alto e indietro senza muovere il gomito. Angolo dell\'avambraccio dall\'orizzontale. Normale: circa 90°.',
+    how: 'Foto di lato, dal lato del braccio. Braccio aperto a 90° e gomito piegato a 90°, con il gomito verso la fotocamera e l\'avambraccio in avanti. Il cliente ruota l\'avambraccio verso l\'alto e indietro senza muovere il gomito. Angolo dell\'avambraccio dall\'orizzontale. Normale: circa 90°.',
     pts: [['naso', 'Naso', LR(0, 0)], ['gomito', 'Gomito', LR(14, 13)], ['polso', 'Polso', LR(16, 15)]] },
   { id: 'ir_sp', g: 'spalla', label: 'Intrarotazione della spalla', side: true, normal: 70, calc: 'forearm', dir: -1,
-    how: 'Foto di lato, dal lato del braccio. Braccio aperto a 90° e gomito piegato a 90°, avambraccio in avanti. Il paziente ruota l\'avambraccio verso il basso senza portare avanti la spalla. Angolo dell\'avambraccio dall\'orizzontale. Normale: circa 70°.',
+    how: 'Foto di lato, dal lato del braccio. Braccio aperto a 90° e gomito piegato a 90°, avambraccio in avanti. Il cliente ruota l\'avambraccio verso il basso senza portare avanti la spalla. Angolo dell\'avambraccio dall\'orizzontale. Normale: circa 70°.',
     pts: [['naso', 'Naso', LR(0, 0)], ['gomito', 'Gomito', LR(14, 13)], ['polso', 'Polso', LR(16, 15)]] },
   { id: 'flex_an', g: 'anca', label: 'Flessione dell\'anca', side: true, normal: 120, calc: 'joint180',
-    how: 'Foto di lato, paziente supino. Porta il ginocchio verso il petto con le mani, l\'altra gamba resta distesa. Angolo tra tronco e coscia. Normale: circa 120°.',
+    how: 'Foto di lato, cliente supino. Porta il ginocchio verso il petto con le mani, l\'altra gamba resta distesa. Angolo tra tronco e coscia. Normale: circa 120°.',
     pts: [['spalla', 'Spalla', LR(12, 11)], ['anca', 'Anca (trocantere)', LR(24, 23)], ['ginocchio', 'Ginocchio', LR(26, 25)]] },
   { id: 'ext_an', g: 'anca', label: 'Estensione dell\'anca', side: true, normal: 15, calc: 'joint180',
-    how: 'Foto di lato, paziente prono. Solleva la gamba tesa senza staccare il bacino dal lettino. Angolo tra tronco e coscia. Normale: circa 10–20°.',
+    how: 'Foto di lato, cliente prono. Solleva la gamba tesa senza staccare il bacino dal lettino. Angolo tra tronco e coscia. Normale: circa 10–20°.',
     pts: [['spalla', 'Spalla', LR(12, 11)], ['anca', 'Anca (trocantere)', LR(24, 23)], ['ginocchio', 'Ginocchio', LR(26, 25)]] },
   { id: 'abd_an', g: 'anca', label: 'Abduzione dell\'anca', side: true, normal: 40, calc: 'joint180',
-    how: 'Foto dall\'alto o di fronte, paziente supino. Apre la gamba tesa di lato tenendo fermo il bacino. Angolo tra tronco e gamba. Normale: circa 40–45°.',
+    how: 'Foto dall\'alto o di fronte, cliente supino. Apre la gamba tesa di lato tenendo fermo il bacino. Angolo tra tronco e gamba. Normale: circa 40–45°.',
     pts: [['spalla', 'Spalla', LR(12, 11)], ['anca', 'Anca', LR(24, 23)], ['caviglia', 'Caviglia', LR(28, 27)]] },
   { id: 'ir_an', g: 'anca', label: 'Intrarotazione dell\'anca', side: true, normal: 35, calc: 'shank', dir: 1,
-    how: 'Foto di fronte, paziente seduto sul bordo del lettino con le ginocchia a 90°. Il piede va verso l\'esterno (così l\'anca ruota all\'interno) senza alzare il bacino. Angolo della gamba dalla verticale. Normale: circa 35–45°.',
+    how: 'Foto di fronte, cliente seduto sul bordo del lettino con le ginocchia a 90°. Il piede va verso l\'esterno (così l\'anca ruota all\'interno) senza alzare il bacino. Angolo della gamba dalla verticale. Normale: circa 35–45°.',
     pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Caviglia', LR(28, 27)]] },
   { id: 'er_an', g: 'anca', label: 'Extrarotazione dell\'anca', side: true, normal: 40, calc: 'shank', dir: -1,
-    how: 'Foto di fronte, paziente seduto sul bordo del lettino con le ginocchia a 90°. Il piede va verso l\'interno (così l\'anca ruota all\'esterno) senza alzare il bacino. Angolo della gamba dalla verticale. Normale: circa 40–45°.',
+    how: 'Foto di fronte, cliente seduto sul bordo del lettino con le ginocchia a 90°. Il piede va verso l\'interno (così l\'anca ruota all\'esterno) senza alzare il bacino. Angolo della gamba dalla verticale. Normale: circa 40–45°.',
     pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Caviglia', LR(28, 27)]] },
   { id: 'flex_gi', g: 'ginocchio', label: 'Flessione del ginocchio', side: true, normal: 135, calc: 'joint180',
-    how: 'Foto di lato, paziente prono. Piega il ginocchio portando il tallone verso il gluteo, senza staccare il bacino (in alternativa supino, tallone verso il gluteo). Angolo tra coscia e gamba. Normale: circa 135–140°.',
+    how: 'Foto di lato, cliente prono. Piega il ginocchio portando il tallone verso il gluteo, senza staccare il bacino (in alternativa supino, tallone verso il gluteo). Angolo tra coscia e gamba. Normale: circa 135–140°.',
     pts: [['anca', 'Anca (trocantere)', LR(24, 23)], ['ginocchio', 'Ginocchio (centro)', LR(26, 25)], ['caviglia', 'Malleolo', LR(28, 27)]] },
   { id: 'ext_gi', g: 'ginocchio', label: 'Estensione del ginocchio', side: true, normal: 180, calc: 'joint',
-    how: 'Foto di lato, paziente supino con la gamba distesa, o seduto che estende il ginocchio più che può. Angolo tra coscia e gamba: 180° = gamba dritta. Sotto i 175° c\'è un deficit di estensione; oltre i 185° un ginocchio recurvato.',
+    how: 'Foto di lato, cliente supino con la gamba distesa, o seduto che estende il ginocchio più che può. Angolo tra coscia e gamba: 180° = gamba dritta. Sotto i 175° c\'è un deficit di estensione; oltre i 185° un ginocchio recurvato.',
     pts: [['anca', 'Anca (trocantere)', LR(24, 23)], ['ginocchio', 'Ginocchio (centro)', LR(26, 25)], ['caviglia', 'Malleolo', LR(28, 27)]] },
   { id: 'df_ca', g: 'caviglia', label: 'Dorsiflessione della caviglia', side: true, normal: 20, calc: 'ankle', dir: 1,
-    how: 'Foto di lato, paziente seduto con il piede sollevato da terra: porta la punta del piede verso di sé più che può, senza muovere la gamba. Angolo tra la gamba e la pianta del piede (tallone–punta) rispetto ai 90° di partenza. Normale: circa 20°. Per il carico in piedi usa anche il test ginocchio-muro.',
+    how: 'Foto di lato, cliente seduto con il piede sollevato da terra: porta la punta del piede verso di sé più che può, senza muovere la gamba. Angolo tra la gamba e la pianta del piede (tallone–punta) rispetto ai 90° di partenza. Normale: circa 20°. Per il carico in piedi usa anche il test ginocchio-muro.',
     pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Malleolo', LR(28, 27)], ['tallone', 'Tallone (sotto)', LR(30, 29)], ['punta', 'Punta del piede (base dell\'alluce)', LR(32, 31)]] },
   { id: 'pf_ca', g: 'caviglia', label: 'Flessione plantare della caviglia', side: true, normal: 50, calc: 'ankle', dir: -1,
-    how: 'Foto di lato, paziente seduto con il piede sollevato da terra: spinge la punta del piede in basso più che può. Angolo tra la gamba e la pianta del piede (tallone–punta) rispetto ai 90° di partenza. Normale: circa 40–50°.',
+    how: 'Foto di lato, cliente seduto con il piede sollevato da terra: spinge la punta del piede in basso più che può. Angolo tra la gamba e la pianta del piede (tallone–punta) rispetto ai 90° di partenza. Normale: circa 40–50°.',
     pts: [['ginocchio', 'Ginocchio', LR(26, 25)], ['caviglia', 'Malleolo', LR(28, 27)], ['tallone', 'Tallone (sotto)', LR(30, 29)], ['punta', 'Punta del piede (base dell\'alluce)', LR(32, 31)]] }
 ];
 const MOBD = Object.fromEntries(MOB.map(m => [m.id, m]));
@@ -2285,8 +2285,8 @@ const PLANS = {
     [28, 'Controllo a un mese', 'Foto (Dopo) e ritest.'],
     [56, 'Rivalutazione completa', 'Foto, test e pedana.'],
     [120, 'Mantenimento', 'Ogni 3 mesi.'] ] },
-  sospeso: { name: 'Prima il medico', desc: 'Un test di sicurezza è positivo: niente manipolazioni finché il medico non ha visto il paziente.', steps: [
-    [0, 'Invio al medico', 'Spiega al paziente il perché e annota quale test era positivo.'],
+  sospeso: { name: 'Prima il medico', desc: 'Un test di sicurezza è positivo: niente manipolazioni finché il medico non ha visto il cliente.', steps: [
+    [0, 'Invio al medico', 'Spiega al cliente il perché e annota quale test era positivo.'],
     [0, 'Rivalutazione dopo il parere medico', 'Poi si riparte con il piano automatico.'] ] }
 };
 const isPos = id => (state.consult.tests[id] || '').startsWith('pos');
@@ -2583,7 +2583,7 @@ function renderSchedaText() {
   const d = $('#cdate').value ? new Date($('#cdate').value + 'T12:00').toLocaleDateString('it-IT') : '';
   const lines = [
     `SCHEDA MOVIMENTO`,
-    `Paziente: ${name}${d ? '   Data: ' + d : ''}`,
+    `Cliente: ${name}${d ? '   Data: ' + d : ''}`,
     ``,
     `Quadro: ${fs.map(x => x[1].title.toLowerCase()).join(', ') || 'in asse'}`,
     ...(c.extras.length ? ['', 'CICATRICI E PROTESI', ...c.extras.flatMap(it => { const inf = extraInfo(it); return [`- ${extraLabel(it)}`, ...(inf.eserc ? [`  Esercizi: ${inf.eserc}`] : [])]; })] : []),
@@ -2673,7 +2673,7 @@ async function createPatient(form) {
   const consent = form.querySelector('#np-consent').checked;
   const cdate = form.querySelector('#np-cdate').value;
   if (!name) return say('Scrivi nome e cognome.', true);
-  if (!consent || !cdate) return say('Serve il consenso firmato, con la data, prima di salvare un paziente.', true);
+  if (!consent || !cdate) return say('Serve il consenso firmato, con la data, prima di salvare un cliente.', true);
   A.busy = true; renderArchivio();
   try {
     const now = Date.now();
@@ -2681,7 +2681,7 @@ async function createPatient(form) {
     A.busy = false; selectPatient(ref.id); say(`${name} aggiunto all'archivio.`);
   } catch (e) {
     A.busy = false;
-    say(e && e.code === 'quota_exceeded' ? 'L\'archivio è pieno: elimina pazienti che non servono più.' : 'Non sono riuscito a salvare. Riprova tra poco.', true);
+    say(e && e.code === 'quota_exceeded' ? 'L\'archivio è pieno: elimina clienti che non servono più.' : 'Non sono riuscito a salvare. Riprova tra poco.', true);
   }
 }
 
@@ -2725,7 +2725,7 @@ async function saveVisit() {
     A.busy = false; say(`Visita del ${itDate(doc.date)} salvata nell'archivio di ${p.name}.`);
   } catch (e) {
     A.busy = false;
-    const m = e && e.code === 'too_large' ? 'Una foto è troppo grande.' : e && (e.code === 'quota_or_state' || e.code === 'quota_exceeded') ? 'Lo spazio dell\'archivio è pieno: elimina visite o pazienti che non servono più.' : 'Non sono riuscito a salvare la visita. Riprova tra poco.';
+    const m = e && e.code === 'too_large' ? 'Una foto è troppo grande.' : e && (e.code === 'quota_or_state' || e.code === 'quota_exceeded') ? 'Lo spazio dell\'archivio è pieno: elimina visite o clienti che non servono più.' : 'Non sono riuscito a salvare la visita. Riprova tra poco.';
     say(m, true);
   }
 }
@@ -2770,7 +2770,7 @@ async function deletePatient(p) {
     }
     await A.db.doc(`patients/${p.id}`).delete();
     A.confirm = null; selectPatient(null); say(`${p.name} eliminato dall'archivio, con tutte le visite e le foto.`);
-  } catch (e) { A.confirm = null; say('Non sono riuscito a eliminare il paziente. Riprova.', true); }
+  } catch (e) { A.confirm = null; say('Non sono riuscito a eliminare il cliente. Riprova.', true); }
 }
 
 const TREND = [['posteriore', 'pair_cresta', 'Creste iliache'], ['frontale', 'pair_sias', 'Bacino (SIAS)'], ['posteriore', 'pair_acromion', 'Spalle (dietro)'],
@@ -2813,16 +2813,16 @@ function renderArchivio() {
   main.innerHTML = ''; side.innerHTML = '';
   if (!A.ready) { main.innerHTML = '<div class="card"><p class="empty">Apro l\'archivio…</p></div>'; return; }
   if (!A.can) {
-    main.innerHTML = '<div class="card"><h2>Archivio pazienti</h2><p class="empty">L\'archivio si apre solo dentro claude.ai, per chi ha accesso in modifica a questa pagina. Valutazione, Prima e dopo e Consulto funzionano comunque.</p></div>';
+    main.innerHTML = '<div class="card"><h2>Archivio clienti</h2><p class="empty">L\'archivio si apre solo dentro claude.ai, per chi ha accesso in modifica a questa pagina. Valutazione, Prima e dopo e Consulto funzionano comunque.</p></div>';
     return;
   }
-  // colonna laterale: pazienti
+  // colonna laterale: clienti
   const list = document.createElement('div'); list.className = 'card';
-  list.innerHTML = `<h3>Pazienti</h3><div class="field"><label class="lbl" for="arch-q">Cerca</label><input id="arch-q" value="${esc(A.q)}" placeholder="Nome"></div>`;
+  list.innerHTML = `<h3>Clienti</h3><div class="field"><label class="lbl" for="arch-q">Cerca</label><input id="arch-q" value="${esc(A.q)}" placeholder="Nome"></div>`;
   const ul = document.createElement('ul'); ul.className = 'plist';
   const q = A.q.trim().toLowerCase();
   const shown = A.patients.filter(p => !q || (p.name || '').toLowerCase().includes(q));
-  if (!A.patients.length) ul.innerHTML = '<li class="empty">Nessun paziente in archivio. Aggiungi il primo qui sotto.</li>';
+  if (!A.patients.length) ul.innerHTML = '<li class="empty">Nessun cliente in archivio. Aggiungi il primo qui sotto.</li>';
   for (const p of shown) {
     const li = document.createElement('li'), b = document.createElement('button');
     b.type = 'button'; b.className = A.sel === p.id ? 'on' : '';
@@ -2838,12 +2838,12 @@ function renderArchivio() {
   });
 
   const form = document.createElement('form'); form.className = 'card';
-  form.innerHTML = `<h3>Nuovo paziente</h3>
+  form.innerHTML = `<h3>Nuovo cliente</h3>
     <div class="field"><label class="lbl" for="np-name">Nome e cognome</label><input id="np-name" autocomplete="off"></div>
     <div class="two"><div class="field"><label class="lbl" for="np-birth">Data di nascita</label><input id="np-birth" type="date"></div>
     <div class="field"><label class="lbl" for="np-cdate">Consenso firmato il</label><input id="np-cdate" type="date" value="${new Date().toISOString().slice(0, 10)}"></div></div>
     <label class="checks"><span><input type="checkbox" id="np-consent"> Ha firmato il consenso per foto e dati, anche per la condivisione con Morena</span></label>
-    <div class="row"><button class="btn primary" type="submit" ${A.busy ? 'disabled' : ''}>Aggiungi paziente</button></div>`;
+    <div class="row"><button class="btn primary" type="submit" ${A.busy ? 'disabled' : ''}>Aggiungi cliente</button></div>`;
   form.addEventListener('submit', e => { e.preventDefault(); createPatient(form); });
   side.appendChild(form);
 
@@ -2852,8 +2852,8 @@ function renderArchivio() {
   const p = A.patients.find(x => x.id === A.sel);
   if (!p) {
     const c = document.createElement('div'); c.className = 'card';
-    c.innerHTML = `<h2>Archivio pazienti</h2><p>Scegli un paziente a destra oppure aggiungine uno nuovo. Per ogni visita l'archivio conserva foto, punti segnati, misure, consulto, test ed esercizi, così nel tempo vedi come cambia la postura.</p>
-      <p class="hint">Lo vedono solo le persone con accesso in modifica a questa pagina. Salva solo pazienti che hanno firmato il consenso.</p>`;
+    c.innerHTML = `<h2>Archivio clienti</h2><p>Scegli un cliente a destra oppure aggiungine uno nuovo. Per ogni visita l'archivio conserva foto, punti segnati, misure, consulto, test ed esercizi, così nel tempo vedi come cambia la postura.</p>
+      <p class="hint">Lo vedono solo le persone con accesso in modifica a questa pagina. Salva solo clienti che hanno firmato il consenso.</p>`;
     main.appendChild(c);
     return;
   }
@@ -2882,7 +2882,7 @@ function renderArchivio() {
     r.append(y, n); cf.appendChild(r); head.appendChild(cf);
   } else {
     const r = document.createElement('div'); r.className = 'row';
-    const del = document.createElement('button'); del.className = 'btn danger'; del.type = 'button'; del.textContent = 'Elimina paziente';
+    const del = document.createElement('button'); del.className = 'btn danger'; del.type = 'button'; del.textContent = 'Elimina cliente';
     del.addEventListener('click', () => { A.confirm = { type: 'patient' }; renderArchivio(); });
     r.appendChild(del); head.appendChild(r);
   }
@@ -2949,7 +2949,7 @@ function buildPdf(quick) {
 
   // intestazione
   h1('Che Postura · Analisi posturale');
-  text(`${name || 'Paziente'} · ${date} · altezza ${state.height} cm · seduta ${sess === 'prima' ? 'Prima' : 'Dopo'}`, { color: MUTED });
+  text(`${name || 'Cliente'} · ${date} · altezza ${state.height} cm · seduta ${sess === 'prima' ? 'Prima' : 'Dopo'}`, { color: MUTED });
   text('Dott. Davide Scuderi · Dott.ssa Morena Anastasi', { color: MUTED, after: 1 });
   text('Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.', { italic: true, color: GREEN, after: 3 });
 
@@ -3108,11 +3108,11 @@ async function exportPdf(btn, quick, msgEl) {
     if (!dl) {
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `Analisi posturale - ${($('#patient').value.trim() || 'paziente').replace(/[\\/:*?"<>|]/g, '')} - ${$('#cdate').value || ''}.pdf`;
+      a.download = `Analisi posturale - ${($('#patient').value.trim() || 'cliente').replace(/[\\/:*?"<>|]/g, '')} - ${$('#cdate').value || ''}.pdf`;
       document.body.appendChild(a); a.click(); a.remove();
       say('Referto scaricato.'); return;
     }
-    const name = ($('#patient').value.trim() || 'paziente').replace(/[\\/:*?"<>|]/g, '');
+    const name = ($('#patient').value.trim() || 'cliente').replace(/[\\/:*?"<>|]/g, '');
     await dl.save({ filename: `Analisi posturale - ${name} - ${$('#cdate').value || ''}.pdf`, data: blob });
     say('Referto salvato.');
   } catch (e) {
@@ -3121,7 +3121,7 @@ async function exportPdf(btn, quick, msgEl) {
 }
 $('#btnPdf').addEventListener('click', e => exportPdf(e.currentTarget));
 
-// ---------- Collegamento alla scheda del paziente (Area riservata) ----------
+// ---------- Collegamento alla scheda del cliente (Area riservata) ----------
 const REC = { patient: null };
 const isoPlus = (iso, n) => { const d = iso ? new Date(iso + 'T12:00') : new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
 async function initRecord() {

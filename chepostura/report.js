@@ -1,4 +1,4 @@
-// Che Postura · "Crea report e proposta": PDF per il paziente con confronto prima/dopo,
+// Che Postura · "Crea report e proposta": PDF per il cliente con confronto prima/dopo,
 // cosa abbiamo trovato, lavoro fatto, proposta Sinergia e piano a 3 mesi.
 (function () {
   'use strict';
@@ -100,7 +100,7 @@
         </tbody></table></div></div>
       <div class="field"><label class="lbl" for="rRich">Sedute di richiamo dopo i 3 mesi (trattamento manuale)</label>
         <select id="rRich">${Object.entries(RICHIAMI).map(([k, r]) => `<option value="${k}">${esc(r.label)}</option>`).join('')}<option value="no">Non inserire</option></select></div>
-      <div class="field"><label class="lbl" for="rRichWhy">Perché per questo paziente (facoltativo)</label>
+      <div class="field"><label class="lbl" for="rRichWhy">Perché per questo cliente (facoltativo)</label>
         <textarea id="rRichWhy" rows="2" placeholder="Es.: lavora 8 ore al computer e il bacino a sinistra tende a ricaricarsi"></textarea></div>
       <label class="row hint"><input type="checkbox" id="rEval" checked> Morena fa una prima valutazione del movimento nella fase 1</label>
       <label class="row hint"><input type="checkbox" id="rPhotos" checked> Inserisci le foto</label>
@@ -180,7 +180,7 @@
     ['Dott. Davide Scuderi · massoterapista posturologo', 'Dott.ssa Morena Anastasi · valutazione posturale e movimento', 'Via Capilupi 21, Modena'].forEach((l, i) => doc.text(pdfTxt(l), W - M, y + 3 + i * 4, { align: 'right' }));
     font(20, 'bold', BRAND); doc.text('Report posturale', M, y + 12); doc.text('e proposta di percorso a 3 mesi', M, y + 20);
     y += 24; doc.setDrawColor(...BRAND); doc.setLineWidth(1); doc.line(M, y, W - M, y); y += 5;
-    text(`Paziente: ${opt.who}   ·   ${two ? `Valutazioni del ${longDate(first.date)}${first.label ? ' (' + first.label.toLowerCase() + ')' : ''} e del ${longDate(last.date)}${last.label ? ' (' + last.label.toLowerCase() + ')' : ''}` : `Valutazione del ${longDate(last.date)}`}`, { size: 9, color: MUTED, after: 2 });
+    text(`Cliente: ${opt.who}   ·   ${two ? `Valutazioni del ${longDate(first.date)}${first.label ? ' (' + first.label.toLowerCase() + ')' : ''} e del ${longDate(last.date)}${last.label ? ' (' + last.label.toLowerCase() + ')' : ''}` : `Valutazione del ${longDate(last.date)}`}`, { size: 9, color: MUTED, after: 2 });
     box(DISC + ' Le misure vengono da fotografie e servono soprattutto a confrontare i cambiamenti nel tempo; si confermano con i test manuali.');
 
     // sintesi

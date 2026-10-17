@@ -1,6 +1,6 @@
 /* Strato dati dell'Area riservata.
    - Online: Supabase (accessi, database, archivio privato delle foto).
-   - Demo: se config.js e' vuoto, tutto resta in questo browser con pazienti di esempio. */
+   - Demo: se config.js e' vuoto, tutto resta in questo browser con clienti di esempio. */
 (function () {
   'use strict';
   const CFG = window.AREA_CONFIG || {};
@@ -130,7 +130,7 @@
       },
       async deleteSession(id) { check(await sb.from('sessions').delete().eq('id', id)); },
       async backup() {
-        return { esportato: new Date().toISOString(), pazienti: check(await sb.from('patients').select(PCOLS)), visite: check(await sb.from('visits').select('*')), sedute: check(await sb.from('sessions').select('*')) };
+        return { esportato: new Date().toISOString(), clienti: check(await sb.from('patients').select(PCOLS)), visite: check(await sb.from('visits').select('*')), sedute: check(await sb.from('sessions').select('*')) };
       }
     };
   }
@@ -165,7 +165,7 @@
       async del(k) { const db = await this.open(); if (!db) return; db.transaction('f', 'readwrite').objectStore('f').delete(k); }
     };
     const urls = {};
-    // pazienti in piu' pubblicati accanto alla demo (file facoltativo, privato)
+    // clienti in piu' pubblicati accanto alla demo (file facoltativo, privato)
     const extraP = fetch('demo-extra.json').then(r => (r.ok ? r.json() : null)).catch(() => null);
     async function mergeExtra() {
       const ex = await extraP, d = load();
@@ -199,7 +199,7 @@
         save(); return p.full_name;
       },
       async listPatients() { const d = load(); return summarize(d.patients.slice().sort((a, b) => a.full_name.localeCompare(b.full_name)), d.visits); },
-      async getPatient(id) { const p = load().patients.find(x => x.id === id); if (!p) throw err('Paziente non trovato.'); return p; },
+      async getPatient(id) { const p = load().patients.find(x => x.id === id); if (!p) throw err('Cliente non trovato.'); return p; },
       async createPatient(f) {
         const d = load(), code = newCode();
         const p = { id: uid(), ...f, user_id: null, demo_code: code, code_created_at: new Date().toISOString(), created_at: new Date().toISOString() };
@@ -244,12 +244,12 @@
         d.sessions.push(row); save(); return row;
       },
       async deleteSession(id) { const d = load(); d.sessions = (d.sessions || []).filter(x => x.id !== id); save(); },
-      async backup() { const d = load(); return { esportato: new Date().toISOString(), pazienti: d.patients, visite: d.visits, sedute: d.sessions || [] }; },
+      async backup() { const d = load(); return { esportato: new Date().toISOString(), clienti: d.patients, visite: d.visits, sedute: d.sessions || [] }; },
       async resetDemo() { mem.data = seed(); save(); await mergeExtra(); }
     };
   }
 
-  /* pazienti e visite di esempio per la demo (inventati) */
+  /* clienti e visite di esempio per la demo (inventati) */
   function seed() {
     const F = {
       incl: { title: 'Emipelvi dx più alta', text: 'Il bacino è inclinato di lato: il lato dx sale. Si accorciano i flessori laterali del tronco dx e gli abduttori sx.', corti: ['Quadrato dei lombi dx', 'Adduttori dx', 'Medio gluteo sx', 'TFL sx'], lunghi: ['Quadrato dei lombi sx', 'Medio gluteo dx', 'TFL dx'] },
