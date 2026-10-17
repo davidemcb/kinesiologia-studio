@@ -104,6 +104,7 @@ create table if not exists public.sessions (
 );
 alter table public.sessions add column if not exists zones jsonb not null default '[]';
 alter table public.sessions add column if not exists tests jsonb not null default '[]';
+alter table public.sessions add column if not exists next_step text;   -- promemoria per la seduta successiva
 create index if not exists sessions_patient_date on public.sessions (patient_id, date desc);
 alter table public.sessions enable row level security;
 drop policy if exists "sedute: amministratori" on public.sessions;
