@@ -200,7 +200,7 @@ $('#zoom').addEventListener('click', () => { $('#zoom').hidden = true; });
 
 function demoBanner() {
   if (Api.mode !== 'demo') return '';
-  return `<div class="demo"><b>Versione dimostrativa.</b> Pazienti e visite sono di esempio e restano solo in questo browser. <button class="btn" type="button" id="btnReset">Ripristina gli esempi</button></div>`;
+  return `<div class="demo"><b>Versione dimostrativa.</b> Clienti e visite sono di esempio e restano solo in questo browser. <button class="btn" type="button" id="btnReset">Ripristina gli esempi</button></div>`;
 }
 function bindDemo() { const b = $('#btnReset'); if (b) b.addEventListener('click', async () => { await Api.resetDemo(); await Api.demoLogin(S && S.role === 'patient' ? 'paziente' : 'davide'); location.hash = ''; boot(); }); }
 
@@ -227,7 +227,7 @@ function renderLogin(mode = 'in') {
   app.innerHTML = `${demoBanner()}
   <div class="card login">
     <h1>${mode === 'in' ? 'Entra' : 'Primo accesso'}</h1>
-    <p class="hint">${mode === 'in' ? 'Pazienti e studio entrano con la propria email e password.' : 'Crea il tuo accesso con email e password. Subito dopo inserirai il codice che ti ha dato lo studio.'}</p>
+    <p class="hint">${mode === 'in' ? 'Clienti e studio entrano con la propria email e password.' : 'Crea il tuo accesso con email e password. Subito dopo inserirai il codice che ti ha dato lo studio.'}</p>
     ${msgEl()}
     <form class="card" style="border:0;padding:0" id="fLogin">
       <div class="field"><label class="lbl" for="em">Email</label><input id="em" type="email" autocomplete="email" required></div>
@@ -259,7 +259,7 @@ function renderDemoLogin() {
     <div class="row" style="flex-direction:column;align-items:stretch">
       <button class="btn primary big" type="button" data-demo="davide">Entra come Davide (studio)</button>
       <button class="btn primary big" type="button" data-demo="morena">Entra come Morena (studio)</button>
-      <button class="btn big" type="button" data-demo="paziente">Entra come paziente (Maria Rossi)</button>
+      <button class="btn big" type="button" data-demo="paziente">Entra come cliente (Maria Rossi)</button>
     </div>
     <p class="hint">L'accesso con email e password arriverà quando il gestionale sarà collegato al database dello studio.</p>
   </div>`;
@@ -286,31 +286,31 @@ function renderClaim() {
   });
 }
 
-/* ---------------- studio: elenco pazienti ---------------- */
+/* ---------------- studio: elenco clienti ---------------- */
 async function renderDashboard() {
   const ps = await Api.listPatients();
   const t = today(), in14 = addDaysIso(14), ago30 = addDaysIso(-30);
   const visits30 = ps.reduce((n, p) => n + (p.last_visit && p.last_visit >= ago30 ? 1 : 0), 0);
   const due = ps.filter(p => p.next_control && p.next_control.date <= in14).length;
   app.innerHTML = `${demoBanner()}${msgEl()}
-  <div class="phero"><div><h1>Pazienti</h1><p class="hint">Tutte le schede dello studio, visibili a Davide e Morena.</p></div>
-    <div class="row"><button class="btn primary big" type="button" id="btnNew">Nuovo paziente</button><button class="btn" type="button" id="btnBackup">Scarica backup</button></div></div>
+  <div class="phero"><div><h1>Clienti</h1><p class="hint">Tutte le schede dello studio, visibili a Davide e Morena.</p></div>
+    <div class="row"><button class="btn primary big" type="button" id="btnNew">Nuovo cliente</button><button class="btn" type="button" id="btnBackup">Scarica backup</button></div></div>
   <div class="stats">
-    <div class="stat"><b>${ps.length}</b><span>pazienti in archivio</span></div>
+    <div class="stat"><b>${ps.length}</b><span>clienti in archivio</span></div>
     <div class="stat"><b>${visits30}</b><span>visti negli ultimi 30 giorni</span></div>
     <div class="stat"><b>${due}</b><span>controlli entro 14 giorni</span></div>
   </div>
   <div class="card" id="newCard" hidden></div>
   <div class="card">
-    <input type="search" id="q" placeholder="Cerca per nome" aria-label="Cerca paziente">
-    <div class="phead"><span>Paziente</span><span class="c2">Ultima visita</span><span class="c3">Prossimo controllo</span><span>Accesso</span></div>
+    <input type="search" id="q" placeholder="Cerca per nome" aria-label="Cerca cliente">
+    <div class="phead"><span>Cliente</span><span class="c2">Ultima visita</span><span class="c3">Prossimo controllo</span><span>Accesso</span></div>
     <div class="plist" id="plist"></div>
   </div>`;
   bindDemo();
   const draw = () => {
     const q = $('#q').value.trim().toLowerCase(), box = $('#plist'); box.innerHTML = '';
     const list = ps.filter(p => !q || p.full_name.toLowerCase().includes(q));
-    if (!list.length) box.innerHTML = `<p class="empty">${ps.length ? 'Nessun paziente con questo nome.' : 'Nessun paziente ancora: aggiungi il primo con "Nuovo paziente".'}</p>`;
+    if (!list.length) box.innerHTML = `<p class="empty">${ps.length ? 'Nessun cliente con questo nome.' : 'Nessun cliente ancora: aggiungi il primo con "Nuovo cliente".'}</p>`;
     for (const p of list) {
       const nc = p.next_control;
       const late = nc && nc.date < t;
@@ -347,7 +347,7 @@ const readFields = () => ({ full_name: $('#fn').value.trim(), birth: $('#fb').va
 
 function newPatientForm(card) {
   card.hidden = false;
-  card.innerHTML = `<h2>Nuovo paziente</h2>${patientFields()}
+  card.innerHTML = `<h2>Nuovo cliente</h2>${patientFields()}
     <label class="row hint"><input type="checkbox" id="fok"> Ha firmato il consenso per foto, dati e area riservata.</label>
     <div class="row"><button class="btn primary" type="button" id="fsave">Crea la scheda</button><button class="btn" type="button" id="fcancel">Annulla</button></div><p class="msg err" id="ferr" hidden></p>`;
   $('#fcancel').addEventListener('click', () => { card.hidden = true; });
@@ -365,7 +365,7 @@ function showCode(card, p, code) {
   card.hidden = false;
   card.innerHTML = `<h2>Codice di accesso per ${esc(p.full_name)}</h2>
     <div class="codebox">${esc(code)}</div>
-    <p class="hint">Dallo al paziente insieme a queste istruzioni. Vale 60 giorni e si usa una volta sola. Il codice non resta salvato in chiaro: se si perde, se ne crea uno nuovo.</p>
+    <p class="hint">Dallo al cliente insieme a queste istruzioni. Vale 60 giorni e si usa una volta sola. Il codice non resta salvato in chiaro: se si perde, se ne crea uno nuovo.</p>
     <p style="margin:0">1. Vai su <b>${esc(site)}</b><br>2. Premi "Crea il tuo accesso" e scegli email e password.<br>3. Inserisci il codice <b>${esc(code)}</b>.</p>
     <div class="row"><button class="btn" type="button" id="cCopy">Copia le istruzioni</button><button class="btn primary" type="button" id="cOpen">Apri la scheda</button></div>`;
   $('#cCopy').addEventListener('click', () => {
@@ -375,29 +375,49 @@ function showCode(card, p, code) {
   $('#cOpen').addEventListener('click', () => go('#p-' + p.id));
 }
 
-/* ---------------- studio: scheda paziente ---------------- */
+/* ---------------- studio: scheda cliente ---------------- */
+// vista semplice (di base per Morena): solo ultima seduta, indicazioni, diario e note
+function viewSimple() {
+  try { const v = localStorage.getItem('cp-vista'); if (v) return v === 'semplice'; } catch (e) {}
+  return (S.name || '').startsWith('Morena');
+}
+function hintsCard(v) {
+  if (!v) return '';
+  const fs = (v.findings || []).filter(f => (f.corti || []).length || (f.lunghi || []).length);
+  const exs = (v.exercises || []).filter(e => e.name);
+  if (!fs.length && !exs.length) return '';
+  const corti = [...new Set(fs.flatMap(f => f.corti || []))], lunghi = [...new Set(fs.flatMap(f => f.lunghi || []))];
+  return `<div class="card"><h2>Indicazioni dalla valutazione</h2><p class="hint" style="margin:0">Valutazione del ${itDate(v.date)}</p>
+    ${corti.length ? `<p style="margin:0"><b>Da allungare / tese:</b> ${esc(corti.join(', '))}</p>` : ''}
+    ${lunghi.length ? `<p style="margin:0"><b>Da rinforzare / deboli:</b> ${esc(lunghi.join(', '))}</p>` : ''}
+    ${exs.length ? `<p style="margin:0"><b>Esercizi indicati:</b> ${esc(exs.map(e => e.name).join(', '))}</p>` : ''}</div>`;
+}
 async function renderPatient(id) {
   const [p, vs, ss] = await Promise.all([Api.getPatient(id), Api.listVisits(id), Api.listSessions(id)]);
+  const simple = viewSimple();
   app.innerHTML = `${demoBanner()}${msgEl()}
-  <button class="btn back" type="button" onclick="location.hash=''">← Tutti i pazienti</button>
+  <button class="btn back" type="button" onclick="location.hash=''">← Tutti i clienti</button>
   <div class="card">
     <div class="phero">
       <div><h1>${esc(p.full_name)}</h1>
-        <p class="hint">${p.birth ? 'Nato/a il ' + itDate(p.birth) + ' · ' : ''}${p.phone ? esc(p.phone) + ' · ' : ''}${p.email ? esc(p.email) + ' · ' : ''}consenso del ${itDate(p.consent_date)}</p>
-        <div class="row" style="margin-top:6px">${p.user_id ? '<span class="pill ok">Area riservata attiva</span>' : '<span class="pill warn">Il paziente non ha ancora usato il codice</span>'}</div></div>
-      <div class="row"><a class="btn primary big" href="analisi.html#p-${esc(p.id)}">Nuova visita</a><button class="btn big" type="button" id="bReport">Crea report e proposta</button></div>
+        <p class="hint">${simple ? (p.phone ? esc(p.phone) : '') : `${p.birth ? 'Nato/a il ' + itDate(p.birth) + ' · ' : ''}${p.phone ? esc(p.phone) + ' · ' : ''}${p.email ? esc(p.email) + ' · ' : ''}consenso del ${itDate(p.consent_date)}`}</p>
+        ${simple ? '' : `<div class="row" style="margin-top:6px">${p.user_id ? '<span class="pill ok">Area riservata attiva</span>' : '<span class="pill warn">Il cliente non ha ancora usato il codice</span>'}</div>`}</div>
+      ${simple ? '<div class="row"><button class="btn primary big" type="button" id="bSess2">Nuova seduta</button></div>' : `<div class="row"><a class="btn primary big" href="analisi.html#p-${esc(p.id)}">Nuova visita</a><button class="btn big" type="button" id="bReport">Crea report e proposta</button></div>`}
     </div>
-    <div class="row"><button class="btn" type="button" id="bCode">Nuovo codice di accesso</button><button class="btn" type="button" id="bEdit">Modifica dati</button><button class="btn danger" type="button" id="bDel">Elimina paziente</button></div>
+    <div class="row">${simple ? '' : '<button class="btn" type="button" id="bCode">Nuovo codice di accesso</button><button class="btn" type="button" id="bEdit">Modifica dati</button><button class="btn danger" type="button" id="bDel">Elimina cliente</button>'}<button class="btn" type="button" id="bView">${simple ? 'Vista completa' : 'Vista semplice'}</button></div>
     <div id="pExtra"></div>
   </div>
   <div id="pReport"></div>
   ${lastSessionCard(ss[0])}
-  ${trendCard(vs)}
-  <div class="card"><h2>Visite</h2><div class="vlist" id="vlist"></div></div>
-  <div class="card"><div class="phero"><div><h2>Diario delle sedute</h2><p class="hint">Trattamenti e allenamenti, con autore e data. Le voci con "visibile al paziente" compaiono anche nella sua area.</p></div><button class="btn primary" type="button" id="bSess">Nuova seduta</button></div>
+  ${simple ? hintsCard(vs[0]) : `${trendCard(vs)}
+  <div class="card"><h2>Visite</h2><div class="vlist" id="vlist"></div></div>`}
+  <div class="card"><div class="phero"><div><h2>Diario delle sedute</h2><p class="hint">Trattamenti e allenamenti, con autore e data. Le voci con "visibile al cliente" compaiono anche nella sua area.</p></div><button class="btn primary" type="button" id="bSess">Nuova seduta</button></div>
     <div id="sessForm" hidden></div><div class="vlist" id="slist"></div></div>
   <div class="card"><h2>Note dello studio</h2><p class="hint">Visibili solo a Davide e Morena.</p><textarea id="pNotes">${esc(p.notes || '')}</textarea><div class="row"><button class="btn" type="button" id="bNotesMic">🎤 Detta</button><button class="btn" type="button" id="bNotes">Salva note</button><span class="hint" id="nOk"></span></div></div>`;
   bindDemo();
+  $('#bView').addEventListener('click', () => { try { localStorage.setItem('cp-vista', simple ? 'completa' : 'semplice'); } catch (e) {} route(); });
+  const s2 = $('#bSess2'); if (s2) s2.addEventListener('click', () => { sessionForm($('#sessForm'), p, vs[0]); $('#sessForm').scrollIntoView({ block: 'start', behavior: 'smooth' }); });
+  if (simple) { drawSessions($('#slist'), ss, true, p); $('#bSess').addEventListener('click', () => sessionForm($('#sessForm'), p, vs[0])); dictation($('#bNotesMic'), $('#pNotes'), t => { $('#nOk').textContent = t; }); $('#bNotes').addEventListener('click', async () => { await Api.updatePatient(p.id, { notes: $('#pNotes').value }); $('#nOk').textContent = 'Salvate.'; }); return; }
   const vl = $('#vlist');
   if (!vs.length) vl.innerHTML = '<p class="empty">Nessuna visita. Premi "Nuova visita": carichi le foto, l\'analisi parte da sola e si salva qui.</p>';
   for (const v of vs) vl.appendChild(visitRow(v, true));
@@ -524,6 +544,16 @@ function sessionText(s, p) {
   L.push('', 'Kinesiologia Studio · Che Postura');
   return L.join('\n');
 }
+// riepilogo per il collega: nome di battesimo e iniziale, piu' il promemoria "Prossima volta"
+const TEAM = [{ name: 'Davide', phone: '393481514382' }, { name: 'Morena', phone: '393713682776' }];
+function teamText(s, p) {
+  const parts = (p && p.full_name ? p.full_name : '').trim().split(/\s+/);
+  const who = parts[0] ? parts[0] + (parts[1] ? ' ' + parts[1][0] + '.' : '') : 'cliente';
+  const L = sessionText(s, p).split('\n').slice(1, -1);
+  L.unshift(`Seduta di ${who} del ${shortDate(s.date)}${s.author_name ? ' · ' + s.author_name : ''}${KIND[s.kind] ? ' · ' + KIND[s.kind].toLowerCase() : ''}`);
+  if (s.next_step) L.push('', '*Prossima volta*', s.next_step);
+  return L.join('\n').replace(/\n{3,}/g, '\n\n');
+}
 function waNumber(phone) {
   let n = String(phone || '').replace(/[^\d+]/g, '');
   if (n.startsWith('+')) n = n.slice(1); else if (n.startsWith('00')) n = n.slice(2); else if (/^3\d{8,9}$/.test(n)) n = '39' + n;
@@ -533,7 +563,8 @@ function waPanel(row, s, p) {
   const old = row.querySelector('.wa'); if (old) { old.remove(); return; }
   const text = sessionText(s, p), num = waNumber(p && p.phone);
   const c = h(`<div class="wa field"><span class="lbl">Riepilogo per WhatsApp${num ? '' : ' (nessun telefono in scheda: sceglierai il contatto in WhatsApp)'}</span><textarea rows="10"></textarea>
-    <div class="row"><a class="btn primary" target="_blank" rel="noopener">Apri WhatsApp</a><button class="btn" type="button">Copia testo</button></div></div>`);
+    <div class="row"><a class="btn primary" target="_blank" rel="noopener">Apri WhatsApp</a><button class="btn" type="button">Copia testo</button></div>
+    <div class="row">${TEAM.filter(m => !(S.name || '').startsWith(m.name)).map(m => `<a class="btn" target="_blank" rel="noopener" href="https://wa.me/${m.phone}?text=${encodeURIComponent(teamText(s, p))}">Manda a ${esc(m.name)}</a>`).join('')}<span class="hint">Riepilogo per il collega, con nome e iniziale del cliente.</span></div></div>`);
   const ta = c.querySelector('textarea'), a = c.querySelector('a');
   const link = () => { a.href = `https://wa.me/${num}?text=${encodeURIComponent(ta.value)}`; };
   ta.value = text; link(); ta.addEventListener('input', link);
@@ -556,7 +587,7 @@ function drawSessions(box, ss, admin, p) {
   if (!ss.length) { box.innerHTML = '<p class="empty">Nessuna seduta annotata.</p>'; return; }
   for (const s of ss) {
     const ex = (s.exercises || []).filter(e => e.name), zs = (s.zones || []).filter(z => z.zone), ts = (s.tests || []).filter(t => t.name);
-    const row = h(`<div class="srow ${esc(s.kind)}"><div class="top"><b class="date">${itDate(s.date)}</b><span class="pill">${esc(KIND[s.kind] || s.kind)}</span>${s.author_name ? `<span class="hint">${esc(s.author_name)}</span>` : ''}${admin ? (s.visible_to_patient ? '<span class="pill ok">Visibile al paziente</span>' : '<span class="pill">Solo studio</span>') : ''}</div>
+    const row = h(`<div class="srow ${esc(s.kind)}"><div class="top"><b class="date">${itDate(s.date)}</b><span class="pill">${esc(KIND[s.kind] || s.kind)}</span>${s.author_name ? `<span class="hint">${esc(s.author_name)}</span>` : ''}${admin ? (s.visible_to_patient ? '<span class="pill ok">Visibile al cliente</span>' : '<span class="pill">Solo studio</span>') : ''}</div>
       ${zs.length ? `<ul class="zl">${zs.map(z => `<li><b>${esc(z.zone)}${esc(sideTxt(z.side))}</b>${(z.tech || []).length ? ' · ' + esc(z.tech.join(', ')) : ''}</li>`).join('')}</ul>` : ''}
       ${ex.length ? `<div class="tablewrap"><table><thead><tr><th>Esercizio</th><th>Serie e ripetizioni</th><th>Carico</th><th>Note</th></tr></thead><tbody>${ex.map(e => `<tr><td>${esc(e.name)}</td><td>${esc(e.dose || '')}</td><td>${esc(e.load || '')}</td><td>${esc(e.note || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
       ${ts.length ? `<div class="tablewrap"><table><thead><tr><th>Test</th><th>Lato</th><th>Esito</th><th>Note</th></tr></thead><tbody>${ts.map(t => `<tr><td>${esc(t.name)}</td><td>${esc(t.side || '')}</td><td>${esc(t.result || '')}</td><td>${esc(t.note || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
@@ -590,8 +621,8 @@ function sessionForm(box, p, lastVisit) {
       <div class="row"><button class="btn" type="button" id="sMic">🎤 Detta</button><span class="hint" id="sMicMsg"></span></div></div>
     <div class="field"><label class="lbl" for="sNext">Prossima volta</label><textarea id="sNext" rows="2" placeholder="Es. aggiungere equilibrio su una gamba, ricontrollare il ginocchio sinistro"></textarea>
       <div class="row"><button class="btn" type="button" id="sNextMic">🎤 Detta</button><span class="hint" id="sNextMsg"></span></div>
-      <p class="hint">Promemoria per la seduta successiva: lo ritrovi in cima alla scheda. Se la seduta è visibile al paziente, lo vede anche lui.</p></div>
-    <label class="row hint"><input type="checkbox" id="sVis"> Visibile al paziente nella sua area</label>
+      <p class="hint">Promemoria per la seduta successiva: lo ritrovi in cima alla scheda. Se la seduta è visibile al cliente, lo vede anche lui.</p></div>
+    <label class="row hint"><input type="checkbox" id="sVis"> Visibile al cliente nella sua area</label>
     <div class="row"><button class="btn primary" type="button" id="sSaveWa">Salva e prepara WhatsApp</button><button class="btn" type="button" id="sSave">Salva</button><button class="btn" type="button" id="sCancel">Annulla</button></div>`;
   const techChips = (wrap, sel) => {
     wrap.innerHTML = '';
@@ -611,7 +642,7 @@ function sessionForm(box, p, lastVisit) {
     $('#sZ').appendChild(r); r.querySelector('select').focus();
   };
   const addEx = () => {
-    const r = h(`<div class="exrow"><select aria-label="Esercizio"><option value="">Scegli l'esercizio…</option>${plan.length ? `<optgroup label="Dalla scheda del paziente">${plan.map((e, i) => `<option value="plan:${i}">${esc(e.name)}</option>`).join('')}</optgroup>` : ''}${groups(EXLIB)}<option value="*">Altro (scrivi)…</option></select><input type="text" placeholder="Serie × rip." aria-label="Serie e ripetizioni"><input type="text" placeholder="Carico" aria-label="Carico"><input type="text" placeholder="Note" aria-label="Note"><button class="btn" type="button" aria-label="Togli">×</button><input type="text" class="other" placeholder="Nome dell'esercizio" aria-label="Nome dell'esercizio" hidden></div>`);
+    const r = h(`<div class="exrow"><select aria-label="Esercizio"><option value="">Scegli l'esercizio…</option>${plan.length ? `<optgroup label="Dalla scheda del cliente">${plan.map((e, i) => `<option value="plan:${i}">${esc(e.name)}</option>`).join('')}</optgroup>` : ''}${groups(EXLIB)}<option value="*">Altro (scrivi)…</option></select><input type="text" placeholder="Serie × rip." aria-label="Serie e ripetizioni"><input type="text" placeholder="Carico" aria-label="Carico"><input type="text" placeholder="Note" aria-label="Note"><button class="btn" type="button" aria-label="Togli">×</button><input type="text" class="other" placeholder="Nome dell'esercizio" aria-label="Nome dell'esercizio" hidden></div>`);
     const sel = r.querySelector('select'), [dose, , , other] = r.querySelectorAll('input');
     sel.addEventListener('change', () => {
       other.hidden = sel.value !== '*'; if (!other.hidden) other.focus();
@@ -652,12 +683,12 @@ function sessionForm(box, p, lastVisit) {
   $('#sSaveWa').addEventListener('click', () => save(true));
 }
 
-/* ---------------- visita (studio e paziente) ---------------- */
+/* ---------------- visita (studio e cliente) ---------------- */
 async function renderVisit(id) {
   const v = await Api.getVisit(id);
   const admin = S.role === 'admin';
   app.innerHTML = `${demoBanner()}
-  <button class="btn back" type="button" id="bBack">← ${admin ? 'Scheda del paziente' : 'La mia area'}</button>
+  <button class="btn back" type="button" id="bBack">← ${admin ? 'Scheda del cliente' : 'La mia area'}</button>
   <div class="card"><div class="phero"><div><h1>Visita del ${itDate(v.date)}${v.label ? ' · ' + esc(v.label) : ''}</h1><p class="hint">${v.height ? 'Altezza ' + esc(v.height) + ' cm · ' : ''}${v.plan && v.plan.name ? esc(v.plan.name) : ''}</p></div>
     ${v.pdf_path ? '<button class="btn primary big" type="button" id="bPdf">Scarica il referto PDF</button>' : ''}</div>
     <div class="photos" id="ph"></div></div>
@@ -704,7 +735,7 @@ function mobCard(mob) {
     ${(mob.asym || []).length ? `<p><b>Differenze tra destra e sinistra:</b> ${esc(mob.asym.join('; '))}.</p>` : ''}</div>`;
 }
 
-/* ---------------- paziente: la mia area ---------------- */
+/* ---------------- cliente: la mia area ---------------- */
 async function renderMyArea() {
   if (!S.patientId) return renderClaim();
   const [p, vs, ss] = await Promise.all([Api.getPatient(S.patientId), Api.listVisits(S.patientId), Api.listSessions(S.patientId)]);
