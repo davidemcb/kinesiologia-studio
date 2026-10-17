@@ -49,6 +49,7 @@
   .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .btn { border: 1px solid var(--line); background: var(--surface); padding: 8px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: .92rem; text-decoration: none; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; }
   .btn:hover { border-color: var(--brand); }
+  .next { margin: 0; background: var(--warn-soft); border-left: 4px solid var(--accent); border-radius: 8px; padding: 8px 12px; }
   .btn.primary { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
   .btn.danger { color: var(--danger); }
   .btn.big { padding: 12px 20px; font-size: 1rem; border-radius: 12px; }
@@ -390,6 +391,7 @@ async function renderPatient(id) {
     <div id="pExtra"></div>
   </div>
   <div id="pReport"></div>
+  ${lastSessionCard(ss[0])}
   ${trendCard(vs)}
   <div class="card"><h2>Visite</h2><div class="vlist" id="vlist"></div></div>
   <div class="card"><div class="phero"><div><h2>Diario delle sedute</h2><p class="hint">Trattamenti e allenamenti, con autore e data. Le voci con "visibile al paziente" compaiono anche nella sua area.</p></div><button class="btn primary" type="button" id="bSess">Nuova seduta</button></div>
@@ -539,6 +541,16 @@ function waPanel(row, s, p) {
   row.appendChild(c);
 }
 let openWa = null;
+// in cima alla scheda: cosa si è fatto l'ultima volta e cosa si era deciso per la prossima
+function lastSessionCard(s) {
+  if (!s) return '';
+  const done = [...(s.zones || []).filter(z => z.zone).map(z => z.zone + sideTxt(z.side)), ...(s.exercises || []).filter(e => e.name).map(e => e.name)];
+  return `<div class="card"><h2>Ultima seduta</h2>
+    <p class="hint" style="margin:0">${itDate(s.date)} · ${esc(KIND[s.kind] || s.kind)}${s.author_name ? ' · ' + esc(s.author_name) : ''}</p>
+    ${done.length ? `<p style="margin:0"><b>Fatto:</b> ${esc(done.join(', '))}</p>` : ''}
+    ${s.text ? `<p style="margin:0">${esc(s.text)}</p>` : ''}
+    ${s.next_step ? `<p class="next"><b>Prossima volta:</b> ${esc(s.next_step)}</p>` : '<p class="hint" style="margin:0">Nessun promemoria per la prossima volta.</p>'}</div>`;
+}
 function drawSessions(box, ss, admin, p) {
   box.innerHTML = '';
   if (!ss.length) { box.innerHTML = '<p class="empty">Nessuna seduta annotata.</p>'; return; }
@@ -549,6 +561,7 @@ function drawSessions(box, ss, admin, p) {
       ${ex.length ? `<div class="tablewrap"><table><thead><tr><th>Esercizio</th><th>Serie e ripetizioni</th><th>Carico</th><th>Note</th></tr></thead><tbody>${ex.map(e => `<tr><td>${esc(e.name)}</td><td>${esc(e.dose || '')}</td><td>${esc(e.load || '')}</td><td>${esc(e.note || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
       ${ts.length ? `<div class="tablewrap"><table><thead><tr><th>Test</th><th>Lato</th><th>Esito</th><th>Note</th></tr></thead><tbody>${ts.map(t => `<tr><td>${esc(t.name)}</td><td>${esc(t.side || '')}</td><td>${esc(t.result || '')}</td><td>${esc(t.note || '')}</td></tr>`).join('')}</tbody></table></div>` : ''}
       ${s.text ? `<p>${esc(s.text)}</p>` : ''}
+      ${s.next_step ? `<p class="next"><b>Prossima volta:</b> ${esc(s.next_step)}</p>` : ''}
       ${admin ? '<div class="row"><button class="btn" type="button" data-a="wa">Riepilogo WhatsApp</button><button class="btn danger" type="button" data-a="del">Elimina</button></div>' : ''}</div>`);
     const wa = row.querySelector('[data-a=wa]');
     if (wa) { wa.addEventListener('click', () => waPanel(row, s, p)); if (openWa === s.id) { openWa = null; waPanel(row, s, p); setTimeout(() => row.scrollIntoView({ block: 'start' }), 50); } }
@@ -575,6 +588,9 @@ function sessionForm(box, p, lastVisit) {
     <div class="field"><span class="lbl">Test svolti</span><div class="exrows" id="sT"></div><div class="row"><button class="btn" type="button" id="sAddT">+ Aggiungi test</button></div></div>
     <div class="field"><label class="lbl" for="sText">Note</label><textarea id="sText" placeholder="Es. come ha risposto, dolore prima e dopo, consigli per casa"></textarea>
       <div class="row"><button class="btn" type="button" id="sMic">🎤 Detta</button><span class="hint" id="sMicMsg"></span></div></div>
+    <div class="field"><label class="lbl" for="sNext">Prossima volta</label><textarea id="sNext" rows="2" placeholder="Es. aggiungere equilibrio su una gamba, ricontrollare il ginocchio sinistro"></textarea>
+      <div class="row"><button class="btn" type="button" id="sNextMic">🎤 Detta</button><span class="hint" id="sNextMsg"></span></div>
+      <p class="hint">Promemoria per la seduta successiva: lo ritrovi in cima alla scheda. Se la seduta è visibile al paziente, lo vede anche lui.</p></div>
     <label class="row hint"><input type="checkbox" id="sVis"> Visibile al paziente nella sua area</label>
     <div class="row"><button class="btn primary" type="button" id="sSaveWa">Salva e prepara WhatsApp</button><button class="btn" type="button" id="sSave">Salva</button><button class="btn" type="button" id="sCancel">Annulla</button></div>`;
   const techChips = (wrap, sel) => {
@@ -617,6 +633,7 @@ function sessionForm(box, p, lastVisit) {
   };
   kindSeg(); $('#sVis').checked = st.kind === 'allenamento';
   dictation($('#sMic'), $('#sText'), t => { $('#sMicMsg').textContent = t; });
+  dictation($('#sNextMic'), $('#sNext'), t => { $('#sNextMsg').textContent = t; });
   addZone(); $('#sDate').focus();
   $('#sAddZ').addEventListener('click', addZone); $('#sAdd').addEventListener('click', addEx); $('#sAddT').addEventListener('click', addTest);
   $('#sCancel').addEventListener('click', () => { box.hidden = true; box.innerHTML = ''; });
@@ -625,9 +642,9 @@ function sessionForm(box, p, lastVisit) {
     const zones = [...box.querySelectorAll('.zrow')].map(r => { const [z, sd] = r.querySelectorAll('select'); return { zone: z.value, side: sd.value, tech: readTech(r) }; }).filter(z => z.zone);
     const exercises = [...box.querySelectorAll('.exrow')].map(r => { const i = r.querySelectorAll('input'); return { name: nameOf(r.querySelector('select'), i[3]), dose: i[0].value.trim(), load: i[1].value.trim(), note: i[2].value.trim() }; }).filter(e => e.name);
     const tests = [...box.querySelectorAll('.trow')].map(r => { const [t, sd, rs] = r.querySelectorAll('select'), i = r.querySelectorAll('input'); return { name: nameOf(t, i[1]), side: sd.value, result: rs.value, note: i[0].value.trim() }; }).filter(t => t.name);
-    const text = $('#sText').value.trim();
-    if (!text && !zones.length && !exercises.length && !tests.length) { say('Scegli almeno una zona, un esercizio o un test, oppure scrivi una nota.', true); return; }
-    const row = await Api.addSession(p.id, { date: $('#sDate').value || today(), kind: st.kind, zones, tests, text, exercises, visible_to_patient: $('#sVis').checked });
+    const text = $('#sText').value.trim(), next_step = $('#sNext').value.trim();
+    if (!text && !next_step && !zones.length && !exercises.length && !tests.length) { say('Scegli almeno una zona, un esercizio o un test, oppure scrivi una nota.', true); return; }
+    const row = await Api.addSession(p.id, { date: $('#sDate').value || today(), kind: st.kind, zones, tests, text, next_step, exercises, visible_to_patient: $('#sVis').checked });
     if (wa && row) openWa = row.id;
     say('Seduta salvata nel diario.'); route();
   };
