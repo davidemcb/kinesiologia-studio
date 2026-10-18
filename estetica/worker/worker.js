@@ -112,7 +112,8 @@ export default {
 
     const content = [];
     for (const f of foto) {
-      content.push({ type: 'text', text: `Foto "${f.etichetta}":` });
+      const avvisi = Array.isArray(f.avvisi_qualita) && f.avvisi_qualita.length ? ` (controllo qualità dell'app: ${f.avvisi_qualita.join('; ')})` : '';
+      content.push({ type: 'text', text: `Foto "${f.etichetta}"${f.descrizione ? ' · ' + f.descrizione : ''}${avvisi}:` });
       content.push({ type: 'image', source: { type: 'base64', media_type: f.media_type, data: f.data } });
     }
     content.push({ type: 'text', text: `${catalogoTesto}\n\n${contestoTesto}\n\nLeggi le foto e compila la lettura strutturata.` });

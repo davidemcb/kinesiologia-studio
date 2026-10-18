@@ -151,6 +151,39 @@ dialog input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); bo
   .print-only { display: block !important; }
 }
 .print-only { display: none; }
+
+/* esame al tatto */
+details.prova { border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; background: var(--bg); }
+details.prova summary { padding: 10px 14px; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+details.prova summary::-webkit-details-marker { display: none; }
+details.prova summary .scelto { color: var(--ok); font-weight: 600; }
+details.prova .body { padding: 0 12px 12px; }
+details.prova .come { background: var(--surface); border-radius: 10px; padding: 8px 10px; }
+.opz { display: grid; grid-template-columns: auto 1fr; gap: 10px; width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; color: var(--ink); align-items: start; }
+.opz.on { border-color: var(--brand); background: var(--brand-soft); box-shadow: inset 0 0 0 1px var(--brand); }
+.opz img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; }
+.opz .nome { font-weight: 600; }
+
+/* fotocamera guidata */
+dialog.camera { max-width: 560px; width: calc(100% - 16px); padding: 12px; }
+.cam-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+.cam-stage { position: relative; width: 100%; aspect-ratio: 3/4; background: #000; border-radius: 12px; overflow: hidden; }
+.cam-stage video, .cam-stage img, .cam-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cam-stage video { object-fit: cover; } .cam-stage video.specchio { transform: scaleX(-1); }
+.cam-stage img { object-fit: cover; opacity: .35; pointer-events: none; }
+.cam-stage svg { fill: none; stroke: rgba(255,255,255,.85); stroke-width: 2; pointer-events: none; }
+.cam-stage svg text { fill: rgba(255,255,255,.9); stroke: none; font-size: 11px; text-anchor: middle; font-family: var(--font-body); }
+.livella { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); background: rgba(0,0,0,.55); color: #fff; font-size: .78rem; padding: 3px 10px; border-radius: 999px; }
+.livella:empty { display: none; } .livella.ok { background: rgba(62,122,94,.85); }
+.cam-azioni { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 10px; }
+.btn-scatto { width: 64px; height: 64px; border-radius: 50%; border: 4px solid var(--brand); background: var(--brand-ink); box-shadow: inset 0 0 0 3px var(--brand); }
+.btn-scatto:active { transform: scale(.94); }
+.cam-img { width: 100%; border-radius: 12px; display: block; }
+.avvisi { margin: 8px 0 0; padding: 8px 10px 8px 26px; border-radius: 10px; background: var(--warn-soft); color: var(--warn); font-size: .85rem; text-align: left; }
+.avvisi.grave { background: var(--danger-soft); color: var(--danger); }
+.foto-slot.grave { border-color: var(--danger); }
+.confronto { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.confronto figure { margin: 0; } .confronto img { width: 100%; border-radius: 8px; display: block; } .confronto figcaption { font-size: .78rem; color: var(--muted); text-align: center; }
 </style>
 </head>
 <body>
@@ -162,6 +195,38 @@ dialog input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); bo
 </header>
 <main id="app"><div class="vuoto">Caricamento…</div></main>
 <div class="toast" id="toast"></div>
+
+<dialog id="dlg-camera" class="camera">
+  <div class="cam-top">
+    <div><b id="cam-titolo"></b><div class="small muted" id="cam-guida"></div></div>
+    <button class="btn sm" id="cam-chiudi">✕</button>
+  </div>
+  <div id="cam-live">
+    <div class="cam-stage">
+      <video id="cam-video" playsinline muted autoplay></video>
+      <img id="cam-ghost" alt="">
+      <svg id="cam-sagoma" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid meet"></svg>
+      <div id="cam-livella" class="livella"></div>
+    </div>
+    <div class="row between" style="margin-top:8px">
+      <span class="small muted" id="cam-info"></span>
+      <label class="row small" id="cam-ghost-ctrl" style="display:none">precedente <input type="range" id="cam-ghost-op" min="0" max="80" value="35" style="width:90px"></label>
+    </div>
+    <div class="cam-azioni">
+      <button class="btn" id="cam-galleria">Galleria</button>
+      <button class="btn-scatto" id="cam-scatta" aria-label="Scatta"></button>
+      <button class="btn" id="cam-gira">Gira</button>
+    </div>
+  </div>
+  <div id="cam-anteprima" style="display:none">
+    <img id="cam-img" alt="anteprima" class="cam-img">
+    <div id="cam-avvisi"></div>
+    <div class="cam-azioni">
+      <button class="btn" id="cam-rifai">Rifai</button>
+      <button class="btn primary" id="cam-usa">Usa questa foto</button>
+    </div>
+  </div>
+</dialog>
 
 <dialog id="dlg-impostazioni">
   <h3>Impostazioni</h3>
@@ -182,14 +247,17 @@ dialog input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); bo
 import { generaPiano, valutaAnamnesi } from './motore.js';
 
 /* ---------- stato ---------- */
-const S = { kb: null, an: null, schede: [], scheda: null, step: 0, vista: 'elenco', analisi: false };
+const S = { kb: null, an: null, es: null, schede: [], scheda: null, step: 0, vista: 'elenco', analisi: false };
 const SLOT_FOTO = [
-  { id: 'viso_frontale', area: 'viso', nome: 'Viso frontale', guida: 'Struccata, capelli indietro, luce naturale diffusa, espressione rilassata.' },
-  { id: 'viso_sx', area: 'viso', nome: 'Profilo sinistro', guida: 'Testa dritta, orecchio visibile.' },
-  { id: 'viso_dx', area: 'viso', nome: 'Profilo destro', guida: 'Stessa distanza del frontale.' },
-  { id: 'corpo_fronte', area: 'corpo', nome: 'Corpo di fronte', guida: 'Intimo neutro, piedi uniti, braccia leggermente aperte, sfondo uniforme.' },
-  { id: 'corpo_retro', area: 'corpo', nome: 'Corpo di spalle', guida: 'Stessa distanza, muscoli rilassati.' },
-  { id: 'corpo_lato', area: 'corpo', nome: 'Corpo di lato', guida: 'Postura naturale, non trattenere la pancia.' }
+  { id: 'viso_frontale', area: 'viso', nome: 'Viso frontale', max: 2048, sagoma: 'ovale', cosa: 'viso intero di fronte, a riposo', guida: 'Struccata e detersa da 15 minuti, capelli indietro, luce diffusa frontale, sguardo in camera, espressione rilassata. Il viso riempie l’ovale.' },
+  { id: 'viso_sx', area: 'viso', nome: 'Profilo sinistro', max: 2048, sagoma: 'profilo', cosa: 'profilo sinistro, testa dritta', guida: 'Testa dritta, sguardo all’orizzonte, orecchio visibile. Dieci gradi di mento in su o in giù cambiano tutto: usa la sagoma.' },
+  { id: 'viso_dx', area: 'viso', nome: 'Profilo destro', max: 2048, sagoma: 'profilo', cosa: 'profilo destro, testa dritta', guida: 'Stessa distanza e stessa altezza del profilo sinistro.' },
+  { id: 'viso_mimica', area: 'viso', nome: 'Mimica', max: 2048, sagoma: 'ovale', facoltativa: true, cosa: 'viso di fronte con sopracciglia alzate e sorriso: rughe d’espressione', guida: 'Sopracciglia alzate e sorriso ampio: fa emergere le rughe d’espressione che a riposo non si vedono.' },
+  { id: 'viso_dettaglio', area: 'viso', nome: 'Ravvicinato', max: 2048, sagoma: 'dettaglio', facoltativa: true, cosa: 'ravvicinato di guancia e ala del naso: pori, grana, capillari', guida: 'A 15-20 centimetri su guancia e ala del naso, a fuoco. Serve per pori, grana e capillari.' },
+  { id: 'corpo_fronte', area: 'corpo', nome: 'Corpo di fronte', max: 1600, sagoma: 'corpo', cosa: 'figura intera di fronte', guida: 'Intimo neutro, piedi sul segno a terra, braccia un po’ aperte, muscoli rilassati. Telefono verticale all’altezza dell’ombelico, a circa 2,5 metri.' },
+  { id: 'corpo_retro', area: 'corpo', nome: 'Corpo di spalle', max: 1600, sagoma: 'corpo', cosa: 'figura intera di spalle', guida: 'Stessa distanza e altezza. Glutei e cosce rilassati: è la vista principale per la cellulite.' },
+  { id: 'corpo_lato', area: 'corpo', nome: 'Corpo di lato', max: 1600, sagoma: 'corpo_lato', cosa: 'figura intera di lato', guida: 'Postura naturale, non trattenere la pancia, braccia leggermente avanti.' },
+  { id: 'corpo_pizzicotto', area: 'corpo', nome: 'Pizzicotto', max: 1600, sagoma: 'dettaglio', facoltativa: true, cosa: 'coscia o gluteo pizzicati fra pollice e indice: cellulite allo stadio iniziale', guida: 'Pizzica la pelle della coscia fra pollice e indice e fotografa da 30 centimetri. Fa emergere la cellulite che in piedi non si vede.' }
 ];
 const STEP = ['Anamnesi', 'Foto', 'Lettura', 'Piano'];
 const imp = () => { try { return JSON.parse(localStorage.getItem('estetica.impostazioni') || '{}'); } catch { return {}; } };
@@ -210,13 +278,47 @@ let toastT; const toast = m => { const t = $('#toast'); t.textContent = m; t.cla
 const dataIt = iso => new Date(iso).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
 let salvaT; const salva = () => { if (!S.scheda) return; S.scheda.aggiornata = new Date().toISOString(); clearTimeout(salvaT); salvaT = setTimeout(() => db.salva(S.scheda).catch(e => toast('Salvataggio fallito: ' + e.message)), 300); };
 
-async function ridimensiona(file, max = 1280) {
-  const bmp = await createImageBitmap(file);
+async function ridimensiona(src, max = 1280) {
+  const bmp = src instanceof ImageBitmap ? src : await createImageBitmap(src);
   const k = Math.min(1, max / Math.max(bmp.width, bmp.height));
   const c = document.createElement('canvas'); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
   c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
-  return { dataUrl: c.toDataURL('image/jpeg', .85), w: c.width, h: c.height };
+  return { dataUrl: c.toDataURL('image/jpeg', .85), w: c.width, h: c.height, canvas: c };
 }
+
+/* Controllo di qualità della foto: luce, nitidezza, dominante di colore, ombre laterali.
+   Soglie empiriche su una copia a 256 px: sono avvisi, non verdetti. */
+function valutaFoto(canvas, slot) {
+  const W = 256, H = Math.round(canvas.height * W / canvas.width);
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d'); x.drawImage(canvas, 0, 0, W, H);
+  const d = x.getImageData(0, 0, W, H).data;
+  const g = new Float32Array(W * H);
+  let luma = 0, r = 0, b = 0, sx = 0, dx = 0, nSx = 0, nDx = 0;
+  for (let i = 0, p = 0; i < d.length; i += 4, p++) {
+    const l = .299 * d[i] + .587 * d[i + 1] + .114 * d[i + 2];
+    g[p] = l; luma += l; r += d[i]; b += d[i + 2];
+    if ((p % W) < W / 2) { sx += l; nSx++; } else { dx += l; nDx++; }
+  }
+  const n = W * H; luma /= n; r /= n; b /= n; sx /= nSx; dx /= nDx;
+  let lap = 0, lap2 = 0, m = 0;
+  for (let y = 1; y < H - 1; y++) for (let xx = 1; xx < W - 1; xx++) {
+    const p = y * W + xx; const v = 4 * g[p] - g[p - 1] - g[p + 1] - g[p - W] - g[p + W];
+    lap += v; lap2 += v * v; m++;
+  }
+  const nitidezza = lap2 / m - (lap / m) ** 2;
+  const avvisi = [];
+  if (luma < 55) avvisi.push({ t: 'Troppo buia: avvicinati a una finestra o accendi la ring light.', grave: true });
+  else if (luma < 80) avvisi.push({ t: 'Poca luce: macchie e rossori si leggono male.' });
+  if (luma > 205) avvisi.push({ t: 'Sovraesposta: la pelle è bruciata dalla luce.', grave: true });
+  if (nitidezza < 20) avvisi.push({ t: 'Mossa o sfocata: tieni fermo il telefono e rimetti a fuoco.', grave: true });
+  else if (nitidezza < 50 && slot.sagoma === 'dettaglio') avvisi.push({ t: 'Poco nitida per un ravvicinato: tocca lo schermo per mettere a fuoco.' });
+  if (r - b > 60) avvisi.push({ t: 'Luce calda: i rossori risultano falsati. Meglio luce bianca o naturale.' });
+  if (b - r > 30) avvisi.push({ t: 'Luce fredda o bluastra: il colorito risulta spento.' });
+  if (slot.area === 'viso' && Math.abs(sx - dx) > 45) avvisi.push({ t: 'Luce da un lato solo: le ombre sembrano rughe e cedimenti. Mettiti di fronte alla luce.' });
+  return { luma: Math.round(luma), nitidezza: Math.round(nitidezza), dominante: Math.round(r - b), avvisi, grave: avvisi.some(a => a.grave) };
+}
+
 
 /* ---------- viste ---------- */
 function render() {
@@ -329,31 +431,136 @@ function campo(d, r, set) {
 /* ---------- 2. foto ---------- */
 function stepFoto() {
   const s = S.scheda, wrap = el('div');
+  s.storico = s.storico || [];
   if (s.risposte.consenso_foto !== true) wrap.append(el('div', { class: 'alert warn' }, el('b', {}, 'Manca il consenso alle foto'), 'Compila la sezione “Consenso” dell’anamnesi prima di scattare.'));
-  wrap.append(el('div', { class: 'alert info' }, el('b', {}, 'Come scattare'), 'Stessa stanza, stessa distanza, stessa luce ogni volta: così il confronto nel tempo è onesto. Niente filtri, niente flash diretto, niente trucco sul viso. Le foto vengono ridotte e restano su questo dispositivo.'));
+  wrap.append(el('div', { class: 'alert info' }, el('b', {}, 'Protocollo di scatto'), 'Fotocamera posteriore, effetto bellezza spento, niente modalità ritratto. Luce diffusa di fronte, mai faretti dall’alto. Un foglio bianco nell’angolo dell’inquadratura aiuta a leggere i colori. Stessa stanza, stessa distanza, stessa ora per ogni controllo: la foto precedente appare in trasparenza per rimettersi in posizione.'));
+  const nFoto = Object.keys(s.foto).length;
+  const gravi = Object.entries(s.foto).filter(([, f]) => f.qualita?.grave).length;
+  if (gravi) wrap.append(el('div', { class: 'alert danger' }, el('b', {}, gravi + (gravi === 1 ? ' foto da rifare' : ' foto da rifare')), 'Il controllo di qualità ha trovato problemi seri: la lettura automatica darebbe risultati inaffidabili.'));
   for (const area of ['viso', 'corpo']) {
     const card = el('div', { class: 'card' }, el('h2', {}, area === 'viso' ? 'Viso' : 'Corpo'));
     const grid = el('div', { class: 'grid' });
     for (const slot of SLOT_FOTO.filter(x => x.area === area)) grid.append(slotFoto(slot));
     card.append(grid); wrap.append(card);
   }
+  const ctrl = el('div', { class: 'card' }, el('h2', {}, 'Controlli nel tempo'));
+  ctrl.append(el('p', { class: 'small muted' }, 'Quando la cliente torna per il controllo fotografico, archivia le foto attuali: restano come “prima” e i riquadri si liberano per le nuove.'));
+  ctrl.append(el('div', { class: 'row' },
+    el('button', { class: 'btn', disabled: !nFoto, onclick: () => { if (!confirm('Archiviare le ' + nFoto + ' foto attuali come controllo del ' + dataIt(new Date().toISOString()) + '?')) return; s.storico.push({ data: new Date().toISOString(), foto: s.foto }); s.foto = {}; salva(); render(); } }, 'Archivia e nuovo controllo'),
+    el('span', { class: 'small muted' }, s.storico.length ? s.storico.length + (s.storico.length === 1 ? ' controllo archiviato' : ' controlli archiviati') + ', ultimo del ' + dataIt(s.storico[s.storico.length - 1].data) : 'Nessun controllo archiviato.')));
+  if (s.storico.length) {
+    const prima = s.storico[s.storico.length - 1];
+    const coppie = SLOT_FOTO.filter(sl => prima.foto[sl.id] && s.foto[sl.id]);
+    if (coppie.length) {
+      ctrl.append(el('h3', { style: 'margin-top:14px' }, 'Prima e dopo'));
+      for (const sl of coppie) ctrl.append(el('div', { style: 'margin-bottom:10px' }, el('div', { class: 'small', style: 'font-weight:600' }, sl.nome), el('div', { class: 'confronto' }, el('figure', {}, el('img', { src: prima.foto[sl.id].dataUrl }), el('figcaption', {}, 'prima · ', dataIt(prima.data))), el('figure', {}, el('img', { src: s.foto[sl.id].dataUrl }), el('figcaption', {}, 'dopo · ', dataIt(s.foto[sl.id].data))))));
+    }
+  }
+  wrap.append(ctrl);
   return wrap;
+}
+
+function fotoPrecedente(slotId) {
+  const s = S.scheda;
+  if (s.foto[slotId]) return s.foto[slotId];
+  for (let i = (s.storico || []).length - 1; i >= 0; i--) if (s.storico[i].foto[slotId]) return s.storico[i].foto[slotId];
+  return null;
+}
+
+async function salvaFoto(slot, sorgente) {
+  const r = await ridimensiona(sorgente, slot.max);
+  const qualita = valutaFoto(r.canvas, slot);
+  S.scheda.foto[slot.id] = { dataUrl: r.dataUrl, w: r.w, h: r.h, data: new Date().toISOString(), qualita: { luma: qualita.luma, nitidezza: qualita.nitidezza, dominante: qualita.dominante, grave: qualita.grave, avvisi: qualita.avvisi.map(a => a.t) } };
+  salva();
+  return qualita;
 }
 
 function slotFoto(slot) {
   const s = S.scheda, f = s.foto[slot.id];
-  const box = el('div', { class: 'foto-slot' });
-  const input = el('input', { type: 'file', accept: 'image/*', capture: 'environment', onchange: async e => { const file = e.target.files[0]; if (!file) return; try { s.foto[slot.id] = { ...(await ridimensiona(file)), data: new Date().toISOString() }; salva(); render(); } catch (err) { toast('Foto non leggibile: ' + err.message); } } });
+  const box = el('div', { class: 'foto-slot' + (f?.qualita?.grave ? ' grave' : '') });
+  const input = el('input', { type: 'file', accept: 'image/*', onchange: async e => { const file = e.target.files[0]; if (!file) return; try { const q = await salvaFoto(slot, file); toast(q.grave ? 'Foto salvata, ma da rifare' : q.avvisi.length ? 'Foto salvata con avvisi' : 'Foto salvata'); render(); } catch (err) { toast('Foto non leggibile: ' + err.message); } } });
   if (f) {
     box.append(el('img', { src: f.dataUrl, alt: slot.nome }));
     box.append(el('button', { class: 'btn sm x', onclick: () => { delete s.foto[slot.id]; salva(); render(); } }, '✕'));
   } else {
-    box.append(el('div', { class: 'ph', onclick: () => input.click() }, el('span', { html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>' }), 'Tocca per scattare o caricare'));
+    box.append(el('div', { class: 'ph', onclick: () => apriCamera(slot) }, el('span', { html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>' }), 'Tocca per scattare'));
   }
-  box.append(el('div', { class: 'lab' }, slot.nome), el('div', { class: 'guida' }, slot.guida), input);
-  if (f) box.append(el('button', { class: 'btn sm', style: 'margin-top:8px', onclick: () => input.click() }, 'Sostituisci'));
+  box.append(el('div', { class: 'lab' }, slot.nome, slot.facoltativa ? el('span', { class: 'muted small' }, ' · facoltativa') : null), el('div', { class: 'guida' }, slot.guida), input);
+  if (f?.qualita?.avvisi?.length) box.append(el('ul', { class: 'avvisi' + (f.qualita.grave ? ' grave' : '') }, f.qualita.avvisi.map(a => el('li', {}, a))));
+  else if (f) box.append(el('div', { class: 'small', style: 'color:var(--ok);margin-top:6px' }, 'Luce e nitidezza a posto'));
+  const prec = !f && fotoPrecedente(slot.id);
+  if (prec) box.append(el('div', { class: 'small muted', style: 'margin-top:6px' }, 'Precedente del ', dataIt(prec.data), ' disponibile in trasparenza.'));
+  box.append(el('div', { class: 'row', style: 'justify-content:center;margin-top:8px' },
+    el('button', { class: 'btn sm', onclick: () => apriCamera(slot) }, f ? 'Rifai' : 'Fotocamera'),
+    el('button', { class: 'btn sm', onclick: () => input.click() }, 'Galleria')));
   return box;
 }
+
+/* ---------- fotocamera guidata ---------- */
+const SAGOME = {
+  ovale: `<ellipse cx="150" cy="200" rx="98" ry="135"/><line x1="52" y1="170" x2="248" y2="170" stroke-dasharray="4 6"/><text x="150" y="360">occhi sulla linea · viso dentro l’ovale</text>`,
+  profilo: `<ellipse cx="160" cy="200" rx="88" ry="135"/><line x1="30" y1="200" x2="270" y2="200" stroke-dasharray="4 6"/><text x="150" y="360">sguardo all’orizzonte · orecchio visibile</text>`,
+  dettaglio: `<rect x="45" y="110" width="210" height="180" rx="16"/><text x="150" y="330">riempi il riquadro · a fuoco</text>`,
+  corpo: `<circle cx="150" cy="48" r="20"/><path d="M110 80 Q150 70 190 80 L200 190 L185 190 L180 380 L158 380 L152 240 L148 240 L142 380 L120 380 L115 190 L100 190 Z"/><line x1="60" y1="384" x2="240" y2="384"/><text x="150" y="398">piedi sulla linea · telefono dritto</text>`,
+  corpo_lato: `<circle cx="150" cy="48" r="20"/><path d="M128 80 Q150 72 172 80 L178 200 L170 200 L166 380 L134 380 L130 200 L122 200 Z"/><line x1="60" y1="384" x2="240" y2="384"/><text x="150" y="398">piedi sulla linea · postura naturale</text>`
+};
+let cam = { stream: null, slot: null, facing: 'environment', frame: null };
+
+async function apriCamera(slot) {
+  cam.slot = slot; cam.frame = null;
+  const dlg = $('#dlg-camera');
+  $('#cam-titolo').textContent = slot.nome;
+  $('#cam-guida').textContent = slot.guida;
+  $('#cam-sagoma').innerHTML = SAGOME[slot.sagoma] || '';
+  const prec = fotoPrecedente(slot.id);
+  const ghost = $('#cam-ghost'); ghost.src = prec ? prec.dataUrl : ''; ghost.style.display = prec ? 'block' : 'none';
+  $('#cam-ghost-ctrl').style.display = prec ? 'flex' : 'none';
+  $('#cam-anteprima').style.display = 'none'; $('#cam-live').style.display = 'block';
+  $('#cam-avvisi').innerHTML = '';
+  dlg.showModal();
+  try { if (typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission) await DeviceOrientationEvent.requestPermission(); } catch {}
+  await avviaStream();
+}
+
+async function avviaStream() {
+  fermaStream();
+  const video = $('#cam-video');
+  if (!navigator.mediaDevices?.getUserMedia) { $('#cam-avvisi').innerHTML = '<div class="alert warn">Fotocamera non disponibile in questo browser: usa “Galleria”.</div>'; return; }
+  try {
+    cam.stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: cam.facing }, width: { ideal: 4096 }, height: { ideal: 3072 } } });
+    video.srcObject = cam.stream; video.classList.toggle('specchio', cam.facing === 'user'); await video.play();
+    const st = cam.stream.getVideoTracks()[0].getSettings();
+    $('#cam-info').textContent = (st.width && st.height ? st.width + '×' + st.height : '') + (cam.facing === 'user' ? ' · frontale: attenzione agli effetti bellezza' : '');
+  } catch (e) { $('#cam-avvisi').innerHTML = '<div class="alert warn">Non riesco ad aprire la fotocamera (' + esc(e.message) + '). Usa “Galleria”.</div>'; }
+}
+function fermaStream() { if (cam.stream) { cam.stream.getTracks().forEach(t => t.stop()); cam.stream = null; } }
+
+async function scatta() {
+  if (!cam.stream) return;
+  const video = $('#cam-video'); const track = cam.stream.getVideoTracks()[0];
+  let bmp = null;
+  if ('ImageCapture' in window) { try { const blob = await new ImageCapture(track).takePhoto(); bmp = await createImageBitmap(blob); } catch {} }
+  if (!bmp) { const c = document.createElement('canvas'); c.width = video.videoWidth; c.height = video.videoHeight; c.getContext('2d').drawImage(video, 0, 0); bmp = await createImageBitmap(c); }
+  const r = await ridimensiona(bmp, cam.slot.max);
+  const q = valutaFoto(r.canvas, cam.slot);
+  cam.frame = { r, q };
+  $('#cam-live').style.display = 'none';
+  const ant = $('#cam-anteprima'); ant.style.display = 'block';
+  $('#cam-img').src = r.dataUrl;
+  $('#cam-avvisi').innerHTML = q.avvisi.length ? '<ul class="avvisi' + (q.grave ? ' grave' : '') + '">' + q.avvisi.map(a => '<li>' + esc(a.t) + '</li>').join('') + '</ul>' : '<div class="small" style="color:var(--ok)">Luce e nitidezza a posto.</div>';
+  $('#cam-usa').textContent = q.grave ? 'Usa comunque' : 'Usa questa foto';
+}
+
+$('#cam-scatta').onclick = scatta;
+$('#cam-rifai').onclick = () => { cam.frame = null; $('#cam-anteprima').style.display = 'none'; $('#cam-live').style.display = 'block'; $('#cam-avvisi').innerHTML = ''; };
+$('#cam-usa').onclick = () => { if (!cam.frame) return; const { r, q } = cam.frame; S.scheda.foto[cam.slot.id] = { dataUrl: r.dataUrl, w: r.w, h: r.h, data: new Date().toISOString(), qualita: { luma: q.luma, nitidezza: q.nitidezza, dominante: q.dominante, grave: q.grave, avvisi: q.avvisi.map(a => a.t) } }; salva(); chiudiCamera(); render(); };
+$('#cam-gira').onclick = () => { cam.facing = cam.facing === 'environment' ? 'user' : 'environment'; avviaStream(); };
+$('#cam-chiudi').onclick = chiudiCamera;
+$('#cam-ghost-op').oninput = e => { $('#cam-ghost').style.opacity = e.target.value / 100; };
+$('#cam-galleria').onclick = () => { const inp = el('input', { type: 'file', accept: 'image/*' }); inp.onchange = async () => { const file = inp.files[0]; if (!file) return; const r = await ridimensiona(file, cam.slot.max); cam.frame = { r, q: valutaFoto(r.canvas, cam.slot) }; $('#cam-live').style.display = 'none'; $('#cam-anteprima').style.display = 'block'; $('#cam-img').src = r.dataUrl; const q = cam.frame.q; $('#cam-avvisi').innerHTML = q.avvisi.length ? '<ul class="avvisi' + (q.grave ? ' grave' : '') + '">' + q.avvisi.map(a => '<li>' + esc(a.t) + '</li>').join('') + '</ul>' : '<div class="small" style="color:var(--ok)">Luce e nitidezza a posto.</div>'; }; inp.click(); };
+function chiudiCamera() { fermaStream(); $('#dlg-camera').close(); }
+$('#dlg-camera').addEventListener('close', fermaStream);
+window.addEventListener('deviceorientation', e => { const liv = $('#cam-livella'); if (!liv || e.beta == null) return; const off = Math.round(e.beta - 90); const ok = Math.abs(off) <= 4; liv.textContent = ok ? 'Telefono dritto' : (off > 0 ? 'Inclina verso di te ' : 'Inclina in avanti ') + Math.abs(off) + '°'; liv.className = 'livella ' + (ok ? 'ok' : ''); });
 
 /* ---------- 3. lettura ---------- */
 function stepLettura() {
@@ -377,7 +584,9 @@ function stepLettura() {
   }
   wrap.append(card);
 
-  // elenco inestetismi (AI + manuali)
+  wrap.append(cardEsame());
+
+  // elenco inestetismi (AI + manuali + tatto)
   const lista = el('div', { class: 'card' }, el('h2', {}, 'Inestetismi rilevati'));
   if (!L.inestetismi.length) lista.append(el('p', { class: 'muted' }, 'Nessuno ancora. Analizza le foto oppure aggiungili a mano qui sotto.'));
   for (const i of L.inestetismi) lista.append(rigaInestetismo(i));
@@ -396,13 +605,60 @@ function stepLettura() {
   return wrap;
 }
 
+/* ---------- esame al tatto ---------- */
+function cardEsame() {
+  const L = S.scheda.lettura; L.esame = L.esame || {};
+  const card = el('div', { class: 'card' }, el('h2', {}, 'Esame al tatto'));
+  card.append(el('p', { class: 'small muted' }, 'Le prove che la foto non può fare. Scegli l’opzione che corrisponde a ciò che osservi: la scheda aggiorna da sola gli inestetismi e il grado. Le opzioni già scelte restano evidenziate.'));
+  const fatte = Object.keys(L.esame).length;
+  card.append(el('div', { class: 'small muted', style: 'margin-bottom:8px' }, fatte ? fatte + ' prove su ' + S.es.prove.length + ' registrate' : 'Nessuna prova registrata'));
+  for (const area of ['viso', 'corpo']) {
+    card.append(el('h3', { style: 'margin-top:10px' }, area === 'viso' ? 'Viso' : 'Corpo'));
+    for (const prova of S.es.prove.filter(p => p.area === area)) {
+      const scelta = L.esame[prova.id];
+      const det = el('details', { class: 'prova', open: false });
+      const sceltaDef = prova.opzioni.find(o => o.id === scelta);
+      det.append(el('summary', {}, el('span', {}, prova.titolo), el('span', { class: 'small ' + (sceltaDef ? 'scelto' : 'muted') }, sceltaDef ? sceltaDef.nome : 'da fare')));
+      const body = el('div', { class: 'body' });
+      body.append(el('p', { class: 'small come' }, el('strong', {}, 'Come si fa: '), prova.come));
+      for (const o of prova.opzioni) {
+        const img = el('img', { src: 'riferimenti/' + prova.id + '_' + o.id + '.jpg', alt: '', loading: 'lazy', onerror: e => e.target.remove() });
+        body.append(el('button', { class: 'opz' + (scelta === o.id ? ' on' : ''), onclick: () => { if (L.esame[prova.id] === o.id) delete L.esame[prova.id]; else L.esame[prova.id] = o.id; applicaEsame(); salva(); render(); } },
+          img, el('div', {}, el('div', { class: 'nome' }, o.nome), el('div', { class: 'small muted' }, o.spiegazione), o.segnala ? el('div', { class: 'small', style: 'color:var(--danger);font-weight:600;margin-top:4px' }, 'Segnala al medico') : null,
+            o.effetti.length ? el('div', { class: 'small', style: 'margin-top:4px' }, o.effetti.map(f => el('span', { class: 'tess' }, S.kb.inestetismi[f.inestetismo].nome + ' · ' + ['', 'lieve', 'moderato', 'marcato'][f.grado]))) : null)));
+      }
+      det.append(body); card.append(det);
+    }
+  }
+  return card;
+}
+
+function applicaEsame() {
+  const L = S.scheda.lettura; L.esame = L.esame || {};
+  const voluti = new Map(); const segnala = new Set();
+  for (const prova of S.es.prove) {
+    const o = prova.opzioni.find(x => x.id === L.esame[prova.id]); if (!o) continue;
+    for (const f of o.effetti) voluti.set(f.inestetismo, Math.max(voluti.get(f.inestetismo) || 0, f.grado));
+    if (o.segnala) segnala.add(o.segnala);
+  }
+  L.inestetismi = L.inestetismi.filter(i => !(i.fonte === 'tatto' && !voluti.has(i.id)));
+  for (const i of L.inestetismi) i.tatto = voluti.has(i.id);
+  for (const [id, grado] of voluti) {
+    const ex = L.inestetismi.find(i => i.id === id);
+    if (ex) { ex.grado = Math.max(ex.grado || 1, grado); ex.attivo = true; }
+    else L.inestetismi.push({ id, grado, zone: [], fonte: 'tatto', tatto: true, attivo: true });
+  }
+  L.segnalazioni = (L.segnalazioni || []).filter(x => !(x.fonte === 'tatto' && !segnala.has(x.id)));
+  for (const id of segnala) if (!L.segnalazioni.some(x => x.id === id)) L.segnalazioni.push({ id, fonte: 'tatto', motivo: 'rilevato all’esame al tatto' });
+}
+
 function rigaInestetismo(i) {
   const d = S.kb.inestetismi[i.id]; if (!d) return el('span');
   const L = S.scheda.lettura;
   const row = el('div', { class: 'ines' + (i.attivo === false ? ' off' : '') });
   const chk = el('input', { type: 'checkbox', checked: i.attivo !== false, onchange: e => { i.attivo = e.target.checked; salva(); row.classList.toggle('off', !i.attivo); } });
   row.append(el('div', { class: 'row between' },
-    el('label', { class: 'row' }, chk, el('span', { class: 'nome' }, d.nome), el('span', { class: 'badge ' + d.area }, d.area), el('span', { class: 'badge ' + (i.fonte === 'ai' ? 'ai' : 'man') }, i.fonte === 'ai' ? 'lettura' : 'manuale'), i.confidenza ? el('span', { class: 'badge conf-' + i.confidenza }, 'conf. ' + i.confidenza) : null),
+    el('label', { class: 'row' }, chk, el('span', { class: 'nome' }, d.nome), el('span', { class: 'badge ' + d.area }, d.area), el('span', { class: 'badge ' + (i.fonte === 'ai' ? 'ai' : 'man') }, i.fonte === 'ai' ? 'lettura' : i.fonte === 'tatto' ? 'tatto' : 'manuale'), i.tatto && i.fonte !== 'tatto' ? el('span', { class: 'badge man' }, 'confermato al tatto') : null, i.confidenza ? el('span', { class: 'badge conf-' + i.confidenza }, 'conf. ' + i.confidenza) : null),
     el('button', { class: 'btn sm danger', onclick: () => { L.inestetismi.splice(L.inestetismi.indexOf(i), 1); salva(); render(); } }, 'Togli')));
   if (i.evidenza) row.append(el('div', { class: 'evid' }, '“', i.evidenza, '”'));
   const gradi = el('div', { class: 'seg', style: 'margin:4px 8px 4px 0' });
@@ -418,7 +674,13 @@ async function analizza() {
   const s = S.scheda, cfg = imp();
   S.analisi = true; render();
   try {
-    const foto = Object.entries(s.foto).map(([etichetta, f]) => ({ etichetta, media_type: 'image/jpeg', data: f.dataUrl.split(',')[1] }));
+    const foto = [];
+    for (const [etichetta, f] of Object.entries(s.foto)) {
+      const slot = SLOT_FOTO.find(x => x.id === etichetta);
+      const img = new Image(); img.src = f.dataUrl; await img.decode();
+      const r = await ridimensiona(await createImageBitmap(img), 1568);
+      foto.push({ etichetta, descrizione: slot ? slot.cosa : etichetta, media_type: 'image/jpeg', data: r.dataUrl.split(',')[1], avvisi_qualita: f.qualita?.avvisi || [] });
+    }
     const catalogo = {
       inestetismi: Object.entries(S.kb.inestetismi).map(([id, d]) => ({ id, nome: d.nome, area: d.area, segni: d.segni, zone_tipiche: d.zone_tipiche })),
       zone: S.kb.zone,
@@ -537,7 +799,7 @@ $('#btn-nuova').onclick = nuova;
 /* ---------- avvio ---------- */
 (async () => {
   try {
-    [S.kb, S.an] = await Promise.all([fetch('conoscenza.json').then(r => r.json()), fetch('anamnesi.json').then(r => r.json())]);
+    [S.kb, S.an, S.es] = await Promise.all([fetch('conoscenza.json').then(r => r.json()), fetch('anamnesi.json').then(r => r.json()), fetch('esame.json').then(r => r.json())]);
     S.schede = await db.tutte();
     render();
   } catch (e) { $('#app').innerHTML = '<div class="alert danger"><b>Impossibile avviare</b>' + esc(e.message) + '. La pagina va aperta da un server web, non come file locale.</div>'; }

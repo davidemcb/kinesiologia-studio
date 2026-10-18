@@ -1,0 +1,104 @@
+{
+  "versione": 1,
+  "nota": "Esame al tatto guidato: le prove che la foto non può fare. Ogni opzione spiega cosa si osserva e, se scelta, aggiorna gli inestetismi della scheda (effetti) o le segnalazioni al medico (segnala). Per ogni opzione l'app cerca una foto di riferimento in riferimenti/<prova>_<opzione>.jpg: basta aggiungere il file.",
+  "prove": [
+    {
+      "id": "tipo_pelle", "area": "viso", "titolo": "Tipo di pelle",
+      "come": "Osserva 20-30 minuti dopo la detersione, senza crema. Tampona una velina su fronte, naso e guance e passa il dorso del dito sulla guancia.",
+      "opzioni": [
+        { "id": "normale", "nome": "Normale", "spiegazione": "Velina pulita, grana fine, nessuna tensione né lucidità. Pori appena visibili sul naso.", "effetti": [] },
+        { "id": "secca", "nome": "Secca", "spiegazione": "Velina pulita ovunque, pelle che tira, piccole desquamazioni, pori quasi invisibili, aspetto opaco e sottile. Manca il sebo.", "effetti": [{ "inestetismo": "pelle_secca", "grado": 2 }] },
+        { "id": "disidratata", "nome": "Disidratata", "spiegazione": "Tira ma può anche lucidare. Stirando delicatamente la guancia compaiono micro-rughe a rete che spariscono lasciando. Manca l'acqua, non il sebo: può coesistere con la pelle grassa.", "effetti": [{ "inestetismo": "pelle_disidratata", "grado": 2 }] },
+        { "id": "grassa", "nome": "Grassa", "spiegazione": "Velina unta su tutto il viso, pori dilatati anche sulle guance, grana spessa, lucidità che torna poco dopo la detersione.", "effetti": [{ "inestetismo": "pelle_grassa_seborroica", "grado": 2 }] },
+        { "id": "mista", "nome": "Mista", "spiegazione": "Velina unta solo su fronte, naso e mento; guance normali o secche. Comedoni concentrati sulla zona T.", "effetti": [{ "inestetismo": "pelle_mista", "grado": 2 }] },
+        { "id": "sensibile", "nome": "Sensibile", "spiegazione": "Arrossa al passaggio del dito o della velina, la cliente riferisce bruciore o pizzicore con prodotti comuni, pelle sottile con capillari in trasparenza.", "effetti": [{ "inestetismo": "pelle_sensibile_reattiva", "grado": 2 }] }
+      ]
+    },
+    {
+      "id": "spessore", "area": "viso", "titolo": "Spessore della pelle",
+      "come": "Solleva una piccola plica sulla guancia fra pollice e indice e valuta quanto è spessa e come scorre sui piani sottostanti.",
+      "opzioni": [
+        { "id": "sottile", "nome": "Sottile", "spiegazione": "Plica fine, quasi trasparente, capillari visibili. Pelle che va trattata con delicatezza: esfoliazioni e calore con cautela.", "effetti": [{ "inestetismo": "pelle_sensibile_reattiva", "grado": 1 }] },
+        { "id": "normale", "nome": "Normale", "spiegazione": "Plica elastica, scorre bene, grana regolare.", "effetti": [] },
+        { "id": "spessa", "nome": "Spessa e ispessita", "spiegazione": "Plica spessa, grana grossolana, aspetto cereo o ruvido, accumulo di cellule morte. Risponde bene alle esfoliazioni.", "effetti": [{ "inestetismo": "ispessimento_cutaneo", "grado": 2 }] }
+      ]
+    },
+    {
+      "id": "elasticita", "area": "viso", "titolo": "Elasticità e tono",
+      "come": "Pizzica la pelle dello zigomo per due secondi e lascia. Osserva quanto tempo impiega a tornare liscia. Ripeti sul collo.",
+      "opzioni": [
+        { "id": "buona", "nome": "Torna subito", "spiegazione": "La plica scompare appena lasci: fibre elastiche integre.", "effetti": [] },
+        { "id": "ridotta", "nome": "Torna in uno o due secondi", "spiegazione": "Si vede il segno della plica che si distende lentamente: primo segnale di perdita di tono.", "effetti": [{ "inestetismo": "lassita_viso", "grado": 1 }] },
+        { "id": "scarsa", "nome": "Resta sollevata e torna piano", "spiegazione": "La plica rimane visibile per alcuni secondi: lassità moderata, il derma ha perso compattezza.", "effetti": [{ "inestetismo": "lassita_viso", "grado": 2 }] },
+        { "id": "assente", "nome": "La plica resta", "spiegazione": "La pelle rimane piegata e va riappianata con il dito: lassità marcata, spesso con ovale ceduto e collo rilassato.", "effetti": [{ "inestetismo": "lassita_viso", "grado": 3 }] }
+      ]
+    },
+    {
+      "id": "reattivita", "area": "viso", "titolo": "Reattività e fragilità capillare",
+      "come": "Strofina cinque volte con il dorso del dito, senza premere, sulla guancia. Aspetta un minuto e osserva.",
+      "opzioni": [
+        { "id": "nessuna", "nome": "Nessuna reazione", "spiegazione": "La pelle resta del suo colore: barriera cutanea in ordine.", "effetti": [] },
+        { "id": "rossore_breve", "nome": "Rossore che passa in un minuto", "spiegazione": "Arrossamento diffuso che sparisce rapidamente: pelle reattiva, va trattata con prodotti senza profumo e senza acidi forti.", "effetti": [{ "inestetismo": "pelle_sensibile_reattiva", "grado": 1 }] },
+        { "id": "rossore_persistente", "nome": "Rossore che resta o linee rosse in rilievo", "spiegazione": "Il rossore persiste oltre cinque minuti o compaiono strie rosse rilevate (dermografismo): fragilità capillare. Evitare calore, vapore, suzione ed esfoliazioni meccaniche.", "effetti": [{ "inestetismo": "pelle_sensibile_reattiva", "grado": 2 }, { "inestetismo": "couperose_rossori", "grado": 1 }] }
+      ]
+    },
+    {
+      "id": "pizzicotto", "area": "corpo", "titolo": "Prova del pizzicotto",
+      "come": "Cliente in piedi, rilassata. Pizzica la pelle della coscia esterna e del gluteo fra pollice e indice, con la plica orizzontale. Poi osserva la stessa zona senza pizzicare.",
+      "opzioni": [
+        { "id": "liscia", "nome": "Liscia anche pizzicando", "spiegazione": "Nessuna irregolarità né pizzicando né in piedi.", "effetti": [] },
+        { "id": "solo_pizzicando", "nome": "Buccia d'arancia solo pizzicando", "spiegazione": "In piedi la pelle sembra liscia, pizzicando compaiono le fossette. È lo stadio iniziale, edematoso: la foto da sola non lo vede.", "effetti": [{ "inestetismo": "cellulite_edematosa", "grado": 2 }] },
+        { "id": "in_piedi", "nome": "Visibile anche in piedi", "spiegazione": "Fossette e rilievi visibili a riposo, più marcati pizzicando. Stadio fibroso.", "effetti": [{ "inestetismo": "cellulite_fibrosa", "grado": 2 }] },
+        { "id": "avvallamenti", "nome": "Avvallamenti profondi a riposo", "spiegazione": "Pelle a materasso anche da sdraiata, avvallamenti ampi, zone dure. Stadio sclerotico.", "effetti": [{ "inestetismo": "cellulite_sclerotica", "grado": 2 }] }
+      ]
+    },
+    {
+      "id": "noduli", "area": "corpo", "titolo": "Consistenza dei noduli",
+      "come": "Con i polpastrelli, fai scorrere la pelle della coscia e del gluteo sui piani profondi e cerca rilievi sotto la superficie. Chiedi se fa male.",
+      "opzioni": [
+        { "id": "nessuno", "nome": "Nessun nodulo", "spiegazione": "Tessuto omogeneo, morbido, scorre liberamente.", "effetti": [] },
+        { "id": "micronoduli", "nome": "Piccoli noduli mobili, non dolenti", "spiegazione": "Granuli come chicchi di riso, scorrono sotto il dito, non fanno male. Setti fibrosi che iniziano a irrigidirsi.", "effetti": [{ "inestetismo": "cellulite_fibrosa", "grado": 2 }] },
+        { "id": "lastra", "nome": "Zona dura e compatta a lastra", "spiegazione": "Area estesa che non si pizzica e non scorre, fredda al tatto. Fibrosi avanzata: serve lavoro di scollamento.", "effetti": [{ "inestetismo": "cellulite_fibrosa", "grado": 3 }] },
+        { "id": "macronoduli", "nome": "Noduli grandi, duri e dolenti", "spiegazione": "Rilievi grandi come una nocciola o più, duri, dolenti alla pressione. Stadio sclerotico: manualità intense con cautela.", "effetti": [{ "inestetismo": "cellulite_sclerotica", "grado": 3 }] }
+      ]
+    },
+    {
+      "id": "temperatura", "area": "corpo", "titolo": "Temperatura della pelle",
+      "come": "Con il dorso della mano confronta la temperatura di coscia e gluteo con quella dell'addome o del braccio.",
+      "opzioni": [
+        { "id": "uniforme", "nome": "Uguale ovunque", "spiegazione": "Microcircolo che funziona.", "effetti": [] },
+        { "id": "chiazze", "nome": "Fredda a chiazze", "spiegazione": "Zone più fredde dove la pelle è anche più compatta o pallida: stasi locale del microcircolo.", "effetti": [{ "inestetismo": "cellulite_fibrosa", "grado": 1 }, { "inestetismo": "gambe_pesanti", "grado": 1 }] },
+        { "id": "fredda", "nome": "Fredda e pallida diffusa", "spiegazione": "Tutta la coscia o la gamba più fredda del resto del corpo, pelle pallida: rallentamento diffuso di circolo e linfa.", "effetti": [{ "inestetismo": "cellulite_edematosa", "grado": 1 }, { "inestetismo": "gambe_pesanti", "grado": 2 }] }
+      ]
+    },
+    {
+      "id": "fovea", "area": "corpo", "titolo": "Segno del dito (ritenzione)",
+      "come": "Premi con il pollice per cinque secondi sopra la caviglia, sulla tibia. Lascia e guarda se resta l'impronta e per quanto. Confronta le due gambe.",
+      "opzioni": [
+        { "id": "nessuna", "nome": "Nessuna impronta", "spiegazione": "La pelle torna subito: niente ristagno di liquidi.", "effetti": [] },
+        { "id": "breve", "nome": "Impronta che sparisce in pochi secondi", "spiegazione": "Leggera fovea che si riempie rapidamente: ritenzione lieve, spesso serale.", "effetti": [{ "inestetismo": "ritenzione_idrica", "grado": 1 }] },
+        { "id": "persistente", "nome": "Impronta che resta oltre dieci secondi", "spiegazione": "Fovea netta e persistente su entrambe le gambe: ritenzione marcata.", "effetti": [{ "inestetismo": "ritenzione_idrica", "grado": 3 }] },
+        { "id": "asimmetrica", "nome": "Solo da un lato, o gamba calda e dolente", "spiegazione": "Gonfiore di una sola gamba, soprattutto se calda, arrossata o dolente, non è un inestetismo: niente trattamenti e visita medica subito.", "effetti": [], "segnala": "edema_asimmetrico" }
+      ]
+    },
+    {
+      "id": "tono_corpo", "area": "corpo", "titolo": "Tono della pelle del corpo",
+      "come": "Pizzica per due secondi la pelle dell'interno braccio o dell'addome e lascia.",
+      "opzioni": [
+        { "id": "buono", "nome": "Torna subito", "spiegazione": "Pelle elastica e compatta.", "effetti": [] },
+        { "id": "lento", "nome": "Torna lentamente", "spiegazione": "La plica si distende in qualche secondo, pelle un po' svuotata: lassità moderata.", "effetti": [{ "inestetismo": "lassita_corpo", "grado": 2 }] },
+        { "id": "resta", "nome": "La plica resta", "spiegazione": "Pelle rilassata che pende, pieghe quando si solleva il braccio: lassità marcata, spesso dopo dimagrimenti o gravidanze.", "effetti": [{ "inestetismo": "lassita_corpo", "grado": 3 }] }
+      ]
+    },
+    {
+      "id": "gambe", "area": "corpo", "titolo": "Circolazione delle gambe",
+      "come": "Chiedi se le gambe sono pesanti la sera e se le caviglie si gonfiano. Osserva capillari e vene su polpacci e cosce.",
+      "opzioni": [
+        { "id": "nessuno", "nome": "Nessun disturbo", "spiegazione": "Gambe leggere, nessun capillare evidente.", "effetti": [] },
+        { "id": "pesantezza", "nome": "Pesantezza serale senza segni visibili", "spiegazione": "Senso di peso a fine giornata che passa con il riposo: microcircolo lento.", "effetti": [{ "inestetismo": "gambe_pesanti", "grado": 1 }] },
+        { "id": "capillari", "nome": "Capillari visibili e caviglie gonfie la sera", "spiegazione": "Teleangectasie su cosce e polpacci, caviglie che si gonfiano: fragilità del microcircolo. Evitare calore e manualità intense sulle gambe.", "effetti": [{ "inestetismo": "gambe_pesanti", "grado": 2 }] },
+        { "id": "varici", "nome": "Varici evidenti o dolenti", "spiegazione": "Vene dilatate e tortuose, dolore o crampi: non è più campo estetico. Niente manualità e calore sulle gambe, visita angiologica.", "effetti": [{ "inestetismo": "gambe_pesanti", "grado": 2 }], "segnala": "varici_dolenti" }
+      ]
+    }
+  ]
+}

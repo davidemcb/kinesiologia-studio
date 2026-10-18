@@ -16,6 +16,8 @@ una riga "da segnalare al medico" in cima al piano.
 | `motore.js` | Il motore delle regole: anamnesi + inestetismi → controindicazioni, trattamenti ammessi ed esclusi, ciclo di sedute, attivi, consigli. Gira anche in Node per i test. |
 | `conoscenza.json` | **La base di conoscenza, il cuore del prodotto.** Inestetismi, tessuti, trattamenti, principi attivi, controindicazioni, regole sulle abitudini, segnalazioni al medico. Si modifica senza toccare il codice. |
 | `anamnesi.json` | Il questionario: sezioni, domande, e il collegamento di ogni domanda a controindicazioni, segnalazioni e regole sulle abitudini. |
+| `esame.json` | L'esame al tatto guidato: 10 prove (tipo di pelle, spessore, elasticità, reattività, pizzicotto, noduli, temperatura, segno del dito, tono, circolazione) con opzioni spiegate che aggiornano da sole gli inestetismi. |
+| `riferimenti/` | Foto di riferimento per le opzioni dell'esame al tatto, mostrate dall'app se presenti. |
 | `worker/` | Worker Cloudflare che riceve le foto, le fa leggere a Claude e restituisce una lettura strutturata con i soli id della base di conoscenza. La chiave API sta lì, mai nel browser. |
 
 ## Provarlo subito
@@ -53,6 +55,39 @@ Il pulsante "Analizza le foto" si attiva quando ci sono foto e il consenso all'a
 
 Costo indicativo: ogni analisi manda al modello fino a 6 foto ridotte a 1280 px più il catalogo;
 siamo nell'ordine di pochi centesimi a scheda. Il worker riporta i token usati nel campo `uso`.
+
+## Le foto: fotocamera guidata e controllo di qualità
+
+Il passo Foto apre la fotocamera dentro l'app (posteriore, alla massima risoluzione disponibile)
+con una sagoma guida diversa per ogni scatto: ovale con la linea degli occhi per il frontale,
+ovale e linea dell'orizzonte per i profili, silhouette con la linea dei piedi per il corpo,
+riquadro per i ravvicinati. Una livella avvisa se il telefono è inclinato. Quando esiste una foto
+precedente dello stesso scatto, appare in trasparenza per rimettersi nella stessa posizione.
+
+Gli scatti previsti sono nove, tre dei quali facoltativi e pensati per ciò che la foto standard non
+mostra: **mimica** (sopracciglia alzate e sorriso, per le rughe d'espressione), **ravvicinato**
+(guancia e naso, per pori, grana e capillari) e **pizzicotto** (coscia pizzicata, per la cellulite
+allo stadio iniziale). Le foto del viso sono tenute a 2048 px, quelle del corpo a 1600.
+
+Prima di salvare, ogni foto passa un controllo di qualità fatto nel browser: luce troppo scarsa o
+eccessiva, foto mossa o sfocata, dominante calda o fredda, luce da un lato solo sul viso (le ombre
+sembrano rughe). Gli avvisi restano visibili sul riquadro, i problemi gravi evidenziano il riquadro
+in rosso e vengono passati anche al modello insieme alla foto. Le soglie sono empiriche e vanno
+tarate sulle luci del centro.
+
+"Archivia e nuovo controllo" mette da parte il set di foto attuale con la data e libera i
+riquadri: le nuove foto si scattano con le vecchie in trasparenza e la scheda mostra il prima e
+dopo affiancato.
+
+## L'esame al tatto
+
+Tipo di pelle, ritenzione, consistenza dei noduli, temperatura, elasticità: sono cose che si
+sentono con le mani. Nel passo Lettura, sotto la lettura automatica, c'è l'esame al tatto guidato:
+per ogni prova l'app spiega come si fa e propone le opzioni con la descrizione di cosa si osserva e
+la foto di riferimento se presente in `riferimenti/`. Scegliere un'opzione aggiunge o conferma
+l'inestetismo con il grado corrispondente (etichetta "tatto" o "confermato al tatto") e, dove serve,
+accende la segnalazione al medico, per esempio per il gonfiore di una sola gamba. L'esame si
+compila anche senza foto e senza chiave API.
 
 ## Come funziona la lettura
 
@@ -121,7 +156,8 @@ sono solo sul dispositivo) e un registro dei trattamenti.
    secondo il suo metodo.
 2. Prova della lettura automatica su 20-30 foto reali, con il suo giudizio a confronto, per tarare
    `segni` e le soglie di confidenza.
-3. Confronto prima e dopo: stesse inquadrature a distanza di settimane, affiancate nella scheda.
+3. Foto di riferimento per l'esame al tatto nella cartella `riferimenti/`, e taratura delle soglie
+   del controllo di qualità sulle luci reali della cabina.
 4. Account e archivio in cloud (Firebase, come il resto del sito) per usare la scheda da più
    dispositivi e non perderla.
 5. Manifest e icona per installarla sul telefono come chePostura.
