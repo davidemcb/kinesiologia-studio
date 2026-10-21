@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Che Postura!">
+<rect x="0.00" y="0.00" width="512.00" height="512.00" rx="112.64" fill="#F6F3EA"/>
+<g fill="none" stroke="#24493F" stroke-linecap="round" stroke-linejoin="round">
+<path d="M256.00 337.92 L220.16 450.56 M256.00 337.92 L291.84 450.56" stroke-width="30.72"/>
+<path d="M256.00 337.92 L256.00 189.44" stroke-width="46.08"/>
+<path d="M256.00 220.16 L158.72 117.76 M256.00 220.16 L353.28 117.76" stroke-width="25.60"/>
+</g>
+<circle cx="256.00" cy="102.40" r="56.32" fill="#24493F"/>
+<path d="M232.96 117.76 q4.5 4 9 0" fill="none" stroke="#F6F3EA" stroke-width="9.22" stroke-linecap="round"/>
+<circle cx="235.52" cy="89.60" r="6.66" fill="#F6F3EA"/><circle cx="276.48" cy="89.60" r="6.66" fill="#F6F3EA"/>
+<circle cx="256.00" cy="215.04" r="7.17" fill="#F6F3EA"/>
+<circle cx="256.00" cy="245.76" r="7.17" fill="#F6F3EA"/>
+<circle cx="256.00" cy="276.48" r="7.17" fill="#F6F3EA"/>
+<circle cx="256.00" cy="307.20" r="7.17" fill="#F6F3EA"/>
+</svg>
