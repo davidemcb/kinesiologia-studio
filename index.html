@@ -691,6 +691,11 @@
     <!-- Libreria fissa di anatomia: i testi e gli schemi stanno in anatomia.json -->
     <div id="anatomia-label" style="display:none; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin:22px 2px 10px">Come funziona il corpo</div>
     <div id="anatomia-list"></div>
+
+    <!-- Anatomia pratica: esplorazioni da fare su di sé, i testi e gli schemi stanno in anatomia-pratica.json -->
+    <div id="pratica-label" style="display:none; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin:22px 2px 10px">Anatomia pratica</div>
+    <p id="pratica-intro" style="display:none; font-size:13.5px; color:var(--muted); margin:-4px 2px 12px">Qui sopra leggi com'è fatto il corpo. Qui lo tocchi: dieci esplorazioni da fare su di te, con le mani e uno specchio, cinque minuti ciascuna. Prima <b>trovi</b> la struttura, poi la <b>provi</b> in movimento, poi capisci <b>cosa noti</b>.</p>
+    <div id="pratica-list"></div>
     <div class="card">
       <div class="eyebrow">Scegli tu il prossimo</div>
       <h2>Di cosa vuoi che parliamo?</h2>
@@ -1880,6 +1885,20 @@
       setTimeout(function () { aCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
       window.__vaiCard = aCard; // se i post arrivano dopo, si scorre di nuovo
       vaiParam = null;
+    } else if (/^pratica-(\d+)$/.test(vaiParam)) {
+      // le schede arrivano da anatomia-pratica.json: se non ci sono ancora
+      // si riprova quando renderPratica ha finito (richiama vaiAlContenuto)
+      var pi = vaiParam.split('-')[1];
+      var pCard2 = document.getElementById('pratica-' + pi);
+      if (!pCard2) return;
+      switchView('sapere');
+      var pFull = document.getElementById('pratica-full-' + pi);
+      if (pFull) { pFull.style.display = 'block'; }
+      var pBtn = pCard2.querySelector('[data-expand-prat]');
+      if (pBtn) { pBtn.textContent = 'Chiudi'; }
+      setTimeout(function () { pCard2.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
+      window.__vaiCard = pCard2;
+      vaiParam = null;
     } else if (/^post-/.test(vaiParam)) {
       // i post arrivano da Firestore: se non ci sono ancora si riprova
       // quando loadNews li ha disegnati (chiama window.ksProvaVai)
@@ -2027,6 +2046,72 @@
   fetch('anatomia.json?t=' + Math.floor(Date.now() / 3600000), { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (d) { anatomia = d; renderAnatomia(); })
+    .catch(function () {});
+
+  /* ---------- Anatomia pratica: esplorazioni su di sé ----------
+     Ogni scheda ha tre tempi: Trova (dove mettere le mani), Prova (un
+     movimento per sentire la struttura lavorare), Cosa noti (cosa vuol
+     dire quello che si e' sentito) e un'avvertenza su quando fermarsi.
+     Testi e schemi stanno in anatomia-pratica.json, come la libreria. */
+  var pratica = [];
+  function renderPratica() {
+    var wrap = document.getElementById('pratica-list');
+    if (!wrap || !pratica.length) return;
+    if (!document.getElementById('pratica-css')) {
+      var st = document.createElement('style');
+      st.id = 'pratica-css';
+      st.textContent = '#pratica-list figure svg{width:100%;height:auto;max-height:240px;display:block}' +
+        '#pratica-list .ap-h{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--brand);margin:16px 0 2px}' +
+        '#pratica-list .ap-h:first-child{margin-top:4px}' +
+        '#pratica-list .step.ap-prova{border-left-color:var(--accent)}' +
+        '#pratica-list .ap-stop{background:var(--danger-soft);color:var(--ink);border-radius:8px;padding:10px 12px;margin-top:14px;font-size:13px}';
+      document.head.appendChild(st);
+    }
+    function steps(list, cls) {
+      return list.map(function (t, i) { return '<div class="step' + (cls ? ' ' + cls : '') + '">' + (i + 1) + '. ' + t + '</div>'; }).join('');
+    }
+    var html = '';
+    pratica.forEach(function (a, i) {
+      html += '<div class="card article" id="pratica-' + i + '">' +
+        '<div class="eyebrow">Anatomia pratica · ' + a.cat + '</div>' +
+        '<h2>' + a.title + '</h2>' +
+        '<figure style="margin:10px 0 12px; background:var(--surface-2); border-radius:12px; padding:8px 10px">' + a.svg + '</figure>' +
+        '<p>' + a.preview + '</p>' +
+        '<div class="article-full" id="pratica-full-' + i + '" style="display:none; margin-top:10px">' +
+          '<div class="ap-h">🖐 Trova</div>' + steps(a.trova) +
+          '<div class="ap-h">↔️ Prova</div>' + steps(a.prova, 'ap-prova') +
+          '<div class="ap-h">👀 Cosa noti</div>' +
+          a.noti.split('\n\n').map(function (p) { return '<p style="margin-bottom:10px">' + p + '</p>'; }).join('') +
+          (a.stop ? '<div class="ap-stop">⚠️ ' + a.stop + '</div>' : '') +
+        '</div>' +
+        '<div style="margin-top:12px"><button class="text-btn" data-expand-prat="' + i + '">Prova adesso</button></div>' +
+        '<div class="share-bar sb-sm" data-pratshare="' + i + '"></div>' +
+        '</div>';
+    });
+    wrap.innerHTML = html;
+    document.getElementById('pratica-label').style.display = 'block';
+    document.getElementById('pratica-intro').style.display = 'block';
+    wrap.querySelectorAll('[data-pratshare]').forEach(function (bar) {
+      var idx = parseInt(bar.dataset.pratshare, 10);
+      var a = pratica[idx];
+      var msg = '🖐 ' + a.title + '\n\n' + a.preview +
+        '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nI passaggi, con lo schema, sono nell\'app:';
+      makeShareBar(bar, msg, SITE + '?vai=pratica-' + idx);
+    });
+    wrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-expand-prat]');
+      if (!btn) return;
+      var full = document.getElementById('pratica-full-' + btn.dataset.expandPrat);
+      var open = full.style.display !== 'none';
+      full.style.display = open ? 'none' : 'block';
+      btn.textContent = open ? 'Prova adesso' : 'Chiudi';
+      if (!open) track('view', 'pratica-' + btn.dataset.expandPrat);
+    });
+    vaiAlContenuto(); // se si arriva da un link condiviso verso una scheda
+  }
+  fetch('anatomia-pratica.json?t=' + Math.floor(Date.now() / 3600000), { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { pratica = d; renderPratica(); })
     .catch(function () {});
 
   /* ---------- Riconoscimento telefono e browser ----------
@@ -2243,7 +2328,7 @@
      version.json e al nome della cache in sw.js. Se resta indietro, l'app
      continua a credere di essere vecchia e si ricarica senza fermarsi mai.
      Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
-  var APP_VERSION = 51;
+  var APP_VERSION = 52;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
