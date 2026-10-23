@@ -1,0 +1,1665 @@
+[
+ {
+  "cat": "Orientamento: dove sta una cosa",
+  "ico": "🧭",
+  "intro": "Le parole con cui l'anatomia dice «dove». Si riferiscono sempre alla posizione anatomica: in piedi, braccia lungo i fianchi, palmi in avanti. Non cambiano se ti sdrai o ti giri.",
+  "terms": [
+   {
+    "t": "Posizione anatomica",
+    "d": "La posizione di riferimento di tutte le descrizioni: in piedi, sguardo avanti, braccia lungo i fianchi con i palmi rivolti in avanti, piedi paralleli. «Davanti», «dietro», «dentro» e «fuori» si intendono sempre rispetto a questa.",
+    "id": "posizione-anatomica"
+   },
+   {
+    "t": "Mediale",
+    "d": "Più vicino alla linea di mezzo del corpo. Il lato interno del ginocchio è mediale; l'alluce è il dito più mediale del piede.",
+    "alt": "interno",
+    "id": "mediale"
+   },
+   {
+    "t": "Laterale",
+    "d": "Più lontano dalla linea di mezzo, verso l'esterno. Il malleolo esterno è laterale; il mignolo del piede è il dito più laterale.",
+    "alt": "esterno",
+    "id": "laterale"
+   },
+   {
+    "t": "Prossimale",
+    "d": "Più vicino alla radice dell'arto, cioè al tronco. Il gomito è prossimale rispetto al polso; l'anca è prossimale rispetto al ginocchio.",
+    "id": "prossimale"
+   },
+   {
+    "t": "Distale",
+    "d": "Più lontano dalla radice dell'arto. La mano è distale rispetto al gomito; il piede è la parte più distale della gamba.",
+    "id": "distale"
+   },
+   {
+    "t": "Anteriore",
+    "d": "Davanti. La rotula sta sulla faccia anteriore del ginocchio. Sinonimo: ventrale.",
+    "alt": "ventrale",
+    "id": "anteriore"
+   },
+   {
+    "t": "Posteriore",
+    "d": "Dietro. Il tendine d'Achille sta sulla faccia posteriore della caviglia. Sinonimo: dorsale.",
+    "alt": "dorsale",
+    "id": "posteriore"
+   },
+   {
+    "t": "Superiore",
+    "d": "Più in alto, verso la testa. Sinonimo: craniale. La clavicola è superiore alle coste.",
+    "alt": "craniale cefalico",
+    "id": "superiore"
+   },
+   {
+    "t": "Inferiore",
+    "d": "Più in basso, verso i piedi. Sinonimo: caudale. Il sacro è inferiore alle vertebre lombari.",
+    "alt": "caudale",
+    "id": "inferiore"
+   },
+   {
+    "t": "Superficiale",
+    "d": "Più vicino alla pelle. Il gastrocnemio è il muscolo superficiale del polpaccio.",
+    "id": "superficiale"
+   },
+   {
+    "t": "Profondo",
+    "d": "Più lontano dalla pelle, più dentro. Il soleo sta profondo rispetto al gastrocnemio; la testa del femore è profonda, non si tocca.",
+    "id": "profondo"
+   },
+   {
+    "t": "Omolaterale",
+    "d": "Dallo stesso lato. Un dolore omolaterale sta dalla stessa parte della causa. Sinonimo: ipsilaterale.",
+    "alt": "ipsilaterale",
+    "id": "omolaterale"
+   },
+   {
+    "t": "Controlaterale",
+    "d": "Dal lato opposto. Una spalla bassa a destra e un'anca alta a sinistra sono compensi controlaterali.",
+    "id": "controlaterale"
+   },
+   {
+    "t": "Bilaterale",
+    "d": "Da entrambi i lati. Un test bilaterale si fa a destra e a sinistra, per confrontare.",
+    "id": "bilaterale"
+   },
+   {
+    "t": "Linea mediana",
+    "d": "La linea immaginaria che divide il corpo in una metà destra e una sinistra. Colonna, sterno e ombelico stanno sulla linea mediana.",
+    "id": "linea-mediana"
+   },
+   {
+    "t": "Piano sagittale",
+    "d": "Il piano verticale che taglia il corpo in destra e sinistra. I movimenti che avvengono su questo piano sono flessione ed estensione: piegarti in avanti, un passo, uno squat.",
+    "id": "piano-sagittale"
+   },
+   {
+    "t": "Piano frontale",
+    "d": "Il piano verticale che taglia il corpo in davanti e dietro. Su questo piano avvengono abduzione, adduzione e inclinazione laterale: aprire le braccia, piegarti di lato. Sinonimo: piano coronale.",
+    "alt": "coronale",
+    "id": "piano-frontale"
+   },
+   {
+    "t": "Piano trasverso",
+    "d": "Il piano orizzontale che taglia il corpo in sopra e sotto. Su questo piano avvengono le rotazioni: girare la testa, ruotare il tronco. Sinonimo: piano orizzontale o assiale.",
+    "alt": "orizzontale assiale",
+    "id": "piano-trasverso"
+   },
+   {
+    "t": "Assiale",
+    "d": "Che riguarda l'asse del corpo: testa, colonna, gabbia toracica. Lo scheletro assiale è il «tronco» dello scheletro.",
+    "id": "assiale"
+   },
+   {
+    "t": "Appendicolare",
+    "d": "Che riguarda gli arti e le cinture che li attaccano al tronco: spalle e braccia, bacino e gambe.",
+    "id": "appendicolare"
+   },
+   {
+    "t": "Palmare",
+    "d": "Il lato del palmo della mano. Sinonimo: volare.",
+    "alt": "volare",
+    "id": "palmare"
+   },
+   {
+    "t": "Plantare",
+    "d": "Il lato della pianta del piede. La fascia plantare sta sotto il piede.",
+    "id": "plantare"
+   },
+   {
+    "t": "Dorsale (mano e piede)",
+    "d": "Il dorso: il lato opposto al palmo o alla pianta. I tendini che vedi scorrere sul dorso del piede sono estensori.",
+    "id": "dorsale-mano-e-piede"
+   },
+   {
+    "t": "Radiale e ulnare",
+    "d": "Nell'avambraccio, il lato del pollice (radiale, dove sta il radio) e il lato del mignolo (ulnare, dove sta l'ulna).",
+    "id": "radiale-e-ulnare"
+   },
+   {
+    "t": "Tibiale e peroneale",
+    "d": "Nella gamba, il lato interno (tibiale, la tibia) e il lato esterno (peroneale, il perone, detto anche fibula).",
+    "alt": "fibulare",
+    "id": "tibiale-e-peroneale"
+   },
+   {
+    "t": "Supino",
+    "d": "Sdraiato sulla schiena, pancia in su.",
+    "id": "supino"
+   },
+   {
+    "t": "Prono",
+    "d": "Sdraiato a pancia in giù.",
+    "id": "prono"
+   },
+   {
+    "t": "Decubito laterale",
+    "d": "Sdraiato su un fianco. È la posizione in cui si trattano spesso anca e spalla.",
+    "id": "decubito-laterale"
+   }
+  ]
+ },
+ {
+  "cat": "Movimenti: come si muove",
+  "ico": "↔️",
+  "intro": "I nomi dei movimenti. Ogni articolazione ne ha alcuni e non altri: il ginocchio si piega e si distende, l'anca fa tutto. In studio li uso per dirti cosa misuro.",
+  "terms": [
+   {
+    "t": "Flessione",
+    "d": "Piegare: l'angolo fra due segmenti si chiude. Portare il mento al petto, piegare il gomito, portare il ginocchio al petto. Piegarti in avanti è flessione del tronco.",
+    "id": "flessione"
+   },
+   {
+    "t": "Estensione",
+    "d": "Distendere: l'angolo si apre, il movimento contrario alla flessione. Raddrizzare il ginocchio, inarcare la schiena, portare la testa indietro.",
+    "id": "estensione"
+   },
+   {
+    "t": "Iperestensione",
+    "d": "Estensione oltre la posizione dritta. Un gomito o un ginocchio che «vanno indietro» oltre lo zero sono iperestesi: non è una malattia, ma chiede più controllo muscolare.",
+    "id": "iperestensione"
+   },
+   {
+    "t": "Abduzione",
+    "d": "Allontanare dalla linea di mezzo: aprire le braccia o le gambe di lato.",
+    "id": "abduzione"
+   },
+   {
+    "t": "Adduzione",
+    "d": "Avvicinare alla linea di mezzo: richiudere le braccia o le gambe. Gli adduttori sono i muscoli interni della coscia.",
+    "id": "adduzione"
+   },
+   {
+    "t": "Rotazione interna",
+    "d": "Girare un segmento verso l'interno, attorno al suo asse: ruotare il braccio in modo che il gomito guardi in fuori, ruotare la coscia con la punta del piede che va in dentro. Sinonimo: intrarotazione.",
+    "alt": "intrarotazione",
+    "id": "rotazione-interna"
+   },
+   {
+    "t": "Rotazione esterna",
+    "d": "Girare verso l'esterno: la punta del piede che va in fuori, il palmo che si apre. Sinonimo: extrarotazione.",
+    "alt": "extrarotazione",
+    "id": "rotazione-esterna"
+   },
+   {
+    "t": "Circonduzione",
+    "d": "Il movimento circolare che combina tutti gli altri: far girare il braccio come un mulinello.",
+    "id": "circonduzione"
+   },
+   {
+    "t": "Pronazione",
+    "d": "Nell'avambraccio, ruotare il palmo verso il basso. Nel piede, l'appoggio che fa crollare l'arco verso l'interno: un po' di pronazione nel passo è normale, troppa carica ginocchio e anca.",
+    "id": "pronazione"
+   },
+   {
+    "t": "Supinazione",
+    "d": "Nell'avambraccio, ruotare il palmo verso l'alto. Nel piede, l'appoggio che carica il bordo esterno con l'arco alto.",
+    "id": "supinazione"
+   },
+   {
+    "t": "Dorsiflessione",
+    "d": "Alla caviglia: portare le dita del piede verso lo stinco. È il movimento che misuri con il test del ginocchio al muro.",
+    "id": "dorsiflessione"
+   },
+   {
+    "t": "Flessione plantare",
+    "d": "Alla caviglia: spingere la punta del piede verso il basso, come per salire sulle punte.",
+    "alt": "plantarflessione",
+    "id": "flessione-plantare"
+   },
+   {
+    "t": "Inversione",
+    "d": "Ruotare la pianta del piede verso l'interno. È il movimento della distorsione classica, «con il piede in dentro».",
+    "id": "inversione"
+   },
+   {
+    "t": "Eversione",
+    "d": "Ruotare la pianta del piede verso l'esterno.",
+    "id": "eversione"
+   },
+   {
+    "t": "Inclinazione laterale",
+    "d": "Piegarsi di lato: la testa verso la spalla, il tronco verso un fianco. Sinonimo: latero-flessione.",
+    "alt": "lateroflessione",
+    "id": "inclinazione-laterale"
+   },
+   {
+    "t": "Elevazione e depressione",
+    "d": "Alzare e abbassare: le spalle verso le orecchie e giù, la mandibola che si apre e si chiude.",
+    "id": "elevazione-e-depressione"
+   },
+   {
+    "t": "Protrazione e retrazione",
+    "d": "Portare avanti e riportare indietro: le scapole che si allontanano quando spingi, e si avvicinano quando tiri. Anche la testa «in avanti» è una protrazione.",
+    "id": "protrazione-e-retrazione"
+   },
+   {
+    "t": "Protrusione",
+    "d": "Spingere in avanti: la mandibola che avanza. Per un disco intervertebrale, invece, è il rigonfiamento verso l'esterno (vedi i termini sui tessuti).",
+    "id": "protrusione"
+   },
+   {
+    "t": "Opposizione",
+    "d": "Il movimento del pollice che va a toccare le altre dita. È quello che rende la mano umana.",
+    "id": "opposizione"
+   },
+   {
+    "t": "Antiversione del bacino",
+    "d": "Il bacino che ruota in avanti, con la pancia che va avanti e il sedere indietro: la lordosi lombare aumenta.",
+    "alt": "anteversione",
+    "id": "antiversione-del-bacino"
+   },
+   {
+    "t": "Retroversione del bacino",
+    "d": "Il bacino che ruota all'indietro, come «mettere il sedere sotto»: la lordosi lombare si appiattisce.",
+    "id": "retroversione-del-bacino"
+   },
+   {
+    "t": "Escursione articolare",
+    "d": "Quanto si muove un'articolazione, in gradi, da un estremo all'altro. In inglese ROM, range of motion. È una delle cose che misuro e rimisuro.",
+    "alt": "ROM range of motion",
+    "id": "escursione-articolare"
+   },
+   {
+    "t": "Movimento attivo",
+    "d": "Quello che fai da solo, con i tuoi muscoli. Se è limitato ma il passivo è libero, il problema è nel muscolo o nel suo comando.",
+    "id": "movimento-attivo"
+   },
+   {
+    "t": "Movimento passivo",
+    "d": "Quello che faccio io muovendo il tuo arto, con i tuoi muscoli rilassati. Mette alla prova l'articolazione, la capsula e i legamenti, non la forza.",
+    "id": "movimento-passivo"
+   },
+   {
+    "t": "Fine corsa",
+    "d": "La sensazione che sente la mano quando porta un'articolazione al massimo: morbida se fermano i tessuti, elastica se ferma la capsula, dura se ferma l'osso, «vuota» se ferma il dolore. In inglese end-feel. Dice molto in pochi secondi.",
+    "alt": "end-feel",
+    "id": "fine-corsa"
+   },
+   {
+    "t": "Compenso",
+    "d": "Un movimento che il corpo fa al posto di un altro che non riesce: alzare la spalla perché la scapola non ruota, piegare la schiena perché l'anca non si flette. Non è un errore: è una soluzione che prima o poi presenta il conto.",
+    "id": "compenso"
+   }
+  ]
+ },
+ {
+  "cat": "Ossa: i punti di riferimento",
+  "ico": "🦴",
+  "intro": "Le ossa hanno sporgenze e cavità con nomi precisi: sono i punti che le dita trovano e su cui i muscoli si attaccano. Qui ci sono le forme generali e le parti della colonna.",
+  "terms": [
+   {
+    "t": "Osso",
+    "d": "Tessuto vivo, non un sasso: si rimodella di continuo in base ai carichi che riceve. Un osso poco caricato si indebolisce, uno caricato con criterio si rinforza.",
+    "id": "osso"
+   },
+   {
+    "t": "Periostio",
+    "d": "La membrana che riveste l'osso dall'esterno, ricca di nervi: è lei che fa male quando batti lo stinco.",
+    "id": "periostio"
+   },
+   {
+    "t": "Diafisi",
+    "d": "La parte lunga e centrale di un osso lungo, il «fusto» del femore o della tibia.",
+    "id": "diafisi"
+   },
+   {
+    "t": "Epifisi",
+    "d": "Le due estremità di un osso lungo, allargate, ricoperte di cartilagine, che formano le articolazioni.",
+    "id": "epifisi"
+   },
+   {
+    "t": "Metafisi",
+    "d": "La zona fra diafisi ed epifisi. Nel bambino contiene la cartilagine di accrescimento, quella da cui l'osso cresce.",
+    "id": "metafisi"
+   },
+   {
+    "t": "Cartilagine",
+    "d": "Tessuto liscio ed elastico che riveste le superfici articolari (cartilagine ialina), forma i menischi e i dischi (fibrocartilagine), l'orecchio e il naso (elastica). Non ha vasi né nervi: si nutre con il movimento.",
+    "id": "cartilagine"
+   },
+   {
+    "t": "Processo",
+    "d": "Una sporgenza dell'osso, in generale. Il processo spinoso della vertebra è quello che senti lungo la schiena. Sinonimo: apofisi.",
+    "alt": "apofisi",
+    "id": "processo"
+   },
+   {
+    "t": "Spina",
+    "d": "Una sporgenza sottile e appuntita, o una cresta. La spina della scapola è la cresta che la attraversa; la spina iliaca anteriore è la punta d'osso davanti al bacino.",
+    "id": "spina"
+   },
+   {
+    "t": "Cresta",
+    "d": "Un bordo d'osso rilevato e lungo. La cresta iliaca è il bordo superiore del bacino, quella che senti con le mani sui fianchi.",
+    "id": "cresta"
+   },
+   {
+    "t": "Tuberosità",
+    "d": "Una sporgenza larga e ruvida dove si attacca un tendine robusto. La tuberosità tibiale, sotto la rotula, è dove arriva il tendine rotuleo. La tuberosità ischiatica è l'osso su cui ti siedi.",
+    "id": "tuberosita"
+   },
+   {
+    "t": "Tubercolo",
+    "d": "Una sporgenza piccola e arrotondata. I tubercoli dell'omero, davanti alla spalla, sono dove si attacca la cuffia dei rotatori.",
+    "id": "tubercolo"
+   },
+   {
+    "t": "Trocantere",
+    "d": "Le due grandi sporgenze della parte alta del femore. Il grande trocantere è quello che senti di lato, sotto il fianco; su di lui si attaccano i glutei.",
+    "id": "trocantere"
+   },
+   {
+    "t": "Condilo",
+    "d": "Una sporgenza arrotondata che forma un'articolazione. I condili del femore sono i due «pomelli» del ginocchio; il condilo della mandibola è quello che senti davanti all'orecchio.",
+    "id": "condilo"
+   },
+   {
+    "t": "Epicondilo",
+    "d": "Una sporgenza sopra il condilo, dove si attaccano i muscoli. Gli epicondili del gomito sono le due «ossa» ai lati: l'esterno è quello del gomito del tennista.",
+    "id": "epicondilo"
+   },
+   {
+    "t": "Malleolo",
+    "d": "Le due sporgenze ai lati della caviglia: il malleolo interno è della tibia, quello esterno del perone, più basso e più indietro.",
+    "id": "malleolo"
+   },
+   {
+    "t": "Fossa",
+    "d": "Una depressione, una conca nell'osso. La fossa sovraspinata e infraspinata sono le due conche della scapola dove stanno due muscoli della cuffia.",
+    "id": "fossa"
+   },
+   {
+    "t": "Cavità",
+    "d": "Uno spazio scavato nell'osso che accoglie un'altra parte. La cavità glenoidea della scapola accoglie la testa dell'omero: è piccola e piatta, per questo la spalla è mobile e instabile. L'acetabolo è la cavità del bacino che accoglie la testa del femore: profonda, per questo l'anca è stabile.",
+    "alt": "glenoide acetabolo",
+    "id": "cavita"
+   },
+   {
+    "t": "Forame",
+    "d": "Un foro nell'osso da cui passano nervi o vasi. I forami fra le vertebre sono i passaggi da cui escono le radici nervose: se si restringono, il nervo soffre.",
+    "id": "forame"
+   },
+   {
+    "t": "Incisura",
+    "d": "Una tacca, un intaglio nel bordo di un osso.",
+    "id": "incisura"
+   },
+   {
+    "t": "Testa",
+    "d": "L'estremità arrotondata di un osso lungo che entra in una cavità: la testa del femore, dell'omero, del radio.",
+    "id": "testa"
+   },
+   {
+    "t": "Collo",
+    "d": "La parte stretta subito sotto la testa di un osso. Il collo del femore è quello che si rompe nelle cadute dell'anziano.",
+    "id": "collo"
+   },
+   {
+    "t": "Vertebra",
+    "d": "Ognuno dei ventiquattro pezzi mobili della colonna, più sacro e coccige. Davanti un corpo che porta il carico, dietro un arco che protegge il midollo e porta i processi.",
+    "id": "vertebra"
+   },
+   {
+    "t": "Corpo vertebrale",
+    "d": "La parte anteriore, cilindrica, della vertebra: è quella che regge il peso, appoggiata sul disco.",
+    "id": "corpo-vertebrale"
+   },
+   {
+    "t": "Processo spinoso",
+    "d": "La punta posteriore della vertebra, quella che senti con le dita lungo la linea di mezzo della schiena.",
+    "id": "processo-spinoso"
+   },
+   {
+    "t": "Processo trasverso",
+    "d": "Le due sporgenze laterali della vertebra, dove si attaccano muscoli e, nel dorso, le coste.",
+    "id": "processo-trasverso"
+   },
+   {
+    "t": "Faccette articolari",
+    "d": "Le piccole articolazioni, due per lato, con cui ogni vertebra si articola con quella sopra e quella sotto. Guidano il movimento e possono dare dolore locale, quello che peggiora inarcando la schiena.",
+    "alt": "zigapofisarie",
+    "id": "faccette-articolari"
+   },
+   {
+    "t": "Disco intervertebrale",
+    "d": "Il cuscinetto fra un corpo vertebrale e l'altro: un anello di fibre robuste (anulus) con dentro un nucleo gelatinoso (nucleo polposo). Assorbe i carichi e permette il movimento. Si nutre con il movimento, non ha vasi.",
+    "alt": "anulus nucleo polposo",
+    "id": "disco-intervertebrale"
+   },
+   {
+    "t": "Sacro",
+    "d": "L'osso triangolare in fondo alla colonna, formato da cinque vertebre fuse. Incastrato fra le due ossa del bacino forma le articolazioni sacroiliache.",
+    "id": "sacro"
+   },
+   {
+    "t": "Coccige",
+    "d": "L'ultimo pezzo della colonna, sotto il sacro: tre o quattro vertebre piccolissime. Fa male quando ci cadi sopra.",
+    "id": "coccige"
+   },
+   {
+    "t": "Cingolo scapolare",
+    "d": "L'insieme di clavicola e scapola, che attacca il braccio al tronco. Lo fa con un'unica articolazione ossea, quella fra clavicola e sterno: tutto il resto lo tengono i muscoli.",
+    "id": "cingolo-scapolare"
+   },
+   {
+    "t": "Cingolo pelvico",
+    "d": "Il bacino: le due ossa iliache e il sacro. Attacca le gambe al tronco e trasmette il peso dalla colonna ai femori.",
+    "id": "cingolo-pelvico"
+   },
+   {
+    "t": "Coste",
+    "d": "Le dodici paia di ossa curve della gabbia toracica. Si muovono a ogni respiro: si aprono inspirando, si chiudono espirando.",
+    "alt": "costole",
+    "id": "coste"
+   }
+  ]
+ },
+ {
+  "cat": "Articolazioni: dove le ossa si incontrano",
+  "ico": "⚙️",
+  "intro": "Un'articolazione è il punto in cui due ossa si incontrano e, quasi sempre, si muovono l'una sull'altra. Le parole che seguono descrivono di cosa è fatta e come può andare storto.",
+  "terms": [
+   {
+    "t": "Articolazione",
+    "d": "Il punto d'incontro fra due o più ossa. Alcune sono fisse (le ossa del cranio), alcune si muovono poco (fra le vertebre), la maggior parte si muove molto (spalla, anca, ginocchio).",
+    "id": "articolazione"
+   },
+   {
+    "t": "Capsula articolare",
+    "d": "Il manicotto di tessuto fibroso che avvolge l'articolazione e la chiude. Rinforzata dai legamenti, contiene il liquido. Quando si irrigidisce, come nella spalla congelata, blocca il movimento in tutte le direzioni.",
+    "id": "capsula-articolare"
+   },
+   {
+    "t": "Membrana sinoviale",
+    "d": "Lo strato interno della capsula: produce il liquido sinoviale. Se si infiamma, l'articolazione si gonfia e si scalda (sinovite).",
+    "alt": "sinovite",
+    "id": "membrana-sinoviale"
+   },
+   {
+    "t": "Liquido sinoviale",
+    "d": "Il liquido denso dentro l'articolazione: lubrifica e nutre la cartilagine. Il movimento lo fa circolare: per questo un'articolazione ferma si «arrugginisce».",
+    "id": "liquido-sinoviale"
+   },
+   {
+    "t": "Cartilagine articolare",
+    "d": "Lo strato liscio che riveste le due superfici ossee e le fa scorrere quasi senza attrito. Non ha nervi: quando fa male un'articolazione, non è la cartilagine a farlo.",
+    "id": "cartilagine-articolare"
+   },
+   {
+    "t": "Menisco",
+    "d": "Un cuscinetto di fibrocartilagine a forma di mezzaluna, nel ginocchio ce ne sono due: distribuiscono il carico e stabilizzano. Si lesionano con torsioni, ma si consumano anche con gli anni senza dare dolore.",
+    "id": "menisco"
+   },
+   {
+    "t": "Labbro articolare",
+    "d": "Un anello di fibrocartilagine che allarga il bordo di una cavità e la rende più profonda: nella spalla (labbro glenoideo) e nell'anca (labbro acetabolare). Sinonimo: cercine.",
+    "alt": "cercine labrum",
+    "id": "labbro-articolare"
+   },
+   {
+    "t": "Legamento",
+    "d": "Un nastro di tessuto fibroso robusto che unisce osso a osso e limita i movimenti sbagliati. Non si contrae: tiene. Si allunga o si rompe nelle distorsioni.",
+    "id": "legamento"
+   },
+   {
+    "t": "Borsa",
+    "d": "Un sacchetto di liquido fra un tendine e un osso, o fra tendine e pelle, che riduce l'attrito. Quando si infiamma (borsite) il punto è gonfio e dolente alla pressione: tipica sul trocantere, sulla spalla, davanti al ginocchio.",
+    "alt": "borsite",
+    "id": "borsa"
+   },
+   {
+    "t": "Articolazione a cerniera",
+    "d": "Si muove su un solo piano, come una porta: il gomito, le dita, in buona parte il ginocchio. Nome tecnico: ginglimo.",
+    "alt": "ginglimo troclea",
+    "id": "articolazione-a-cerniera"
+   },
+   {
+    "t": "Articolazione sferica",
+    "d": "Una testa rotonda in una cavità: si muove in tutte le direzioni. Spalla e anca. Nome tecnico: enartrosi.",
+    "alt": "enartrosi",
+    "id": "articolazione-sferica"
+   },
+   {
+    "t": "Articolazione a sella",
+    "d": "Due superfici a sella incastrate, che permettono movimenti su due piani: l'articolazione alla base del pollice.",
+    "id": "articolazione-a-sella"
+   },
+   {
+    "t": "Articolazione condiloidea",
+    "d": "Una superficie ovale in una cavità ovale: due piani di movimento, niente rotazione. Il polso, le nocche delle dita.",
+    "alt": "ellissoidale",
+    "id": "articolazione-condiloidea"
+   },
+   {
+    "t": "Articolazione piana",
+    "d": "Due superfici quasi piatte che scivolano l'una sull'altra: fra le ossa del piede e della mano, fra le faccette vertebrali. Nome tecnico: artrodia.",
+    "alt": "artrodia",
+    "id": "articolazione-piana"
+   },
+   {
+    "t": "Articolazione a perno",
+    "d": "Un osso ruota attorno a un altro: fra le prime due vertebre del collo, quando dici «no» con la testa; fra radio e ulna, quando giri il palmo. Nome tecnico: trocoide.",
+    "alt": "trocoide",
+    "id": "articolazione-a-perno"
+   },
+   {
+    "t": "Sinartrosi",
+    "d": "Articolazione fissa, senza movimento: le suture del cranio.",
+    "id": "sinartrosi"
+   },
+   {
+    "t": "Anfiartrosi",
+    "d": "Articolazione che si muove poco, tenuta da cartilagine: fra i corpi vertebrali con il disco, la sinfisi pubica.",
+    "id": "anfiartrosi"
+   },
+   {
+    "t": "Diartrosi",
+    "d": "Articolazione mobile con capsula e liquido sinoviale: tutte quelle degli arti. Sinonimo: articolazione sinoviale.",
+    "alt": "sinoviale",
+    "id": "diartrosi"
+   },
+   {
+    "t": "Congruenza",
+    "d": "Quanto bene le due superfici si incastrano. L'anca è molto congruente e quindi stabile; la spalla poco, e si affida ai muscoli.",
+    "id": "congruenza"
+   },
+   {
+    "t": "Stabilità",
+    "d": "La capacità dell'articolazione di restare centrata durante il movimento. La danno le forme ossee, i legamenti e soprattutto i muscoli che la controllano.",
+    "id": "stabilita"
+   },
+   {
+    "t": "Lassità",
+    "d": "Legamenti più lunghi o più elastici del normale: l'articolazione ha più gioco. Può essere costituzionale (tutte le articolazioni) o il risultato di una vecchia distorsione (una sola).",
+    "id": "lassita"
+   },
+   {
+    "t": "Ipermobilità",
+    "d": "Articolazioni che si muovono oltre la norma. Non è una malattia, ma chi è ipermobile ha bisogno di più forza e controllo, non di più allungamento.",
+    "id": "ipermobilita"
+   },
+   {
+    "t": "Instabilità",
+    "d": "Quando l'articolazione non resta al suo posto sotto carico: la spalla che «esce», la caviglia che cede. È lassità più mancanza di controllo.",
+    "id": "instabilita"
+   },
+   {
+    "t": "Versamento",
+    "d": "Liquido in eccesso dentro l'articolazione: il ginocchio gonfio dopo un trauma o uno sforzo. Segno che qualcosa dentro è irritato.",
+    "id": "versamento"
+   },
+   {
+    "t": "Crepitio",
+    "d": "Il rumore di sabbia o di scrocchio durante il movimento. Senza dolore e senza gonfiore è quasi sempre innocuo.",
+    "id": "crepitio"
+   },
+   {
+    "t": "Blocco articolare",
+    "d": "L'articolazione che si ferma a metà movimento, come inceppata. Nel ginocchio può essere un pezzo di menisco; nella schiena, spesso, una protezione muscolare improvvisa.",
+    "id": "blocco-articolare"
+   },
+   {
+    "t": "Artrosi",
+    "d": "L'usura della cartilagine articolare con gli anni e i carichi. Alle immagini compare in quasi tutti dopo i cinquanta, molto spesso senza dolore: l'artrosi che si vede e quella che si sente sono due cose diverse.",
+    "id": "artrosi"
+   },
+   {
+    "t": "Artrite",
+    "d": "Infiammazione dell'articolazione: gonfia, calda, dolente anche a riposo. Diversa dall'artrosi, che è usura. Le forme reumatiche sono materia da medico.",
+    "id": "artrite"
+   }
+  ]
+ },
+ {
+  "cat": "Muscoli: come lavorano, e quali sono",
+  "ico": "💪",
+  "intro": "Prima le parole generali: come è fatto un muscolo e come lavora. Poi i muscoli veri e propri, regione per regione, dall'alto verso il basso: dalla testa ai piedi.",
+  "terms": [
+   {
+    "t": "Muscolo scheletrico",
+    "d": "Il muscolo che muove le ossa e che comandi volontariamente. Fibre lunghe quanto il muscolo, tenute insieme da guaine che alle estremità diventano tendine.",
+    "id": "muscolo-scheletrico"
+   },
+   {
+    "t": "Fibra muscolare",
+    "d": "La singola cellula del muscolo, lunga e sottile. Dentro ha filamenti che scorrono uno sull'altro quando arriva il comando dal nervo: così si accorcia.",
+    "id": "fibra-muscolare"
+   },
+   {
+    "t": "Fascio",
+    "d": "Un gruppo di fibre avvolto da una guaina. Il muscolo è fatto di fasci, e la «grana» che senti è quella.",
+    "id": "fascio"
+   },
+   {
+    "t": "Ventre muscolare",
+    "d": "La parte carnosa, centrale, del muscolo: quella che si gonfia quando contrai.",
+    "id": "ventre-muscolare"
+   },
+   {
+    "t": "Origine",
+    "d": "Il punto in cui il muscolo si attacca all'osso più fermo, di solito quello più vicino al tronco.",
+    "id": "origine"
+   },
+   {
+    "t": "Inserzione",
+    "d": "Il punto in cui il muscolo si attacca all'osso che muove, di solito il più lontano dal tronco. Origine e inserzione si possono scambiare di ruolo: salire le scale o fare uno squat usano gli stessi muscoli al contrario.",
+    "id": "inserzione"
+   },
+   {
+    "t": "Capo",
+    "d": "Ognuna delle parti in cui un muscolo nasce, quando ne ha più di una: il bicipite ha due capi, il tricipite tre, il quadricipite quattro.",
+    "id": "capo"
+   },
+   {
+    "t": "Aponeurosi",
+    "d": "Un tendine piatto e largo, a lamina, con cui alcuni muscoli si attaccano: quella degli addominali, quella del palmo della mano.",
+    "id": "aponeurosi"
+   },
+   {
+    "t": "Agonista",
+    "d": "Il muscolo che fa il movimento. Nel piegare il gomito, il bicipite.",
+    "id": "agonista"
+   },
+   {
+    "t": "Antagonista",
+    "d": "Il muscolo che fa il movimento opposto e che, mentre l'agonista lavora, si rilascia in modo controllato. Nel piegare il gomito, il tricipite.",
+    "id": "antagonista"
+   },
+   {
+    "t": "Sinergico",
+    "d": "Un muscolo che aiuta l'agonista o che blocca un movimento indesiderato per rendere il suo più preciso.",
+    "id": "sinergico"
+   },
+   {
+    "t": "Stabilizzatore",
+    "d": "Un muscolo che tiene fermo un segmento perché un altro possa muoversi bene: la scapola ferma perché il braccio si alzi, il tronco fermo perché la gamba spinga.",
+    "id": "stabilizzatore"
+   },
+   {
+    "t": "Contrazione concentrica",
+    "d": "Il muscolo si accorcia mentre lavora: sollevare un peso, salire un gradino.",
+    "id": "contrazione-concentrica"
+   },
+   {
+    "t": "Contrazione eccentrica",
+    "d": "Il muscolo si allunga mentre lavora, frenando un carico: scendere le scale, appoggiare un peso. È la più faticosa per il tessuto e quella che dà l'indolenzimento del giorno dopo. È anche la più usata nella riabilitazione dei tendini.",
+    "id": "contrazione-eccentrica"
+   },
+   {
+    "t": "Contrazione isometrica",
+    "d": "Il muscolo lavora senza cambiare lunghezza: tenere una posizione, spingere contro un muro. Utile per il dolore e per i tendini irritati.",
+    "id": "contrazione-isometrica"
+   },
+   {
+    "t": "Tono",
+    "d": "La leggera tensione che un muscolo mantiene anche a riposo, regolata dal sistema nervoso. Non è mai zero. «Tono alto» è quello che senti come un muscolo duro a riposo.",
+    "id": "tono"
+   },
+   {
+    "t": "Contrattura",
+    "d": "Un gruppo di fibre che il sistema nervoso tiene contratte senza che tu lo voglia, per proteggere o sostenere una zona. Non è una lesione: è una risposta. Si sente come un cordone duro e dolente e non se ne va a comando.",
+    "id": "contrattura"
+   },
+   {
+    "t": "Spasmo",
+    "d": "Una contrazione involontaria, brusca e intensa, di un muscolo: la schiena che «si blocca» in un movimento. È protezione, non danno.",
+    "id": "spasmo"
+   },
+   {
+    "t": "Crampo",
+    "d": "Uno spasmo doloroso e improvviso, che passa allungando il muscolo. Fatica, disidratazione, muscoli accorciati: le cause sono tante e quasi mai gravi.",
+    "id": "crampo"
+   },
+   {
+    "t": "Trigger point",
+    "d": "Un punto preciso dentro un muscolo, duro e dolente alla pressione, che manda dolore a distanza secondo mappe ripetibili: un punto nel trapezio che dà mal di testa, uno nel gluteo che scende lungo la coscia.",
+    "alt": "punto trigger",
+    "id": "trigger-point"
+   },
+   {
+    "t": "Indolenzimento tardivo",
+    "d": "Il dolore muscolare che compare uno o due giorni dopo uno sforzo insolito, soprattutto eccentrico. Passa da solo in pochi giorni. In inglese DOMS.",
+    "alt": "DOMS",
+    "id": "indolenzimento-tardivo"
+   },
+   {
+    "t": "Ipertrofia",
+    "d": "L'aumento di volume e forza del muscolo in risposta al carico. Richiede settimane di stimolo progressivo.",
+    "id": "ipertrofia"
+   },
+   {
+    "t": "Atrofia",
+    "d": "La perdita di volume e forza per mancanza di uso: dopo un gesso, un dolore lungo, un periodo a letto. Comincia in pochi giorni e si recupera con il carico.",
+    "alt": "ipotrofia",
+    "id": "atrofia"
+   },
+   {
+    "t": "Inibizione",
+    "d": "Il muscolo che il sistema nervoso «spegne» per proteggere un'articolazione dolorante: il quadricipite dopo un problema al ginocchio, i glutei dopo un mal di schiena. Non è debole, è disattivato. Si riaccende con esercizi mirati.",
+    "id": "inibizione"
+   },
+   {
+    "t": "Reclutamento",
+    "d": "La capacità del sistema nervoso di attivare le fibre giuste al momento giusto. Molta della forza che si guadagna nelle prime settimane di esercizio è reclutamento, non muscolo nuovo.",
+    "id": "reclutamento"
+   },
+   {
+    "t": "Monoarticolare e biarticolare",
+    "d": "Un muscolo che attraversa una sola articolazione (il soleo, solo la caviglia) o due (il gastrocnemio, ginocchio e caviglia; il retto femorale, anca e ginocchio). I biarticolari sono quelli che si accorciano più facilmente.",
+    "id": "monoarticolare-e-biarticolare"
+   },
+   {
+    "t": "Fibre lente e veloci",
+    "d": "Le fibre lente resistono a lungo e si stancano poco (postura, camminata); le veloci sono potenti e si stancano presto (salto, scatto). Ogni muscolo ne ha un misto, e l'allenamento sposta un po' le proporzioni.",
+    "id": "fibre-lente-e-veloci"
+   },
+   {
+    "t": "Forza",
+    "d": "Quanto carico un muscolo riesce a vincere o a tenere. Si allena con pesi che senti, poche ripetizioni, progressione.",
+    "id": "forza"
+   },
+   {
+    "t": "Resistenza",
+    "d": "Quanto a lungo un muscolo regge un lavoro: i muscoli posturali ne hanno bisogno più della forza.",
+    "id": "resistenza"
+   },
+   {
+    "t": "Flessibilità",
+    "d": "Quanto un muscolo si lascia allungare. Dipende molto più dal sistema nervoso, che ne tollera l'allungamento, che dalla lunghezza fisica delle fibre.",
+    "id": "flessibilita"
+   },
+   {
+    "t": "Core",
+    "d": "L'insieme dei muscoli profondi del tronco: trasverso dell'addome, multifido, diaframma, pavimento pelvico. Tengono la colonna stabile mentre gli arti si muovono. Non è «fare gli addominali».",
+    "id": "core"
+   }
+  ],
+  "regioni": [
+   {
+    "r": "Testa e cuoio capelluto",
+    "terms": [
+     {
+      "t": "Epicranico",
+      "d": "Il muscolo piatto che copre la volta del cranio, con un ventre davanti (frontale) e uno dietro (occipitale) uniti da una lamina tendinea. Alza le sopracciglia, corruga la fronte. È teso in molti mal di testa da tensione.",
+      "alt": "occipitofrontale frontale occipitale",
+      "id": "epicranico"
+     },
+     {
+      "t": "Temporale",
+      "d": "Il muscolo a ventaglio sulla tempia: chiude la mandibola. Lo senti gonfiarsi se stringi i denti con le dita sulle tempie. Chi serra i denti lo ha spesso dolente e lo scambia per mal di testa.",
+      "id": "temporale"
+     }
+    ]
+   },
+   {
+    "r": "Viso e mandibola",
+    "terms": [
+     {
+      "t": "Muscoli mimici",
+      "d": "I piccoli muscoli che si attaccano alla pelle del viso e la muovono: l'espressione. Orbicolare dell'occhio (chiude le palpebre), orbicolare della bocca (chiude le labbra), zigomatici (il sorriso), buccinatore (la guancia che spinge, quando soffi o mastichi).",
+      "alt": "orbicolare zigomatico buccinatore",
+      "id": "muscoli-mimici"
+     },
+     {
+      "t": "Massetere",
+      "d": "Il muscolo potente sulla guancia, dall'arco zigomatico all'angolo della mandibola: chiude la bocca con forza. In rapporto alle dimensioni è fra i muscoli più forti del corpo. Duro e dolente in chi digrigna o serra.",
+      "id": "massetere"
+     },
+     {
+      "t": "Pterigoidei",
+      "d": "Due muscoli profondi, dietro la mandibola, che non si toccano da fuori: muovono la mandibola in avanti e di lato, e la aprono. Sono spesso coinvolti nei problemi dell'articolazione temporo-mandibolare.",
+      "alt": "pterigoideo",
+      "id": "pterigoidei"
+     },
+     {
+      "t": "Muscoli sovraioidei",
+      "d": "I muscoli sotto il mento, fra la mandibola e l'osso ioide: aprono la bocca e alzano la laringe quando deglutisci. Lavorano con la lingua.",
+      "alt": "sovraioideo",
+      "id": "muscoli-sovraioidei"
+     }
+    ]
+   },
+   {
+    "r": "Collo",
+    "terms": [
+     {
+      "t": "Sternocleidomastoideo",
+      "d": "Il cordone che vedi di lato al collo quando giri la testa, dallo sterno e dalla clavicola a dietro l'orecchio. Ruota la testa dal lato opposto e la inclina dal suo lato. Se lavora troppo, tira la testa in avanti.",
+      "alt": "SCM",
+      "id": "sternocleidomastoideo"
+     },
+     {
+      "t": "Scaleni",
+      "d": "Tre muscoli ai lati del collo, dalle vertebre cervicali alle prime due coste. Inclinano il collo e, soprattutto, sollevano le coste nel respiro «alto»: chi respira con il petto li ha sempre tesi. In mezzo a loro passano i nervi del braccio.",
+      "alt": "scaleno",
+      "id": "scaleni"
+     },
+     {
+      "t": "Suboccipitali",
+      "d": "Quattro piccoli muscoli profondi fra la nuca e le prime due vertebre: fanno i movimenti fini della testa e sono pieni di sensori di posizione. Si accorciano con la testa in avanti davanti allo schermo e danno il mal di testa che parte dalla nuca.",
+      "alt": "suboccipitale",
+      "id": "suboccipitali"
+     },
+     {
+      "t": "Lungo del collo",
+      "d": "Il muscolo profondo davanti alle vertebre cervicali, che le tiene dritte e stabili. È il «core» del collo: dopo un colpo di frusta o un dolore cervicale è spesso spento e va riallenato.",
+      "alt": "flessori profondi del collo",
+      "id": "lungo-del-collo"
+     },
+     {
+      "t": "Platisma",
+      "d": "Il muscolo sottile, sotto la pelle del collo, dalla mandibola al petto: tende la pelle e abbassa l'angolo della bocca. Si vede nelle smorfie di sforzo.",
+      "id": "platisma"
+     },
+     {
+      "t": "Muscoli sottoioidei",
+      "d": "I muscoli sottili davanti al collo, sotto l'osso ioide, che lo abbassano: lavorano nella deglutizione e nel parlare.",
+      "alt": "sottoioideo",
+      "id": "muscoli-sottoioidei"
+     }
+    ]
+   },
+   {
+    "r": "Spalla e cintura scapolare",
+    "terms": [
+     {
+      "t": "Trapezio",
+      "d": "Il grande muscolo a rombo dalla nuca alle spalle e fino a metà schiena. La parte alta alza le spalle (ed è quella sempre tesa); la media avvicina le scapole; la bassa le abbassa e le ruota, ed è quasi sempre poco usata.",
+      "id": "trapezio"
+     },
+     {
+      "t": "Elevatore della scapola",
+      "d": "Dalle vertebre cervicali all'angolo superiore della scapola: solleva la scapola. Il «nodo» fra collo e spalla, quello che fa male girando la testa, è spesso lui.",
+      "id": "elevatore-della-scapola"
+     },
+     {
+      "t": "Romboidi",
+      "d": "Fra la colonna dorsale e il margine interno della scapola: la avvicinano alla colonna. Fanno male in chi sta curvo, perché restano allungati e tesi tutto il giorno.",
+      "alt": "romboide",
+      "id": "romboidi"
+     },
+     {
+      "t": "Dentato anteriore",
+      "d": "Sulle coste, di lato al torace, fino al margine interno della scapola: la tiene aderente alle coste e la fa ruotare quando alzi il braccio. Se è debole la scapola sporge come un'ala.",
+      "alt": "serrato gran dentato",
+      "id": "dentato-anteriore"
+     },
+     {
+      "t": "Deltoide",
+      "d": "Il muscolo che dà la forma rotonda alla spalla: tre parti, davanti, di lato, dietro. Alza il braccio in tutte le direzioni, ma solo se la cuffia tiene la testa dell'omero centrata.",
+      "id": "deltoide"
+     },
+     {
+      "t": "Cuffia dei rotatori",
+      "d": "Quattro muscoli piccoli che partono dalla scapola e si attaccano alla testa dell'omero, avvolgendola come una cuffia: sovraspinato, infraspinato, piccolo rotondo, sottoscapolare. Tengono la testa dell'omero centrata nella sua piccola cavità mentre il deltoide tira. Sono loro a soffrire nella maggior parte dei dolori di spalla.",
+      "alt": "sovraspinato sovraspinoso infraspinato sottospinato piccolo rotondo sottoscapolare",
+      "id": "cuffia-dei-rotatori"
+     },
+     {
+      "t": "Sovraspinato",
+      "d": "Il muscolo della cuffia che sta nella fossa sopra la spina della scapola e passa sotto l'acromion: avvia il sollevamento del braccio di lato. Il suo tendine è il più spesso coinvolto nelle tendinopatie della spalla.",
+      "alt": "sovraspinoso",
+      "id": "sovraspinato"
+     },
+     {
+      "t": "Infraspinato e piccolo rotondo",
+      "d": "Dietro la scapola, sotto la spina: ruotano il braccio verso l'esterno. Sono quasi sempre deboli rispetto ai rotatori interni, e la spalla finisce ruotata in dentro.",
+      "alt": "sottospinato",
+      "id": "infraspinato-e-piccolo-rotondo"
+     },
+     {
+      "t": "Sottoscapolare",
+      "d": "Sulla faccia anteriore della scapola, fra scapola e coste: ruota il braccio verso l'interno. Non si tocca da dietro, un po' dall'ascella.",
+      "id": "sottoscapolare"
+     },
+     {
+      "t": "Grande rotondo",
+      "d": "Dall'angolo inferiore della scapola all'omero: porta il braccio in dietro e in dentro. Lavora con il gran dorsale.",
+      "id": "grande-rotondo"
+     },
+     {
+      "t": "Gran pettorale",
+      "d": "Il grande muscolo del petto, dallo sterno e dalla clavicola all'omero: porta il braccio avanti e verso l'interno. Se è accorciato chiude le spalle in avanti.",
+      "id": "gran-pettorale"
+     },
+     {
+      "t": "Piccolo pettorale",
+      "d": "Sotto il gran pettorale, dalle coste alla scapola: tira la scapola in avanti e in basso. È accorciato in quasi tutte le spalle «chiuse», e sotto di lui passano i nervi e i vasi del braccio.",
+      "id": "piccolo-pettorale"
+     }
+    ]
+   },
+   {
+    "r": "Braccio",
+    "terms": [
+     {
+      "t": "Bicipite brachiale",
+      "d": "Davanti al braccio, due capi dalla scapola al radio: piega il gomito e gira il palmo verso l'alto. Il suo tendine lungo passa dentro la spalla ed è una causa frequente di dolore davanti a essa.",
+      "alt": "bicipite",
+      "id": "bicipite-brachiale"
+     },
+     {
+      "t": "Brachiale",
+      "d": "Sotto il bicipite, dall'omero all'ulna: il vero flessore del gomito, lavora in qualunque posizione della mano.",
+      "id": "brachiale"
+     },
+     {
+      "t": "Coracobrachiale",
+      "d": "Un muscolo sottile dalla scapola all'omero, dentro l'ascella: aiuta a portare il braccio avanti.",
+      "id": "coracobrachiale"
+     },
+     {
+      "t": "Tricipite brachiale",
+      "d": "Dietro il braccio, tre capi: distende il gomito. Il capo lungo parte dalla scapola e partecipa anche ai movimenti della spalla.",
+      "alt": "tricipite",
+      "id": "tricipite-brachiale"
+     }
+    ]
+   },
+   {
+    "r": "Avambraccio e mano",
+    "terms": [
+     {
+      "t": "Brachioradiale",
+      "d": "Il muscolo che gonfia il lato del pollice dell'avambraccio quando pieghi il gomito con il pollice in su, come per stringere la mano.",
+      "id": "brachioradiale"
+     },
+     {
+      "t": "Flessori del polso e delle dita",
+      "d": "Sulla faccia interna dell'avambraccio, nascono dall'epicondilo interno del gomito: chiudono la mano e piegano il polso. Il loro sovraccarico dà il «gomito del golfista».",
+      "alt": "epitrocleite",
+      "id": "flessori-del-polso-e-delle-dita"
+     },
+     {
+      "t": "Estensori del polso e delle dita",
+      "d": "Sulla faccia esterna dell'avambraccio, dall'epicondilo esterno: aprono la mano e sollevano il polso. Lavorano ogni volta che afferri con forza, e il loro sovraccarico è il «gomito del tennista».",
+      "alt": "epicondilite",
+      "id": "estensori-del-polso-e-delle-dita"
+     },
+     {
+      "t": "Pronatore rotondo e supinatore",
+      "d": "I muscoli che girano il palmo verso il basso (pronatore) e verso l'alto (supinatore). Fra le fibre del pronatore e del supinatore passano nervi che possono restare compressi.",
+      "id": "pronatore-rotondo-e-supinatore"
+     },
+     {
+      "t": "Muscoli intrinseci della mano",
+      "d": "I piccoli muscoli che stanno tutti dentro la mano: l'eminenza tenar, alla base del pollice; l'ipotenar, alla base del mignolo; interossei e lombricali fra le ossa del palmo. Fanno i movimenti fini.",
+      "alt": "tenar ipotenar interossei lombricali",
+      "id": "muscoli-intrinseci-della-mano"
+     }
+    ]
+   },
+   {
+    "r": "Torace e respiro",
+    "terms": [
+     {
+      "t": "Diaframma",
+      "d": "La cupola di muscolo che separa il torace dall'addome: il muscolo principale del respiro. Contraendosi scende, apre le coste basse e spinge in avanti la pancia. È anche un muscolo posturale: si attacca alle vertebre lombari.",
+      "id": "diaframma"
+     },
+     {
+      "t": "Intercostali",
+      "d": "I muscoli fra una costa e l'altra, in due strati: gli esterni alzano le coste inspirando, gli interni le abbassano espirando. Fanno male quando tossisci a lungo.",
+      "alt": "intercostale",
+      "id": "intercostali"
+     },
+     {
+      "t": "Muscoli accessori del respiro",
+      "d": "Scaleni, sternocleidomastoideo, piccolo pettorale: muscoli del collo e della spalla che aiutano a respirare sotto sforzo. Se lavorano a ogni respiro, a riposo, il collo non si rilassa mai.",
+      "id": "muscoli-accessori-del-respiro"
+     }
+    ]
+   },
+   {
+    "r": "Schiena",
+    "terms": [
+     {
+      "t": "Erettori della colonna",
+      "d": "I lunghi muscoli ai lati della colonna, dal sacro alla nuca: la tengono dritta e la estendono. Sono i cordoni che senti ai lati delle vertebre, spesso più duri da un lato.",
+      "alt": "erettore spinale paravertebrali sacrospinale",
+      "id": "erettori-della-colonna"
+     },
+     {
+      "t": "Multifido",
+      "d": "Muscoli piccoli e profondi, attaccati da una vertebra alla seconda o terza sopra: controllano i movimenti fini di ogni segmento. Dopo un mal di schiena si spengono e si atrofizzano in fretta, e non si riaccendono da soli: vanno riallenati.",
+      "alt": "multifidi",
+      "id": "multifido"
+     },
+     {
+      "t": "Quadrato dei lombi",
+      "d": "Dal bacino alle ultime coste e alle vertebre lombari, di lato: inclina il tronco e solleva il bacino. È uno dei muscoli più coinvolti nel mal di schiena di lato, basso, che tira verso il fianco.",
+      "id": "quadrato-dei-lombi"
+     },
+     {
+      "t": "Gran dorsale",
+      "d": "Il grande muscolo piatto della schiena bassa e dei fianchi, fino all'omero: tira il braccio in basso e indietro, come nelle trazioni. Collega la spalla al bacino.",
+      "id": "gran-dorsale"
+     },
+     {
+      "t": "Rotatori e intertrasversari",
+      "d": "I muscoli più piccoli e profondi della colonna, fra vertebre vicine: più sensori che motori, dicono al sistema nervoso dove sta ogni vertebra.",
+      "id": "rotatori-e-intertrasversari"
+     }
+    ]
+   },
+   {
+    "r": "Addome e pavimento pelvico",
+    "terms": [
+     {
+      "t": "Retto dell'addome",
+      "d": "La «tartaruga»: dallo sterno al pube, davanti. Flette il tronco e lo sostiene. Diviso da linee tendinee che danno i riquadri.",
+      "id": "retto-dell-addome"
+     },
+     {
+      "t": "Obliqui",
+      "d": "Due strati ai lati dell'addome, esterno e interno, con fibre in diagonale: ruotano e inclinano il tronco, e lo tengono mentre spingi o sollevi.",
+      "alt": "obliquo",
+      "id": "obliqui"
+     },
+     {
+      "t": "Trasverso dell'addome",
+      "d": "Lo strato più profondo, con fibre orizzontali come una cintura: non muove, stringe. Si attiva un attimo prima di ogni movimento degli arti per stabilizzare la colonna. È il muscolo del «core» vero.",
+      "id": "trasverso-dell-addome"
+     },
+     {
+      "t": "Pavimento pelvico",
+      "d": "L'amaca di muscoli che chiude il bacino in basso, dal pube al coccige: regge gli organi, controlla la continenza e lavora insieme al diaframma e al trasverso. Riguarda tutti, non solo le donne dopo il parto.",
+      "alt": "perineo",
+      "id": "pavimento-pelvico"
+     },
+     {
+      "t": "Ileopsoas",
+      "d": "Lo psoas, dalle vertebre lombari, e l'iliaco, dall'interno del bacino, che si uniscono e si attaccano al femore: il flessore principale dell'anca, quello che alza la gamba. Si accorcia con le ore seduti e tira la colonna lombare in avanti.",
+      "alt": "psoas iliaco",
+      "id": "ileopsoas"
+     }
+    ]
+   },
+   {
+    "r": "Anca e bacino",
+    "terms": [
+     {
+      "t": "Grande gluteo",
+      "d": "Il muscolo più grande del corpo: estende l'anca con forza, come salire le scale, alzarsi da seduto, correre. In chi sta seduto a lungo è spesso «addormentato», e la schiena fa il suo lavoro.",
+      "id": "grande-gluteo"
+     },
+     {
+      "t": "Medio gluteo",
+      "d": "Di lato al bacino, sopra il trocantere: porta la gamba di lato e, soprattutto, tiene il bacino orizzontale quando stai su una gamba sola, cioè a ogni passo. Se cede, il ginocchio va in dentro e la schiena si inclina.",
+      "id": "medio-gluteo"
+     },
+     {
+      "t": "Piccolo gluteo",
+      "d": "Sotto il medio, stessa funzione: stabilizza il bacino sulla gamba d'appoggio.",
+      "id": "piccolo-gluteo"
+     },
+     {
+      "t": "Piriforme",
+      "d": "Un muscolo piccolo e profondo dal sacro al trocantere: ruota l'anca verso l'esterno. Sotto o attraverso di lui passa il nervo sciatico: quando è contratto può dare un dolore al gluteo che scende nella coscia, simile a una sciatica.",
+      "id": "piriforme"
+     },
+     {
+      "t": "Tensore della fascia lata",
+      "d": "Un piccolo muscolo davanti al fianco che si continua nella bandelletta ileotibiale, la striscia di fascia lungo l'esterno della coscia fino al ginocchio. Se lavora troppo, il dolore compare all'esterno del ginocchio.",
+      "alt": "TFL bandelletta ileotibiale",
+      "id": "tensore-della-fascia-lata"
+     },
+     {
+      "t": "Adduttori",
+      "d": "I muscoli dell'interno coscia, dal pube al femore: chiudono le gambe e stabilizzano il bacino. Lo «stiramento all'inguine» è quasi sempre loro.",
+      "alt": "adduttore pettineo gracile",
+      "id": "adduttori"
+     },
+     {
+      "t": "Rotatori esterni profondi",
+      "d": "Sei muscoli piccoli dietro l'anca, piriforme compreso: ruotano il femore in fuori e lo tengono centrato nella sua cavità, come la cuffia fa per la spalla.",
+      "alt": "otturatore gemelli quadrato del femore",
+      "id": "rotatori-esterni-profondi"
+     }
+    ]
+   },
+   {
+    "r": "Coscia",
+    "terms": [
+     {
+      "t": "Quadricipite",
+      "d": "Davanti alla coscia, quattro capi: retto femorale (che nasce dal bacino e flette anche l'anca), vasto laterale, vasto mediale, vasto intermedio. Si uniscono nel tendine che avvolge la rotula e arriva alla tibia: distende il ginocchio e frena ogni discesa.",
+      "alt": "quadricipite femorale retto femorale vasto mediale vasto laterale vasto intermedio",
+      "id": "quadricipite"
+     },
+     {
+      "t": "Vasto mediale",
+      "d": "La parte interna del quadricipite, la «goccia» sopra l'interno del ginocchio: guida la rotula nel suo binario. È il primo a spegnersi dopo un dolore al ginocchio e il primo da riaccendere.",
+      "id": "vasto-mediale"
+     },
+     {
+      "t": "Ischiocrurali",
+      "d": "I muscoli dietro la coscia, dall'osso su cui ti siedi (ischio) fino sotto il ginocchio: bicipite femorale, semitendinoso, semimembranoso. Piegano il ginocchio ed estendono l'anca. Si accorciano stando seduti, e si strappano negli scatti. Spesso detti «femorali».",
+      "alt": "femorali hamstring bicipite femorale semitendinoso semimembranoso",
+      "id": "ischiocrurali"
+     },
+     {
+      "t": "Sartorio",
+      "d": "Il muscolo più lungo del corpo, a nastro, dalla spina iliaca anteriore all'interno del ginocchio: fa il movimento di accavallare le gambe.",
+      "id": "sartorio"
+     },
+     {
+      "t": "Gracile",
+      "d": "Un muscolo sottile sull'interno della coscia, dal pube all'interno del ginocchio: adduce e aiuta a piegare il ginocchio.",
+      "id": "gracile"
+     }
+    ]
+   },
+   {
+    "r": "Gamba",
+    "terms": [
+     {
+      "t": "Gastrocnemio",
+      "d": "Il muscolo superficiale del polpaccio, a due capi dai condili del femore: con il soleo forma il tendine d'Achille. Spinge nel passo e nel salto, e, attraversando il ginocchio, lavora meglio a gamba tesa.",
+      "alt": "gemelli",
+      "id": "gastrocnemio"
+     },
+     {
+      "t": "Soleo",
+      "d": "Il muscolo profondo e piatto del polpaccio, sotto il gastrocnemio, dalla tibia e dal perone: lavora a ginocchio piegato e regge la stazione eretta per ore. È il grande muscolo della resistenza.",
+      "id": "soleo"
+     },
+     {
+      "t": "Tibiale anteriore",
+      "d": "Davanti allo stinco, di lato alla tibia: solleva il piede e lo ruota in dentro. Frena il piede che «sbatte» a ogni passo; se si stanca fa male davanti alla gamba.",
+      "id": "tibiale-anteriore"
+     },
+     {
+      "t": "Tibiale posteriore",
+      "d": "Profondo, dietro la tibia, con il tendine che passa dietro il malleolo interno fino sotto l'arco del piede: regge l'arco. Se cede, il piede si appiattisce e ruota in dentro.",
+      "id": "tibiale-posteriore"
+     },
+     {
+      "t": "Peronei",
+      "d": "Sull'esterno della gamba, con i tendini dietro il malleolo esterno: ruotano il piede in fuori e lo stabilizzano. Sono i primi a soffrire e a indebolirsi nelle distorsioni in inversione.",
+      "alt": "peroneo peroniero fibulari",
+      "id": "peronei"
+     },
+     {
+      "t": "Estensori delle dita e dell'alluce",
+      "d": "Davanti alla gamba, con i tendini che vedi scorrere sul dorso del piede: sollevano le dita.",
+      "alt": "estensore lungo",
+      "id": "estensori-delle-dita-e-dell-alluce"
+     },
+     {
+      "t": "Flessori delle dita e dell'alluce",
+      "d": "Profondi dietro la gamba, con i tendini sotto il malleolo interno fino alle dita: le piegano e spingono nel passo finale.",
+      "alt": "flessore lungo",
+      "id": "flessori-delle-dita-e-dell-alluce"
+     }
+    ]
+   },
+   {
+    "r": "Piede",
+    "terms": [
+     {
+      "t": "Muscoli intrinseci del piede",
+      "d": "I piccoli muscoli che stanno tutti dentro il piede, in quattro strati sotto la pianta: flessore breve delle dita, abduttore dell'alluce, abduttore del quinto dito, lombricali, interossei. Reggono l'arco in modo attivo e fanno il «piede che afferra il pavimento». Nelle scarpe lavorano poco e si indeboliscono.",
+      "alt": "flessore breve abduttore dell'alluce lombricali interossei",
+      "id": "muscoli-intrinseci-del-piede"
+     },
+     {
+      "t": "Fascia plantare",
+      "d": "Non un muscolo ma una lamina robusta di tessuto fibroso dal tallone alle dita, sotto la pianta: regge l'arco come la corda di un arco. Quando è sovraccaricata fa male al tallone, al primo passo del mattino (fascite plantare).",
+      "alt": "fascite plantare aponeurosi plantare",
+      "id": "fascia-plantare"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "cat": "Tendini e fascia: ciò che collega",
+  "ico": "🪢",
+  "intro": "Il tendine lega il muscolo all'osso, il legamento lega osso a osso, la fascia avvolge tutto. Tre tessuti fibrosi con compiti diversi e tempi di guarigione lunghi.",
+  "terms": [
+   {
+    "t": "Tendine",
+    "d": "Il cordone di fibre di collagene con cui il muscolo si attacca all'osso. Trasmette la forza, non la produce. Ha pochi vasi, per questo guarisce lentamente: mesi, non settimane.",
+    "id": "tendine"
+   },
+   {
+    "t": "Entesi",
+    "d": "Il punto preciso in cui il tendine (o il legamento) entra nell'osso. È una zona di transizione, spesso sede del dolore: al tallone, al gomito, sotto la rotula.",
+    "alt": "inserzione tendinea",
+    "id": "entesi"
+   },
+   {
+    "t": "Guaina tendinea",
+    "d": "Il tubo scorrevole dentro cui passano i tendini che devono curvare, come quelli delle dita e della caviglia. Se si infiamma, il tendine scorre male e scatta (tenosinovite, dito a scatto).",
+    "alt": "tenosinovite",
+    "id": "guaina-tendinea"
+   },
+   {
+    "t": "Retinacolo",
+    "d": "Una fascia a nastro che tiene i tendini aderenti all'osso in un passaggio stretto: al polso, alla caviglia, al ginocchio per la rotula.",
+    "id": "retinacolo"
+   },
+   {
+    "t": "Aponeurosi",
+    "d": "Un tendine piatto, a lamina. Quella plantare regge l'arco del piede; quella lombare collega gran dorsale, glutei e addominali in un unico sistema di tensione.",
+    "id": "aponeurosi-2"
+   },
+   {
+    "t": "Fascia",
+    "d": "Il tessuto connettivo che avvolge ogni muscolo, ogni fascio, ogni organo, e li collega in un sistema continuo da capo a piedi. Superficiale sotto la pelle, profonda attorno ai muscoli. Ha sensori e nervi: sente, e trasmette tensione a distanza.",
+    "id": "fascia"
+   },
+   {
+    "t": "Aderenza",
+    "d": "Un punto in cui gli strati di fascia o i tessuti si sono incollati fra loro invece di scorrere: dopo un trauma, un intervento, un'immobilità. Si sente come una zona dove la pelle non si solleva e il movimento tira.",
+    "id": "aderenza"
+   },
+   {
+    "t": "Catena miofasciale",
+    "d": "Una sequenza di muscoli e fasce collegati in linea, che si passano la tensione: la catena posteriore dalla pianta del piede alla nuca, quella laterale dal malleolo esterno al collo. Per questo una pallina sotto il piede cambia la flessione del tronco.",
+    "alt": "catena cinetica",
+    "id": "catena-miofasciale"
+   },
+   {
+    "t": "Bandelletta ileotibiale",
+    "d": "La striscia di fascia robusta lungo l'esterno della coscia, dal bacino alla tibia: trasmette la tensione di glutei e tensore della fascia lata. Il suo attrito sull'esterno del ginocchio è un dolore tipico di chi corre.",
+    "id": "bandelletta-ileotibiale"
+   },
+   {
+    "t": "Tendine d'Achille",
+    "d": "Il tendine più grosso e robusto del corpo, dal polpaccio al calcagno. Regge fino a dieci volte il peso corporeo nella corsa. Si irrita con un carico che aumenta troppo in fretta, e si rompe, raramente, con uno scatto improvviso.",
+    "id": "tendine-d-achille"
+   },
+   {
+    "t": "Tendine rotuleo",
+    "d": "Il tendine del quadricipite sotto la rotula, fino alla tuberosità tibiale. Il «ginocchio del saltatore» è il suo sovraccarico.",
+    "alt": "legamento rotuleo",
+    "id": "tendine-rotuleo"
+   },
+   {
+    "t": "Tendinopatia",
+    "d": "Il termine corretto per un tendine che fa male e lavora male. Comprende tendinite e tendinosi, perché in pratica le due cose convivono. La cura è il carico giusto e progressivo, non il riposo assoluto.",
+    "id": "tendinopatia"
+   },
+   {
+    "t": "Tendinite",
+    "d": "L'infiammazione acuta di un tendine, nei primi giorni di un sovraccarico. In realtà i tendini dolorosi da tempo non sono quasi mai infiammati: per questo si preferisce dire tendinopatia.",
+    "id": "tendinite"
+   },
+   {
+    "t": "Tendinosi",
+    "d": "La degenerazione del tendine: fibre disordinate, tessuto più spesso e meno resistente, per un carico sbagliato ripetuto a lungo. Non è infiammazione, e gli antinfiammatori non la curano. Si rimodella con l'esercizio, in mesi.",
+    "id": "tendinosi"
+   },
+   {
+    "t": "Rottura",
+    "d": "La lesione completa o parziale di un tendine o di un legamento. Un tendine rotto non si ricontrae: si sente uno schiocco, poi un cedimento. Materia da pronto soccorso.",
+    "id": "rottura"
+   },
+   {
+    "t": "Legamento",
+    "d": "Un nastro fibroso che unisce osso a osso. Diversamente dal tendine non è collegato a un muscolo: tiene da solo. Si lesiona nelle distorsioni, in tre gradi: stirato, parzialmente rotto, rotto.",
+    "id": "legamento-2"
+   },
+   {
+    "t": "Meccanotrasduzione",
+    "d": "Il meccanismo per cui le cellule di tendini, muscoli e ossa sentono il carico e modificano il tessuto di conseguenza. Carico assente: si indeboliscono. Eccessivo: si irritano. Giusto: si rinforzano. È la base di ogni esercizio che ti do.",
+    "id": "meccanotrasduzione"
+   }
+  ]
+ },
+ {
+  "cat": "Nervi e dolore: chi sente, e cosa",
+  "ico": "⚡",
+  "intro": "Il dolore lo produce il sistema nervoso, non il tessuto. Le parole che seguono servono a distinguere un dolore locale da uno che viene da lontano, e un nervo irritato da un muscolo teso.",
+  "terms": [
+   {
+    "t": "Nervo periferico",
+    "d": "Il cavo che porta i comandi dal midollo ai muscoli e le sensazioni dalla pelle al midollo. Lo sciatico, il mediano, l'ulnare. Può irritarsi dove passa stretto.",
+    "id": "nervo-periferico"
+   },
+   {
+    "t": "Radice nervosa",
+    "d": "Il tratto di nervo che esce dal midollo fra due vertebre, attraverso il forame. Se un disco o l'artrosi la comprimono, il dolore e i formicolii seguono il suo territorio: giù per la gamba, giù per il braccio.",
+    "id": "radice-nervosa"
+   },
+   {
+    "t": "Plesso",
+    "d": "Un intreccio di radici nervose che si ricombinano in nervi: il plesso brachiale fra collo e ascella, per il braccio; il lombosacrale nel bacino, per la gamba.",
+    "id": "plesso"
+   },
+   {
+    "t": "Dermatomero",
+    "d": "La striscia di pelle sentita da una singola radice nervosa. Un formicolio nel pollice parla di una radice cervicale, uno nel mignolo di un'altra. Sono mappe, e aiutano a capire da dove viene un sintomo.",
+    "id": "dermatomero"
+   },
+   {
+    "t": "Miotomero",
+    "d": "L'insieme dei muscoli comandati da una radice. Un muscolo debole senza dolore può raccontare una radice che soffre.",
+    "id": "miotomero"
+   },
+   {
+    "t": "Parestesia",
+    "d": "Formicolio, intorpidimento, «spilli», pelle addormentata. Dice che un nervo è irritato o compresso da qualche parte lungo il suo percorso, non necessariamente dove lo senti.",
+    "alt": "formicolio intorpidimento",
+    "id": "parestesia"
+   },
+   {
+    "t": "Irradiazione",
+    "d": "Il dolore che parte da un punto e scende lungo un arto, seguendo un nervo. Tipicamente netto, a striscia, con formicolii: dolore radicolare.",
+    "alt": "dolore radicolare",
+    "id": "irradiazione"
+   },
+   {
+    "t": "Dolore riferito",
+    "d": "Il dolore sentito lontano da dove nasce, ma senza seguire un nervo: più vago, profondo, difficile da indicare con un dito. Un'anca che fa male al ginocchio, un trigger point del gluteo che fa male alla coscia, un disco che fa male alla natica.",
+    "id": "dolore-riferito"
+   },
+   {
+    "t": "Sciatalgia",
+    "d": "Dolore lungo il territorio del nervo sciatico: natica, dietro la coscia, polpaccio, piede. Nella maggior parte dei casi viene da una radice lombare irritata; a volte dal piriforme. «Sciatica» è un sintomo, non una diagnosi.",
+    "alt": "sciatica",
+    "id": "sciatalgia"
+   },
+   {
+    "t": "Radicolopatia",
+    "d": "La sofferenza di una radice nervosa, con dolore irradiato, formicolii, a volte perdita di forza o di riflessi. L'ernia è la causa più comune, non l'unica.",
+    "id": "radicolopatia"
+   },
+   {
+    "t": "Nocicezione",
+    "d": "Il segnale di pericolo che i sensori dei tessuti mandano al sistema nervoso. Non è ancora dolore: il dolore è quello che il cervello decide di farne.",
+    "id": "nocicezione"
+   },
+   {
+    "t": "Dolore",
+    "d": "Un'esperienza che il sistema nervoso produce quando valuta che serva protezione. Non misura il danno: un dolore forte può nascere da poco e un problema serio può crescere in silenzio. Dipende da tessuti, contesto, attese, paura, sonno.",
+    "id": "dolore"
+   },
+   {
+    "t": "Sensibilizzazione",
+    "d": "Il sistema nervoso che, dopo un dolore prolungato, abbassa la soglia: fa male anche quello che non dovrebbe, e più forte di quanto dovrebbe. È un cambiamento reale, non immaginazione, e si può ridurre.",
+    "id": "sensibilizzazione"
+   },
+   {
+    "t": "Dolore acuto",
+    "d": "Recente, legato a un evento, con un andamento prevedibile: in settimane migliora. È un allarme utile.",
+    "id": "dolore-acuto"
+   },
+   {
+    "t": "Dolore persistente",
+    "d": "Che dura oltre il tempo di guarigione dei tessuti, in genere più di tre mesi. L'allarme è rimasto acceso: a questo punto si cura il sistema, non solo il tessuto. Sinonimo: cronico, parola che preferisco evitare perché suona come «per sempre».",
+    "alt": "cronico",
+    "id": "dolore-persistente"
+   },
+   {
+    "t": "Propriocezione",
+    "d": "Il senso della posizione: sapere dove sono le tue articolazioni senza guardarle. Lo danno i sensori di muscoli, tendini, capsule e pelle. Si perde dopo una distorsione e si riallena, in piedi su una gamba sola.",
+    "id": "propriocezione"
+   },
+   {
+    "t": "Riflesso",
+    "d": "Una risposta automatica del midollo, senza passare dal cervello: la gamba che scatta con il martelletto, la mano che si ritrae dal fuoco. Serve anche a proteggere: la contrattura è un riflesso che non si è spento.",
+    "id": "riflesso"
+   },
+   {
+    "t": "Sistema nervoso autonomo",
+    "d": "La parte del sistema nervoso che non comandi: battito, respiro, digestione, tono dei vasi. Ha un ramo di allerta (simpatico) e uno di recupero (parasimpatico). Lo stress lo tiene in allerta, e i muscoli lo sentono.",
+    "alt": "simpatico parasimpatico vago",
+    "id": "sistema-nervoso-autonomo"
+   }
+  ]
+ },
+ {
+  "cat": "Lesioni e guarigione: cosa succede ai tessuti",
+  "ico": "🩹",
+  "intro": "Le parole con cui si descrivono un danno e la sua riparazione. Un tessuto si ripara da solo, con tempi suoi; sapere quali sono aiuta a non avere fretta e a non avere paura.",
+  "terms": [
+   {
+    "t": "Infiammazione",
+    "d": "La prima fase della riparazione: gonfiore, calore, rossore, dolore. Non è il nemico, è il cantiere che si apre. Dura giorni. Diventa un problema solo se non si spegne.",
+    "id": "infiammazione"
+   },
+   {
+    "t": "Edema",
+    "d": "Liquido accumulato nei tessuti: il gonfiore. Nella caviglia dopo una distorsione, nel ginocchio dopo uno sforzo. Il movimento dolce lo drena meglio del riposo assoluto.",
+    "id": "edema"
+   },
+   {
+    "t": "Ematoma",
+    "d": "Sangue uscito dai vasi e raccolto nei tessuti: il livido. Si riassorbe in una o due settimane cambiando colore.",
+    "id": "ematoma"
+   },
+   {
+    "t": "Contusione",
+    "d": "Il danno da un colpo diretto: botta, livido, dolore locale. Il tessuto sotto è schiacciato, non strappato.",
+    "id": "contusione"
+   },
+   {
+    "t": "Distorsione",
+    "d": "L'articolazione forzata oltre i suoi limiti, con i legamenti stirati o rotti: la caviglia che «va in dentro». Tre gradi, dal semplice stiramento alla rottura completa.",
+    "id": "distorsione"
+   },
+   {
+    "t": "Stiramento",
+    "d": "Il muscolo allungato oltre il suo limite, con fibre irritate ma non rotte. Dolore che compare durante lo sforzo e dura qualche giorno. Sinonimo: elongazione.",
+    "alt": "elongazione",
+    "id": "stiramento"
+   },
+   {
+    "t": "Strappo",
+    "d": "La rottura di fibre muscolari, parziale o completa: un dolore improvviso, a volte uno schiocco, un buco palpabile nei casi gravi. Guarisce in settimane, con cicatrice.",
+    "alt": "lesione muscolare",
+    "id": "strappo"
+   },
+   {
+    "t": "Lussazione",
+    "d": "L'articolazione che esce dalla sua sede e resta fuori: la spalla, le dita. Si rimette a posto in pronto soccorso, non si tenta da soli.",
+    "id": "lussazione"
+   },
+   {
+    "t": "Sublussazione",
+    "d": "L'articolazione che esce parzialmente e rientra da sola. Lascia lassità e paura del movimento.",
+    "id": "sublussazione"
+   },
+   {
+    "t": "Frattura",
+    "d": "La rottura di un osso. Da trauma, o da stress (micro-fratture per carico ripetuto, tipiche del piede nei corridori). Guarisce in sei-dodici settimane formando osso nuovo.",
+    "id": "frattura"
+   },
+   {
+    "t": "Ernia del disco",
+    "d": "Il nucleo del disco che esce attraverso una rottura dell'anello fibroso. Può comprimere una radice e dare dolore alla gamba o al braccio. Ma molte ernie non danno sintomi e molte si riassorbono da sole in mesi.",
+    "id": "ernia-del-disco"
+   },
+   {
+    "t": "Protrusione discale",
+    "d": "Il disco che si rigonfia verso l'esterno senza che l'anello si rompa. Comune alle immagini dopo i trent'anni, spesso senza alcun dolore. Un reperto, non per forza una diagnosi.",
+    "alt": "bulging",
+    "id": "protrusione-discale"
+   },
+   {
+    "t": "Degenerazione",
+    "d": "Il cambiamento di un tessuto con gli anni e i carichi: il disco che si disidrata, il tendine che si disorganizza, la cartilagine che si assottiglia. Si legge nei referti come se fosse una malattia: nella maggior parte dei casi è il tempo che passa.",
+    "id": "degenerazione"
+   },
+   {
+    "t": "Cicatrice",
+    "d": "Il tessuto fibroso con cui il corpo ripara ciò che si è rotto. Meno elastico dell'originale, può aderire agli strati vicini e tirare a distanza. Si lavora perché resti morbida e scorrevole.",
+    "id": "cicatrice"
+   },
+   {
+    "t": "Fibrosi",
+    "d": "L'eccesso di tessuto fibroso in un muscolo, un tendine o una capsula: più duro e meno mobile. Il risultato di un'infiammazione lunga o di un'immobilità.",
+    "id": "fibrosi"
+   },
+   {
+    "t": "Collagene",
+    "d": "La proteina che forma le fibre di tendini, legamenti, fascia, pelle, osso. Si rinnova lentamente e si organizza nella direzione del carico: per questo l'esercizio modella la riparazione.",
+    "id": "collagene"
+   },
+   {
+    "t": "Rimodellamento",
+    "d": "L'ultima fase della guarigione: il tessuto nuovo si riorganizza secondo i carichi che riceve. Dura mesi. È la fase in cui l'esercizio decide come sarà il tessuto finale.",
+    "id": "rimodellamento"
+   },
+   {
+    "t": "Fasi della guarigione",
+    "d": "Infiammazione (giorni), proliferazione o ricostruzione (settimane), rimodellamento (mesi). Nessuna mano al mondo le accorcia: si possono solo guidare bene o male.",
+    "id": "fasi-della-guarigione"
+   },
+   {
+    "t": "Recidiva",
+    "d": "Il ritorno di un problema che sembrava passato. «È passato» e «è risolto» non sono la stessa cosa: se il motivo resta, il sintomo torna.",
+    "id": "recidiva"
+   }
+  ]
+ },
+ {
+  "cat": "Postura e valutazione: le parole dello studio",
+  "ico": "🧍",
+  "intro": "I termini che senti durante una valutazione, nei referti e nelle schede di Che Postura. Qui dico cosa intendo quando li uso.",
+  "terms": [
+   {
+    "t": "Postura",
+    "d": "Il modo in cui il corpo si tiene in piedi, seduto, in movimento. Non è una posizione giusta da mantenere: è una strategia che cambia di continuo, e il problema non è «la postura sbagliata» ma quella che non cambia mai.",
+    "id": "postura"
+   },
+   {
+    "t": "Baricentro",
+    "d": "Il punto in cui si concentra il peso del corpo, poco davanti al sacro. Ogni volta che un segmento si sposta, gli altri si riorganizzano per riportare il baricentro sui piedi.",
+    "id": "baricentro"
+   },
+   {
+    "t": "Asimmetria",
+    "d": "La differenza fra lato destro e sinistro: una spalla più bassa, un'anca più alta, un piede più ruotato. Tutti ne abbiamo. Diventa interessante quando è grande, recente o legata a un sintomo.",
+    "id": "asimmetria"
+   },
+   {
+    "t": "Lordosi",
+    "d": "La curva della colonna con la concavità dietro: al collo e alla schiena bassa. È normale e necessaria; «iperlordosi» vuol dire accentuata, «rettilineizzata» vuol dire ridotta.",
+    "alt": "iperlordosi rettilineizzazione",
+    "id": "lordosi"
+   },
+   {
+    "t": "Cifosi",
+    "d": "La curva con la convessità dietro: al dorso. Normale; «ipercifosi» è la schiena curva, quella che chiude le spalle in avanti.",
+    "alt": "ipercifosi",
+    "id": "cifosi"
+   },
+   {
+    "t": "Scoliosi",
+    "d": "Una curva della colonna sul piano frontale, di lato, con rotazione delle vertebre. Vera quando è strutturata nell'osso; «atteggiamento scoliotico» quando è solo una posizione e scompare piegandosi in avanti.",
+    "alt": "atteggiamento scoliotico",
+    "id": "scoliosi"
+   },
+   {
+    "t": "Valgo",
+    "d": "Un segmento che devia verso l'esterno rispetto a quello sopra: ginocchia «a X» (valghe), alluce valgo che devia verso le altre dita.",
+    "id": "valgo"
+   },
+   {
+    "t": "Varo",
+    "d": "Un segmento che devia verso l'interno: ginocchia «a parentesi» (vare), tallone varo.",
+    "id": "varo"
+   },
+   {
+    "t": "Piede piatto e cavo",
+    "d": "L'arco che appoggia a terra (piatto) o che è molto alto e rigido (cavo). Conta meno la forma da fermo e più cosa fa il piede quando cammina e se sa alzare l'arco.",
+    "id": "piede-piatto-e-cavo"
+   },
+   {
+    "t": "Dismetria",
+    "d": "Una gamba più corta dell'altra. Vera se le ossa hanno lunghezze diverse, funzionale se dipende dal bacino ruotato o da un'anca contratta. Sotto il centimetro, quasi sempre irrilevante.",
+    "id": "dismetria"
+   },
+   {
+    "t": "Testa in avanti",
+    "d": "La testa che sta davanti alla linea delle spalle, con il mento in avanti: la postura da schermo. Ogni centimetro in avanti aumenta il lavoro dei muscoli del collo.",
+    "alt": "anteposizione del capo",
+    "id": "testa-in-avanti"
+   },
+   {
+    "t": "Mobilità",
+    "d": "Quanto un'articolazione si muove e quanto bene. Si misura in gradi, si confronta con l'altro lato e con la norma.",
+    "id": "mobilita"
+   },
+   {
+    "t": "Flessibilità",
+    "d": "Quanto si allungano i muscoli. Non è la stessa cosa della mobilità: puoi avere muscoli lunghi e articolazioni rigide, o il contrario.",
+    "id": "flessibilita-2"
+   },
+   {
+    "t": "Controllo motorio",
+    "d": "La qualità con cui il sistema nervoso coordina un movimento: la sequenza, i tempi, i muscoli che partono prima. Spesso il problema è questo, non la forza e non la flessibilità.",
+    "id": "controllo-motorio"
+   },
+   {
+    "t": "Palpazione",
+    "d": "Esaminare con le mani: trovare le strutture, sentire tono, temperatura, dolore, scorrimento. È la parte della valutazione che le immagini non sostituiscono.",
+    "id": "palpazione"
+   },
+   {
+    "t": "Test",
+    "d": "Una prova precisa, ripetibile, che mette alla prova una struttura o una funzione: resistere a una spinta, stare su una gamba, toccare il muro con il ginocchio. Serve a capire e, rifatto dopo, a misurare se qualcosa è cambiato.",
+    "id": "test"
+   },
+   {
+    "t": "Ri-test",
+    "d": "Lo stesso test rifatto dopo il trattamento o dopo settimane di esercizi: il prima e il dopo, misurati. È quello che decide se continuiamo, cambiamo, o abbiamo finito.",
+    "alt": "retest",
+    "id": "ri-test"
+   },
+   {
+    "t": "Check-up",
+    "d": "La valutazione periodica, ogni tre-sei mesi, quando non fa male niente: leggere i segnali prima che diventino sintomi. Trovare adesso quello che sta per diventare un problema costa meno che aspettarlo.",
+    "id": "check-up"
+   },
+   {
+    "t": "Catena cinetica",
+    "d": "La sequenza di segmenti che si passano il carico nel movimento, dal piede alla testa. Chiusa quando il piede è a terra (squat, passo), aperta quando è libero (calciare). Per questo guardo i piedi di chi viene per il collo.",
+    "id": "catena-cinetica"
+   },
+   {
+    "t": "Carico",
+    "d": "La forza che un tessuto riceve: peso, ripetizioni, velocità, durata. È lo stimolo con cui il corpo cambia. Troppo poco indebolisce, troppo irrita, la dose giusta rinforza. Il mio lavoro è trovare la dose.",
+    "id": "carico"
+   },
+   {
+    "t": "Progressione",
+    "d": "L'aumento graduale del carico, settimana dopo settimana, perché il tessuto si adatti senza irritarsi. Senza progressione l'esercizio non cambia niente; con troppa fretta fa male.",
+    "id": "progressione"
+   },
+   {
+    "t": "Trattamento manuale",
+    "d": "Il lavoro con le mani su muscoli, fascia e articolazioni: ridurre dolore e protezione quel tanto che serve perché il movimento torni possibile. Non ripara: toglie i freni.",
+    "id": "trattamento-manuale"
+   },
+   {
+    "t": "Riequilibrio",
+    "d": "Il terzo passo del metodo, dopo rilassare e allungare: ridare alle articolazioni e ai muscoli i rapporti giusti, e poi tenerli con il carico e l'esercizio.",
+    "id": "riequilibrio"
+   }
+  ]
+ }
+]

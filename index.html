@@ -696,6 +696,16 @@
     <div id="pratica-label" style="display:none; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin:22px 2px 10px">Anatomia pratica</div>
     <p id="pratica-intro" style="display:none; font-size:13.5px; color:var(--muted); margin:-4px 2px 12px">Qui sopra leggi com'è fatto il corpo. Qui lo tocchi: dieci esplorazioni da fare su di te, con le mani e uno specchio, cinque minuti ciascuna. Prima <b>trovi</b> la struttura, poi la <b>provi</b> in movimento, poi capisci <b>cosa noti</b>.</p>
     <div id="pratica-list"></div>
+
+    <!-- Glossario anatomico: i termini stanno in glossario.json, la vista e' view-glossario -->
+    <div class="card" id="glossario-card" style="border-left:4px solid var(--accent)">
+      <div class="eyebrow">Glossario anatomico</div>
+      <h2>Mediale, distale, trocantere: cosa vogliono dire</h2>
+      <p>Tutte le parole che incontri nell'app, nei referti e in studio, spiegate in poche righe e divise per famiglia: orientamento, movimenti, ossa, articolazioni, muscoli (regione per regione, dalla testa ai piedi), tendini e fascia, nervi e dolore, lesioni, postura.</p>
+      <div style="margin-top:12px">
+        <button class="btn btn-primary" data-goto="glossario">Apri il glossario</button>
+      </div>
+    </div>
     <div class="card">
       <div class="eyebrow">Scegli tu il prossimo</div>
       <h2>Di cosa vuoi che parliamo?</h2>
@@ -714,6 +724,25 @@
       <div style="margin-top:12px">
         <button class="btn btn-primary" data-goto="prenota">Prenota la consulenza</button>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ GLOSSARIO ============ -->
+  <section class="view" id="view-glossario">
+    <div class="card">
+      <button class="text-btn" data-goto="sapere" style="margin-bottom:12px">← Torna a Sapere</button>
+      <div class="eyebrow">Glossario anatomico</div>
+      <h2>Le parole del corpo, spiegate</h2>
+      <p>Quando dico «mediale» o «prossimale», quando un referto scrive «protrusione» o «tendinosi», qui trovi cosa vuol dire. Cerca una parola, oppure apri una famiglia e scorri.</p>
+      <input type="search" id="gl-search" maxlength="60" placeholder="Cerca: mediale, trocantere, contrattura…" autocomplete="off"
+             style="width:100%; margin-top:12px; padding:13px 14px; border:1.5px solid var(--line); border-radius:10px; background:var(--surface-2); color:var(--ink); font:14px var(--font-body); outline:none">
+      <p class="disclaimer" id="gl-count" style="margin:8px 2px 0"></p>
+    </div>
+    <div id="gl-list"></div>
+    <div class="card">
+      <h2>Manca una parola?</h2>
+      <p>Scrivimela nel tab Sapere, nella scheda «Scegli tu il prossimo»: la aggiungo.</p>
+      <div class="share-bar sb-sm" id="gl-sharebar"></div>
     </div>
   </section>
 
@@ -1031,7 +1060,7 @@
   function track(t, d) { if (window.ksTrack) window.ksTrack(t, d); }
 
   /* ---------- Navigation ---------- */
-  var views = ['oggi', 'corpo', 'sapere', 'libri', 'recensioni', 'prenota'];
+  var views = ['oggi', 'corpo', 'sapere', 'libri', 'recensioni', 'prenota', 'glossario'];
   var navBtns = document.querySelectorAll('.nav-btn');
   var calendlyLoaded = false;
   navBtns.forEach(function (btn) {
@@ -1045,7 +1074,8 @@
     views.forEach(function (v) {
       document.getElementById('view-' + v).classList.toggle('active', v === name);
     });
-    navBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.view === name); });
+    var navName = name === 'glossario' ? 'sapere' : name; // il glossario vive dentro Sapere
+    navBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.view === navName); });
     window.scrollTo({ top: 0 });
     if (!seenViews[name]) { seenViews[name] = true; track('view', name); }
     if (name === 'prenota' && !calendlyLoaded) {
@@ -1899,6 +1929,18 @@
       setTimeout(function () { pCard2.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
       window.__vaiCard = pCard2;
       vaiParam = null;
+    } else if (/^glossario(-.+)?$/.test(vaiParam)) {
+      // il glossario arriva da glossario.json: se non e' ancora disegnato si
+      // riprova quando renderGlossario ha finito (richiama vaiAlContenuto)
+      if (!document.querySelector('#gl-list .gl-fam')) return;
+      switchView('glossario');
+      var gTerm = vaiParam.length > 9 ? document.getElementById('gl-' + vaiParam.slice(10)) : null;
+      if (gTerm) {
+        gTerm.closest('.gl-fam').classList.add('open');
+        gTerm.classList.add('flash');
+        setTimeout(function () { gTerm.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350);
+      }
+      vaiParam = null;
     } else if (/^post-/.test(vaiParam)) {
       // i post arrivano da Firestore: se non ci sono ancora si riprova
       // quando loadNews li ha disegnati (chiama window.ksProvaVai)
@@ -2112,6 +2154,112 @@
   fetch('anatomia-pratica.json?t=' + Math.floor(Date.now() / 3600000), { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (d) { pratica = d; renderPratica(); })
+    .catch(function () {});
+
+  /* ---------- Glossario anatomico ----------
+     I termini stanno in glossario.json, divisi in famiglie (orientamento,
+     movimenti, ossa, ...). La famiglia dei muscoli ha anche le regioni,
+     dalla testa ai piedi. Ogni famiglia e' una scheda che si apre e si
+     chiude; la ricerca filtra i termini di tutte le famiglie insieme. */
+  var glossario = [];
+  function glNorm(t) {
+    return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  function renderGlossario() {
+    var wrap = document.getElementById('gl-list');
+    if (!wrap || !glossario.length) return;
+    if (!document.getElementById('gl-css')) {
+      var st = document.createElement('style');
+      st.id = 'gl-css';
+      st.textContent =
+        '#gl-list .gl-head{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;padding:0;cursor:pointer;font-family:var(--font-body);text-align:left;color:var(--ink)}' +
+        '#gl-list .gl-head .gl-ico{font-size:22px;flex:0 0 auto}' +
+        '#gl-list .gl-head h2{margin:0;flex:1}' +
+        '#gl-list .gl-head .acc-chev{font-size:11px;color:var(--muted);transition:transform .2s}' +
+        '#gl-list .gl-fam.open .gl-head .acc-chev{transform:rotate(90deg)}' +
+        '#gl-list .gl-body{display:none;margin-top:6px}' +
+        '#gl-list .gl-fam.open .gl-body{display:block}' +
+        '#gl-list .gl-term{padding:10px 0;border-bottom:1px solid var(--line)}' +
+        '#gl-list .gl-term:last-child{border-bottom:none}' +
+        '#gl-list .gl-term b{display:block;font-size:14.5px;color:var(--ink)}' +
+        '#gl-list .gl-term p{margin-top:3px}' +
+        '#gl-list .gl-term.flash{background:var(--brand-soft);border-radius:8px;padding-left:10px;padding-right:10px}' +
+        '#gl-list .gl-reg{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:18px 0 2px}' +
+        '#gl-list .gl-n{font-size:12px;color:var(--muted);font-weight:600;flex:0 0 auto}';
+      document.head.appendChild(st);
+    }
+    function termHtml(t) {
+      return '<div class="gl-term" id="gl-' + t.id + '" data-k="' + glNorm(t.t + ' ' + (t.alt || '')).replace(/"/g, '') + '">' +
+        '<b>' + t.t + '</b><p>' + t.d + '</p></div>';
+    }
+    var html = '';
+    glossario.forEach(function (f, i) {
+      var n = f.terms.length;
+      var body = f.terms.map(termHtml).join('');
+      (f.regioni || []).forEach(function (r) {
+        n += r.terms.length;
+        body += '<div class="gl-reg">' + r.r + '</div>' + r.terms.map(termHtml).join('');
+      });
+      html += '<div class="card gl-fam" id="gl-fam-' + i + '">' +
+        '<button class="gl-head" aria-expanded="false"><span class="gl-ico">' + (f.ico || '') + '</span><h2>' + f.cat + '</h2><span class="gl-n">' + n + '</span><span class="acc-chev">▶</span></button>' +
+        '<p style="margin-top:8px">' + f.intro + '</p>' +
+        '<div class="gl-body">' + body + '</div>' +
+        '</div>';
+    });
+    wrap.innerHTML = html;
+    wrap.addEventListener('click', function (e) {
+      var head = e.target.closest('.gl-head');
+      if (!head) return;
+      var fam = head.parentNode;
+      var open = fam.classList.toggle('open');
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) track('view', 'glossario-' + fam.id.replace('gl-fam-', ''));
+    });
+
+    // ricerca: filtra i termini di tutte le famiglie, apre quelle con risultati
+    var input = document.getElementById('gl-search');
+    var count = document.getElementById('gl-count');
+    var terms = wrap.querySelectorAll('.gl-term');
+    var total = terms.length;
+    count.textContent = total + ' termini in ' + glossario.length + ' famiglie. Tocca una famiglia per aprirla.';
+    function filtra() {
+      var q = glNorm(input.value.trim());
+      var hits = 0;
+      wrap.querySelectorAll('.gl-fam').forEach(function (fam) {
+        var famHits = 0;
+        fam.querySelectorAll('.gl-term').forEach(function (t) {
+          var ok = !q || t.dataset.k.indexOf(q) !== -1 || (q.length > 3 && glNorm(t.textContent).indexOf(q) !== -1);
+          t.style.display = ok ? '' : 'none';
+          if (ok) famHits++;
+        });
+        fam.querySelectorAll('.gl-reg').forEach(function (r) {
+          // la riga della regione resta se almeno un suo termine e' visibile
+          var el = r.nextElementSibling, any = false;
+          while (el && !el.classList.contains('gl-reg')) { if (el.style.display !== 'none') any = true; el = el.nextElementSibling; }
+          r.style.display = any ? '' : 'none';
+        });
+        fam.style.display = (q && !famHits) ? 'none' : '';
+        if (q) fam.classList.toggle('open', famHits > 0);
+        hits += famHits;
+      });
+      if (!q) {
+        wrap.querySelectorAll('.gl-fam').forEach(function (fam) { fam.classList.remove('open'); });
+        count.textContent = total + ' termini in ' + glossario.length + ' famiglie. Tocca una famiglia per aprirla.';
+      } else {
+        count.textContent = hits ? hits + (hits === 1 ? ' termine trovato' : ' termini trovati') : 'Nessun termine con «' + input.value.trim() + '». Scrivimelo: lo aggiungo.';
+      }
+    }
+    input.addEventListener('input', filtra);
+    var glBar = document.getElementById('gl-sharebar');
+    if (glBar) {
+      makeShareBar(glBar, '📖 Glossario anatomico: mediale, distale, trocantere, contrattura… tutte le parole del corpo spiegate in poche righe.' +
+        '\n\n— Dott. Davide Scuderi, Kinesiologia Studio (Modena)\nLo trovi nell\'app:', SITE + '?vai=glossario');
+    }
+    vaiAlContenuto(); // se si arriva da un link condiviso verso il glossario o un termine
+  }
+  fetch('glossario.json?t=' + Math.floor(Date.now() / 3600000), { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { glossario = d; renderGlossario(); })
     .catch(function () {});
 
   /* ---------- Riconoscimento telefono e browser ----------
@@ -2328,7 +2476,7 @@
      version.json e al nome della cache in sw.js. Se resta indietro, l'app
      continua a credere di essere vecchia e si ricarica senza fermarsi mai.
      Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
-  var APP_VERSION = 52;
+  var APP_VERSION = 53;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
