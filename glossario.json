@@ -1478,6 +1478,12 @@
     "id": "lussazione"
    },
    {
+    "t": "Lussazione di spalla",
+    "d": "La testa dell'omero che esce dalla cavità della scapola, quasi sempre in avanti e in basso: una caduta sul braccio aperto, un placcaggio, il braccio tirato indietro di colpo. È l'articolazione che si lussa più spesso, perché è la meno incastrata. Si rimette in pronto soccorso, mai da soli; poi settimane di riposo e il lavoro vero, che è forza e controllo di cuffia e scapola, non stretching. Nei giovani la prima volta spesso non resta l'unica: se la spalla continua a «uscire», si parla di instabilità.",
+    "alt": "spalla lussata spalla uscita spalla fuori posto",
+    "id": "lussazione-di-spalla"
+   },
+   {
     "t": "Sublussazione",
     "d": "L'articolazione che esce parzialmente e rientra da sola. Lascia lassità e paura del movimento.",
     "id": "sublussazione"
