@@ -682,6 +682,28 @@
       </div>
     </div>
 
+    <!-- Il tab e' lungo: da qui si salta alle sezioni piu' in basso -->
+    <div class="card" id="sapere-indice">
+      <div class="eyebrow">In questa sezione</div>
+      <div class="chips">
+        <button class="chip" data-scrollto="archivio-label">📰 Dallo studio</button>
+        <button class="chip" data-scrollto="articles-list">✍️ Come lavoro</button>
+        <button class="chip" data-scrollto="anatomia-label">🦴 Come funziona il corpo</button>
+        <button class="chip" data-scrollto="pratica-label">🖐 Anatomia pratica</button>
+        <button class="chip" data-goto="glossario">📖 Glossario anatomico</button>
+      </div>
+    </div>
+
+    <!-- Glossario anatomico: i termini stanno in glossario.json, la vista e' view-glossario -->
+    <div class="card" id="glossario-card" style="border-left:4px solid var(--accent)">
+      <div class="eyebrow">Glossario anatomico</div>
+      <h2>Mediale, distale, trocantere: cosa vogliono dire</h2>
+      <p>Tutte le parole che incontri nell'app, nei referti e in studio, spiegate in poche righe e divise per famiglia: orientamento, movimenti, ossa, articolazioni, muscoli (regione per regione, dalla testa ai piedi), tendini e fascia, nervi e dolore, lesioni, postura.</p>
+      <div style="margin-top:12px">
+        <button class="btn btn-primary" data-goto="glossario">Apri il glossario</button>
+      </div>
+    </div>
+
     <!-- I post pubblicati arrivano qui il giorno dopo, dalla schermata Oggi -->
     <div id="archivio-label" style="display:none; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin:4px 2px 10px">Dallo studio — archivio</div>
     <div id="archivio-list"></div>
@@ -697,15 +719,6 @@
     <p id="pratica-intro" style="display:none; font-size:13.5px; color:var(--muted); margin:-4px 2px 12px">Qui sopra leggi com'è fatto il corpo. Qui lo tocchi: dieci esplorazioni da fare su di te, con le mani e uno specchio, cinque minuti ciascuna. Prima <b>trovi</b> la struttura, poi la <b>provi</b> in movimento, poi capisci <b>cosa noti</b>.</p>
     <div id="pratica-list"></div>
 
-    <!-- Glossario anatomico: i termini stanno in glossario.json, la vista e' view-glossario -->
-    <div class="card" id="glossario-card" style="border-left:4px solid var(--accent)">
-      <div class="eyebrow">Glossario anatomico</div>
-      <h2>Mediale, distale, trocantere: cosa vogliono dire</h2>
-      <p>Tutte le parole che incontri nell'app, nei referti e in studio, spiegate in poche righe e divise per famiglia: orientamento, movimenti, ossa, articolazioni, muscoli (regione per regione, dalla testa ai piedi), tendini e fascia, nervi e dolore, lesioni, postura.</p>
-      <div style="margin-top:12px">
-        <button class="btn btn-primary" data-goto="glossario">Apri il glossario</button>
-      </div>
-    </div>
     <div class="card">
       <div class="eyebrow">Scegli tu il prossimo</div>
       <h2>Di cosa vuoi che parliamo?</h2>
@@ -1068,6 +1081,15 @@
   });
   document.querySelectorAll('[data-goto]').forEach(function (btn) {
     btn.addEventListener('click', function () { switchView(btn.dataset.goto); });
+  });
+  // i chip in cima a Sapere portano alle sezioni piu' in basso nello stesso tab
+  document.querySelectorAll('[data-scrollto]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.scrollto);
+      if (!el || el.style.display === 'none') return; // sezione non ancora caricata
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      track('view', 'indice-' + btn.dataset.scrollto);
+    });
   });
   var seenViews = {};
   function switchView(name) {
@@ -2476,7 +2498,7 @@
      version.json e al nome della cache in sw.js. Se resta indietro, l'app
      continua a credere di essere vecchia e si ricarica senza fermarsi mai.
      Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
-  var APP_VERSION = 53;
+  var APP_VERSION = 54;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
