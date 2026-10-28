@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="utf-8">
+<title>Postura Experience Lab · locandina</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#1A2622;--bg2:#22302B;--ink:#F7FAF6;--muted:#AEBBB3;--brand:#7FB5A3;--accent:#C98632;--accent2:#DFA24C;--line:rgba(238,242,236,.16)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:'Instrument Sans',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+/* A4 verticale: 1240 x 1754 px (poi stampato a scala 2) */
+.card{position:relative;width:1240px;height:1754px;background:var(--bg);overflow:hidden}
+.card::before{content:"";position:absolute;right:-360px;top:-300px;width:1000px;height:1000px;border-radius:50%;background:radial-gradient(closest-side,rgba(127,181,163,.28),transparent 70%)}
+.card::after{content:"";position:absolute;left:-400px;bottom:-260px;width:900px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(201,134,50,.18),transparent 70%)}
+.in{position:relative;z-index:1;padding:64px 72px 56px;display:flex;flex-direction:column;height:100%}
+.eyebrow{font-size:22px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--brand)}
+h1{font-family:'Fraunces',serif;font-weight:600;font-size:92px;line-height:1;letter-spacing:-.015em;margin-top:14px}
+h1 em{font-style:normal;color:var(--accent2)}
+.sub{font-family:'Fraunces',serif;font-size:32px;line-height:1.25;margin-top:16px;max-width:900px;color:var(--ink)}
+.pills{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.pill{border:2px solid var(--line);border-radius:999px;padding:10px 22px;font-size:22px;font-weight:600}
+.pill.acc{background:var(--accent);border-color:var(--accent);color:#26190A}
+.pill.gold{border-color:var(--accent2);color:var(--accent2)}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:28px}
+.box{background:var(--bg2);border:1px solid var(--line);border-radius:26px;padding:22px 28px}
+.box h2{font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);margin-bottom:14px}
+.pilastri{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
+.pilastri div{padding:10px 0;border-bottom:1px solid var(--line)}
+.pilastri div:nth-last-child(-n+2){border-bottom:none}
+.pilastri b{display:block;font-family:'Fraunces',serif;font-size:28px;font-weight:600;color:var(--accent2)}
+.pilastri span{font-size:19px;line-height:1.3;color:var(--muted)}
+.programma{list-style:none}
+.programma li{display:grid;grid-template-columns:118px 1fr;gap:14px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-size:21px;line-height:1.25}
+.programma li:last-child{border-bottom:none}
+.programma .d{font-family:'Fraunces',serif;font-weight:600;color:var(--accent2);font-size:22px;white-space:nowrap}
+.programma small{display:block;font-size:17px;color:var(--muted)}
+
+.team{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+.persona{display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:26px;padding:20px 26px}
+.foto{width:200px;height:200px;border-radius:50%;overflow:hidden;border:4px solid var(--brand);background:#2E3833;position:relative}
+.foto img{width:100%;height:100%;object-fit:cover;object-position:66% 28%;display:block}
+.foto .ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:15px;line-height:1.3;padding:16px}
+.foto .ph b{font-family:'Fraunces',serif;font-size:58px;color:var(--brand);font-weight:600;line-height:1}
+.foto.manca img{display:none}.foto.manca .ph{display:flex}
+.persona.gold .foto{border-color:var(--accent2)}
+.persona .nome{font-family:'Fraunces',serif;font-size:29px;font-weight:600;line-height:1.1}
+.persona .ruolo{font-size:18px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin-top:6px}
+.persona.gold .ruolo{color:var(--accent2)}
+.persona .desc{font-size:18px;line-height:1.32;color:var(--muted);margin-top:6px}
+
+.casa{margin-top:22px;display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:18px;align-items:center;border:2px solid var(--accent);border-radius:26px;padding:16px 26px}
+.casa h2{font-family:'Fraunces',serif;font-size:27px;font-weight:600;color:var(--accent2);white-space:nowrap;padding-right:10px;border-right:1px solid var(--line)}
+.casa div{font-size:19px;line-height:1.3}
+.casa div b{display:block;font-size:21px;color:var(--ink)}
+.casa div span{color:var(--muted)}
+.fondo{margin-top:auto;padding-top:22px;display:grid;grid-template-columns:1fr 270px;gap:26px;align-items:end}
+.quando{font-family:'Fraunces',serif;font-size:34px;font-weight:600;line-height:1.15}
+.quando em{font-style:normal;color:var(--accent2)}
+.dove{font-size:21px;color:var(--muted);margin-top:6px}
+.contatti{margin-top:14px;display:flex;flex-direction:column;gap:6px;font-size:21px;font-weight:600}
+.contatti i{display:inline-flex;width:36px;height:36px;border-radius:50%;background:var(--brand);align-items:center;justify-content:center;color:#10201A;font-style:normal;font-size:19px;font-weight:700;margin-right:12px;vertical-align:middle}
+.contatti span{font-weight:400;color:var(--muted)}
+.sito{margin-top:12px;font-size:21px;color:var(--brand);font-weight:600}
+.qr{background:#fff;border-radius:22px;padding:14px;text-align:center;color:#1A2622}
+.qr img{width:180px;height:180px;display:block;margin:0 auto}
+.qr b{display:block;font-family:'Fraunces',serif;font-size:24px;margin-top:8px}
+.qr small{display:block;font-size:15px;color:#4a5a53;line-height:1.25;margin-top:4px}
+</style></head><body>
+
+<div class="card" id="a4"><div class="in">
+  <p class="eyebrow">Kinesiologia Studio · Modena</p>
+  <h1>Postura <em>Experience Lab</em></h1>
+  <p class="sub">Una giornata intera per capire perché il tuo corpo fa male e cosa fare, da solo, per rimetterlo a posto.</p>
+  <div class="pills">
+    <span class="pill acc">Una giornata intera · 8 ore</span>
+    <span class="pill gold">49 €</span>
+    <span class="pill">Solo 20 posti</span>
+    <span class="pill">Pratica in coppia e da soli</span>
+    <span class="pill">Modena</span>
+  </div>
+
+  <div class="row">
+    <div class="box"><h2>I quattro pilastri</h2>
+      <div class="pilastri">
+        <div><b>Anatomia</b><span>Tocchi e riconosci su di te muscoli, ossa e articolazioni.</span></div>
+        <div><b>Biomeccanica</b><span>Perché il dolore sta in un posto e la causa in un altro.</span></div>
+        <div><b>Postura</b><span>Il tuo profilo posturale, fotografato e spiegato.</span></div>
+        <div><b>Training</b><span>Mobilità, stretching e forza: la routine da 15 minuti per casa.</span></div>
+      </div>
+    </div>
+    <div class="box"><h2>Cosa faremo</h2>
+      <ul class="programma">
+        <li><span class="d">Mattina</span><span>Il tuo profilo con <b>Che Postura</b><small>test rapido all'arrivo, ognuno esce con il suo</small></span></li>
+        <li><span class="d"></span><span>Piede e ginocchio<small>automassaggio e mobilità</small></span></li>
+        <li><span class="d"></span><span>La schiena<small>massaggio in coppia, guidato passo passo</small></span></li>
+        <li><span class="d">Pomeriggio</span><span>Cervicale e spalle<small>automassaggio, in coppia e respirazione</small></span></li>
+        <li><span class="d"></span><span>Mobilità, stretching, forza<small>la routine su misura del tuo profilo</small></span></li>
+        <li><span class="d"></span><span>Il tuo problema<small>tavoli per lombare, cervicale, ginocchio, piede</small></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="team">
+    <div class="persona">
+      <div class="foto" id="foto-davide"><img src="foto/davide.jpg" alt="Davide Scuderi" onerror="this.parentNode.classList.add('manca')"><div class="ph"><b>D</b>foto di Davide</div></div>
+      <div><p class="nome">Dott. Davide Scuderi</p><p class="ruolo">Trattamento</p><p class="desc">Massoterapista e chinesiologo. Anatomia, biomeccanica e massaggio: libera catene muscolari e fasce, riequilibra il bacino, scarica collo e spalle.</p></div>
+    </div>
+    <div class="persona gold">
+      <div class="foto" id="foto-morena"><img src="foto/morena.jpg" alt="Morena Anastasi" onerror="this.parentNode.classList.add('manca')"><div class="ph"><b>M</b>foto di Morena</div></div>
+      <div><p class="nome">Dott.ssa Morena Anastasi</p><p class="ruolo">Movimento</p><p class="desc">Valutazione posturale e lavoro sul movimento: insegna al corpo a tenere da solo la postura corretta e la rende stabile nel tempo.</p></div>
+    </div>
+  </div>
+
+  <div class="casa">
+    <h2>Torni a casa con</h2>
+    <div><b>Il tuo profilo posturale</b><span>fotografato, misurato, spiegato</span></div>
+    <div><b>La routine da 15 minuti</b><span>mobilità, stretching e forza su misura</span></div>
+    <div><b>3 cose da fare subito</b><span>per il tuo problema, scritte da noi</span></div>
+  </div>
+
+  <div class="fondo">
+    <div>
+      <p class="quando">Sabato <em>[data]</em> · 9:30 – 18:30</p>
+      <p class="dove">Modena · pranzo leggero incluso · abbigliamento comodo</p>
+      <div class="contatti">
+        <div><i>W</i>Davide 348 151 4382 <span>· WhatsApp</span></div>
+        <div><i>W</i>Morena 371 368 2776 <span>· WhatsApp</span></div>
+      </div>
+      <p class="sito">kinesiologiastudio.it · davidemcb.github.io/che-postura</p>
+    </div>
+    <div class="qr">
+      <img src="qr-che-postura.png" alt="QR Che Postura">
+      <b>Che Postura</b>
+      <small>Inquadra il codice: scopri chi siamo e come lavoriamo in équipe.</small>
+    </div>
+  </div>
+</div></div>
+</body></html>
