@@ -13,6 +13,7 @@ Il primo di questi appuntamenti è **La consapevolezza corporea nel tango**: un 
 - Perché senti il partner dai piedi, prima ancora dell’abbraccio.
 - Perché migliora la qualità del tuo abbraccio: migliorano l’equilibrio e la percezione del tuo corpo, e l’abbraccio non deve più sorreggere.
 - Perché è un lavoro su di te, non solo sui passi: resta, e te lo porti in ogni milonga.
+- Perché chi fa lo stage ha l’ingresso alla milonga incluso e il diritto di scegliere il posto in sala.
 
 ## I tre pilastri
 
@@ -49,12 +50,12 @@ A occhi chiusi e a occhi aperti il corpo si sente in modo diverso. Da soli, in c
 - **15:00** Stage · un’ora, massimo 20 coppie
 - **15:50** Tanda guidata
 - **16:15** Apertura al pubblico
-- **16:30** Milonga · ingresso incluso per chi ha fatto lo stage
+- **16:30** Milonga · ingresso incluso per chi ha fatto lo stage, con diritto di scelta del posto in sala
 
 ## Costi
 
 - Stage: **€15**
-- Stage + ingresso milonga: **€30**
+- Stage + ingresso milonga: **€30**, con diritto di scelta del posto in sala
 - Ciclo completo di 4 stage: **€50**
 
 Massimo 20 coppie: prenota il tuo posto.
@@ -70,7 +71,7 @@ Domenica 22 novembre, dalle 15:00, a Spazio Sei Milonguero (Verona) parte *La co
 
 Si comincia dai **piedi**, perché il tango comincia dal pavimento: quando il piede sente il terreno il passo diventa silenzioso, l’equilibrio arriva da solo e l’abbraccio smette di dover sorreggere. Prima da soli, poi in coppia, poi in ronda sulla musica. Nessuna figura nuova: in un’ora senti quanto cambia tutto, da terra in su. E lo senti subito, nella milonga di quel pomeriggio.
 
-Stage alle 15:00, tanda guidata alle 15:50, milonga dalle 16:30 con ingresso incluso per chi fa lo stage. Massimo 20 coppie.
+Stage alle 15:00, tanda guidata alle 15:50, milonga dalle 16:30 con ingresso incluso e scelta del posto in sala per chi fa lo stage. Massimo 20 coppie.
 
 Stage €15 · stage + milonga €30 · ciclo di 4 stage €50.
 Prenotazioni: Rossella, +39 347 258 1737 (WhatsApp).

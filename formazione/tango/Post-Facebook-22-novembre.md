@@ -19,12 +19,13 @@ Appoggio, peso, camminata. Quando il piede sente il terreno il passo diventa sil
 • Senti il partner dai piedi, prima ancora dell’abbraccio.
 • Migliora la qualità del tuo abbraccio: migliorano l’equilibrio e la percezione del tuo corpo.
 • È un lavoro su di te, non solo sui passi: resta, e te lo porti in ogni milonga.
+• Chi fa lo stage ha l’ingresso alla milonga incluso e sceglie il posto in sala.
 
 🕒 **Il pomeriggio**
 15:00 Stage pre-milonga · un’ora, massimo 20 coppie
 15:50 Tanda guidata
 16:15 Apertura al pubblico
-16:30 Inizio milonga · ingresso incluso per chi fa lo stage
+16:30 Inizio milonga · ingresso incluso per chi fa lo stage, con diritto di scelta del posto
 
 🧭 **Come si lavora in quell’ora**
 Accoglienza e centratura, attivazione corporea e percezione, esplorazione guidata del tema, applicazione al tango in coppia, integrazione finale e tanda guidata. Ogni stage riprende i temi del precedente: piedi, poi respiro, poi mani, poi occhi.
@@ -66,7 +67,7 @@ Un ciclo di quattro stage da un’ora prima della milonga di Spazio Sei Milongue
 
 Si comincia dai piedi, perché il tango comincia dal pavimento: quando il piede sente il terreno il passo diventa silenzioso, l’equilibrio arriva da solo e l’abbraccio smette di dover sorreggere. Prima da soli, poi in coppia, poi in ronda sulla musica. Nessuna figura nuova: in un’ora senti quanto cambia tutto, da terra in su.
 
-Programma: 15:00 stage (un’ora, massimo 20 coppie) · 15:50 tanda guidata · 16:15 apertura al pubblico · 16:30 milonga, ingresso incluso per chi fa lo stage.
+Programma: 15:00 stage (un’ora, massimo 20 coppie) · 15:50 tanda guidata · 16:15 apertura al pubblico · 16:30 milonga, ingresso incluso e scelta del posto in sala per chi fa lo stage.
 
 Costi: stage €15 · stage + milonga €30 · ciclo di 4 stage €50.
 Prenotazioni: Rossella, +39 347 258 1737 (anche WhatsApp).
