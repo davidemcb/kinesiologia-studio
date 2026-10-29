@@ -1,8 +1,17 @@
 # Tango Consapevole · stagione 2026–2027
 
-**Tango Consapevole** è il progetto che da novembre 2026 e per tutto il 2027 lega insieme tutti gli appuntamenti sul corpo che balla: quattro tipologie di incontro, un unico filo conduttore. Non si imparano figure nuove: si impara a sentire quello che già si balla, con più comodità, più ascolto e più presenza.
+Le figure le conosci già. Hai fatto corsi, stage, milonghe. Eppure c’è qualcosa che nessuna figura ti ha mai dato: la sensazione di essere davvero dentro il tuo corpo mentre balli. Più radicato. Più leggero. Più presente.
 
-Il primo di questi appuntamenti è **La consapevolezza corporea nel tango**, un ciclo di quattro stage pre-milonga a **Spazio Sei Milonguero, Verona**, condotti da **Rossella Martinelli** (maestra di tango) e dal **Dott. Davide Scuderi** (chinesiologo e maestro di tango argentino).
+**Tango Consapevole** è il progetto che da novembre 2026 e per tutto il 2027 lega insieme tutti gli appuntamenti sul corpo che balla: quattro tipologie di incontro, un unico filo conduttore. Non si imparano passi nuovi: si impara a sentire quello che già si balla, e a ballarlo meglio di quanto si credeva possibile.
+
+Il primo di questi appuntamenti è **La consapevolezza corporea nel tango**: un ciclo di quattro stage pre-milonga a **Spazio Sei Milonguero, Verona**, condotti da **Rossella Martinelli**, maestra di tango, e dal **Dott. Davide Scuderi**, chinesiologo e maestro di tango argentino.
+
+## Perché venire
+
+- Perché un’ora prima della milonga ti cambia la milonga: entri in pista già caldo, già centrato, già in ascolto.
+- Perché balli più leggero e più sicuro, e lo senti subito, non tra sei mesi.
+- Perché senti il partner dai piedi, prima ancora dell’abbraccio.
+- Perché è un lavoro su di te, non solo sui passi: resta, e te lo porti in ogni milonga.
 
 ## I tre pilastri
 
@@ -18,21 +27,21 @@ Senza propriocezione non c’è postura, senza postura non c’è presenza, e la
 
 Ogni stage dura un’ora, si svolge prima della milonga e riprende i temi dell’incontro precedente. Si lavora prima da soli, poi in coppia, poi in ronda sulla musica, e si chiude con una tanda guidata che apre la milonga.
 
-### 1 · Domenica 22 novembre 2026 · Piedi: sentire il terreno
+### 1 · Domenica 22 novembre 2026 · Piedi: il tango comincia dal pavimento
 
-Il primo incontro è tutto percezione. Si lavora sul contatto dei piedi con il terreno: l’appoggio, il peso che si sposta, il passo avanti, indietro e laterale. Prima da soli, poi in coppia tenendo l’attenzione ai propri piedi e poi a quelli del partner, infine sulla musica, con la ronda già presente. Il risultato nel tango: passi più silenziosi e sicuri, equilibrio nelle pause, la capacità di sentire dove sono i piedi dell’altro.
+Appoggio, peso, camminata. Quando il piede sente il terreno, il passo diventa silenzioso, l’equilibrio arriva da solo e l’abbraccio smette di dover sorreggere. Si lavora sul contatto dei piedi con il terreno, sul peso che si sposta, sul passo avanti, indietro e laterale: prima da soli, poi in coppia tenendo l’attenzione ai propri piedi e poi a quelli del partner, infine sulla musica, con la ronda già presente. In un’ora senti quanto cambia tutto, da terra in su.
 
 ### 2 · [Domenica __ dicembre 2026] · Respiro: il segreto della postura
 
-Il secondo incontro lavora sul muscolo trasverso dell’addome, attivato con il respiro. Si sente come la postura diventa eretta senza sforzo, come il busto si allunga e come le rotazioni e le inclinazioni laterali si limitano da sole. Poi si uniscono i piedi del primo incontro: piedi e respiro insieme, da soli, in coppia, in ronda. Nel tango: un asse stabile ma vivo, meno oscillazioni, un abbraccio che non pesa sul partner.
+Il muscolo trasverso dell’addome, attivato con il respiro, fa quello che la forza non riesce a fare: tiene su il busto senza irrigidirlo. Si sente come la postura diventa eretta da sola, come il busto si allunga e come le oscillazioni si limitano da sole. Poi si uniscono i piedi del primo incontro: piedi e respiro insieme, da soli, in coppia, in ronda. Il risultato: un asse stabile ma vivo, un abbraccio che non pesa sul partner.
 
 ### 3 · [Domenica __ gennaio 2027] · Mani: il contatto
 
-Il terzo incontro porta la propriocezione nelle mani e nell’abbraccio. Si porta l’attenzione a entrambe le mani, si sentono fino al punto di contatto, si impara ad ascoltare con le mani da soli e poi in coppia, riconoscendo il corpo dell’altro e il suo movimento, respirando e con i piedi che sentono. Nel tango: un abbraccio comodo per entrambi, informazioni chiare, meno spinte e meno tirate.
+Le mani non guidano e non si aggrappano: ascoltano. Si porta l’attenzione a entrambe le mani, si sentono fino al punto di contatto, si impara ad ascoltare con le mani da soli e poi in coppia, riconoscendo il corpo dell’altro e il suo movimento, respirando e con i piedi che sentono. Il risultato: un abbraccio comodo per entrambi, informazioni chiare, meno spinte e meno tirate.
 
 ### 4 · [Domenica __ febbraio 2027] · Occhi: lo spazio
 
-Il quarto incontro lavora a occhi chiusi e a occhi aperti, per sentire come cambiano le percezioni del corpo. Da soli, in coppia e poi in movimento: con le mani, respirando, ascoltando i piedi, tenendo lo sguardo sulla pista e sentendo il corpo dell’altro senza guardarlo. È l’incontro che integra tutto il ciclo. Nel tango: una ronda che scorre, meno urti, più calma in pista.
+A occhi chiusi e a occhi aperti il corpo si sente in modo diverso. Da soli, in coppia e poi in movimento: con le mani, respirando, ascoltando i piedi, con lo sguardo sulla pista e il partner sentito, non guardato. È l’incontro che integra tutto il ciclo. Il risultato: una ronda che scorre, meno urti, più calma e più piacere in pista.
 
 ## Il pomeriggio
 
@@ -47,20 +56,22 @@ Il quarto incontro lavora a occhi chiusi e a occhi aperti, per sentire come camb
 - Stage + ingresso milonga: **€30**
 - Ciclo completo di 4 stage: **€50**
 
-Posti limitati: prenotazione consigliata. Info e prenotazioni: [telefono / WhatsApp].
+Massimo 20 coppie: prenota il tuo posto.
+**Info e prenotazioni: Rossella, +39 347 258 1737 (anche WhatsApp).**
 
 ---
 
 ## Versione breve per social (22 novembre)
 
-**Tango Consapevole · appuntamento 1 di 4**
+**Le figure le conosci già. Quello che manca è sotto i tuoi piedi.**
 
-Domenica 22 novembre, dalle 15:00, a Spazio Sei Milonguero (Verona) parte *La consapevolezza corporea nel tango*: quattro stage pre-milonga, uno al mese, con Rossella Martinelli e il Dott. Davide Scuderi.
+Domenica 22 novembre, dalle 15:00, a Spazio Sei Milonguero (Verona) parte *La consapevolezza corporea nel tango*: quattro stage pre-milonga, uno al mese, con Rossella Martinelli e il Dott. Davide Scuderi. Primo appuntamento del progetto Tango Consapevole.
 
-Si comincia dai **piedi**: sentire il terreno, il peso che si sposta, il passo avanti, indietro e laterale. Prima da soli, poi in coppia, poi in ronda sulla musica. Nessuna figura nuova: solo più ascolto e più presenza in pista.
+Si comincia dai **piedi**, perché il tango comincia dal pavimento: quando il piede sente il terreno il passo diventa silenzioso, l’equilibrio arriva da solo e l’abbraccio smette di dover sorreggere. Prima da soli, poi in coppia, poi in ronda sulla musica. Nessuna figura nuova: in un’ora senti quanto cambia tutto, da terra in su. E lo senti subito, nella milonga di quel pomeriggio.
 
-Stage un’ora alle 15:00, tanda guidata alle 15:50, milonga dalle 16:30 con ingresso incluso per chi fa lo stage. Massimo 20 coppie.
+Stage alle 15:00, tanda guidata alle 15:50, milonga dalle 16:30 con ingresso incluso per chi fa lo stage. Massimo 20 coppie.
 
-Stage €15 · stage + milonga €30. Prenotazioni: [telefono / WhatsApp].
+Stage €15 · stage + milonga €30 · ciclo di 4 stage €50.
+Prenotazioni: Rossella, +39 347 258 1737 (WhatsApp).
 
 Prossimi incontri: respiro, mani, occhi.
