@@ -4,7 +4,7 @@ Le figure le conosci già. Hai fatto corsi, stage, milonghe. Eppure c’è qualc
 
 **Tango Consapevole** è il progetto che da novembre 2026 e per tutto il 2027 lega insieme tutti gli appuntamenti sul corpo che balla: quattro tipologie di incontro, un unico filo conduttore. Non si imparano passi nuovi: si impara a sentire quello che già si balla, e a ballarlo meglio di quanto si credeva possibile.
 
-Il primo di questi appuntamenti è **La consapevolezza corporea nel tango**: un ciclo di quattro stage pre-milonga a **Spazio Sei Milonguero, Verona** (22 novembre, 10 gennaio, 11 aprile, 16 maggio), condotti da **Rossella Martinelli**, maestra di tango, e dal **Dott. Davide Scuderi**, chinesiologo e maestro di tango argentino.
+Il primo di questi appuntamenti è **La consapevolezza corporea nel tango**: un ciclo di quattro stage pre-milonga a **Spazio Sei Milonguero, Verona** (22 novembre, 10 gennaio, 11 aprile, 16 maggio), condotti da **Rossella Martinelli**, maestra di tango argentino, e dal **Dott. Davide Scuderi**, chinesiologo e ballerino di tango.
 
 ## Perché venire
 
