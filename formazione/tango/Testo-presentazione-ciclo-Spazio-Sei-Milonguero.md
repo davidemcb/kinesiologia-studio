@@ -1,6 +1,6 @@
 # Tango Consapevole · stagione 2026–2027
 
-Le figure le conosci già. Hai fatto corsi, stage, milonghe. Eppure c’è qualcosa che nessuna figura ti ha mai dato: la sensazione di essere davvero dentro il tuo corpo mentre balli. Più radicato. Più leggero. Più presente.
+Le figure le conosci già. Hai fatto corsi, stage, milonghe. Eppure c’è qualcosa che nessuna figura ti ha mai dato: la sensazione di essere davvero dentro il tuo corpo mentre balli. Più radicato. Più sicuro. Più presente.
 
 **Tango Consapevole** è il progetto che da novembre 2026 e per tutto il 2027 lega insieme tutti gli appuntamenti sul corpo che balla: quattro tipologie di incontro, un unico filo conduttore. Non si imparano passi nuovi: si impara a sentire quello che già si balla, e a ballarlo meglio di quanto si credeva possibile.
 
@@ -8,9 +8,10 @@ Il primo di questi appuntamenti è **La consapevolezza corporea nel tango**: un 
 
 ## Perché venire
 
-- Perché un’ora prima della milonga ti cambia la milonga: entri in pista già caldo, già centrato, già in ascolto.
-- Perché balli più leggero e più sicuro, e lo senti subito, non tra sei mesi.
+- Perché un’ora prima della milonga ti cambia la milonga: arrivi in pista già centrato, già in ascolto.
+- Perché balli più sicuro e più elegante, e lo senti subito, non tra sei mesi.
 - Perché senti il partner dai piedi, prima ancora dell’abbraccio.
+- Perché smetti di aggrapparti all’abbraccio: l’equilibrio arriva dai piedi.
 - Perché è un lavoro su di te, non solo sui passi: resta, e te lo porti in ogni milonga.
 
 ## I tre pilastri
