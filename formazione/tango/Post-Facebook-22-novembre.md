@@ -9,15 +9,15 @@ Le figure le conosci già. Quello che manca è sotto i tuoi piedi.
 
 Domenica **22 novembre**, dalle **15:00**, a **Spazio Sei Milonguero (Verona)** parte un ciclo di quattro stage pre-milonga (22 novembre, 10 gennaio, 11 aprile, 16 maggio) con **Rossella Martinelli**, maestra di tango, e il **Dott. Davide Scuderi**, chinesiologo e maestro di tango argentino.
 
-Non è un corso di figure. È un’ora prima della milonga per cambiare il modo in cui balli: più radicato, più sicuro, più presente. Nessun passo nuovo: solo quello che balli già, sentito davvero.
+Non è un corso di figure. È un’ora prima della milonga per cambiare il modo in cui balli: più radici, più sicurezza, più presenza. Nessun passo nuovo: solo quello che balli già, sentito davvero.
 
 👣 **Si comincia dai piedi, perché il tango comincia dal pavimento.**
 Appoggio, peso, camminata. Quando il piede sente il terreno il passo diventa silenzioso, l’equilibrio arriva da solo e l’abbraccio smette di dover sorreggere. Prima da soli, poi in coppia, poi in ronda sulla musica. In un’ora senti quanto cambia tutto, da terra in su. E lo senti subito, nella milonga di quel pomeriggio.
 
 ✨ **Perché venire**
-• Balli più sicuro e più elegante, già quel pomeriggio.
+• Balli con più sicurezza ed eleganza, già quel pomeriggio.
 • Senti il partner dai piedi, prima ancora dell’abbraccio.
-• Smetti di aggrapparti all’abbraccio: l’equilibrio arriva dai piedi.
+• Migliora la qualità del tuo abbraccio: migliorano l’equilibrio e la percezione del tuo corpo.
 • È un lavoro su di te, non solo sui passi: resta, e te lo porti in ogni milonga.
 
 🕒 **Il pomeriggio**
