@@ -125,7 +125,7 @@ for (const b of content) {
     case 'img': body.push(...image(b.file, b.caption, b.cm)); break;
     case 'table': body.push(...table(b.header, b.rows)); break;
     case 'bib':
-      for (const it of b.items) body.push(new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { line: 240, after: 60 }, indent: { left: 0.8 * CM, hanging: 0.8 * CM }, children: runs(it, { size: 22 }) }));
+      for (const it of b.items) body.push(new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { line: 240, after: 40 }, indent: { left: 0.8 * CM, hanging: 0.8 * CM }, children: runs(it, { size: 22 }) }));
       break;
   }
 }
