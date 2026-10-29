@@ -17,6 +17,8 @@ soffice --headless --convert-to pdf tesi.docx
 
 Se il testo cambia, ricalcolare `pagemap.json` dal PDF (pagina del titolo meno 1 per la copertina) e rigenerare.
 
-Le tavole anatomiche `tav1`-`tav5` sono composizioni di tavole di H. Gray, *Anatomy of the Human Body*,
-20ª ed., 1918 (pubblico dominio), scaricate da Wikimedia Commons (file Gray268, 290, 354, 356, 439, 441,
-442, 443, 444, 832, 833) e affiancate con etichette (a), (b), (c).
+Le tavole anatomiche `tav1`-`tav5` sono generate da `tavole_it.py` a partire dalle tavole originali di H. Gray,
+*Anatomy of the Human Body*, 20ª ed., 1918 (pubblico dominio), scaricate da Wikimedia Commons e salvate in `gray/`
+(file Gray290, 291, 354, 356, 439, 441, 442, 443, 444, 833). Lo script cancella le didascalie originali in inglese
+e latino, scrive le etichette in italiano al loro posto e, per le scritte sopra muscoli e tendini, le sostituisce
+con numeri riportati nella legenda della didascalia. Rigenerazione: `python3 tavole_it.py` (richiede Pillow).
