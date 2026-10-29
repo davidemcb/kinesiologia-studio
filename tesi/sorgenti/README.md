@@ -16,3 +16,7 @@ soffice --headless --convert-to pdf tesi.docx
 ```
 
 Se il testo cambia, ricalcolare `pagemap.json` dal PDF (pagina del titolo meno 1 per la copertina) e rigenerare.
+
+Le tavole anatomiche `tav1`-`tav5` sono composizioni di tavole di H. Gray, *Anatomy of the Human Body*,
+20ª ed., 1918 (pubblico dominio), scaricate da Wikimedia Commons (file Gray268, 290, 354, 356, 439, 441,
+442, 443, 444, 832, 833) e affiancate con etichette (a), (b), (c).
