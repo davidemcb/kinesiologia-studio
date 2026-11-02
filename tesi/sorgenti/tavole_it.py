@@ -87,6 +87,52 @@ def number_label(im, num, box, white=False, r=None):
 
 # ---- definizioni per tavola: (tipo, testo/numero, box, white) ----
 PL = {
+ 357: [('t', 'Tibia', [226, 99, 292, 121], False), ('t', 'Fibula', [318, 99, 362, 119], False),
+       ('t', 'Astragalo', [243, 184, 292, 206], False), ('t', 'Calcagno', [231, 279, 307, 298], False),
+       ('t', 'Legamento interosseo della sindesmosi tibio-fibulare', [377, 68, 541, 98], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Malleolo mediale', [60, 150, 174, 176], True, {'anchor': 'r'}),
+       ('t', 'Legamento deltoideo', [63, 186, 158, 201], True, {'anchor': 'r'}),
+       ('t', 'Malleolo laterale', [395, 205, 496, 218], True, {'anchor': 'l'}),
+       ('t', 'Tibiale posteriore', [58, 224, 159, 240], True, {'anchor': 'r'}),
+       ('t', 'Legamento peroneo-calcaneare', [385, 235, 525, 250], True, {'anchor': 'l'}),
+       ('t', 'Legamento interosseo talo-calcaneare', [384, 250, 530, 277], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Flessore lungo delle dita', [38, 271, 174, 288], True, {'anchor': 'r'}),
+       ('t', 'Peroneo breve', [369, 287, 463, 300], True, {'anchor': 'l'}),
+       ('t', 'Flessore lungo dell’alluce', [46, 288, 173, 302], True, {'anchor': 'r'}),
+       ('t', 'Nervo e vasi plantari mediali', [0, 301, 173, 315], True, {'anchor': 'r'}),
+       ('t', 'Quadrato della pianta', [70, 317, 172, 332], True, {'anchor': 'r'}),
+       ('t', 'Abduttore dell’alluce', [73, 332, 173, 346], True, {'anchor': 'r'}),
+       ('t', 'Peroneo lungo', [369, 335, 467, 350], True, {'anchor': 'l'}),
+       ('t', 'Nervo e vasi plantari laterali', [4, 351, 173, 367], True, {'anchor': 'r'}),
+       ('t', 'Flessore breve delle dita', [39, 377, 173, 393], True, {'anchor': 'r'}),
+       ('t', 'Abduttore del quinto dito', [369, 378, 495, 393], True, {'anchor': 'l'})],
+ 360: [('t', 'Tibia', [98, 23, 152, 44], False), ('t', 'Fibula', [220, 23, 272, 44], False),
+       ('t', 'Astragalo', [148, 158, 202, 182], False), ('t', 'Calcagno', [223, 230, 302, 252], False),
+       ('t', 'Navicolare', [98, 306, 172, 327], False), ('t', 'Cuboide', [223, 323, 277, 344], False),
+       ('t', 'I cun.', [103, 373, 142, 407], False), ('t', 'II cun.', [150, 363, 183, 397], False), ('t', 'III cun.', [190, 363, 222, 397], False),
+       ('t', 'Metatarsi', [154, 526, 231, 542], True),
+       ('t', 'Articolazione talocrurale', [322, 84, 399, 103], True, {'anchor': 'l'}),
+       ('t', 'Legamento peroneo-astragalico', [322, 127, 394, 161], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Legamento deltoideo', [0, 191, 56, 224], True, {'anchor': 'r', 'maxw': 1.0}),
+       ('t', 'Legamento interosseo talo-calcaneare', [332, 195, 429, 243], True, {'anchor': 'l', 'maxw': 1.0})],
+ 359: [('t', 'Navicolare', [55, 20, 122, 72], False), ('t', 'Cuboide', [208, 66, 252, 84], False),
+       ('t', 'Lig. bifurcato', [183, 103, 212, 127], False), ('t', 'Calcagno', [118, 294, 187, 312], False),
+       ('n', 1, [60, 118, 102, 142], False), ('n', 2, [100, 160, 152, 186], False),
+       ('t', 'Legamento talo-calcaneare laterale', [278, 134, 353, 178], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Legamento talo-calcaneare anteriore', [277, 175, 352, 219], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Tibiale posteriore', [0, 216, 51, 247], True, {'anchor': 'r', 'maxw': 1.0}),
+       ('t', 'Legamento interosseo talo-calcaneare', [7, 272, 83, 316], True, {'anchor': 'r', 'maxw': 1.0})],
+ 358: [('t', 'Tendine del peroneo lungo', [436, 67, 550, 99], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Legamenti intermetatarsali plantari', [0, 120, 150, 135], True, {'anchor': 'r'}),
+       ('t', 'Legamenti tarso-metatarsali plantari', [454, 133, 619, 150], True, {'anchor': 'l'}),
+       ('t', 'Tendine del tibiale anteriore', [475, 188, 607, 215], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Legamenti cuneo-navicolari plantari', [460, 270, 596, 285], True, {'anchor': 'l'}),
+       ('t', 'Legamento calcaneo-cuboideo plantare', [0, 291, 143, 308], True, {'anchor': 'r'}),
+       ('t', 'Legamento cuboideo-navicolare plantare', [459, 302, 589, 332], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Tendine del peroneo lungo', [2, 333, 143, 360], True, {'anchor': 'r', 'maxw': 1.0}),
+       ('t', 'Legamento calcaneo-navicolare plantare (spring ligament)', [459, 344, 588, 372], True, {'anchor': 'l', 'maxw': 1.0}),
+       ('t', 'Legamento lungo plantare', [14, 375, 157, 390], True, {'anchor': 'r'}),
+       ('t', 'Tendine del tibiale posteriore', [446, 416, 582, 444], True, {'anchor': 'l', 'maxw': 1.0})],
  290: [('t', 'Astragalo', [104, 36, 148, 52], False), ('t', 'Calcagno', [40, 96, 116, 114], False),
        ('t', 'Navicolare', [183, 46, 226, 98], False), ('t', 'I cuneiforme', [216, 68, 270, 126], False),
        ('t', 'I metatarso', [268, 93, 368, 150], False), ('t', 'Falangi', [388, 146, 462, 174], False)],
@@ -190,7 +236,9 @@ def compose(nums, H, out):
 
 if __name__ == '__main__':
     compose([290, 291], 185, 'tav1_scheletro.png')
-    compose([354, 356], 400, 'tav2_legamenti.png')
-    compose([441, 442], 440, 'tav3_tendini.png')
-    compose([439, 443, 444], 800, 'tav4_profondo_plantari.png')
-    compose([833], 594, 'tav5_nervi.png')
+    compose([357, 360], 520, 'tav2_talocrurale.png')
+    compose([359, 358], 560, 'tav3_sottoastragalica.png')
+    compose([354, 356], 400, 'tav4_legamenti.png')
+    compose([441, 442], 440, 'tav5_tendini.png')
+    compose([439, 443, 444], 800, 'tav6_profondo_plantari.png')
+    compose([833], 594, 'tav7_nervi.png')
