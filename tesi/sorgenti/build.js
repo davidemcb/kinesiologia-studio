@@ -145,8 +145,9 @@ const cover = [
   center('CORSO FINALIZZATO AL CONSEGUIMENTO', { size: 26 }),
   center('DELLA QUALIFICA PROFESSIONALE DI', { size: 26 }),
   center('Massaggiatore Capo Bagnino degli Stabilimenti Idroterapici', { size: 26, bold: true, after: 1400 }),
-  center('IL PIEDE PIATTO E PRONATO NELLA', { size: 36, bold: true }),
-  center('DANZA CLASSICA', { size: 36, bold: true, after: 1800 }),
+  center('L’APPROCCIO MASSOTERAPICO', { size: 36, bold: true }),
+  center('NEL PIEDE PIATTO E PRONATO', { size: 36, bold: true }),
+  center('NELLA DANZA CLASSICA', { size: 36, bold: true, after: 1500 }),
   right('Candidato', { bold: true }),
   right('Beatrice Bacci', { after: 240 }),
   right('ID CORSO', { bold: true }),
@@ -158,7 +159,7 @@ const footer = new Footer({ children: [new Paragraph({ alignment: AlignmentType.
 const pageProps = { size: { width: 11906, height: 16838 }, margin: { top: 3 * CM, bottom: 3 * CM, left: 3 * CM, right: 3 * CM } };
 
 const doc = new Document({
-  creator: 'Beatrice Bacci', title: 'Il piede piatto e pronato nella danza classica',
+  creator: 'Beatrice Bacci', title: 'L’approccio massoterapico nel piede piatto e pronato nella danza classica',
   styles: {
     default: { document: { run: { font: FONT, size: 24 } } },
     paragraphStyles: [
