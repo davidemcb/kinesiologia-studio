@@ -137,7 +137,7 @@ const indexParas = [
 ];
 
 // ---- frontespizio ----
-const center = (t, o = {}) => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: o.after || 0, line: 276 }, children: [new TextRun({ text: t, font: FONT, size: o.size || 24, bold: o.bold, allCaps: o.caps })] });
+const center = (t, o = {}) => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: o.after || 0, line: o.line || 276 }, children: [new TextRun({ text: t, font: FONT, size: o.size || 24, bold: o.bold, allCaps: o.caps })] });
 const right = (t, o = {}) => new Paragraph({ alignment: AlignmentType.RIGHT, spacing: { after: o.after || 0, line: 276 }, children: [new TextRun({ text: t, font: FONT, size: o.size || 24, bold: o.bold })] });
 const logo = sizeOf(path.join(IMGDIR, 'fig-000.png'));
 const cover = [
@@ -145,9 +145,9 @@ const cover = [
   center('CORSO FINALIZZATO AL CONSEGUIMENTO', { size: 26 }),
   center('DELLA QUALIFICA PROFESSIONALE DI', { size: 26 }),
   center('Massaggiatore Capo Bagnino degli Stabilimenti Idroterapici', { size: 26, bold: true, after: 1400 }),
-  center('L’APPROCCIO MASSOTERAPICO', { size: 36, bold: true }),
-  center('NEL PIEDE PIATTO E PRONATO', { size: 36, bold: true }),
-  center('NELLA DANZA CLASSICA', { size: 36, bold: true, after: 1500 }),
+  center('L’APPROCCIO MASSOTERAPICO', { size: 36, bold: true, line: 600 }),
+  center('NEL PIEDE PIATTO E PRONATO', { size: 36, bold: true, line: 600 }),
+  center('NELLA DANZA CLASSICA', { size: 36, bold: true, line: 600, after: 1300 }),
   right('Candidato', { bold: true }),
   right('Beatrice Bacci', { after: 240 }),
   right('ID CORSO', { bold: true }),
