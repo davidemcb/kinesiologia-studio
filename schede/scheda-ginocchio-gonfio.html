@@ -1,0 +1,467 @@
+<title>Scheda Ginocchio Gonfio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: fascia verde in testa, poi sezioni a blocchi (card) in una colonna larga 820px; stampa A4 con una sezione per pagina. */
+  :root {
+    --bg: #F4F3EC;
+    --surface: #FFFFFF;
+    --surface-2: #ECEDE3;
+    --ink: #22302B;
+    --muted: #5C6B64;
+    --line: #DDE0D2;
+    --brand: #2F5D51;
+    --brand-strong: #24493F;
+    --brand-ink: #F2F7F3;
+    --brand-soft: #E2ECE5;
+    --accent: #C98632;
+    --accent-ink: #26190A;
+    --accent-soft: #F6E9D4;
+    --danger: #AC4530;
+    --danger-soft: #F4E2DC;
+    --ok: #3E7A5E;
+    --shadow: 0 2px 10px rgba(34, 48, 43, 0.07);
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A17; --surface: #1D2521; --surface-2: #242D28; --ink: #E8ECE6; --muted: #9AA79F; --line: #2F3A34;
+      --brand: #7FB5A3; --brand-strong: #93C4B4; --brand-ink: #10201A; --brand-soft: #24352E;
+      --accent: #DFA24C; --accent-ink: #26190A; --accent-soft: #3A2E1A; --danger: #E07B63; --danger-soft: #3A241E; --ok: #79B694;
+      --shadow: 0 2px 10px rgba(0,0,0,0.3); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A17; --surface: #1D2521; --surface-2: #242D28; --ink: #E8ECE6; --muted: #9AA79F; --line: #2F3A34;
+    --brand: #7FB5A3; --brand-strong: #93C4B4; --brand-ink: #10201A; --brand-soft: #24352E;
+    --accent: #DFA24C; --accent-ink: #26190A; --accent-soft: #3A2E1A; --danger: #E07B63; --danger-soft: #3A241E; --ok: #79B694;
+    --shadow: 0 2px 10px rgba(0,0,0,0.3); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(26px, 4vw, 34px); }
+  h2 { font-size: 24px; color: var(--brand); }
+  h3 { font-size: 17px; }
+  p { margin: 0; }
+  p + p { margin-top: 10px; }
+  .wrap { max-width: 820px; margin: 0 auto; padding-block: 0 24px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .band { background: var(--brand); color: var(--brand-ink); }
+  .band .wrap { padding-block: 26px 24px; display: flex; flex-direction: column; gap: 10px; }
+  .studio { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; opacity: 0.9; }
+  .sub { font-size: 16px; opacity: 0.92; max-width: 60ch; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { display: inline-block; border-radius: 999px; padding: 5px 13px; font-size: 13px; font-weight: 600; background: var(--brand-ink); color: var(--brand); }
+  .pill.amber { background: var(--accent); color: var(--accent-ink); }
+  main .wrap { display: flex; flex-direction: column; gap: 36px; padding-block: 28px 32px; }
+  section { display: flex; flex-direction: column; gap: 14px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .lead { font-size: 16px; max-width: 65ch; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .card.soft { background: var(--brand-soft); border-color: transparent; box-shadow: none; }
+  .card.red { background: var(--danger-soft); border: 2px solid var(--danger); }
+  .card.red h3 { color: var(--danger); }
+  .card.amber { background: var(--accent-soft); border: 2px solid var(--accent); }
+  .card h3 { color: var(--brand); }
+  .card.red h3, .card.amber h3 { color: inherit; }
+  .card.amber h3 { color: var(--accent-ink); }
+  :root[data-theme="dark"] .card.amber h3 { color: var(--accent); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card.amber h3 { color: var(--accent); } }
+  .card.red h3 { color: var(--danger); }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  ul, ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+  ol.steps li::marker { font-weight: 700; color: var(--brand); }
+  .q { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--ink); }
+  .q::before { content: "“"; color: var(--accent); }
+  .q::after { content: "”"; color: var(--accent); }
+  .stop { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 4px; }
+  .stop div { border-radius: 10px; padding: 10px 12px; font-size: 14px; }
+  .stop .good { background: var(--brand-soft); border-left: 4px solid var(--ok); }
+  .stop .bad { background: var(--danger-soft); border-left: 4px solid var(--danger); }
+  .stop strong { display: block; margin-bottom: 2px; }
+  .principle { background: var(--surface-2); border-radius: 12px; padding: 12px 16px; font-weight: 600; }
+  .do h3 { color: var(--ok); }
+  .dont h3 { color: var(--danger); }
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--brand-soft); color: var(--brand-strong); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+  tr:last-child td { border-bottom: 0; }
+  .diary td { height: 38px; }
+  .diary td:first-child { font-weight: 600; white-space: nowrap; }
+  .num { font-variant-numeric: tabular-nums; }
+  .measure { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .measure div { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; }
+  .measure .val { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--brand); }
+  .phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .phases .card { gap: 8px; }
+  .phases .pill { align-self: flex-start; background: var(--brand); color: var(--brand-ink); }
+  figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  figure svg { width: 100%; max-width: 100%; height: auto; display: block; }
+  .stations { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+  .stations div { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; font-size: 14px; }
+  .stations b { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 999px; background: var(--brand); color: var(--brand-ink); font-size: 12px; margin-right: 6px; }
+  footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  footer .wrap { padding-block: 18px 28px; display: flex; flex-direction: column; gap: 4px; }
+  footer strong { color: var(--ink); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  @media print {
+    :root { --bg: #FFFFFF; --shadow: none; }
+    @page { size: A4; margin: 14mm 13mm 16mm; }
+    body { font-size: 12.5px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .wrap { max-width: none; padding-left: 0; padding-right: 0; }
+    .band .wrap { padding-block: 18px 16px; }
+    main .wrap { gap: 0; padding-block: 16px 0; }
+    section { break-before: page; padding-top: 4px; }
+    section:first-child { break-before: auto; }
+    .card, tr, figure, .principle, .measure, .stations { break-inside: avoid; page-break-inside: avoid; }
+    .tablewrap { overflow: visible; }
+    h2 { font-size: 21px; }
+    .card { padding: 14px 16px; }
+    /* layout a blocchi: le card scorrono di pagina in pagina senza spezzarsi */
+    main .wrap, section, .card, figure { display: block; }
+    section > * + *, .card > * + *, figure > * + * { margin-top: 10px; }
+    section > .eyebrow + h2 { margin-top: 4px; }
+    .grid2, .phases { display: grid; }
+    .grid2 .card, .phases .card { margin-top: 0; }
+    figure svg { width: 60%; margin: 0 auto; }
+    .stations div { font-size: 11.5px; padding: 7px 10px; }
+    .stations { grid-template-columns: repeat(2, 1fr); }
+    .measure { grid-template-columns: repeat(4, 1fr); }
+    .pills { margin-top: 10px; }
+    .phases .pill { margin-bottom: 6px; }
+    footer { break-before: auto; }
+    footer .wrap { padding-block: 10px 0; }
+  }
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="studio">Kinesiologia Studio · Dott. Davide Scuderi · Modena</div>
+    <h1>Il tuo ginocchio gonfio dopo la ginnastica</h1>
+    <p class="sub">Cosa è successo, cosa fare nei prossimi giorni, quali esercizi e quando chiamare il medico.</p>
+    <div class="pills">
+      <span class="pill">Fase: acuta</span>
+      <span class="pill amber">Scheda del 5 novembre 2026</span>
+      <span class="pill">Ginocchio con artrosi</span>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<section id="problema">
+  <div class="eyebrow">1 · Il problema</div>
+  <h2>Un ginocchio che ha fatto troppo, troppo presto</h2>
+  <p class="lead">Il tuo ginocchio ha l'artrosi, cioè la cartilagine che fa da cuscinetto tra le ossa è più sottile e più ruvida di una volta. Un ginocchio così funziona bene, ma sopporta una dose di lavoro più bassa. Alla ginnastica la dose è stata più alta di quella che oggi riesce a reggere, e la membrana interna ha reagito producendo liquido in più. Quel liquido è il gonfiore che senti.</p>
+  <div class="card">
+    <h3>Cosa è successo nel gesto</h3>
+    <p>Squat, affondi, step e salti caricano la parte anteriore del ginocchio con un peso che può superare di tre o quattro volte quello del corpo. Se il corpo pesa qualche chilo in più e la cartilagine è consumata, la membrana interna (la sinovia) si irrita e nelle ore successive riempie l'articolazione di liquido. Non è una rottura e non è un danno nuovo alla cartilagine: è una reazione, e di solito rientra in una o due settimane se abbassi il carico.</p>
+    <p>Il gonfiore ha un secondo effetto che vale la pena conoscere: quando il ginocchio è pieno di liquido, il muscolo davanti alla coscia (il quadricipite) viene "spento" per riflesso. Per questo il ginocchio ti sembra più debole o ti cede. Il muscolo c'è, è solo frenato dal gonfiore.</p>
+  </div>
+  <figure class="card">
+    <h3>Il percorso del sintomo, in quattro stazioni</h3>
+    <svg viewBox="0 0 720 300" role="img" aria-label="Schema del ginocchio con quattro stazioni numerate: cartilagine consumata, membrana irritata, liquido sotto la rotula, quadricipite frenato">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2F5D51"/></marker>
+      </defs>
+      <rect width="720" height="300" fill="#F4F3EC" rx="12"/>
+      <!-- femore -->
+      <path d="M190 20 L250 20 L255 120 Q220 150 185 120 Z" fill="#ECEDE3" stroke="#5C6B64" stroke-width="2"/>
+      <!-- tibia -->
+      <path d="M190 280 L250 280 L255 175 Q220 150 185 175 Z" fill="#ECEDE3" stroke="#5C6B64" stroke-width="2"/>
+      <!-- cartilagine -->
+      <path d="M187 122 Q220 148 253 122" fill="none" stroke="#C98632" stroke-width="7" stroke-linecap="round" stroke-dasharray="6 5"/>
+      <path d="M187 173 Q220 150 253 173" fill="none" stroke="#C98632" stroke-width="5" stroke-linecap="round"/>
+      <!-- capsula / sinovia -->
+      <path d="M170 110 Q150 150 170 190" fill="none" stroke="#AC4530" stroke-width="3"/>
+      <path d="M270 110 Q290 150 270 190" fill="none" stroke="#AC4530" stroke-width="3"/>
+      <!-- liquido -->
+      <ellipse cx="150" cy="150" rx="14" ry="30" fill="#AC4530" opacity="0.25"/>
+      <!-- rotula -->
+      <ellipse cx="135" cy="135" rx="14" ry="22" fill="#FFFFFF" stroke="#5C6B64" stroke-width="2"/>
+      <!-- quadricipite -->
+      <path d="M150 20 Q120 60 130 110" fill="none" stroke="#2F5D51" stroke-width="10" stroke-linecap="round" opacity="0.55"/>
+      <!-- stazioni -->
+      <g font-family="Instrument Sans, sans-serif" font-size="13" fill="#22302B">
+        <circle cx="300" cy="135" r="12" fill="#2F5D51"/><text x="300" y="140" text-anchor="middle" fill="#F2F7F3" font-weight="700">1</text>
+        <line x1="258" y1="140" x2="286" y2="136" stroke="#2F5D51" stroke-width="2"/>
+        <text x="320" y="131" font-weight="600">Cartilagine consumata</text>
+        <text x="320" y="148" fill="#5C6B64">il cuscinetto è più sottile e ruvido</text>
+
+        <circle cx="300" cy="195" r="12" fill="#2F5D51"/><text x="300" y="200" text-anchor="middle" fill="#F2F7F3" font-weight="700">2</text>
+        <line x1="276" y1="175" x2="288" y2="190" stroke="#2F5D51" stroke-width="2"/>
+        <text x="320" y="191" font-weight="600">Membrana irritata dal carico</text>
+        <text x="320" y="208" fill="#5C6B64">reagisce producendo liquido</text>
+
+        <circle cx="300" cy="255" r="12" fill="#2F5D51"/><text x="300" y="260" text-anchor="middle" fill="#F2F7F3" font-weight="700">3</text>
+        <path d="M160 170 Q200 250 288 255" fill="none" stroke="#2F5D51" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="320" y="251" font-weight="600">Liquido dentro l'articolazione</text>
+        <text x="320" y="268" fill="#5C6B64">gonfiore, rigidità, fatica a piegare</text>
+
+        <circle cx="300" cy="55" r="12" fill="#2F5D51"/><text x="300" y="60" text-anchor="middle" fill="#F2F7F3" font-weight="700">4</text>
+        <path d="M140 70 Q200 40 288 55" fill="none" stroke="#2F5D51" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="320" y="51" font-weight="600">Quadricipite frenato dal gonfiore</text>
+        <text x="320" y="68" fill="#5C6B64">senso di debolezza, ginocchio che cede</text>
+      </g>
+      <g font-family="Instrument Sans, sans-serif" font-size="11" fill="#5C6B64">
+        <text x="220" y="40" text-anchor="middle">femore</text>
+        <text x="220" y="265" text-anchor="middle">tibia</text>
+        <text x="135" y="175" text-anchor="middle">rotula</text>
+      </g>
+    </svg>
+    <div class="stations">
+      <div><b>1</b>Il cuscinetto è consumato: il ginocchio regge meno carico di prima.</div>
+      <div><b>2</b>La membrana interna si irrita per il troppo lavoro e produce liquido.</div>
+      <div><b>3</b>Il liquido riempie il ginocchio: gonfiore, rigidità, fatica a piegarlo.</div>
+      <div><b>4</b>Il gonfiore frena il muscolo della coscia: senso di debolezza e cedimento.</div>
+    </div>
+    <p>La conferma di questo meccanismo spetta al medico. Questa scheda descrive il percorso più probabile e come comportarti nel frattempo.</p>
+  </figure>
+</section>
+
+<section id="domande">
+  <div class="eyebrow">2 · Le tue domande</div>
+  <h2>Quello che mi hai chiesto in studio</h2>
+  <div class="grid2">
+    <div class="card">
+      <p class="q">Devo smettere di fare ginnastica?</p>
+      <p>No. Devi cambiare la dose, non smettere. Pensa a un dimmer, non a un interruttore: in questi giorni lo abbassi quasi al minimo, poi lo rialzi un poco alla volta. Fermarti del tutto, alla tua età, fa perdere muscolo in fretta, e un ginocchio con meno muscolo intorno si gonfia più facilmente la volta dopo.</p>
+    </div>
+    <div class="card">
+      <p class="q">È l'artrosi che sta peggiorando?</p>
+      <p>Quasi certamente no. L'artrosi è una condizione lenta, che cambia in anni. Quello che è successo in un giorno è una reazione della membrana interna, come una bolla sul piede dopo una scarpa nuova: la pelle non è "peggiorata", ha solo protestato per uno sfregamento in più. Quando il carico torna giusto, la reazione rientra.</p>
+    </div>
+    <div class="card">
+      <p class="q">Ci metto il ghiaccio o il caldo?</p>
+      <p>Ghiaccio, finché è gonfio. Il freddo restringe i vasi e rallenta la produzione di liquido. Il caldo fa il contrario e in questa fase può aumentare il gonfiore. Quando il ginocchio sarà tornato asciutto, il caldo potrà servire al mattino per sciogliere la rigidità.</p>
+    </div>
+    <div class="card">
+      <p class="q">Posso prendere qualcosa per il dolore?</p>
+      <p>Chiedilo al tuo medico prima di prendere un antinfiammatorio, anche da banco. Dopo i settant'anni questi farmaci vanno dosati con attenzione per stomaco, reni e pressione, e vanno controllati con le altre medicine che prendi. Il medico sa cosa va bene per te. Il ghiaccio e la gamba alzata, intanto, riducono il dolore senza controindicazioni.</p>
+    </div>
+    <div class="card">
+      <p class="q">Devo mettere la ginocchiera?</p>
+      <p>Non una rigida e non una stretta. Un ginocchio gonfio ha bisogno di muoversi un poco e di drenare: una fascia stretta blocca entrambe le cose e aumenta la rigidità. Se ti dà sicurezza nel camminare, una ginocchiera elastica morbida va bene, ma toglila quando sei a riposo.</p>
+    </div>
+    <div class="card">
+      <p class="q">Il peso c'entra?</p>
+      <p>Sì, ed è la leva più potente che hai. Ogni chilo in più sul corpo diventa circa quattro chili in più sul ginocchio a ogni passo, e molti di più sulle scale. Non serve dimagrire tanto: anche quattro o cinque chili in meno cambiano in modo netto quanto il ginocchio si gonfia e fa male. Ne parliamo con il tuo medico e, se vuoi, con un nutrizionista.</p>
+    </div>
+  </div>
+</section>
+
+<section id="indicazioni">
+  <div class="eyebrow">3 · Indicazioni</div>
+  <h2>Cosa fare e cosa evitare nei prossimi giorni</h2>
+  <p class="principle">Principio guida: muovi il ginocchio senza caricarlo, finché il gonfiore non cala.</p>
+  <div class="grid2">
+    <div class="card do">
+      <h3>Da fare</h3>
+      <ul>
+        <li>Ghiaccio avvolto in un panno, 15 minuti, 3 o 4 volte al giorno, soprattutto la sera.</li>
+        <li>Quando sei seduta o sdraiata, tieni la gamba sollevata su un cuscino, con il ginocchio appoggiato e non nel vuoto.</li>
+        <li>Camminate brevi in piano, 10 minuti, due volte al giorno. Meglio spesso e poco che una volta e tanto.</li>
+        <li>Gli esercizi della sezione 4, ogni giorno, anche nei giorni in cui il ginocchio sembra meglio.</li>
+        <li>Alzati dalla sedia aiutandoti con le braccia e spingendo con la gamba sana.</li>
+        <li>Compila il diario della sezione 5 ogni sera: misura, dolore, rigidità.</li>
+        <li>Fissa la visita dal medico se entro 7 giorni il gonfiore non è calato in modo evidente.</li>
+      </ul>
+    </div>
+    <div class="card dont">
+      <h3>Da evitare</h3>
+      <ul>
+        <li>Scale in discesa, accovacciarsi, inginocchiarsi, stare in piedi ferma a lungo.</li>
+        <li>Squat, affondi, step, salti e la lezione di ginnastica di gruppo finché il ginocchio non è asciutto.</li>
+        <li>Caldo sul ginocchio, borsa dell'acqua calda, bagni molto caldi in questa fase.</li>
+        <li>Fasciature strette o ginocchiere rigide.</li>
+        <li>Antinfiammatori presi di testa tua, senza sentire il medico.</li>
+        <li>Riposo assoluto a letto o in poltrona: la gamba ferma si indebolisce e il sangue circola peggio.</li>
+        <li>"Forzare" il ginocchio per piegarlo di più: il gonfiore limita il movimento e va rispettato.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="esercizi">
+  <div class="eyebrow">4 · Esercizi</div>
+  <h2>Il programma di questi giorni</h2>
+  <p class="lead">Quattro esercizi da fare a casa, tutti in scarico. Il quinto si aggiunge solo quando il gonfiore è calato. Regola generale: durante l'esercizio il dolore può arrivare a 3 su 10, ma il giorno dopo il ginocchio deve essere uguale o meglio di prima.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Esercizio</th><th>Quante volte</th><th>Quando</th></tr></thead>
+      <tbody>
+        <tr><td>Pompa delle caviglie</td><td class="num">20 movimenti</td><td>Ogni ora, a gamba sollevata</td></tr>
+        <tr><td>Spinta del ginocchio sul rotolo</td><td class="num">10 tenute da 5 secondi, 2 giri</td><td>3 volte al giorno</td></tr>
+        <tr><td>Scivolamento del tallone</td><td class="num">10 ripetizioni lente, 2 giri</td><td>Mattina e sera</td></tr>
+        <tr><td>Camminata in piano</td><td class="num">10 minuti</td><td>2 volte al giorno</td></tr>
+        <tr><td>Cyclette senza resistenza</td><td class="num">5 minuti, poi 10</td><td>Solo da quando il gonfiore cala, 1 volta al giorno</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Pompa delle caviglie</h3>
+    <ol class="steps">
+      <li>Sdraiata o seduta con la gamba sollevata su un cuscino.</li>
+      <li>Porta la punta del piede verso di te, poi spingila lontano, come per premere un pedale.</li>
+      <li>Movimento ampio e lento, 20 volte. Il polpaccio lavora e aiuta a drenare il ginocchio.</li>
+    </ol>
+    <div class="stop">
+      <div class="good"><strong>Va bene se</strong>senti il polpaccio che lavora e il ginocchio non cambia.</div>
+      <div class="bad"><strong>Fermati se</strong>il polpaccio fa male, è duro o si gonfia: questo non c'entra con il ginocchio e va riferito al medico lo stesso giorno.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Spinta del ginocchio sul rotolo</h3>
+    <ol class="steps">
+      <li>Sdraiata sulla schiena, un asciugamano arrotolato sotto il ginocchio gonfio.</li>
+      <li>Schiaccia il rotolo verso il basso tirando su la rotula: la coscia davanti si indurisce, il tallone tende a sollevarsi.</li>
+      <li>Tieni 5 secondi, respirando. Rilascia piano. 10 volte, poi una pausa di un minuto, poi altre 10.</li>
+    </ol>
+    <p>È l'esercizio più importante della scheda: riaccende il muscolo che il gonfiore ha spento, senza caricare l'articolazione.</p>
+    <div class="stop">
+      <div class="good"><strong>Va bene se</strong>senti la coscia che si contrae e il ginocchio resta tranquillo o diventa più sciolto.</div>
+      <div class="bad"><strong>Fermati se</strong>il dolore nel ginocchio sale oltre 3 su 10 o se dopo il ginocchio è più gonfio: riduci a 5 tenute e riprova il giorno dopo.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Scivolamento del tallone</h3>
+    <ol class="steps">
+      <li>Sdraiata sulla schiena, gambe distese, un calzino o un telo sotto il tallone perché scivoli.</li>
+      <li>Trascina il tallone verso il sedere, piegando il ginocchio fino a dove arriva senza dolore. Non forzare oltre.</li>
+      <li>Torna giù lentamente. 10 volte, pausa, altre 10. Segna ogni giorno fin dove arriva il tallone.</li>
+    </ol>
+    <div class="stop">
+      <div class="good"><strong>Va bene se</strong>senti tensione o "pienezza" davanti al ginocchio e ogni giorno arrivi un poco più in là.</div>
+      <div class="bad"><strong>Fermati se</strong>senti un dolore acuto, uno scatto, o il ginocchio si blocca e non si distende più: chiama il medico in giornata.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Camminata in piano</h3>
+    <ol class="steps">
+      <li>Scarpe con suola morbida, percorso piatto, passo normale. Non serve andare veloce.</li>
+      <li>10 minuti. Se hai un bastone o puoi appoggiarti a un carrello, usali: tolgono carico al ginocchio.</li>
+      <li>Due uscite al giorno, non una sola lunga. Al rientro, gamba su e ghiaccio.</li>
+    </ol>
+    <div class="stop">
+      <div class="good"><strong>Va bene se</strong>a fine passeggiata il ginocchio è uguale a prima e la sera non è più gonfio.</div>
+      <div class="bad"><strong>Fermati se</strong>il ginocchio si gonfia di più la sera o se devi zoppicare: dimezza il tempo per due giorni.</div>
+    </div>
+  </div>
+
+  <div class="card soft">
+    <h3>Cyclette senza resistenza (solo quando il gonfiore cala)</h3>
+    <ol class="steps">
+      <li>Sella alta: a pedale in basso il ginocchio resta quasi dritto, così non si piega troppo.</li>
+      <li>Resistenza al minimo. Se all'inizio non riesci a fare il giro completo, dondola avanti e indietro.</li>
+      <li>5 minuti i primi tre giorni, poi 10. Vale come riscaldamento prima degli altri esercizi.</li>
+    </ol>
+    <div class="stop">
+      <div class="good"><strong>Va bene se</strong>il ginocchio dopo è più sciolto e il giorno dopo è uguale o meglio.</div>
+      <div class="bad"><strong>Fermati se</strong>il giorno dopo c'è più gonfiore: torna agli altri quattro esercizi per tre giorni e riprova.</div>
+    </div>
+  </div>
+</section>
+
+<section id="attenzione">
+  <div class="eyebrow">5 · Attenzione</div>
+  <h2>Quando non aspettare</h2>
+  <div class="grid2">
+    <div class="card red">
+      <h3>Pronto soccorso lo stesso giorno</h3>
+      <ul>
+        <li>Ginocchio caldo e rosso, con febbre, brividi o senso di malessere generale.</li>
+        <li>Polpaccio gonfio, duro e dolente, oppure fiato corto o dolore al petto.</li>
+        <li>Gonfiore comparso in pochi minuti dopo una caduta o un cedimento, con impossibilità ad appoggiare il peso.</li>
+        <li>Ginocchio bloccato che non si distende più, o piede freddo, pallido, senza sensibilità.</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3>Chiama il medico entro un giorno</h3>
+      <ul>
+        <li>Il gonfiore aumenta per due o tre giorni nonostante riposo e ghiaccio.</li>
+        <li>Dolore che ti sveglia di notte o che non cala con la gamba sollevata.</li>
+        <li>Prendi anticoagulanti o fluidificanti e il ginocchio si è gonfiato.</li>
+        <li>Febbre leggera, formicolii alla gamba, o un secondo episodio di gonfiore in poche settimane.</li>
+        <li>Dopo 7 giorni il ginocchio è ancora gonfio come il primo giorno.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Perché la visita medica non è rinviabile, se serve</h3>
+    <p>Un ginocchio gonfio in una persona con artrosi di solito è una reazione al carico. Ma lo stesso gonfiore può essere prodotto da un'infezione, da cristalli (gotta o pseudogotta) o da un piccolo sanguinamento, e questi casi si distinguono solo con una visita e, a volte, con un prelievo del liquido. Il medico può anche prescrivere il farmaco giusto per te e, se il liquido è tanto, toglierlo con un ago, cosa che dà sollievo immediato. Nessuno di questi passaggi può farlo lo studio di kinesiologia.</p>
+  </div>
+  <div class="card">
+    <h3>Misura di riferimento presa in studio</h3>
+    <p>Circonferenza del ginocchio al centro della rotula, a gamba distesa e rilassata, con metro da sarta. Usa lo stesso punto ogni sera.</p>
+    <div class="measure">
+      <div><div class="eyebrow">Ginocchio gonfio</div><div class="val num">____ cm</div></div>
+      <div><div class="eyebrow">Ginocchio sano</div><div class="val num">____ cm</div></div>
+      <div><div class="eyebrow">Differenza</div><div class="val num">____ cm</div></div>
+      <div><div class="eyebrow">Tallone dal sedere</div><div class="val num">____ cm</div></div>
+    </div>
+    <p>Obiettivo della prima settimana: differenza ridotta almeno della metà.</p>
+  </div>
+  <div class="card">
+    <h3>Diario di controllo</h3>
+    <p>Ogni sera, prima del ghiaccio. Dolore da 0 (nessuno) a 10 (il peggiore immaginabile). Rigidità: minuti che servono al mattino per sciogliere il ginocchio.</p>
+    <div class="tablewrap">
+      <table class="diary">
+        <thead><tr><th>Giorno</th><th>Circonferenza</th><th>Dolore a riposo</th><th>Dolore scale</th><th>Rigidità mattino</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Giorno 1</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Giorno 2</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Giorno 3</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Giorno 4</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Giorno 5</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Giorno 6</td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Giorno 7</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Porta il diario al prossimo appuntamento, o al medico se lo vedi prima.</p>
+  </div>
+</section>
+
+<section id="aspettarsi">
+  <div class="eyebrow">6 · Cosa aspettarsi</div>
+  <h2>I tempi, senza fretta</h2>
+  <div class="phases">
+    <div class="card">
+      <span class="pill">Settimana 1 e 2</span>
+      <h3>Sgonfiare</h3>
+      <p>Ghiaccio, gamba su, esercizi in scarico. Il gonfiore cala di solito in modo visibile entro 7-10 giorni. Il ginocchio può restare un poco rigido al mattino: è normale.</p>
+    </div>
+    <div class="card">
+      <span class="pill">Settimana 3 a 6</span>
+      <h3>Riprendere il carico</h3>
+      <p>Cyclette, esercizi da seduta con elastico, scale in salita. In studio rimettiamo il carico un gradino alla volta: metà di prima, poi un poco di più ogni settimana se il giorno dopo il ginocchio è tranquillo.</p>
+    </div>
+    <div class="card">
+      <span class="pill">Dal secondo mese</span>
+      <h3>Rinforzo e peso</h3>
+      <p>Programma di forza per coscia e glutei, due o tre volte a settimana, e rientro in palestra con esercizi scelti insieme. Il lavoro sul peso corporeo va avanti in parallelo: è la cosa che protegge di più il ginocchio negli anni.</p>
+    </div>
+  </div>
+  <div class="card soft">
+    <p>Un ginocchio con artrosi può gonfiarsi ancora in futuro, soprattutto dopo una giornata pesante. Non è un fallimento: è il segnale che la dose è stata troppa, e ora sai come rispondere. Con il muscolo più forte e qualche chilo in meno, gli episodi diventano più rari e più brevi.</p>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Kinesiologia Studio</strong> · Dott. Davide Scuderi · Modena</div>
+    <div>Telefono e WhatsApp +39 348 151 4382 · infokinesiologia@gmail.com</div>
+    <div>Questa scheda non sostituisce la visita medica.</div>
+  </div>
+</footer>
