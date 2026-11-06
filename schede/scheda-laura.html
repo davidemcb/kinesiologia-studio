@@ -1,0 +1,614 @@
+<!doctype html><html lang="it" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><title>Scheda Laura</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: fascia verde in testa, poi sezioni a blocchi su una colonna di lettura (max 860px); card radius 12, pill radius 999. Token presi da index.html del sito. */
+  :root {
+    --bg: #F4F3EC;
+    --surface: #FFFFFF;
+    --surface-2: #ECEDE3;
+    --ink: #22302B;
+    --muted: #5C6B64;
+    --line: #DDE0D2;
+    --brand: #2F5D51;
+    --brand-strong: #24493F;
+    --brand-ink: #F2F7F3;
+    --brand-soft: #E2ECE5;
+    --accent: #C98632;
+    --accent-ink: #26190A;
+    --accent-soft: #F6E8D3;
+    --danger: #AC4530;
+    --danger-soft: #F4E2DC;
+    --ok: #3E7A5E;
+    --ok-soft: #E2ECE5;
+    --shadow: 0 2px 10px rgba(34, 48, 43, 0.07);
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A17;
+      --surface: #1D2521;
+      --surface-2: #242D28;
+      --ink: #E8ECE6;
+      --muted: #9AA79F;
+      --line: #2E3833;
+      --brand: #7FB5A3;
+      --brand-strong: #93C4B4;
+      --brand-ink: #10201A;
+      --brand-soft: #24352E;
+      --accent: #DFA24C;
+      --accent-ink: #26190A;
+      --accent-soft: #3A2E1A;
+      --danger: #E07B63;
+      --danger-soft: #3A241E;
+      --ok: #79B694;
+      --ok-soft: #24352E;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A17;
+    --surface: #1D2521;
+    --surface-2: #242D28;
+    --ink: #E8ECE6;
+    --muted: #9AA79F;
+    --line: #2E3833;
+    --brand: #7FB5A3;
+    --brand-strong: #93C4B4;
+    --brand-ink: #10201A;
+    --brand-soft: #24352E;
+    --accent: #DFA24C;
+    --accent-ink: #26190A;
+    --accent-soft: #3A2E1A;
+    --danger: #E07B63;
+    --danger-soft: #3A241E;
+    --ok: #79B694;
+    --ok-soft: #24352E;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
+  h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); color: var(--brand-strong); }
+  h3 { font-size: 1.15rem; }
+  p { margin: 0; }
+  p + p { margin-top: 0.7em; }
+  ul, ol { margin: 0; padding-left: 1.2em; }
+  li + li { margin-top: 0.35em; }
+  strong { font-weight: 600; }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  /* Fascia in testa */
+  .hero { background: var(--brand); color: var(--brand-ink); }
+  .hero .wrap { padding-block: 34px 30px; display: grid; gap: 14px; }
+  .eyebrow { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; opacity: 0.9; }
+  .hero h1 { color: var(--brand-ink); }
+  .hero .sub { font-size: 1.08rem; max-width: 60ch; opacity: 0.95; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    border-radius: 999px; padding: 5px 13px;
+    font-size: 0.85rem; font-weight: 600; line-height: 1.3;
+    background: var(--brand-ink); color: var(--brand-strong);
+  }
+  .pill.accent { background: var(--accent); color: var(--accent-ink); }
+  .pill.soft { background: var(--brand-soft); color: var(--brand-strong); }
+  .pill.amber { background: var(--accent-soft); color: var(--ink); }
+
+  /* Sezioni */
+  main .wrap { padding-block: 10px 40px; display: grid; gap: 42px; }
+  .section { display: grid; gap: 18px; }
+  .section-head { display: grid; gap: 6px; padding-top: 22px; }
+  .section-head .num { font-family: var(--font-display); font-size: 0.95rem; color: var(--accent); font-weight: 700; letter-spacing: 0.04em; }
+  .lede { color: var(--muted); max-width: 62ch; }
+  .prose { max-width: 66ch; display: grid; gap: 0.7em; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    display: grid; gap: 10px;
+    min-width: 0;
+  }
+  .card h3 { color: var(--brand-strong); }
+  .card.soft { background: var(--brand-soft); border-color: transparent; box-shadow: none; }
+  .card.danger { background: var(--danger-soft); border-color: var(--danger); }
+  .card.danger h3 { color: var(--danger); }
+  .card.amber { background: var(--accent-soft); border-color: var(--accent); }
+  .card.amber h3 { color: var(--accent-ink); }
+  :root[data-theme="dark"] .card.amber h3 { color: var(--accent); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card.amber h3 { color: var(--accent); } }
+  .card.ok { background: var(--ok-soft); border-color: var(--ok); }
+  .card.ok h3 { color: var(--ok); }
+  .card .why { color: var(--muted); font-size: 0.92rem; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  @media (max-width: 640px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+  .stack { display: grid; gap: 14px; }
+
+  /* Disegno del percorso */
+  .figure { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 20px; align-items: start; }
+  @media (max-width: 640px) { .figure { grid-template-columns: 1fr; } }
+  .figure svg { width: 100%; height: auto; max-width: 300px; display: block; margin: 0 auto; }
+  .svg-skin { fill: var(--surface-2); stroke: var(--muted); stroke-width: 1.5; }
+  .svg-scap { fill: var(--brand-soft); stroke: var(--brand); stroke-width: 1.6; }
+  .svg-spine { stroke: var(--muted); stroke-width: 2; fill: none; stroke-dasharray: 4 4; }
+  .svg-mus { stroke: var(--brand); stroke-width: 3; fill: none; stroke-linecap: round; }
+  .svg-mus.weak { stroke: var(--accent); stroke-dasharray: 5 5; }
+  .svg-mus.hot { stroke: var(--danger); stroke-width: 4; }
+  .svg-dot { fill: var(--brand); }
+  .svg-dot.acc { fill: var(--accent); }
+  .svg-dot.hot { fill: var(--danger); }
+  .svg-num { fill: var(--brand-ink); font-family: var(--font-body); font-weight: 700; font-size: 11px; text-anchor: middle; }
+  .svg-lab { fill: var(--muted); font-family: var(--font-body); font-size: 9.5px; text-anchor: middle; }
+  .stations { list-style: none; padding: 0; display: grid; gap: 10px; }
+  .stations li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; }
+  .stations .n {
+    width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center;
+    background: var(--brand); color: var(--brand-ink); font-weight: 700; font-size: 0.85rem;
+  }
+  .stations .n.acc { background: var(--accent); color: var(--accent-ink); }
+  .stations .n.hot { background: var(--danger); color: #fff; }
+  .stations b { display: block; font-weight: 600; }
+  .stations span { color: var(--muted); font-size: 0.93rem; }
+
+  /* Due colonne indicazioni */
+  .principle {
+    border-left: 4px solid var(--accent); padding: 6px 14px;
+    font-family: var(--font-display); font-size: 1.12rem; font-weight: 600; color: var(--brand-strong);
+  }
+  .do-dont ul { list-style: none; padding: 0; display: grid; gap: 8px; }
+  .do-dont li { padding-left: 1.5em; position: relative; }
+  .do-dont li::before { position: absolute; left: 0; top: 0; font-weight: 700; }
+  .do li::before { content: "✓"; color: var(--ok); }
+  .dont li::before { content: "✕"; color: var(--danger); }
+
+  /* Tabelle */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--surface-2); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  tr:last-child td { border-bottom: 0; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .diary td { height: 38px; }
+  .diary td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  /* Esercizi */
+  .ex-head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; justify-content: space-between; }
+  .ex-head .dose { color: var(--muted); font-size: 0.9rem; }
+  .ex ol { display: grid; gap: 6px; }
+  .stop { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 4px; }
+  @media (max-width: 640px) { .stop { grid-template-columns: 1fr; } }
+  .stop div { border-radius: 10px; padding: 10px 12px; font-size: 0.92rem; }
+  .stop .good { background: var(--ok-soft); border: 1px solid var(--ok); }
+  .stop .bad { background: var(--danger-soft); border: 1px solid var(--danger); }
+  .stop b { display: block; margin-bottom: 2px; }
+
+  .measure { display: grid; gap: 8px; }
+  .measure .line { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .blank { display: inline-block; min-width: 90px; border-bottom: 1.5px solid var(--ink); height: 1.2em; }
+
+  /* Piede */
+  .site-footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+  .site-footer .wrap { padding-block: 22px 34px; display: grid; gap: 4px; }
+  .site-footer b { color: var(--ink); font-weight: 600; }
+
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+
+  /* Stampa */
+  @media print {
+    @page { size: A4; margin: 13mm 12mm 17mm; }
+    body { background: #fff; font-size: 11.2pt; line-height: 1.45; }
+    .wrap { max-width: none; padding-left: 0; padding-right: 0; }
+    .hero { border-radius: 12px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .hero .wrap { padding: 22px 26px 20px; }
+    main .wrap { gap: 0; padding-block: 0; }
+    .section { break-before: page; gap: 12px; }
+    .section.first { break-before: auto; padding-top: 6px; }
+    .section-head { padding-top: 0; }
+    .card, .table-wrap, .figure, .principle, .stations li, tr { break-inside: avoid; }
+    .card { box-shadow: none; padding: 13px 16px; gap: 7px; }
+    .stack { gap: 10px; }
+    .grid-2, .grid-3 { gap: 10px; }
+    .site-footer { display: none; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.05rem; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Kinesiologia Studio · Dott. Davide Scuderi · Modena</div>
+    <h1>Scheda per Laura</h1>
+    <p class="sub">Dolore fra le scapole, sul lato dei romboidi e del trapezio medio: cosa sta succedendo, cosa fare nelle prossime settimane e come capire se va nella direzione giusta.</p>
+    <div class="pills">
+      <span class="pill accent">Fase: ripresa del carico</span>
+      <span class="pill">6 novembre 2026</span>
+      <span class="pill">Controllo fra 3 settimane</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- 1. IL PROBLEMA -->
+    <section class="section first" id="problema">
+      <div class="section-head">
+        <div class="num">1</div>
+        <h2>Il problema</h2>
+        <p class="lede">Il punto che fa male non è il punto che ha creato il problema. È il muscolo che sta facendo il lavoro di un altro.</p>
+      </div>
+
+      <div class="prose">
+        <p>Fra la colonna e la scapola ci sono i <strong>romboidi</strong> e il <strong>trapezio medio</strong>: sono due muscoli piatti che tengono la scapola vicina alla schiena, come due tiranti. Il tuo dolore è lì, e alla pressione quella zona è dolente e tesa.</p>
+        <p>Questi muscoli però non si fanno male da soli. Si stancano quando devono <strong>tenere</strong> la scapola per ore, invece di muoverla. Succede quando la postura di lavoro porta la testa in avanti e le spalle chiuse: le scapole scivolano in fuori, e romboidi e trapezio medio restano in tiro tutto il giorno per frenarle. Un muscolo che tira sempre, anche piano, a un certo punto si infiamma e fa male.</p>
+        <p>Il muscolo che dovrebbe aiutarli è il <strong>trapezio inferiore</strong>: la parte bassa del trapezio, quella che tira la scapola giù e dentro, verso la colonna. Se lavora bene, la scapola sta al suo posto senza sforzo e i romboidi possono riposare. Se lavora poco, come succede a quasi tutti dopo anni di scrivania e telefono, il carico passa tutto ai tiranti di sopra. Da qui la regola di questa scheda: <strong>il dolore sta in mezzo, ma il lavoro si fa in basso</strong>.</p>
+        <p>Questa è la spiegazione più probabile dato quello che ho visto in studio. Non è una diagnosi: se ci sono dubbi, la conferma spetta al medico.</p>
+      </div>
+
+      <div class="card">
+        <h3>Il percorso del problema, visto da dietro</h3>
+        <div class="figure">
+          <svg viewBox="0 0 300 330" role="img" aria-label="Schiena vista da dietro con cinque stazioni numerate: testa in avanti, spalle chiuse, trapezio superiore che tira, trapezio inferiore poco attivo, romboidi e trapezio medio in tensione">
+            <!-- testa e collo -->
+            <circle class="svg-skin" cx="150" cy="40" r="26"/>
+            <rect class="svg-skin" x="138" y="64" width="24" height="24" rx="6"/>
+            <!-- spalle e tronco -->
+            <path class="svg-skin" d="M60 110 Q150 70 240 110 L232 300 Q150 318 68 300 Z"/>
+            <!-- colonna -->
+            <path class="svg-spine" d="M150 88 L150 300"/>
+            <!-- scapole -->
+            <path class="svg-scap" d="M104 122 L132 132 L128 206 L96 182 Z"/>
+            <path class="svg-scap" d="M196 122 L168 132 L172 206 L204 182 Z"/>
+            <!-- trapezio superiore (collo -> spalla), tira su -->
+            <path class="svg-mus" d="M150 92 Q110 96 78 116"/>
+            <path class="svg-mus" d="M150 92 Q190 96 222 116"/>
+            <!-- romboidi / trapezio medio (colonna -> scapola), in tensione -->
+            <path class="svg-mus hot" d="M150 150 L132 150"/>
+            <path class="svg-mus hot" d="M150 170 L130 176"/>
+            <path class="svg-mus hot" d="M150 150 L168 150"/>
+            <path class="svg-mus hot" d="M150 170 L170 176"/>
+            <!-- trapezio inferiore (scapola -> colonna in basso), debole -->
+            <path class="svg-mus weak" d="M126 196 L150 262"/>
+            <path class="svg-mus weak" d="M174 196 L150 262"/>
+            <!-- frecce spalle chiuse -->
+            <path class="svg-mus" d="M86 128 L70 134" stroke-width="2"/>
+            <path class="svg-mus" d="M214 128 L230 134" stroke-width="2"/>
+            <!-- stazioni -->
+            <g><circle class="svg-dot" cx="150" cy="18" r="11"/><text class="svg-num" x="150" y="22">1</text></g>
+            <g><circle class="svg-dot" cx="62" cy="140" r="11"/><text class="svg-num" x="62" y="144">2</text></g>
+            <g><circle class="svg-dot" cx="236" cy="100" r="11"/><text class="svg-num" x="236" y="104">3</text></g>
+            <g><circle class="svg-dot acc" cx="150" cy="280" r="11"/><text class="svg-num" x="150" y="284">4</text></g>
+            <g><circle class="svg-dot hot" cx="150" cy="160" r="11"/><text class="svg-num" x="150" y="164">5</text></g>
+            <!-- etichette -->
+            <text class="svg-lab" x="150" y="318">tratteggio arancio = muscolo poco attivo</text>
+          </svg>
+          <ol class="stations">
+            <li><span class="n">1</span><div><b>Testa in avanti</b><span>Ogni centimetro in avanti aumenta il peso che il collo deve reggere. I muscoli dietro al collo restano accesi.</span></div></li>
+            <li><span class="n">2</span><div><b>Spalle chiuse</b><span>I muscoli del petto si accorciano e tirano le spalle in avanti. Le scapole scivolano in fuori, lontano dalla colonna.</span></div></li>
+            <li><span class="n">3</span><div><b>Trapezio superiore che tira su</b><span>È il muscolo delle spalle "alzate". Lavora troppo e di solito è quello che senti duro quando ti massaggi il collo.</span></div></li>
+            <li><span class="n acc">4</span><div><b>Trapezio inferiore poco attivo</b><span>Dovrebbe tenere la scapola giù e dentro. Lavora poco, quindi nessuno fa il suo lavoro al posto suo. Qui si rinforza.</span></div></li>
+            <li><span class="n hot">5</span><div><b>Romboidi e trapezio medio in tensione continua</b><span>Frenano la scapola che scappa in fuori, tutto il giorno. È il punto che fa male. Qui si calma, non si forza.</span></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. LE TUE DOMANDE -->
+    <section class="section" id="domande">
+      <div class="section-head">
+        <div class="num">2</div>
+        <h2>Le tue domande</h2>
+        <p class="lede">Le risposte alle cose che chiedono quasi tutti con questo problema. Se ne hai altre, scrivimele e le aggiungo.</p>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <h3>«Perché mi fa male lì se non ho fatto niente di strano?»</h3>
+          <p>Perché non è stato un gesto, è stata una somma. Un muscolo che tiene una posizione per otto ore fa più fatica di uno che solleva un peso per dieci secondi. Pensa a tenere una borsa della spesa con il braccio teso: il peso è piccolo, ma dopo due minuti il braccio trema. I romboidi fanno quel lavoro ogni giorno, con le scapole che scappano in avanti.</p>
+        </div>
+        <div class="card">
+          <h3>«Se il dolore è in mezzo alla schiena, perché devo rinforzare un muscolo più in basso?»</h3>
+          <p>Perché il muscolo in basso, il trapezio inferiore, è quello che dovrebbe tenere la scapola al suo posto. Se lui lavora, i romboidi possono smettere di tirare. È come un tavolo con una gamba corta: puoi mettere spessori sotto le altre tre, ma la soluzione è sistemare la gamba che manca. Rinforzare i romboidi, che sono già stanchi, peggiorerebbe la situazione.</p>
+        </div>
+        <div class="card">
+          <h3>«Mi faccio massaggiare la zona? Metto il calore?»</h3>
+          <p>Il calore va bene, 15 minuti la sera, e il massaggio leggero dà sollievo. Ma sono un sollievo, non una cura: la mattina dopo il muscolo ricomincia a tenere e il dolore torna. Usali per stare meglio nel frattempo, mentre gli esercizi cambiano il motivo per cui fa male.</p>
+        </div>
+        <div class="card">
+          <h3>«Devo stare dritta tutto il giorno?»</h3>
+          <p>No, e non ci riusciresti. Nessuna postura è giusta se tenuta a lungo: la postura migliore è la prossima. Quello che conta è cambiare posizione spesso, e avere i muscoli giusti svegli quando serve. Per questo nella scheda c'è una pausa ogni 45 minuti, non un ordine di stare dritta.</p>
+        </div>
+        <div class="card">
+          <h3>«Quanto ci vuole?»</h3>
+          <p>Il dolore di solito si calma in due o tre settimane, se smetti di sovraccaricare la zona. La forza del trapezio inferiore ha bisogno di sei o otto settimane per cambiare davvero: i muscoli imparano prima a "accendersi" e solo dopo diventano più forti. Per questo la scheda è il primo passo, non l'ultimo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. INDICAZIONI -->
+    <section class="section" id="indicazioni">
+      <div class="section-head">
+        <div class="num">3</div>
+        <h2>Indicazioni</h2>
+      </div>
+      <div class="principle">Togli lavoro ai muscoli stanchi, dallo a quelli che dormono.</div>
+      <div class="grid-2 do-dont">
+        <div class="card ok do">
+          <h3>Da fare</h3>
+          <ul>
+            <li>Gli esercizi della scheda, con le dosi scritte. Pochi, fatti bene, ogni giorno.</li>
+            <li>Una pausa ogni 45 minuti di scrivania: alzati, mento indietro, spalle giù, cinque respiri.</li>
+            <li>Schermo all'altezza degli occhi. Se usi il portatile, mettilo su un rialzo con tastiera esterna.</li>
+            <li>Telefono portato all'altezza del viso, non la testa portata al telefono.</li>
+            <li>Calore 15 minuti la sera sulla zona dolente, se dà sollievo.</li>
+            <li>Camminare tutti i giorni, almeno 20 minuti, con le braccia libere.</li>
+            <li>Segnare il dolore sul diario in fondo, mattina e sera.</li>
+          </ul>
+        </div>
+        <div class="card danger dont">
+          <h3>Da evitare</h3>
+          <ul>
+            <li>Allungare o "stirare" con forza la zona fra le scapole: è già in tiro, tirarla ancora la irrita.</li>
+            <li>Esercizi di remata pesante o aperture con elastico a spalle alte. Rinforzano proprio i muscoli stanchi.</li>
+            <li>Alzate di spalle, zaino pesante su una spalla sola, borsa a tracolla per ore.</li>
+            <li>Massaggi profondi o "scrocchi" sulla zona dolente fatti da soli con palline o attrezzi.</li>
+            <li>Restare più di un'ora nella stessa posizione, anche se comoda.</li>
+            <li>Dormire a pancia in giù con la testa girata.</li>
+            <li>Smettere gli esercizi appena il dolore passa: è il momento in cui iniziano a servire.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ESERCIZI -->
+    <section class="section" id="esercizi">
+      <div class="section-head">
+        <div class="num">4</div>
+        <h2>Esercizi</h2>
+        <p class="lede">Sei esercizi, in ordine. I primi tre sbloccano, il quarto rinforza, il quinto apre, il sesto cambia l'abitudine. In tutto 12 minuti al giorno, più il quarto a giorni alterni.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Esercizio</th><th>Quante volte</th><th>Quando</th></tr></thead>
+          <tbody>
+            <tr><td>1 · Mento indietro con respiro</td><td class="num">10 ripetizioni × 3 al giorno</td><td>Mattina, metà giornata, sera</td></tr>
+            <tr><td>2 · Apertura del dorso sull'asciugamano</td><td class="num">2 minuti × 1 al giorno</td><td>La sera, prima degli altri</td></tr>
+            <tr><td>3 · Scivolata al muro con spalle giù</td><td class="num">2 serie × 10</td><td>Ogni giorno, dopo il 2</td></tr>
+            <tr><td>4 · La "Y" a pancia in giù</td><td class="num">3 serie × 8, tieni 3 secondi</td><td>A giorni alterni (lun, mer, ven, dom)</td></tr>
+            <tr><td>5 · Apertura del petto sulla porta</td><td class="num">30 secondi × 3</td><td>Ogni giorno, dopo il 4 o il 3</td></tr>
+            <tr><td>6 · Pausa dei 45 minuti</td><td class="num">1 minuto, ogni 45 minuti seduta</td><td>Al lavoro e davanti allo schermo</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stack">
+        <div class="card ex">
+          <div class="ex-head"><h3>1 · Mento indietro con respiro</h3><span class="dose">10 ripetizioni, 3 volte al giorno</span></div>
+          <p class="why">Riporta la testa sopra le spalle e spegne i muscoli dietro al collo. È il primo anello della catena.</p>
+          <ol>
+            <li>Seduta o in piedi, schiena appoggiata, sguardo dritto davanti.</li>
+            <li>Porta il mento indietro, come per fare il "doppio mento", senza abbassare la testa.</li>
+            <li>Tieni 3 secondi, respirando dal naso, poi lascia andare piano.</li>
+            <li>Il movimento è piccolo: due centimetri bastano.</li>
+          </ol>
+          <div class="stop">
+            <div class="good"><b>Va bene se</b>senti un allungamento dietro al collo, in alto, e la zona fra le scapole si rilassa.</div>
+            <div class="bad"><b>Fermati se</b>compare dolore in gola, vertigine, o formicolio alle braccia. Non è l'esercizio giusto per oggi: scrivimelo.</div>
+          </div>
+        </div>
+
+        <div class="card ex">
+          <div class="ex-head"><h3>2 · Apertura del dorso sull'asciugamano</h3><span class="dose">2 minuti, 1 volta al giorno</span></div>
+          <p class="why">La parte alta della schiena, fra le scapole, tende a chiudersi in avanti. Aprirla toglie tiro ai romboidi e dà spazio alla scapola per scendere.</p>
+          <ol>
+            <li>Arrotola un asciugamano da bagno stretto, spessore di una bottiglia.</li>
+            <li>Sdraiati a terra sulla schiena, con il rotolo di traverso all'altezza della zona dolente, ginocchia piegate, piedi a terra.</li>
+            <li>Braccia aperte a terra, palmi in su. Lascia il peso del corpo sul rotolo.</li>
+            <li>Respira lento dal naso, lasciando che il petto si apra a ogni espirazione. Resta 2 minuti.</li>
+            <li>Per alzarti, gira su un fianco. Mai di scatto.</li>
+          </ol>
+          <div class="stop">
+            <div class="good"><b>Va bene se</b>senti pressione e apertura, e dopo il dolore è uguale o più leggero.</div>
+            <div class="bad"><b>Fermati se</b>il dolore sale sopra 4 su 10, o senti formicolio o il fiato corto. Sposta il rotolo di due dita più in basso; se non cambia, togli l'esercizio.</div>
+          </div>
+        </div>
+
+        <div class="card ex">
+          <div class="ex-head"><h3>3 · Scivolata al muro con spalle giù</h3><span class="dose">2 serie da 10, ogni giorno</span></div>
+          <p class="why">Insegna al trapezio inferiore ad accendersi mentre le braccia salgono, senza che il trapezio superiore alzi le spalle. È l'esercizio che prepara il quarto.</p>
+          <ol>
+            <li>Schiena al muro, piedi a 15 centimetri dal muro, ginocchia morbide. Testa, dorso e sedere appoggiati.</li>
+            <li>Braccia al muro a "candelabro": gomiti piegati a 90°, dorso delle mani al muro se riesci, altrimenti più vicine che puoi.</li>
+            <li>Prima di muovere, porta le spalle giù e lontane dalle orecchie. Questo è il punto che conta.</li>
+            <li>Fai scivolare le braccia verso l'alto, lentamente, tenendo gomiti e polsi vicini al muro, fino a dove le spalle restano giù.</li>
+            <li>Torna giù piano. 10 volte, pausa di 30 secondi, altre 10.</li>
+          </ol>
+          <div class="stop">
+            <div class="good"><b>Va bene se</b>senti lavorare la zona sotto la scapola, verso il centro della schiena, e le spalle non salgono.</div>
+            <div class="bad"><b>Fermati se</b>le spalle salgono o il dolore fra le scapole aumenta: accorcia il movimento, sali meno. Se c'è dolore davanti alla spalla o pizzicore, fermati.</div>
+          </div>
+        </div>
+
+        <div class="card ex">
+          <div class="ex-head"><h3>4 · La "Y" a pancia in giù</h3><span class="dose">3 serie da 8, tieni 3 secondi, a giorni alterni</span></div>
+          <p class="why">È l'esercizio principale della scheda: rinforza il trapezio inferiore nella direzione in cui lavora davvero, giù e dentro. A giorni alterni perché il muscolo cresce nel giorno di riposo.</p>
+          <ol>
+            <li>A pancia in giù su un tappetino, fronte appoggiata su un asciugamano piegato, braccia distese in avanti a formare una "Y" con il corpo, pollici verso il soffitto.</li>
+            <li>Mento leggermente indietro, pancia morbida. Non inarcare la schiena bassa.</li>
+            <li>Porta le spalle giù, lontane dalle orecchie, e solleva le braccia di pochi centimetri, come se le allungassi verso l'angolo della stanza.</li>
+            <li>Tieni 3 secondi. Senti lavorare sotto la scapola, verso il centro della schiena.</li>
+            <li>Appoggia piano. 8 volte, 45 secondi di pausa, 3 serie.</li>
+            <li>Senza pesi per le prime tre settimane. Poi decidiamo insieme.</li>
+          </ol>
+          <div class="stop">
+            <div class="good"><b>Va bene se</b>la fatica è sotto la scapola e nel centro basso della schiena, e il giorno dopo c'è al massimo un indolenzimento leggero.</div>
+            <div class="bad"><b>Fermati se</b>senti il lavoro tutto in cima alle spalle o nel collo, o se il dolore fra le scapole sale sopra 4 su 10 o è peggiore il mattino dopo. Riduci a 2 serie da 6 e scrivimelo.</div>
+          </div>
+        </div>
+
+        <div class="card ex">
+          <div class="ex-head"><h3>5 · Apertura del petto sulla porta</h3><span class="dose">30 secondi, 3 volte, ogni giorno</span></div>
+          <p class="why">Allunga i muscoli del petto che tirano le spalle in avanti. Senza questo, il trapezio inferiore lavora contro un freno.</p>
+          <ol>
+            <li>In piedi nel vano di una porta, avambracci appoggiati agli stipiti, gomiti poco sotto l'altezza delle spalle.</li>
+            <li>Fai un passo avanti con un piede, tenendo il corpo dritto, finché senti tirare davanti al petto.</li>
+            <li>Spalle giù, mento indietro. Respira lento per 30 secondi.</li>
+            <li>Torna indietro, cambia piede, ripeti. In tutto 3 volte.</li>
+          </ol>
+          <div class="stop">
+            <div class="good"><b>Va bene se</b>senti tirare davanti, sul petto, e dopo le spalle sembrano più "larghe".</div>
+            <div class="bad"><b>Fermati se</b>senti formicolio nelle mani o dolore dentro la spalla: abbassa i gomiti e fai un passo più corto. Se resta, togli l'esercizio.</div>
+          </div>
+        </div>
+
+        <div class="card ex">
+          <div class="ex-head"><h3>6 · La pausa dei 45 minuti</h3><span class="dose">1 minuto ogni 45 minuti seduta</span></div>
+          <p class="why">È l'esercizio che vale di più, perché cambia le ore in cui il problema si crea, non i dieci minuti in cui lo curi.</p>
+          <ol>
+            <li>Metti un promemoria ogni 45 minuti sul telefono o sul computer.</li>
+            <li>Alzati. Fai 5 "mento indietro" (esercizio 1).</li>
+            <li>Porta le spalle giù e indietro, braccia lungo i fianchi, palmi in avanti. Tieni 5 respiri.</li>
+            <li>Cammina fino alla finestra o al corridoio e torna. Poi risiediti sistemando lo schermo.</li>
+          </ol>
+          <div class="stop">
+            <div class="good"><b>Va bene se</b>a fine giornata il dolore è più basso di quando non facevi le pause. Vedrai la differenza sul diario.</div>
+            <div class="bad"><b>Non va se</b>salti le pause "perché tanto sto bene". Vanno fatte proprio nei giorni in cui stai bene.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ATTENZIONE -->
+    <section class="section" id="attenzione">
+      <div class="section-head">
+        <div class="num">5</div>
+        <h2>Attenzione</h2>
+        <p class="lede">Il dolore fra le scapole è quasi sempre muscolare. Ma la stessa zona può ricevere dolore da organi vicini, e quei casi vanno riconosciuti subito.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card danger">
+          <h3>Pronto soccorso, lo stesso giorno</h3>
+          <ul>
+            <li>Dolore fra le scapole che compare insieme a peso o dolore al petto, sudore freddo, nausea o fiato corto.</li>
+            <li>Dolore improvviso, fortissimo, "a strappo", mai sentito prima, soprattutto se ti senti mancare.</li>
+            <li>Braccio o mano che perdono forza di colpo, o non riesci più a tenere un oggetto.</li>
+            <li>Dolore dopo una caduta o un colpo forte alla schiena.</li>
+            <li>Febbre alta con dolore alla schiena che non cambia con la posizione.</li>
+          </ul>
+        </div>
+        <div class="card amber">
+          <h3>Chiama il medico entro un giorno</h3>
+          <ul>
+            <li>Formicolio, "spilli" o pelle addormentata lungo il braccio o nelle dita, nuovi.</li>
+            <li>Dolore che ti sveglia di notte e non cambia cambiando posizione.</li>
+            <li>Dolore che aumenta con il respiro profondo o la tosse.</li>
+            <li>Dolore che peggiora ogni giorno nonostante le indicazioni, per più di cinque giorni.</li>
+            <li>Dimagrimento senza motivo, stanchezza insolita, o dolore in altre zone che compare insieme.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Perché in questi casi la visita non si rinvia</h3>
+        <p>Il mio lavoro è sul muscolo e sul movimento. Se il dolore viene da un nervo, dal cuore, dai polmoni o dalla colonna, nessun esercizio lo risolve e il tempo perso conta. In quei casi la visita non è un'alternativa alla scheda: viene prima della scheda, e gli esercizi si sospendono finché il medico non ha escluso le cause che non sono muscolari.</p>
+      </div>
+
+      <div class="card">
+        <h3>Diario di controllo</h3>
+        <p class="why">Ogni giorno segna il dolore da 0 (nessuno) a 10 (il peggiore che immagini), la mattina appena alzata e la sera. Porta la scheda al controllo.</p>
+        <div class="measure">
+          <div class="line"><span>Misura presa in studio il 6 novembre:</span></div>
+          <div class="line"><span>Dolore alla pressione fra le scapole:</span> <span class="blank"></span> <span>/ 10</span></div>
+          <div class="line"><span>Tenuta della "Y" a terra prima che le spalle salgano:</span> <span class="blank"></span> <span>secondi</span></div>
+          <div class="line"><span>Obiettivo al controllo:</span> <span>dolore sotto 3 / 10 e tenuta oltre i 20 secondi.</span></div>
+        </div>
+        <div class="table-wrap">
+          <table class="diary">
+            <thead><tr><th>Giorno</th><th>Mattina 0-10</th><th>Sera 0-10</th><th>Esercizi fatti</th><th>Note (lavoro, sonno, cosa ha aiutato)</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>2</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>3</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>4</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>5</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>6</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>7</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>8</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>9</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>10</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>11</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>12</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>13</td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>14</td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. COSA ASPETTARSI -->
+    <section class="section" id="aspettarsi">
+      <div class="section-head">
+        <div class="num">6</div>
+        <h2>Cosa aspettarsi</h2>
+      </div>
+      <div class="pills">
+        <span class="pill soft">Settimane 1–3 · calmare</span>
+        <span class="pill amber">Settimane 3–8 · rinforzare</span>
+        <span class="pill accent">Dopo · lavoro posturale guidato</span>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <h3>Settimane 1–3: il dolore scende</h3>
+          <p>Con le pause, il mento indietro e l'apertura del dorso i romboidi smettono di lavorare sempre. Il dolore di solito scende sotto 3 su 10 nelle prime due o tre settimane. Non è ancora la soluzione: è il segno che hai tolto il carico.</p>
+        </div>
+        <div class="card">
+          <h3>Settimane 3–8: il trapezio inferiore si sveglia</h3>
+          <p>La "Y" e la scivolata al muro insegnano prima al muscolo ad accendersi, poi lo rendono più forte. In queste settimane il dolore può oscillare: giorni buoni e qualche giorno meno buono sono normali, finché la media sul diario scende. Al controllo aggiorno dosi e difficoltà.</p>
+        </div>
+        <div class="card soft">
+          <h3>Dopo: il lavoro che resta da fare</h3>
+          <p>Questa scheda è il primo passo. Il trapezio inferiore debole e le spalle chiuse non sono un incidente: sono il modo in cui il tuo corpo ha imparato a stare in piedi e seduto in questi anni. Perché il dolore non torni, dopo questa fase serve un <strong>lavoro posturale vero e proprio</strong>: esercizi progressivi su tutta la catena, dalla testa al bacino, con qualcuno che controlli il gesto e lo faccia crescere nel tempo.</p>
+          <p>Non è qualcosa che si fa da soli con una scheda, e non è qualcosa che si fa per sempre: è un percorso di qualche mese, fatto bene, che ti lascia con un corpo che si regge da solo. Ne parliamo al controllo e ti dico come e con chi impostarlo.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div><b>Kinesiologia Studio</b> · Dott. Davide Scuderi · Modena</div>
+    <div>Telefono e WhatsApp +39 348 151 4382 · infokinesiologia@gmail.com</div>
+    <div>Questa scheda non sostituisce la visita medica.</div>
+  </div>
+</footer>
+</body></html>
