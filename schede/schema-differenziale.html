@@ -1,0 +1,561 @@
+<!doctype html><html lang="it" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><title>Schema differenziale</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: fascia verde, barra di navigazione a tre regioni, poi per ogni regione bandiere rosse, triage in ordine, un quadro per card con quattro colonne. Token da index.html del sito. */
+  :root {
+    --bg: #F4F3EC; --surface: #FFFFFF; --surface-2: #ECEDE3; --ink: #22302B; --muted: #5C6B64; --line: #DDE0D2;
+    --brand: #2F5D51; --brand-strong: #24493F; --brand-ink: #F2F7F3; --brand-soft: #E2ECE5;
+    --accent: #C98632; --accent-ink: #26190A; --accent-soft: #F6E8D3;
+    --danger: #AC4530; --danger-soft: #F4E2DC; --ok: #3E7A5E; --ok-soft: #E2ECE5;
+    --shadow: 0 2px 10px rgba(34, 48, 43, 0.07);
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141A17; --surface: #1D2521; --surface-2: #242D28; --ink: #E8ECE6; --muted: #9AA79F; --line: #2E3833;
+      --brand: #7FB5A3; --brand-strong: #93C4B4; --brand-ink: #10201A; --brand-soft: #24352E;
+      --accent: #DFA24C; --accent-ink: #26190A; --accent-soft: #3A2E1A;
+      --danger: #E07B63; --danger-soft: #3A241E; --ok: #79B694; --ok-soft: #24352E;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141A17; --surface: #1D2521; --surface-2: #242D28; --ink: #E8ECE6; --muted: #9AA79F; --line: #2E3833;
+    --brand: #7FB5A3; --brand-strong: #93C4B4; --brand-ink: #10201A; --brand-soft: #24352E;
+    --accent: #DFA24C; --accent-ink: #26190A; --accent-soft: #3A2E1A;
+    --danger: #E07B63; --danger-soft: #3A241E; --ok: #79B694; --ok-soft: #24352E;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15.5px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); }
+  h2 { font-size: clamp(1.4rem, 3vw, 1.85rem); color: var(--brand-strong); }
+  h3 { font-size: 1.1rem; }
+  p { margin: 0; } ul, ol { margin: 0; padding-left: 1.15em; } li + li { margin-top: 0.3em; }
+  strong { font-weight: 600; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+  .hero { background: var(--brand); color: var(--brand-ink); }
+  .hero .wrap { padding-block: 30px 26px; display: grid; gap: 12px; }
+  .eyebrow { font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; opacity: 0.9; }
+  .hero h1 { color: var(--brand-ink); }
+  .hero .sub { max-width: 66ch; opacity: 0.95; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 5px 13px; font-size: 0.84rem; font-weight: 600; background: var(--brand-ink); color: var(--brand-strong); text-decoration: none; }
+  .pill.accent { background: var(--accent); color: var(--accent-ink); }
+
+  nav.regions { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+  nav.regions .wrap { display: flex; gap: 8px; padding-block: 10px; overflow-x: auto; }
+  nav.regions a { white-space: nowrap; border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: 0.9rem; color: var(--brand-strong); background: var(--brand-soft); text-decoration: none; }
+  nav.regions a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+
+  main .wrap { padding-block: 10px 40px; display: grid; gap: 48px; }
+  .region { display: grid; gap: 18px; scroll-margin-top: 70px; }
+  .region-head { display: grid; gap: 6px; padding-top: 22px; }
+  .lede { color: var(--muted); max-width: 70ch; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); display: grid; gap: 10px; min-width: 0; }
+  .card h3 { color: var(--brand-strong); }
+  .card.danger { background: var(--danger-soft); border-color: var(--danger); }
+  .card.danger h3 { color: var(--danger); }
+  .card.amber { background: var(--accent-soft); border-color: var(--accent); }
+  .card.soft { background: var(--brand-soft); border-color: transparent; box-shadow: none; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+  .stack { display: grid; gap: 12px; }
+
+  .flags { display: grid; gap: 6px; font-size: 0.94rem; }
+  .flags li b { font-weight: 600; }
+
+  .triage { display: grid; gap: 8px; counter-reset: q; list-style: none; padding: 0; }
+  .triage li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; font-size: 0.95rem; }
+  .triage li::before { counter-increment: q; content: counter(q); width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center; background: var(--brand); color: var(--brand-ink); font-weight: 700; font-size: 0.85rem; }
+  .triage b { display: block; font-weight: 600; }
+  .triage span { color: var(--muted); }
+
+  /* Quadro: quattro colonne */
+  .q { display: grid; gap: 8px; }
+  .q-head { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; justify-content: space-between; }
+  .q-head .tag { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); }
+  .cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 540px) { .cols { grid-template-columns: 1fr; } }
+  .col { display: grid; gap: 4px; min-width: 0; font-size: 0.9rem; border-top: 2px solid var(--line); padding-top: 6px; }
+  .col h4 { font-family: var(--font-body); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .col.says { border-top-color: var(--brand); }
+  .col.test { border-top-color: var(--accent); }
+  .col.out { border-top-color: var(--danger); }
+  .col.work { border-top-color: var(--ok); }
+  .col ul { padding-left: 1.05em; }
+  .col li + li { margin-top: 0.2em; }
+
+  .order { display: grid; gap: 6px; font-size: 0.94rem; }
+  .order li b { font-weight: 600; color: var(--brand-strong); }
+
+  .site-footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.86rem; }
+  .site-footer .wrap { padding-block: 20px 32px; display: grid; gap: 4px; }
+  .site-footer b { color: var(--ink); font-weight: 600; }
+
+  @media print {
+    @page { size: A4; margin: 12mm 11mm 16mm; }
+    body { background: #fff; font-size: 9.6pt; line-height: 1.38; }
+    body::before { display: none; }
+    .wrap { max-width: none; padding-left: 0; padding-right: 0; }
+    .hero { border-radius: 12px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .hero .wrap { padding: 18px 22px 16px; }
+    nav.regions, .site-footer { display: none; }
+    main .wrap { gap: 0; padding-block: 0; }
+    .region { break-before: page; gap: 10px; }
+    .region.first { break-before: auto; padding-top: 6px; }
+    .region-head { padding-top: 0; }
+    .card { break-inside: avoid; box-shadow: none; padding: 10px 13px; gap: 6px; }
+    .stack { gap: 8px; } .grid-2 { gap: 8px; }
+    .cols { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+    .col { font-size: 8.6pt; } .col h4 { font-size: 6.6pt; }
+    h2 { font-size: 1.35rem; } h3 { font-size: 1rem; }
+    .flags, .triage li, .order { font-size: 8.8pt; }
+    .triage li::before { width: 20px; height: 20px; font-size: 0.72rem; }
+    .triage li { grid-template-columns: 22px minmax(0, 1fr); gap: 7px; }
+  }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Kinesiologia Studio · uso interno · Dott. Davide Scuderi</div>
+    <h1>Schema differenziale</h1>
+    <p class="sub">Lombosacrale, cervicale e spalla: i quadri più comuni, cosa chiedere, cosa verificare, cosa li esclude e in che direzione lavorare. Pensato per arrivare in dieci minuti a una ipotesi di lavoro, non a una diagnosi: quella spetta al medico.</p>
+    <div class="pills">
+      <span class="pill accent">Prima le bandiere rosse, sempre</span>
+      <span class="pill">Aggiornato novembre 2026</span>
+    </div>
+  </div>
+</header>
+
+<nav class="regions" aria-label="Regioni">
+  <div class="wrap">
+    <a href="#metodo">Metodo</a>
+    <a href="#lombare">Lombosacrale</a>
+    <a href="#cervicale">Cervicale</a>
+    <a href="#spalla">Spalla</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <!-- METODO -->
+    <section class="region first" id="metodo">
+      <div class="region-head">
+        <h2>Il metodo, in una pagina</h2>
+        <p class="lede">La stessa sequenza per tutte e tre le regioni. L'anamnesi fa l'80% del lavoro: i test servono a confermare o smontare l'ipotesi che le domande hanno già costruito.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Le cinque domande che orientano</h3>
+          <ol class="triage">
+            <li><div><b>Dove, con un dito.</b><span>Un dito su un punto = struttura locale (sacroiliaca, faccetta, acromion-claveare). Una mano aperta o "qui dentro" = riferito o diffuso.</span></div></li>
+            <li><div><b>Cosa lo peggiora e cosa lo migliora.</b><span>Flessione contro estensione, seduto contro in piedi, movimento contro riposo, carico contro scarico. È la domanda più discriminante di tutte.</span></div></li>
+            <li><div><b>Fin dove arriva.</b><span>Sotto il ginocchio o sotto il gomito, con formicolio o debolezza, vuol dire nervo. Sopra, è più spesso riferito da articolazione, disco o muscolo.</span></div></li>
+            <li><div><b>Notte e mattina.</b><span>Rigidità mattutina oltre mezz'ora e dolore nella seconda metà della notte che migliora alzandosi: infiammatorio. Dolore notturno che non cambia in nessuna posizione: bandiera rossa.</span></div></li>
+            <li><div><b>Da quanto e come è iniziato.</b><span>Trauma, gesto preciso, oppure insidioso. Episodi ricorrenti con "cedimenti" parlano di controllo motorio, non di struttura.</span></div></li>
+          </ol>
+        </div>
+        <div class="stack">
+          <div class="card soft">
+            <h3>Come leggere i test</h3>
+            <ul class="flags">
+              <li><b>Un test da solo non basta.</b> Conta il cluster: più test della stessa struttura, concordi con l'anamnesi.</li>
+              <li><b>Cerca prima di escludere, poi di confermare.</b> I test sensibili servono a togliere (SLR negativo: radicolopatia improbabile). I test specifici servono a mettere (Laslett 3 su 5: sacroiliaca probabile).</li>
+              <li><b>Riproduci il suo dolore, non un dolore.</b> Un test è positivo solo se evoca il sintomo per cui è venuto, nello stesso punto.</li>
+              <li><b>Ritesta a fine seduta.</b> Se il test positivo non cambia dopo il trattamento, o hai trattato la struttura sbagliata o la tecnica sbagliata. Cambia ipotesi, non insistere.</li>
+            </ul>
+          </div>
+          <div class="card amber">
+            <h3>Quando la risposta è "prima il medico"</h3>
+            <p>Qualsiasi bandiera rossa, un deficit neurologico (forza, riflessi, sensibilità), un dolore che non risponde a nessuna posizione, un sospetto infiammatorio, o nessun miglioramento dopo tre o quattro sedute ben mirate. Nel programma Che Postura corrisponde al piano "Prima il medico".</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOMBOSACRALE -->
+    <section class="region" id="lombare">
+      <div class="region-head">
+        <h2>Lombosacrale</h2>
+        <p class="lede">Il più delle volte le domande due e tre separano già disco, faccette, sacroiliaca e nervo. Il resto è il gruppo che si confonde con la sacroiliaca e che il thrust non risolve: cerniera dorsolombare, nervi cluneali, controllo motorio, anca.</p>
+      </div>
+
+      <div class="card danger">
+        <h3>Bandiere rosse: ferma tutto e manda al medico</h3>
+        <ul class="flags">
+          <li><b>Cauda equina.</b> Difficoltà a urinare o incontinenza nuova, anestesia a sella, debolezza bilaterale alle gambe. Pronto soccorso lo stesso giorno.</li>
+          <li><b>Frattura.</b> Trauma, età oltre i 70, osteoporosi, cortisone prolungato, dolore acuto centrale alla percussione delle spinose.</li>
+          <li><b>Tumore o infezione.</b> Storia di tumore, calo di peso senza motivo, febbre, dolore notturno non posizionale, immunosoppressione, uso di droghe endovena.</li>
+          <li><b>Aneurisma aortico.</b> Oltre 60 anni, fumatore, dolore profondo pulsante, massa addominale pulsante. Non palpare in profondità, manda.</li>
+          <li><b>Viscerale.</b> Dolore che non cambia con nessuna posizione o movimento, legato al ciclo, ai pasti o alla minzione: rene, ginecologico, pancreas.</li>
+          <li><b>Deficit neurologico progressivo.</b> Perdita di forza che peggiora in giorni (piede cadente, non sale sulle punte). Visita urgente, niente rinforzo.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>L'ordine dei test, dopo le domande</h3>
+        <ol class="order">
+          <li><b>Neurologico veloce</b> se il dolore scende sotto il ginocchio: forza (tibiale anteriore, estensore dell'alluce, tricipite surale), riflessi rotuleo e achilleo, sensibilità L4, L5, S1. Poi SLR e Slump.</li>
+          <li><b>Movimenti ripetuti</b>: dieci flessioni in piedi, dieci estensioni prone. Centralizza o periferizza? Questo separa disco e faccette, e dice subito in quale direzione lavorare.</li>
+          <li><b>Cluster di Laslett</b> per la sacroiliaca: distrazione, compressione, thigh thrust, sacral thrust, Gaenslen. Sotto tre positivi su cinque, la sacroiliaca esce.</li>
+          <li><b>Cerniera e cresta</b>: pinza-rotolamento sopra la cresta, pressione laterale sulle spinose T11-L2, punto crestale a circa 7 cm dalla linea mediana con Tinel.</li>
+          <li><b>Controllo motorio</b>: Active Straight Leg Raise con e senza compressione del bacino, prone instability test, estensione d'anca prona secondo Janda.</li>
+          <li><b>Anca</b>: FADIR, FABER, rotazione interna a 90° di flessione, Thomas. Un'anca rigida e dolente in rotazione interna simula una lombalgia bassa.</li>
+        </ol>
+      </div>
+
+      <div class="stack">
+
+        <div class="card q">
+          <div class="q-head"><h3>Discogenico, intolleranza alla flessione</h3><span class="tag">L4-L5, L5-S1 · il più comune sotto i 50</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Peggio seduto, piegato in avanti, al mattino, con tosse e starnuto, nell'alzarsi dalla sedia.</li><li>Meglio in piedi, camminando, sdraiato.</li><li>Dolore centrale o monolaterale, può riferire al gluteo e alla coscia senza scendere sotto il ginocchio.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Flessioni ripetute in piedi peggiorano o periferizzano.</li><li>Estensioni ripetute prone centralizzano o migliorano.</li><li>Flessione da seduto dolorosa, estensione libera.</li><li>SLR e neurologico per escludere la componente radicolare.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Migliora in flessione e peggiora in estensione: guarda le faccette.</li><li>Nessuna direzione cambia il dolore: cerca altrove.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Preferenza direzionale in estensione, hip hinge, camminata.</li><li>Stop agli allungamenti in flessione (ginocchia al petto, ischiocrurali da seduto).</li><li>Resistenza del tronco (McGill), poi glutei.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Radicolopatia lombare</h3><span class="tag">Nervo, non muscolo</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Il dolore alla gamba è peggiore di quello alla schiena.</li><li>Scende sotto il ginocchio lungo una striscia, con formicolio, "spilli", a volte debolezza.</li><li>Peggio seduto e in flessione, con la tosse.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>SLR positivo tra 30° e 70°, peggiora con dorsiflessione o flessione del collo. SLR crociato: molto specifico.</li><li>Slump positivo.</li><li>Riflessi rotuleo (L4) e achilleo (S1), forza di tibiale anteriore (L4), estensore dell'alluce (L5), tricipite surale (S1), sensibilità per dermatomero.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>SLR negativo e dolore che non scende sotto il ginocchio: molto improbabile.</li><li>Dolore diffuso non dermatomerico: riferito, non radicolare.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Centralizzazione con movimenti ripetuti, posizioni di scarico.</li><li>Niente stretching del nervo, niente flessione sotto carico.</li><li>Deficit di forza o progressivo: medico prima di tutto.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Faccette, intolleranza all'estensione</h3><span class="tag">Oltre i 50, o giovane iperlordotico</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Peggio in piedi fermo, in estensione, girandosi nel letto, nel tratto finale del rialzarsi.</li><li>Meglio seduto, piegato in avanti, con le ginocchia al petto.</li><li>Rigidità mattutina breve, sotto la mezz'ora. Dolore paraspinale a un dito, può riferire a gluteo e coscia.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Estensione con rotazione omolaterale (Kemp) riproduce il dolore locale.</li><li>Estensioni ripetute peggiorano, flessioni ripetute migliorano.</li><li>Pressione postero-anteriore sul segmento dolente.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Centralizzazione in estensione: è disco.</li><li>Dolore sotto il ginocchio con segni neurologici.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Preferenza in flessione, mobilizzazione segmentaria.</li><li>Addominali, glutei, flessori d'anca da allungare (Thomas).</li><li>Insegna a non "appendersi" sulla lordosi in piedi.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Stenosi del canale</h3><span class="tag">Oltre i 60</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Gambe pesanti o dolenti camminando, che passano fermandosi piegato in avanti o seduto. Spinge il carrello della spesa.</li><li>In bicicletta sta bene.</li><li>Spesso bilaterale, sintomi vaghi, più pesantezza che dolore.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Marcia a due stadi: cammina in piano finché compaiono i sintomi, poi in salita o piegato: in flessione resiste di più.</li><li>Estensione mantenuta 30 secondi peggiora, flessione migliora.</li><li>Polsi periferici e colore della cute per escludere la claudicatio vascolare.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Sintomi uguali in bici e a piedi, polsi deboli: vascolare, medico.</li><li>Sotto i 50 anni è raro.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Preferenza in flessione, bici, camminata a intervalli.</li><li>Mobilità d'anca in estensione, forza di glutei e gambe.</li><li>Diagnosi e imaging dal medico, se non già fatti.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Sacroiliaca</h3><span class="tag">Meno frequente di quanto sembri</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Indica con un dito un punto subito sotto e dentro la SIPS (segno di Fortin). Dolore monolaterale.</li><li>Peggio salendo le scale, alzandosi dalla sedia, girandosi nel letto, in appoggio su una gamba.</li><li>Gravidanza, post-parto, trauma con un piede a terra, dismetria.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Cluster di Laslett: almeno tre su cinque riproducono il suo dolore.</li><li>ASLR: gamba pesante che migliora comprimendo il bacino.</li><li>Nessun dolore sopra L5, nessuna centralizzazione con movimenti ripetuti.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Meno di tre su cinque, o centralizzazione con i movimenti ripetuti: è disco o faccette.</li><li>Dolore alla cresta iliaca piuttosto che alla SIPS: cerniera o cluneali.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Mobilizzazione o thrust una volta, poi ritest: se non cambia, cambia ipotesi.</li><li>Stabilità: glutei, addominali, latissimo (chiusura di forza).</li><li>Cintura pelvica temporanea se ASLR migliora con compressione.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Cerniera dorsolombare (Maigne)</h3><span class="tag">La falsa sacroiliaca</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore sulla cresta iliaca posteriore, a volte all'inguine o sul trocantere, "sciatica che non scende".</li><li>Peggio in flessione, seduto a lungo, in rotazione.</li><li>Nessun dolore alla cerniera stessa: il paziente non sa che viene da lì.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Pinza-rotolamento della cute sopra la cresta: dal lato sintomatico è nettamente più doloroso e ispessito.</li><li>Pressione laterale sulle spinose e sulle faccette T11-L2 che riproduce il dolore alla cresta.</li><li>Punto crestale dolente, palpazione lombare bassa e sacroiliaca negative.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Pinza-rotolamento uguale da entrambi i lati.</li><li>Laslett positivo e cerniera silente.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Mobilizzazione o manipolazione della cerniera dorsolombare, non della sacroiliaca.</li><li>Skin rolling e lavoro sulla fascia toracolombare.</li><li>Mobilità in estensione e rotazione del tratto dorsale basso, respiro costale.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Nervi cluneali superiori</h3><span class="tag">Il punto sulla cresta</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore sulla cresta iliaca a 7 cm dalla linea mediana, che irradia al gluteo, a volte alla coscia posteriore.</li><li>Peggio in flessione, rotazione, seduto e in piedi a lungo. Migliora con il calore.</li><li>Spesso trattato come sacroiliaca o lombare senza risultato.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Pressione sul punto crestale riproduce il dolore e l'irradiazione, Tinel positivo.</li><li>Flessione del tronco con inclinazione controlaterale evoca il sintomo.</li><li>Laslett negativo, neurologico normale.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Punto crestale non dolente.</li><li>Centralizzazione con movimenti ripetuti.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Liberazione della fascia nel punto di passaggio, non pressioni profonde sul dolore.</li><li>Scorrimento neurale dolce, mobilità dorsolombare.</li><li>Se persiste, il medico può confermare con infiltrazione.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Controllo motorio, instabilità funzionale</h3><span class="tag">Quello che il thrust non cambia</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Episodi ricorrenti, "mi si blocca", cedimenti, un "clic" nel rialzarsi.</li><li>Dolore nelle posture mantenute, non nel movimento. Sta meglio quando si muove e peggio quando sta fermo.</li><li>Migliora per un giorno dopo la manipolazione, poi torna uguale.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>ASLR: gamba pesante, migliora con compressione manuale del bacino.</li><li>Prone instability test positivo.</li><li>Movimenti aberranti nel rialzarsi dalla flessione (si aiuta con le mani sulle cosce).</li><li>Estensione d'anca prona (Janda): gluteo che parte tardi; multifido che non si attiva.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>ASLR negativo, nessun movimento aberrante, buona attivazione.</li><li>Dolore chiaro in una sola direzione: è meccanico direzionale.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Attivazione di trasverso, multifido e glutei, poi resistenza e integrazione nel gesto.</li><li>Meno manipolazione, più allenamento: è il lavoro per chi segue il movimento.</li><li>Ipermobilità (Beighton): niente allungamenti globali.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Anca che simula una lombalgia</h3><span class="tag">Guarda sempre l'anca</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore all'inguine, a volte gluteo profondo o coscia anteriore. Segno della C: afferra l'anca con la mano a "C".</li><li>Peggio seduto in macchina, accavallando le gambe, mettendo le calze, in rotazione.</li><li>Zoppia, rigidità mattutina breve.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>FADIR positivo (flessione, adduzione, rotazione interna).</li><li>FABER con dolore inguinale e ginocchio che resta alto.</li><li>Rotazione interna ridotta a 90° di flessione, confronto con l'altra anca.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Anca libera, simmetrica e indolore in tutte le direzioni.</li><li>FABER con dolore posteriore: guarda la sacroiliaca.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Mobilità d'anca, capsula posteriore, forza di glutei e rotatori.</li><li>Niente flessione profonda sotto carico in fase dolorosa.</li><li>Rigidità marcata oltre i 50: imaging dal medico.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Infiammatorio (spondiloartrite)</h3><span class="tag">Reumatologo, non studio</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Sotto i 45 anni, inizio insidioso, da più di tre mesi.</li><li>Rigidità mattutina oltre la mezz'ora, dolore nella seconda metà della notte che migliora alzandosi.</li><li>Migliora con l'esercizio, non con il riposo. Gluteo alternante. Risponde bene ai FANS. Psoriasi, uveite, intestino infiammato in famiglia.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Nessun test manuale decisivo: contano le domande. Quattro su cinque criteri di dolore infiammatorio fanno sospetto.</li><li>Schober ridotto, espansione toracica ridotta nei casi avanzati.</li><li>Laslett può essere positivo: non è prova di sacroiliaca meccanica.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Dolore chiaramente meccanico: peggio con il carico, meglio con il riposo, nessuna rigidità mattutina prolungata.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Lettera al medico con i criteri osservati, HLA-B27 e RM delle sacroiliache le decide lui.</li><li>Niente thrust. Mobilità e respiro sì, dopo la diagnosi, in coordinamento.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Miofasciale: quadrato dei lombi, glutei, piriforme</h3><span class="tag">Diagnosi per esclusione</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore sordo, a fascia, riferito secondo mappe trigger (quadrato dei lombi su cresta e gluteo, medio gluteo sul sacro, piriforme sul gluteo e coscia posteriore).</li><li>Peggio stando a lungo in una posizione, meglio cambiando e con il calore.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Punto trigger che riproduce il dolore riferito.</li><li>Tutto il resto negativo: movimenti ripetuti, Laslett, neurologico, anca.</li><li>Piriforme: FAIR positivo, dolore alla palpazione profonda, SLR negativo.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Qualsiasi test strutturale positivo: il muscolo è il compenso, non la causa.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Trattamento del muscolo, ma sempre chiedendosi perché lavora troppo: dismetria, anca rigida, gluteo inibito, respiro.</li><li>Se torna uguale dopo due sedute, la causa è altrove.</li></ul></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CERVICALE -->
+    <section class="region" id="cervicale">
+      <div class="region-head">
+        <h2>Cervicale</h2>
+        <p class="lede">Prima lo screening di sicurezza, sempre, anche senza manipolare. Poi la domanda chiave: il dolore cambia muovendo il collo o muovendo la spalla? Il dolore interscapolare, quello di Laura, viene spesso dal cervicale basso.</p>
+      </div>
+
+      <div class="card danger">
+        <h3>Bandiere rosse: ferma tutto e manda al medico</h3>
+        <ul class="flags">
+          <li><b>Disfunzione vascolare cervicale.</b> Cefalea o dolore al collo nuovi e "diversi", con diplopia, vertigine, disartria, disfagia, nistagmo, nausea, parestesie al viso, svenimenti. Pronto soccorso.</li>
+          <li><b>Instabilità cervicale alta.</b> Artrite reumatoide, sindrome di Down, trauma recente, sensazione di "testa che cade", clunk, parestesie bilaterali. Niente manipolazioni, niente test di mobilità spinti.</li>
+          <li><b>Mielopatia.</b> Mani goffe, bottoni difficili, andatura insicura, iperreflessia, Hoffmann e Babinski positivi, clono. Visita urgente.</li>
+          <li><b>Frattura.</b> Trauma: regola canadese della colonna cervicale (oltre 65 anni, meccanismo pericoloso, parestesie agli arti). Imaging prima di tutto.</li>
+          <li><b>Tumore, infezione, cefalea a esordio esplosivo.</b> Storia di tumore, febbre, dolore notturno non posizionale, cefalea "la peggiore della vita".</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>L'ordine dei test, dopo le domande</h3>
+        <ol class="order">
+          <li><b>Screening di sicurezza</b>: anamnesi vascolare, stabilità (Sharp-Purser con cautela, legamenti alari), neurologico C5-T1 se c'è dolore al braccio.</li>
+          <li><b>Movimenti attivi</b> con sovrappressione: quale direzione riproduce, dove va il dolore, rotazione sotto i 60°.</li>
+          <li><b>Cluster di Wainner</b> per la radicolopatia: Spurling, distrazione, ULTT del mediano, rotazione omolaterale sotto 60°. Tre su quattro: probabile.</li>
+          <li><b>Flexion-rotation test</b> per C1-C2 e flessione cranio-cervicale (CCFT) per i flessori profondi: cefalea e controllo.</li>
+          <li><b>Spalla e torace</b>: se i movimenti della spalla a collo fermo cambiano il dolore, vai alla sezione spalla. Mobilità dorsale e scapola per il dolore interscapolare.</li>
+          <li><b>Mandibola e respiro</b> quando c'è cefalea, serramento o respiro alto: apertura, deviazione, palpazione dei masticatori, schema respiratorio.</li>
+        </ol>
+      </div>
+
+      <div class="stack">
+
+        <div class="card q">
+          <div class="q-head"><h3>Cervicalgia meccanica, faccette e postura</h3><span class="tag">La più comune</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore locale, a un lato, a volte riferito a trapezio superiore e scapola, senza scendere sotto il gomito.</li><li>Peggio dopo ore allo schermo, in estensione o rotazione, al mattino con rigidità breve.</li><li>Nessun formicolio.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Movimenti attivi che riproducono il dolore in estensione o rotazione, con sovrappressione.</li><li>Pressione postero-anteriore sul segmento dolente, spesso C5-C6 o C2-C3.</li><li>Neurologico normale, Spurling negativo.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Dolore sotto il gomito con segni neurologici.</li><li>Dolore che cambia muovendo la spalla a collo fermo.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Mobilizzazione, dorsale alta compresa.</li><li>Flessori profondi (CCFT), trapezio inferiore, dentato, postazione di lavoro.</li><li>Mento indietro e pause: è la scheda di Laura.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Radicolopatia cervicale</h3><span class="tag">C6 e C7 le più frequenti</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore al braccio peggiore di quello al collo, sotto il gomito, con formicolio alle dita (pollice e indice C6, medio C7, anulare e mignolo C8).</li><li>Peggio in estensione e rotazione verso il lato, tossendo. Meglio con la mano sulla testa (segno dell'abduzione).</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Cluster di Wainner: Spurling positivo, distrazione che allevia, ULTT del mediano positivo, rotazione omolaterale sotto 60°.</li><li>Riflessi bicipitale (C5-C6), tricipitale (C7), forza e sensibilità per miotomo e dermatomero.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>ULTT negativo e dolore che non scende sotto il gomito.</li><li>Dolore riprodotto dai movimenti della spalla, non del collo.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Scarico: retrazione, trazione manuale, posizioni di apertura del forame.</li><li>Niente tensione neurale aggressiva, niente estensione sotto carico.</li><li>Deficit di forza: medico, prima di tutto.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Dolore interscapolare riferito dal cervicale</h3><span class="tag">Il dolore "fra le scapole" di Laura</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore fra le scapole, sul bordo mediale, spesso a un lato, "come un chiodo", che non trova la posizione.</li><li>Peggio dopo ore di schermo, a volte con rigidità al collo che il paziente non collega.</li><li>Il massaggio sul punto dà sollievo per poche ore.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Movimenti del collo con sovrappressione, in particolare estensione e rotazione, riproducono il dolore fra le scapole: segmento C5-C7 (mappa di Cloward).</li><li>Pressione sul cervicale basso che evoca il dolore interscapolare.</li><li>Forza di trapezio medio e inferiore, discinesia scapolare, mobilità dorsale.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Collo libero e silente in tutte le direzioni: il dolore è locale (romboidi, trapezio medio sovraccaricati).</li><li>Dolore con il respiro profondo o lo sforzo: medico (cuore, polmone).</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Trattare il cervicale basso e il dorsale alto, non solo il punto dolente.</li><li>Trapezio inferiore e dentato anteriore, apertura del dorso, pettorali.</li><li>Lavoro posturale strutturato: è dove la seduta da sola non basta.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Cefalea cervicogenica</h3><span class="tag">C1-C3</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Mal di testa a un lato che non cambia lato, parte dalla nuca e sale a tempia e occhio.</li><li>Scatenato da posizioni e movimenti del collo, pressione sulla nuca. Non pulsante, senza aura.</li><li>Rigidità del collo alta.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Flexion-rotation test: rotazione a collo flesso sotto i 32° dal lato della cefalea.</li><li>CCFT: flessori profondi deboli, sternocleidomastoideo che prende il comando.</li><li>Pressione su C1-C2 e C2-C3 che riproduce la cefalea.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Cefalea che cambia lato, pulsante, con aura, nausea e fotofobia: emicrania.</li><li>Qualsiasi segno vascolare o neurologico: bandiera rossa.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Mobilizzazione C1-C3, suboccipitali.</li><li>Flessori profondi, scapola, postazione di lavoro.</li><li>Mandibola e occhi se il respiro e il serramento sono coinvolti.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Colpo di frusta e disturbi post-traumatici</h3><span class="tag">Trauma recente</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore diffuso al collo dopo un incidente, rigidità, cefalea, a volte vertigine, difficoltà di concentrazione, disturbi del sonno.</li><li>Paura di muovere il collo.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Prima la regola canadese e l'imaging se indicato.</li><li>Stabilità alta, screening neurologico, test vascolare.</li><li>Mobilità attiva, CCFT, Joint Position Error (rimettere la testa al centro a occhi chiusi).</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Nessun trauma. Questo quadro esiste solo con un evento.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Movimento precoce dolce, rassicurazione, niente collare.</li><li>Niente manipolazione nelle prime settimane.</li><li>Propriocezione, flessori profondi, graduale ritorno.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Stretto toracico</h3><span class="tag">Raro, spesso sovradiagnosticato</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Formicolio a tutta la mano o lato ulnare, pesantezza del braccio a lavorare con le mani in alto, mano fredda o pallida.</li><li>Peggio con lo zaino, portando pesi, dormendo con il braccio sopra la testa.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Roos (braccia in alto, apri e chiudi le mani per 3 minuti) riproduce i sintomi.</li><li>ULTT, palpazione degli scaleni e del piccolo pettorale.</li><li>Adson e Wright hanno molti falsi positivi: da soli non valgono.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Sintomi in un dermatomero preciso: radicolopatia.</li><li>Formicolio solo alle prime tre dita, di notte: tunnel carpale.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Scaleni, piccolo pettorale, prima costa, respiro diaframmatico.</li><li>Scapola: trapezio inferiore e dentato.</li><li>Sintomi vascolari: medico.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Mandibola e respiro che tengono il collo</h3><span class="tag">La componente discendente</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Serramento o bruxismo, dolore ai masticatori, click, cefalea alle tempie al mattino.</li><li>Respira "con le spalle", sospira, fiato corto parlando, collo sempre in tensione.</li><li>Il collo torna teso dopo ogni trattamento.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Apertura della bocca sotto le tre dita, deviazione, rumori, palpazione di masseteri e temporali.</li><li>Schema respiratorio con mani su petto e pancia, espansione delle coste basse, BOLT, Nijmegen.</li><li>Rivalutazione posturale con rulli salivari.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Mandibola libera e respiro basso: non è questa la via.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Masticatori, respiro diaframmatico, suboccipitali.</li><li>Dentista o gnatologo se l'occlusione cambia la postura.</li><li>Senza questo, il cervicale si rifà teso.</li></ul></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SPALLA -->
+    <section class="region" id="spalla">
+      <div class="region-head">
+        <h2>Spalla</h2>
+        <p class="lede">Tre domande separano quasi tutto: è rigida anche passivamente? È debole o solo dolente? Il dolore viene dal collo? Il resto lo fa l'età: instabilità sotto i 35, cuffia e capsulite fra i 40 e i 60, lesione a tutto spessore e artrosi oltre.</p>
+      </div>
+
+      <div class="card danger">
+        <h3>Bandiere rosse: ferma tutto e manda al medico</h3>
+        <ul class="flags">
+          <li><b>Riferito da organi.</b> Dolore alla spalla sinistra con sforzo, sudore, fiato corto: cuore. Spalla destra con dolore sotto le costole dopo i pasti: colecisti. Apice del polmone: dolore spalla e braccio in fumatore con calo di peso.</li>
+          <li><b>Lussazione non ridotta o frattura.</b> Trauma, deformità, impossibilità a muovere, crepitio osseo.</li>
+          <li><b>Lesione massiva della cuffia dopo trauma.</b> Oltre 40 anni, caduta, non riesce ad alzare il braccio da subito: ortopedico entro poche settimane, la riparazione ha una finestra di tempo.</li>
+          <li><b>Massa, febbre, rossore, dolore notturno non posizionale.</b> Tumore o infezione.</li>
+          <li><b>Deficit neurologico.</b> Perdita di forza non spiegata dal dolore, atrofia, scapola alata improvvisa.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>L'ordine dei test, dopo le domande</h3>
+        <ol class="order">
+          <li><b>Collo prima</b>: movimenti del collo con sovrappressione e Spurling. Se cambiano il dolore alla spalla, torna alla sezione cervicale.</li>
+          <li><b>Mobilità attiva e passiva</b>: elevazione, rotazione esterna con braccio al fianco, rotazione interna dietro la schiena, confronto con l'altro lato. Passivo limitato uguale all'attivo: capsula o articolazione. Attivo limitato con passivo libero: cuffia o dolore.</li>
+          <li><b>Forza contro resistenza</b>: Jobe per il sovraspinato, rotazione esterna con gomito al fianco per infraspinato, lift-off per sottoscapolare. Dolente ma forte: tendinopatia. Debole: lesione.</li>
+          <li><b>Test di provocazione</b>: Hawkins, Neer, arco doloroso per il dolore subacromiale; apprehension e relocation per l'instabilità; cross-body e palpazione per l'acromion-claveare.</li>
+          <li><b>Scapola</b>: osservazione in elevazione, scapular assistance test, scapular retraction test. Se aiutare la scapola toglie il dolore, la causa è il controllo, non il tendine.</li>
+        </ol>
+      </div>
+
+      <div class="stack">
+
+        <div class="card q">
+          <div class="q-head"><h3>Dolore subacromiale, tendinopatia di cuffia</h3><span class="tag">La più comune fra 35 e 60</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore sul lato della spalla, a volte fino a metà braccio, mai sotto il gomito.</li><li>Peggio alzando il braccio, allacciando il reggiseno, dormendo sul lato. Lavori o sport con le mani sopra la testa.</li><li>Riesce a fare tutto, ma con dolore.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Arco doloroso fra 60° e 120°.</li><li>Hawkins e Neer positivi, Jobe dolente ma forte.</li><li>Mobilità passiva completa.</li><li>Scapular assistance test: il dolore cala aiutando la scapola.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Passivo limitato: capsulite o artrosi.</li><li>Debolezza vera: lesione.</li><li>Spurling positivo: cervicale.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Carico progressivo della cuffia, non riposo: isometrici, poi rotazione esterna, poi elevazione.</li><li>Scapola: trapezio inferiore, dentato, piccolo pettorale.</li><li>Dorsale alto e postura: la stessa catena di Laura.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Lesione della cuffia a tutto spessore</h3><span class="tag">Oltre i 60, o trauma</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Non riesce ad alzare il braccio, o lo alza "a scatti" aiutandosi con l'altro.</li><li>Debolezza più che dolore, dolore notturno, caduta o strappo in chi ha più di 40 anni.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Drop arm positivo, lag della rotazione esterna (non tiene il braccio ruotato fuori), Jobe debole.</li><li>Lift-off o belly press deboli se c'è il sottoscapolare.</li><li>Tre fra: oltre 65 anni, debolezza in rotazione esterna, dolore notturno: molto probabile.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Forza piena, solo dolore.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Ortopedico e imaging. Nel giovane con trauma la riparazione è una scelta precoce.</li><li>Nell'anziano, se il chirurgo non opera, lavoro sul deltoide anteriore e sulla scapola per compensare.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Spalla rigida (capsulite adesiva)</h3><span class="tag">40-60 anni, diabete, tiroide</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Prima dolore forte anche a riposo e di notte senza un motivo, poi rigidità crescente.</li><li>Non riesce a portare la mano dietro la schiena o a pettinarsi, da mesi.</li><li>Diabete, tiroide, periodo di immobilità.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Rotazione esterna passiva con braccio al fianco ridotta oltre il 50% rispetto all'altro lato: è il segno chiave.</li><li>Elevazione passiva sotto i 100°, tutte le direzioni limitate, arresto capsulare.</li><li>Radiografia normale (il medico la chiede per escludere l'artrosi).</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Passivo libero: non è capsulite, qualsiasi cosa dica il dolore.</li><li>Artrosi alla radiografia.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Fase dolorosa: niente forzature, mobilità nel comfort, scapola, dorsale.</li><li>Fase rigida: mobilizzazione progressiva, lavoro domiciliare quotidiano.</li><li>Tempi lunghi, da dire subito al paziente.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Instabilità gleno-omerale</h3><span class="tag">Sotto i 35, sport overhead</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>"Mi è uscita" una o più volte, oppure sensazione che "scappi" nel braccio alzato e ruotato fuori (lancio, nuoto, pallavolo).</li><li>Paura in certe posizioni più che dolore.</li><li>Ipermobile, lassità in altre articolazioni.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Apprehension positivo e relocation che toglie la paura.</li><li>Sulcus sign, load and shift, Beighton per la lassità generale.</li><li>Forza di cuffia e controllo scapolare.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Nessun episodio, nessuna apprensione, spalla stabile ai test.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Cuffia e scapola in controllo, propriocezione, catena cinetica dal piede.</li><li>Niente allungamenti della capsula anteriore.</li><li>Lussazioni ripetute nel giovane: ortopedico.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Acromion-claveare</h3><span class="tag">Un dito sul punto</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Indica con un dito la cima della spalla, sull'articolazione.</li><li>Peggio portando il braccio verso l'altra spalla, dormendo sul lato, con panca e flessioni.</li><li>Caduta sulla spalla, o anni di palestra.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Dolore alla palpazione dell'articolazione, cross-body adduction positiva.</li><li>O'Brien con dolore in cima, non dentro.</li><li>Arco doloroso alto, sopra i 150°.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Articolazione non dolente alla pressione: quasi mai acromion-claveare.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Scarico temporaneo dei gesti provocanti, mobilità della scapola e del dorsale.</li><li>Cuffia e trapezio inferiore per ridurre il carico sull'articolazione.</li><li>Separazione dopo trauma: ortopedico per il grado.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Capo lungo del bicipite e lesioni del labbro (SLAP)</h3><span class="tag">Sport di lancio, lavori sopra la testa</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore davanti alla spalla, lungo il solco, nel portare pesi con il braccio teso e nel lancio.</li><li>Click profondo, "qualcosa che si sposta" dentro, nel giovane sportivo.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Speed e palpazione del solco bicipitale per il tendine.</li><li>O'Brien con dolore profondo, crank e biceps load per il labbro. Nessuno è decisivo da solo.</li><li>Deficit di rotazione interna nel lanciatore.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Solco non dolente e test del labbro negativi.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Capsula posteriore, scapola, cuffia in eccentrico.</li><li>Catena cinetica: anca e tronco nel gesto del lancio.</li><li>Sospetto di labbro nello sportivo: ortopedico.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Artrosi gleno-omerale</h3><span class="tag">Oltre i 60, o vecchio trauma</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Rigidità e dolore profondo, crepitio, da anni, che peggiora piano.</li><li>Dolore notturno, perde le rotazioni prima dell'elevazione.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Passivo e attivo limitati nelle stesse direzioni, con crepitio.</li><li>Rotazione esterna limitata come nella capsulite, ma con radiografia positiva e età più alta.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Passivo libero.</li><li>Radiografia normale: è capsulite.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Mobilità nel range disponibile, forza di cuffia e scapola, uso quotidiano.</li><li>Niente forzature sull'arresto osseo.</li><li>Ortopedico per il percorso.</li></ul></div>
+          </div>
+        </div>
+
+        <div class="card q">
+          <div class="q-head"><h3>Discinesia scapolare e postura</h3><span class="tag">La causa dietro le altre</span></div>
+          <div class="cols">
+            <div class="col says"><h4>Cosa dice</h4><ul><li>Dolore vago a spalla, trapezio superiore e fra le scapole, che va e viene con le ore allo schermo.</li><li>Spalle chiuse in avanti, "una spalla più bassa", stanchezza più che dolore acuto.</li><li>Tutti i test della cuffia sono borderline.</li></ul></div>
+            <div class="col test"><h4>Cosa verificare</h4><ul><li>Scapola alata o che sale in elevazione, asimmetria nel ritorno dalla elevazione.</li><li>Scapular assistance test e scapular retraction test: il dolore cala o la forza sale aiutando la scapola.</li><li>Forza di trapezio medio e inferiore, dentato anteriore. Lunghezza del piccolo pettorale. Mobilità dorsale in estensione.</li></ul></div>
+            <div class="col out"><h4>Cosa lo esclude</h4><ul><li>Scapola simmetrica e test di assistenza che non cambiano nulla: cerca nella struttura.</li></ul></div>
+            <div class="col work"><h4>Direzione del lavoro</h4><ul><li>Trapezio inferiore, dentato, piccolo pettorale, dorsale alto, cervicale basso.</li><li>Va fatto in ogni quadro di spalla, non solo in questo.</li><li>Lavoro posturale strutturato nel tempo: è la parte che fa durare il risultato.</li></ul></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div><b>Kinesiologia Studio</b> · Dott. Davide Scuderi · Modena · uso interno dello studio</div>
+    <div>Telefono e WhatsApp +39 348 151 4382 · infokinesiologia@gmail.com</div>
+    <div>Schema di orientamento clinico. Non sostituisce la visita medica e non è uno strumento diagnostico.</div>
+  </div>
+</footer>
+</body></html>
