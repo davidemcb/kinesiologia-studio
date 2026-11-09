@@ -12,6 +12,7 @@ Gestionale posturale dello studio: Davide e Morena vedono tutti i pazienti, ogni
 | `api.js` | Collegamento ai dati: Supabase online, oppure demo nel browser |
 | `config.js` | Indirizzo e chiave pubblica di Supabase (vuoti = demo) |
 | `supabase.sql` | Tabelle, regole di sicurezza e archivio foto da creare su Supabase |
+| `../questionario/` | Questionario per nuovi clienti, pubblico: le risposte arrivano su WhatsApp a Morena (`?a=davide` a Davide). Link e condivisione dall'elenco clienti |
 
 Finché `config.js` è vuoto l'area gira in **versione dimostrativa**, con pazienti inventati salvati solo nel browser.
 

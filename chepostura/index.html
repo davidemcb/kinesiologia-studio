@@ -301,6 +301,8 @@ async function renderDashboard() {
     <div class="stat"><b>${due}</b><span>controlli entro 14 giorni</span></div>
   </div>
   <div class="card" id="newCard" hidden></div>
+  <div class="card"><div class="phero"><div><h2>Questionario per nuovi clienti</h2><p class="hint">Da mandare prima del primo incontro: le risposte arrivano su WhatsApp a Morena (con "?a=davide" a Davide).</p></div>
+    <div class="row"><a class="btn" href="../questionario/" target="_blank" rel="noopener">Apri</a><button class="btn" type="button" id="btnQLink">Copia link</button><a class="btn" id="btnQWa" target="_blank" rel="noopener">Manda su WhatsApp</a></div></div></div>
   <div class="card">
     <input type="search" id="q" placeholder="Cerca per nome" aria-label="Cerca cliente">
     <div class="phead"><span>Cliente</span><span class="c2">Ultima visita</span><span class="c3">Prossimo controllo</span><span>Accesso</span></div>
@@ -326,6 +328,9 @@ async function renderDashboard() {
   };
   $('#q').addEventListener('input', draw); draw();
   $('#btnNew').addEventListener('click', () => newPatientForm($('#newCard')));
+  const qUrl = new URL('../questionario/', location.href).href;
+  $('#btnQWa').href = 'https://wa.me/?text=' + encodeURIComponent('Ciao! Prima del nostro primo incontro, se ti va, rispondi a queste domande: ' + qUrl);
+  $('#btnQLink').addEventListener('click', async () => { try { await navigator.clipboard.writeText(qUrl); $('#btnQLink').textContent = 'Link copiato'; } catch (e) { window.prompt('Copia il link:', qUrl); } });
   $('#btnBackup').addEventListener('click', async () => {
     const data = await Api.backup();
     const a = document.createElement('a');
