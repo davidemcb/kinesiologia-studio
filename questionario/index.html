@@ -2,11 +2,201 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#24493F">
   <title>Questionario — Che Postura!</title>
-  <!-- Il questionario vive sul sito Che Postura: da qui le risposte vanno a Davide, salvo ?a=... diverso -->
-  <script>location.replace('https://davidemcb.github.io/che-postura/questionario/' + (location.search ? location.search : '?a=davide'));</script>
-  <meta http-equiv="refresh" content="0; url=https://davidemcb.github.io/che-postura/questionario/?a=davide">
+  <meta name="description" content="Raccontaci come stai e cosa vorresti ottenere: le risposte arrivano su WhatsApp a chi ti seguirà.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Instrument+Sans:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="../stile.css">
+  <style>
+    .q-wrap { max-width: 560px; margin: 0 auto; padding: 28px 18px 60px; }
+    .q-intro { text-align: center; margin-bottom: 22px; }
+    .q-intro h1 { font-size: clamp(28px, 6vw, 36px); }
+    .q-intro p { color: var(--tenue); margin-top: 10px; font-size: 16px; }
+    .q-intro .a { display: inline-block; margin-top: 12px; background: var(--sabbia); color: var(--verde-scuro); font-size: 13.5px; font-weight: 700; padding: 6px 14px; border-radius: 40px; }
+    .q-sez { background: var(--carta); border: 1px solid var(--linea); border-radius: 18px; padding: 20px 18px; margin-bottom: 14px; }
+    .q-sez h2 { font-size: 22px; margin: 0; }
+    .q-sez .q-sotto { font-size: 15px; color: var(--tenue); margin-top: 4px; }
+    .q-f { margin-top: 16px; }
+    .q-f > label, .q-f > .q-t { display: block; font-size: 15px; font-weight: 600; margin-bottom: 8px; line-height: 1.35; }
+    .q-f small { font-weight: 700; color: var(--arancio); }
+    .q-f input[type=text], .q-f textarea { width: 100%; font: inherit; font-size: 16px; color: var(--inchiostro); background: #fff; border: 1px solid var(--linea); border-radius: 10px; padding: 11px 12px; }
+    .q-f textarea { min-height: 78px; resize: vertical; line-height: 1.4; }
+    .q-f input:focus, .q-f textarea:focus { outline: 2px solid var(--verde); outline-offset: 1px; border-color: var(--verde); }
+    .q-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .q-chips label { position: relative; }
+    .q-chips input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .q-chips span { display: inline-block; font-size: 14.5px; padding: 8px 13px; border: 1px solid var(--linea); border-radius: 40px; background: #fff; cursor: pointer; user-select: none; line-height: 1.25; }
+    .q-chips input:checked + span { background: var(--verde); border-color: var(--verde); color: #fff; }
+    .q-chips input:focus-visible + span { outline: 2px solid var(--arancio); outline-offset: 2px; }
+    .q-cons { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; line-height: 1.45; }
+    .q-cons input { width: 20px; height: 20px; margin-top: 3px; flex: none; accent-color: var(--verde); }
+    .q-cons a { color: var(--verde); }
+    .q-btn { display: block; width: 100%; font: inherit; font-size: 17px; font-weight: 700; padding: 15px; border: 0; border-radius: 40px; cursor: pointer; background: var(--arancio); color: #fff; }
+    .q-btn:hover { background: #D56520; }
+    .q-btn.q-sec { background: transparent; color: var(--verde-scuro); border: 2px solid var(--linea); margin-top: 10px; font-size: 15px; padding: 11px; }
+    .q-err { display: none; color: var(--rosso); font-size: 14.5px; margin-top: 12px; text-align: center; }
+    .q-err.on { display: block; }
+    .q-ok { display: none; background: var(--sabbia); color: var(--verde-scuro); padding: 12px; border-radius: 10px; font-size: 14.5px; margin-top: 10px; }
+    .q-ok.on { display: block; }
+    .q-foot { text-align: center; font-size: 13px; color: var(--tenue); margin-top: 22px; line-height: 1.5; }
+    .q-load { text-align: center; color: var(--tenue); padding: 30px 0; }
+  </style>
 </head>
-<body><p>Il questionario si è spostato: <a href="https://davidemcb.github.io/che-postura/questionario/?a=davide">apri il questionario</a>.</p></body>
+<body>
+
+<header class="testata">
+  <div class="contenitore">
+    <a class="marchio" href="../">Che Postura<span>!</span></a>
+    <nav>
+      <a href="../#metodo">Il metodo</a>
+      <a href="../#equipe">L'équipe</a>
+      <a href="../#contatti">Contatti</a>
+    </nav>
+  </div>
+</header>
+
+<main class="q-wrap">
+  <div class="q-intro">
+    <h1 id="qTitolo">Raccontaci come stai</h1>
+    <p id="qIntro"></p>
+    <span class="a" id="qA" hidden></span>
+    <p id="qNota" hidden><small>Rispondi solo a quello che vuoi: le domande con * sono obbligatorie.</small></p>
+  </div>
+
+  <form id="q" novalidate>
+    <div id="qSezioni"><div class="q-load">Carico le domande…</div></div>
+
+    <div class="q-sez" id="qInvio" hidden>
+      <label class="q-cons"><input type="checkbox" id="consenso">
+        <span>Acconsento a inviare queste informazioni, anche sulla mia salute, tramite WhatsApp a Che Postura, che le userà solo per la mia valutazione e il mio percorso. Il sito non salva nulla.</span>
+      </label>
+      <div class="q-err" id="qErr"></div>
+      <div class="q-f"><button class="q-btn" type="submit">Invia su WhatsApp</button></div>
+      <button class="q-btn q-sec" type="button" id="qCopia">Copia le risposte</button>
+      <div class="q-ok" id="qOk">Risposte copiate: puoi incollarle in un messaggio o in una mail.</div>
+      <div class="q-ok" id="qDopo">Il messaggio è pronto in WhatsApp: premi invia. Se hai referti, radiografie o risonanze, mandali come foto nella stessa chat.</div>
+    </div>
+  </form>
+
+  <div class="q-foot">Che Postura! · Davide Scuderi e Dott.ssa Morena Anastasi, Modena<br><a href="../">Torna al sito</a></div>
+</main>
+
+<script>
+(function () {
+  var form = document.getElementById('q'), box = document.getElementById('qSezioni');
+  var err = document.getElementById('qErr'), ok = document.getElementById('qOk');
+  var CFG = { titolo: '', intro: '', dest: [] }, SEZ = [], who = null;
+
+  // ---- lettura di domande.txt ----
+  function parse(txt) {
+    var cur = null, n = 0;
+    txt.split(/\r?\n/).forEach(function (raw) {
+      var line = raw.trim();
+      if (!line || line.charAt(0) === '#') return;
+      var m;
+      if ((m = line.match(/^(titolo|intro|destinatario)\s*=\s*(.+)$/i))) {
+        var k = m[1].toLowerCase(), v = m[2].trim();
+        if (k === 'destinatario') { var d = v.split('|'); if (d.length === 2) CFG.dest.push({ name: d[0].trim(), phone: d[1].replace(/\D/g, '') }); }
+        else CFG[k] = v;
+        return;
+      }
+      if (line.indexOf('==') === 0) { cur = { titolo: line.slice(2).trim(), sotto: '', dom: [] }; SEZ.push(cur); return; }
+      if (line.charAt(0) === '>') { if (cur) cur.sotto = line.slice(1).trim(); return; }
+      var p = line.split('|').map(function (s) { return s.trim(); });
+      if (p.length < 2) return;
+      var tipo = p[1].toLowerCase().replace(/\s+/g, ' ');
+      var T = { 'testo': 'testo', 'testo lungo': 'lungo', 'una scelta': 'una', 'più scelte': 'piu', 'piu scelte': 'piu' }[tipo];
+      if (!T) return;
+      var q = { id: 'd' + (++n), testo: p[0].replace(/\*\s*$/, '').trim(), obbl: /\*\s*$/.test(p[0]), tipo: T, det: p[2] || '' };
+      if (T === 'una' || T === 'piu') { q.opz = q.det.split(',').map(function (s) { return s.trim(); }).filter(Boolean); if (!q.opz.length) return; }
+      if (!cur) { cur = { titolo: '', sotto: '', dom: [] }; SEZ.push(cur); }
+      cur.dom.push(q);
+    });
+  }
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+  // ---- costruzione della pagina ----
+  function render() {
+    if (CFG.titolo) document.getElementById('qTitolo').textContent = CFG.titolo;
+    if (CFG.intro) document.getElementById('qIntro').textContent = CFG.intro;
+    var want = (new URLSearchParams(location.search).get('a') || '').toLowerCase();
+    who = CFG.dest.filter(function (d) { return d.name.toLowerCase() === want; })[0] || CFG.dest[0];
+    if (who) { var a = document.getElementById('qA'); a.textContent = 'Le risposte vanno a ' + who.name; a.hidden = false; }
+
+    var h = '';
+    SEZ.forEach(function (s) {
+      h += '<section class="q-sez">';
+      if (s.titolo) h += '<h2>' + esc(s.titolo) + '</h2>';
+      if (s.sotto) h += '<p class="q-sotto">' + esc(s.sotto) + '</p>';
+      s.dom.forEach(function (q) {
+        var lab = esc(q.testo) + (q.obbl ? ' <small>*</small>' : '');
+        h += '<div class="q-f">';
+        if (q.tipo === 'testo') h += '<label for="' + q.id + '">' + lab + '</label><input type="text" id="' + q.id + '" name="' + q.id + '" placeholder="' + esc(q.det) + '">';
+        else if (q.tipo === 'lungo') h += '<label for="' + q.id + '">' + lab + '</label><textarea id="' + q.id + '" name="' + q.id + '" placeholder="' + esc(q.det) + '"></textarea>';
+        else {
+          h += '<div class="q-t">' + lab + '</div><div class="q-chips">';
+          q.opz.forEach(function (o) { h += '<label><input type="' + (q.tipo === 'una' ? 'radio' : 'checkbox') + '" name="' + q.id + '" value="' + esc(o) + '"><span>' + esc(o) + '</span></label>'; });
+          h += '</div>';
+        }
+        h += '</div>';
+      });
+      h += '</section>';
+    });
+    box.innerHTML = h;
+    document.getElementById('qNota').hidden = !SEZ.some(function (s) { return s.dom.some(function (q) { return q.obbl; }); });
+    document.getElementById('qInvio').hidden = false;
+  }
+
+  // ---- risposte e messaggio ----
+  function value(q) {
+    var els = form.querySelectorAll('[name="' + q.id + '"]');
+    if (q.tipo === 'una' || q.tipo === 'piu') return Array.prototype.filter.call(els, function (e) { return e.checked; }).map(function (e) { return e.value; }).join(', ');
+    return els[0] ? els[0].value.trim() : '';
+  }
+  function build() {
+    var L = ['Questionario Che Postura · ' + new Date().toLocaleDateString('it-IT')];
+    SEZ.forEach(function (s) {
+      var first = true;
+      s.dom.forEach(function (q) {
+        var v = value(q); if (!v) return;
+        if (first) { L.push('', s.titolo ? '— ' + s.titolo + ' —' : ''); first = false; }
+        L.push(q.testo.replace(/[?:]\s*$/, '') + ': ' + v);
+      });
+    });
+    return L.join('\n');
+  }
+  function check() {
+    err.classList.remove('on');
+    for (var i = 0; i < SEZ.length; i++) for (var j = 0; j < SEZ[i].dom.length; j++) {
+      var q = SEZ[i].dom[j];
+      if (q.obbl && !value(q)) { err.textContent = 'Manca una risposta obbligatoria: ' + q.testo; err.classList.add('on'); var el = form.querySelector('[name="' + q.id + '"]'); if (el && el.focus) el.focus(); return false; }
+    }
+    if (!document.getElementById('consenso').checked) { err.textContent = 'Serve il consenso per inviare le risposte.'; err.classList.add('on'); return false; }
+    if (!who) { err.textContent = 'Manca il destinatario: controlla domande.txt.'; err.classList.add('on'); return false; }
+    return true;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); if (!check()) return;
+    window.open('https://wa.me/' + who.phone + '?text=' + encodeURIComponent(build()), '_blank');
+    document.getElementById('qDopo').classList.add('on');
+  });
+  document.getElementById('qCopia').addEventListener('click', function () {
+    if (!check()) return;
+    var t = build();
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).catch(function () { window.prompt('Copia il testo:', t); })
+      .then(function () { ok.classList.add('on'); });
+  });
+
+  fetch('domande.txt', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (t) { parse(t); if (!SEZ.length) throw new Error('vuoto'); render(); })
+    .catch(function () { box.innerHTML = '<div class="q-load">Non riesco a caricare le domande. Riprova tra poco, oppure scrivici su WhatsApp.</div>'; });
+})();
+</script>
+</body>
 </html>
