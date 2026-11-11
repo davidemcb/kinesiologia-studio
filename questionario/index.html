@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="robots" content="noindex">
   <title>Questionario — Che Postura!</title>
-  <!-- Il questionario vive sul sito Che Postura: questa pagina rimanda lì, mantenendo ?a=davide se presente -->
-  <script>location.replace('https://davidemcb.github.io/che-postura/questionario/' + location.search);</script>
-  <meta http-equiv="refresh" content="0; url=https://davidemcb.github.io/che-postura/questionario/">
+  <!-- Il questionario vive sul sito Che Postura: da qui le risposte vanno a Davide, salvo ?a=... diverso -->
+  <script>location.replace('https://davidemcb.github.io/che-postura/questionario/' + (location.search ? location.search : '?a=davide'));</script>
+  <meta http-equiv="refresh" content="0; url=https://davidemcb.github.io/che-postura/questionario/?a=davide">
 </head>
-<body><p>Il questionario si è spostato: <a href="https://davidemcb.github.io/che-postura/questionario/">apri il questionario</a>.</p></body>
+<body><p>Il questionario si è spostato: <a href="https://davidemcb.github.io/che-postura/questionario/?a=davide">apri il questionario</a>.</p></body>
 </html>
