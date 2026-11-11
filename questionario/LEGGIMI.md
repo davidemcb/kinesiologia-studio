@@ -1,16 +1,16 @@
-# Questionario per nuovi clienti
+# Questionario prima della valutazione
 
-Pagina pubblica: **https://davidemcb.github.io/che-postura/questionario/**
+Pagina pubblica: **https://davidemcb.github.io/kinesiologia-studio/questionario/**
 
-Il cliente risponde dal telefono e preme "Invia su WhatsApp": si apre WhatsApp con tutte le risposte già scritte, dirette a Morena. Il sito non salva nulla.
+Il cliente risponde dal telefono e preme "Invia su WhatsApp": si apre WhatsApp con tutte le risposte già scritte, dirette a Davide. Il sito non salva nulla. I referti il cliente li manda in foto nella stessa chat.
 
-Il sito Kinesiologia Studio ha un questionario suo, separato, con le domande per la valutazione di Davide.
+Il sito Che Postura ha un questionario suo, separato, con le domande di Morena.
 
 ## Cambiare le domande (senza programmare)
 
 Le domande stanno nel file **`domande.txt`**. Per modificarle:
 
-1. Apri https://github.com/davidemcb/che-postura/edit/main/questionario/domande.txt (serve un account GitHub con accesso al progetto).
+1. Apri https://github.com/davidemcb/kinesiologia-studio/edit/main/questionario/domande.txt (serve un account GitHub con accesso al progetto).
 2. Modifica il testo come in un blocco note.
 3. In alto a destra premi **Commit changes**, poi ancora **Commit changes** nella finestra che si apre.
 4. Dopo 1-2 minuti la pagina online è aggiornata.
