@@ -23,7 +23,6 @@ Nome e cognome* | testo
 Età | testo | es. 42
 Che lavoro fai? | testo
 Al lavoro sei soprattutto | una scelta | Seduto/a, In piedi fermo/a, In movimento, Faccio sforzi e sollevo carichi, Misto
-Come ci hai conosciuto? | testo | es. amica, medico, Instagram…
 
 == Il motivo per cui ci scrivi
 Cosa ti porta da noi? Raccontalo con parole tue* | testo lungo
@@ -48,7 +47,6 @@ Quante ore al giorno stai seduto/a | una scelta | meno di 4, 4–8, più di 8
 Come dormi | una scelta | Bene, Così così, Male
 In che posizione dormi di solito | più scelte | Sulla schiena, Sul fianco destro, Sul fianco sinistro, A pancia in giù
 Fai attività fisica? Quale e quanto | testo | es. camminata 3 volte a settimana, palestra, niente…
-Periodo di vita in questo momento | una scelta | Tranquillo, Un po' stressante, Molto stressante
 
 == La tua storia clinica
 Infortuni importanti: fratture, distorsioni, cadute, colpi di frusta, con quando | testo lungo
@@ -57,7 +55,6 @@ Diagnosi o patologie che conosci | testo lungo | es. ernia, artrosi, osteoporosi
 Farmaci che prendi regolarmente | testo
 Gravidanze, se pertinente: quante e quanto tempo fa | testo
 Hai referti da farci vedere (radiografie, risonanze, ecografie, visite specialistiche)? | una scelta | Sì: li allego in foto su WhatsApp subito dopo questo messaggio, Sì: li porto di persona, No: non ne ho
-Cosa dicono i referti, in due parole | testo
 
 == Quello che hai già provato
 Per questo problema hai già fatto | più scelte | Fisioterapia, Osteopatia, Chiropratica, Massaggi, Ginnastica posturale o pilates, Farmaci o infiltrazioni, Visite specialistiche, Niente
