@@ -103,7 +103,7 @@ def iscritti(chiave):
             token_invalido += 1
             st = "token non valido"
         elif nt is None:
-            st = "sconosciuto"
+            st = "attivo (token valido; OneSignal non dice altro)"
         elif nt > 0:
             st = "iscritto"
         elif nt == -2:
