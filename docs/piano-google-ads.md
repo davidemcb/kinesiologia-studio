@@ -4,16 +4,16 @@ Sito: https://davidemcb.github.io/che-postura/
 Obiettivo: prenotazioni della valutazione posturale (Calendly) e contatti WhatsApp da Modena e provincia.
 
 ## 0. Prerequisiti (prima di spendere 1 €)
-1. Creare account Google Ads e collegarlo a Google Analytics 4 (il sito oggi non ha nessun tag).
-2. Installare Google Tag Manager su index.html, blog e questionario.
-3. Conversioni da tracciare:
-   - Prenotazione Calendly (evento `calendly.event_scheduled` dal widget) → conversione primaria.
-   - Click WhatsApp (link wa.me) → conversione primaria.
-   - Click telefono (tel:) → conversione secondaria.
-   - Invio questionario → conversione secondaria.
-4. Creare la landing `/prenota/` (una sola pagina, senza menu, con Calendly incorporato, WhatsApp, recensioni, indirizzo). Il traffico a pagamento non va sulla home.
-5. Collegare il Profilo dell'attività Google (le 128 recensioni) come asset sede.
-6. Aggiungere privacy policy e cookie banner (richiesti anche dalle norme Ads).
+Fatto (16/11/2026):
+- Landing `https://davidemcb.github.io/che-postura/prenota/`: senza menu, Calendly incorporato, WhatsApp, telefono, recensioni, indirizzo, barra fissa su telefono. È l'URL finale di tutti gli annunci.
+- Tag Google Ads (AW-969285863, lo stesso di Kinesiologia Studio) con Consent Mode v2: parte solo dopo "Accetta" nel banner cookie.
+- Conversioni già collegate: "Prenota" (scatta alla conferma reale su Calendly), "Chiama" (clic su tel:), WhatsApp (per ora usa l'etichetta di "Chiama").
+- Privacy policy `che-postura/privacy.html` e banner cookie ripresi dal testo dell'avvocato di Kinesiologia Studio.
+
+Da fare in Google Ads:
+1. Creare un'azione di conversione "WhatsApp" e incollare l'etichetta in `window.CONV.whatsapp` nella landing, così Calendly e WhatsApp si leggono separati.
+2. Collegare il Profilo dell'attività Google (le 128 recensioni) come asset sede.
+3. Il questionario non va linkato dagli annunci: lo invia Davide/Morena dopo il primo contatto.
 
 ## 1. Struttura account
 
