@@ -60,23 +60,43 @@ Il passaggio da uno scalino all'altro lo decidono i test e il dolore, non il cal
 ### Fase 4 · Mantenimento (dal 3°–6° mese in avanti, corsi di gruppo di Morena, Davide ogni 3 mesi)
 - Davide: il "tagliando" ogni 3 mesi, foto e test. Si fissa prima di chiudere la fase 3, non si lascia al cliente.
 - Morena: i corsi di gruppo. Il cliente passa dal lavoro individuale alla classe, con un costo più basso e un appuntamento fisso in agenda. Tra un tagliando e l'altro è il gruppo a tenere vivo il legame con lo studio.
-- Il gestionale avvisa chi è in mantenimento da più di 4 mesi senza tagliando: lista richiami settimanale.
+- Sul cronico strutturale il tagliando è più fitto, ogni 1–2 mesi il primo anno: lì il mantenimento è la cura, e lo diciamo dal primo giorno.
+- Il gestionale avvisa chi è in mantenimento da più di 4 mesi senza tagliando (2 mesi per il cronico): lista richiami settimanale.
 - Se qualcosa torna: si scende di uno scalino, Davide ogni 15 giorni per un ciclo breve, senza rifare l'ingresso da zero.
+
+## Acuto o cronico: due binari, stesse fasi, un finale diverso
+
+| | Acuto: il percorso si chiude | Cronico strutturale: il percorso non si chiude |
+|---|---|---|
+| Chi è | Trauma, dolore recente, struttura integra | Rachide con artrosi, ernie, discopatie, scoliosi strutturata; oltre un anno |
+| Fasi 1–3 | 3–4 mesi | 6 mesi o più: medio e lungo termine |
+| Mantenimento | Davide ogni 3 mesi, corsi di gruppo di Morena. Serve a non far tornare il problema | Più fitto: Davide ogni 1–2 mesi il primo anno, poi ogni 3. Corso di gruppo di Morena come appuntamento fisso. Qui il mantenimento è la cura, non un extra |
+| Al cliente | "Il problema è risolto. Ogni tre mesi ci vediamo per tenerlo così" | "La struttura non torna nuova. Quello che costruiamo è un margine, e se smetti il corpo se lo riprende" |
+
+### Al cronico l'idea del mantenimento si passa dal primo giorno
+
+Se al cronico il mantenimento lo proponiamo alla fine, lo sente come una vendita. Se glielo diciamo in fase 0, con i suoi referti davanti, lo sente come la verità sul suo corpo.
+
+- **In fase 0**: Davide legge i referti con il cliente e dice subito: "Questo è un percorso lungo, e il mantenimento ne fa parte". Si scrive nella mappa con le date.
+- **Nel ripristino**: Morena collega ogni esercizio al referto ("questo serve a proteggere quel disco"). Il cliente impara cosa succede se smette.
+- **Alla rivalutazione**: foto e test prima e dopo mostrano il margine guadagnato. Davide: "Questo margine va tenuto, non è acquisito per sempre".
+- **Nel mantenimento**: il tagliando non è un controllo ma una seduta vera. Il gruppo di Morena è l'abitudine settimanale. Se salta due appuntamenti, lo chiamiamo noi.
+- **Argomento che funziona**: mantenere costa meno di ricominciare. Un ciclo di sblocco ogni volta che torna il dolore costa più di un tagliando ogni due mesi.
 
 ## I profili: stesso ritmo, durate diverse
 
 Il profilo si decide in fase 0 con questionario e test. Il ritmo è uguale per tutti; il profilo decide quanto dura ogni scalino.
 
-| Profilo | Come lo riconosci | Piano del gestionale | Sblocco (Davide) | Davide ogni 15 giorni per | Davide ogni mese per | Mantenimento da |
+| Profilo | Come lo riconosci | Piano del gestionale | Sblocco (Davide) | Davide ogni 15 giorni per | Davide ogni mese per | Mantenimento |
 |---|---|---|---|---|---|---|
-| **Acuto** | Dolore > 6/10, da meno di 2 settimane, dopo un movimento o un trauma | Acuto | 2 sedute a 4–7 giorni, una in più se il dolore resta alto | 8 settimane | 3 mesi | 5–6 mesi |
-| **Semplice** | Un distretto, da 1–3 mesi, dolore 3–5/10 | Lieve | 1 seduta | 4 settimane | 2 mesi | 3 mesi |
-| **Moderato** | Più distretti, da 3–12 mesi, lavoro seduto o sforzi | Moderato | 2 sedute | 6 settimane | 2–3 mesi | 4 mesi |
-| **Complesso** | Bacino e collo insieme, oltre un anno, bite o plantari in gioco | Complesso | 2 sedute | 8 settimane | 4 mesi | 6 mesi |
-| **Ricorrente** | "Già passato e tornato più volte", "da sempre a fasi alterne" | Moderato o complesso | Come il profilo di base | Come il profilo di base | Un mese in più: si cerca cosa lo fa tornare | Mai saltare un tagliando |
+| **Acuto** | Dolore > 6/10, da meno di 2 settimane, dopo un movimento o un trauma | Acuto | 2 sedute a 4–7 giorni, una in più se il dolore resta alto | 8 settimane | 3 mesi | Da 5–6 mesi: ogni 3 mesi, gruppo |
+| **Semplice** | Un distretto, da 1–3 mesi, dolore 3–5/10 | Lieve | 1 seduta | 4 settimane | 2 mesi | Da 3 mesi: ogni 3 mesi, gruppo |
+| **Moderato** | Più distretti, da 3–12 mesi, lavoro seduto o sforzi | Moderato | 2 sedute | 6 settimane | 2–3 mesi | Da 4 mesi: ogni 3 mesi, gruppo |
+| **Cronico strutturale** | Rachide con artrosi, ernie, discopatie, scoliosi strutturata; oltre un anno | Complesso | 2 sedute | 8 settimane | 4 mesi | Da 6 mesi, e non si chiude: ogni 1–2 mesi il primo anno, poi ogni 3; gruppo fisso |
+| **Ricorrente** | "Già passato e tornato più volte", "da sempre a fasi alterne" | Moderato o complesso | Come il profilo di base | Come il profilo di base | Un mese in più: si cerca cosa lo fa tornare | Ogni 3 mesi, mai saltarne uno; gruppo |
 | **Prima il medico** | Test di sicurezza positivo | Sospeso | Invio al medico, poi si riparte | | | |
 
-In mantenimento tutti uguali: Davide ogni 3 mesi, corsi di gruppo di Morena. Le durate sono un punto di partenza da aggiustare sui primi clienti. Dirlo al cliente in fase 0 con le date è già metà del lavoro di fidelizzazione.
+Le durate sono un punto di partenza da aggiustare sui primi clienti. Dirlo al cliente in fase 0 con le date è già metà del lavoro di fidelizzazione.
 
 ## Cosa si misura a ogni passaggio di fase
 
