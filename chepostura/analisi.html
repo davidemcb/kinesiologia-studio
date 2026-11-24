@@ -3177,6 +3177,11 @@ async function saveToRecord(btn, msgEl) {
     if (!views.length && !hasClose()) { visit.findings = []; visit.exercises = []; visit.auto = []; }
     await Api.saveVisit(p.id, JSON.parse(JSON.stringify(visit)), files, pdf);
     if (talk) await Api.addSession(p.id, { date, kind: 'colloquio', text: talk, zones: [], tests: [], exercises: [], visible_to_patient: false });
+    // percorso in fasi: con la prima valutazione il cliente entra nello sblocco (fase 1); il profilo segue il piano
+    if (p.phase == null) {
+      const PROF = { acuto: 'acuto', lieve: 'semplice', moderato: 'moderato', complesso: 'cronico' };
+      try { await Api.updatePatient(p.id, { phase: 1, phase_since: date, profile: p.profile || PROF[plan.level] || null }); } catch (e) {}
+    }
     location.href = 'index.html#p-' + p.id;
   } catch (e) {
     btn.disabled = false; say('Non sono riuscito a salvare: ' + (e.userMessage || e.message || 'riprova.'));

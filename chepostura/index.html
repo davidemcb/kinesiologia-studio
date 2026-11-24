@@ -64,11 +64,11 @@
   .msg { padding: 9px 12px; border-radius: 10px; background: var(--ok-soft); font-size: .9rem; margin: 0; }
   .msg.err { background: var(--danger-soft); }
   .login { max-width: 440px; margin: 6vh auto 0; }
-  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
   .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
   .stat b { display: block; font-family: var(--font-display); font-size: 1.7rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .stat span { font-size: .84rem; color: var(--muted); }
-  @media (max-width: 560px) { .stats { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .stats { grid-template-columns: 1fr 1fr; } }
   .plist { display: grid; gap: 6px; }
   .prow { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.3fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); cursor: pointer; border: 1px solid transparent; text-align: left; width: 100%; }
   .prow:hover { border-color: var(--brand); }
@@ -150,6 +150,27 @@
   .zl { margin: 0; padding-left: 18px; font-size: .92rem; }
   .wa textarea { font-size: .88rem; }
   .chipbtn { border: 1px dashed var(--brand); background: var(--brand-soft); color: var(--ink); border-radius: 99px; padding: 3px 10px; font-size: .82rem; cursor: pointer; }
+  /* percorso in fasi: etichette colorate per fase, barra delle fasi, righe dei richiami */
+  .pill.ph0 { background: var(--surface-2); border-color: transparent; }
+  .pill.ph1 { background: var(--danger-soft); border-color: transparent; }
+  .pill.ph2 { background: var(--warn-soft); border-color: transparent; }
+  .pill.ph3 { background: var(--brand-soft); border-color: transparent; }
+  .pill.ph4 { background: var(--ok-soft); border-color: transparent; }
+  .pill.phx { border-style: dashed; color: var(--muted); }
+  .phbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+  .phbar span { padding: 7px 6px; border-radius: 8px; background: var(--surface-2); font-size: .78rem; font-weight: 600; text-align: center; color: var(--muted); border: 1px solid transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .phbar span.done { color: var(--ink); }
+  .phbar span.now { background: var(--brand); color: var(--brand-ink); }
+  @media (max-width: 560px) { .phbar span { font-size: .7rem; padding: 6px 2px; } }
+  .stat.link { cursor: pointer; border-color: var(--accent); text-align: left; font: inherit; }
+  .stat.link:hover { border-color: var(--brand); }
+  .rrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; padding: 12px; border-radius: 12px; background: var(--surface-2); border-left: 4px solid var(--accent); }
+  .rrow.hot { border-left-color: var(--danger); }
+  .rrow.soft { border-left-color: var(--line); }
+  .rrow p { margin: 2px 0 0; font-size: .88rem; color: var(--muted); }
+  .rrow .n { font-weight: 600; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filters select { width: auto; }
 </style>
 </head>
 <body>
@@ -180,6 +201,50 @@ const today = () => new Date().toISOString().slice(0, 10);
 const addDaysIso = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
 const VIEW_LABEL = { frontale: 'Frontale', posteriore: 'Posteriore', lat_dx: 'Laterale dx', lat_sx: 'Laterale sx', bocca: 'Bocca aperta', talloni: 'Talloni' };
 const TREND = ['Spalle', 'Bacino (livello delle anche)', 'Testa sul piano laterale', 'Spalle sul piano laterale'];
+
+/* ---------------- percorso in fasi ---------------- */
+// Le fasi del percorso (vedi PERCORSO.md): chi guida e con che ritmo. Il profilo cambia solo le durate.
+const PHASES = [
+  { n: 0, name: 'Ingresso', ask: 'Da dove parto?', rhythm: 'Valutazione fatta. Prossimo passo: la prima seduta di sblocco con Davide.' },
+  { n: 1, name: 'Sblocco', ask: 'Mi passa?', rhythm: 'Davide: una o due sedute ravvicinate. Morena ancora non entra.' },
+  { n: 2, name: 'Ripristino', ask: 'Torno a fare le mie cose?', rhythm: 'Morena 1–2 volte a settimana · Davide ogni 15 giorni.' },
+  { n: 3, name: 'Consolidamento', ask: 'Tiene?', rhythm: 'Morena a scalare, fino a una ogni due · Davide ogni mese.' },
+  { n: 4, name: 'Mantenimento', ask: 'Come resto così?', rhythm: 'Gruppo di Morena · Davide ogni 3 mesi (ogni 1–2 mesi il primo anno sul cronico).' }
+];
+const PROFILES = { acuto: 'Acuto', semplice: 'Semplice', moderato: 'Moderato', cronico: 'Cronico strutturale', ricorrente: 'Ricorrente' };
+// Richiami: dopo quanti giorni senza contatto un cliente va richiamato, fase per fase
+const RECALL_DAYS = { 0: 14, 1: 14, 2: 21, 3: 21, 4: 120, '4cronico': 60 };
+const daysBetween = (a, b) => Math.round((new Date(b + 'T12:00') - new Date(a + 'T12:00')) / 86400000);
+const phaseOf = p => (p && p.phase != null ? PHASES[p.phase] : null);
+function phasePill(p) {
+  const ph = phaseOf(p);
+  return ph ? `<span class="pill ph${ph.n}">${ph.n} · ${ph.name}</span>` : '<span class="pill phx">Fase da assegnare</span>';
+}
+function phaseBar(p) {
+  const n = p && p.phase != null ? p.phase : -1;
+  return `<div class="phbar">${PHASES.map(ph => `<span class="${ph.n < n ? 'done' : ph.n === n ? 'now' : ''}" title="${esc(ph.ask)}">${ph.n} · ${ph.name}</span>`).join('')}</div>`;
+}
+// Perché un cliente va richiamato (null = nessun richiamo). Usa i riassunti di Api.listPatients.
+function recallReason(p, t = today()) {
+  if (p.phase == null) {
+    return p.visits_count ? { level: 'soft', text: 'Ha fatto la valutazione ma non ha una fase: assegnala dalla scheda.', since: p.last_visit } : null;
+  }
+  const chronic = p.profile === 'cronico';
+  const ref = p.phase === 4 ? (p.last_treatment || p.phase_since) : (p.last_contact || p.phase_since);
+  if (!ref) return null;
+  const days = daysBetween(ref, t), limit = p.phase === 4 && chronic ? RECALL_DAYS['4cronico'] : RECALL_DAYS[p.phase];
+  if (days <= limit) return null;
+  if (p.phase === 4) return { level: 'hot', text: `Tagliando scaduto: nessuna seduta con Davide da ${days} giorni (${chronic ? 'cronico: ogni 2 mesi' : 'ogni 3 mesi'}).`, since: ref, days };
+  if (p.phase === 0) return { level: 'hot', text: `Valutazione fatta ${days} giorni fa e nessuna seduta dopo: non ha fissato lo sblocco.`, since: ref, days };
+  if (p.phase === 1) return { level: 'hot', text: `Fermo nello sblocco da ${days} giorni: non è passato a Morena.`, since: ref, days };
+  return { level: 'warn', text: `Fermo in fase ${p.phase} (${PHASES[p.phase].name.toLowerCase()}) da ${days} giorni senza sedute.`, since: ref, days };
+}
+function waLink(p, text) {
+  const digits = String(p.phone || '').replace(/\D/g, '');
+  if (!digits) return null;
+  const num = digits.startsWith('39') && digits.length > 10 ? digits : digits.startsWith('00') ? digits.slice(2) : '39' + digits;
+  return 'https://wa.me/' + num + '?text=' + encodeURIComponent(text);
+}
 let S = null;          // sessione
 let flash = null;      // messaggio da mostrare una volta
 
@@ -212,6 +277,7 @@ async function route() {
     if (S.role === 'admin') {
       if (hsh.startsWith('p-')) return await renderPatient(hsh.slice(2));
       if (hsh.startsWith('v-')) return await renderVisit(hsh.slice(2));
+      if (hsh === 'richiami') return await renderRecalls();
       return await renderDashboard();
     }
     if (hsh.startsWith('v-')) return await renderVisit(hsh.slice(2));
@@ -292,32 +358,36 @@ async function renderDashboard() {
   const t = today(), in14 = addDaysIso(14), ago30 = addDaysIso(-30);
   const visits30 = ps.reduce((n, p) => n + (p.last_visit && p.last_visit >= ago30 ? 1 : 0), 0);
   const due = ps.filter(p => p.next_control && p.next_control.date <= in14).length;
+  const recalls = ps.filter(p => { const r = recallReason(p, t); return r && r.level !== 'soft'; }).length;
   app.innerHTML = `${demoBanner()}${msgEl()}
   <div class="phero"><div><h1>Clienti</h1><p class="hint">Tutte le schede dello studio, visibili a Davide e Morena.</p></div>
-    <div class="row"><button class="btn primary big" type="button" id="btnNew">Nuovo cliente</button><button class="btn" type="button" id="btnBackup">Scarica backup</button></div></div>
+    <div class="row"><button class="btn primary big" type="button" id="btnNew">Nuovo cliente</button><button class="btn big" type="button" id="btnRecalls">Richiami${recalls ? ` (${recalls})` : ''}</button><button class="btn" type="button" id="btnBackup">Scarica backup</button></div></div>
   <div class="stats">
     <div class="stat"><b>${ps.length}</b><span>clienti in archivio</span></div>
     <div class="stat"><b>${visits30}</b><span>visti negli ultimi 30 giorni</span></div>
     <div class="stat"><b>${due}</b><span>controlli entro 14 giorni</span></div>
+    <button class="stat link" type="button" id="statRecalls"><b>${recalls}</b><span>da richiamare</span></button>
   </div>
   <div class="card" id="newCard" hidden></div>
   <div class="card"><div class="phero"><div><h2>Questionario per nuovi clienti</h2><p class="hint">Da mandare prima della valutazione: le risposte arrivano su WhatsApp a Davide, i referti in foto nella stessa chat. Le domande si cambiano nel file questionario/domande.txt.</p></div>
     <div class="row"><a class="btn" href="../questionario/" target="_blank" rel="noopener">Apri</a><button class="btn" type="button" id="btnQLink">Copia link</button><a class="btn" id="btnQWa" target="_blank" rel="noopener">Manda su WhatsApp</a></div></div></div>
   <div class="card">
-    <input type="search" id="q" placeholder="Cerca per nome" aria-label="Cerca cliente">
+    <div class="filters"><input type="search" id="q" placeholder="Cerca per nome" aria-label="Cerca cliente" style="flex:1;min-width:160px">
+      <select id="qf" aria-label="Filtra per fase"><option value="">Tutte le fasi</option>${PHASES.map(ph => `<option value="${ph.n}">${ph.n} · ${ph.name}</option>`).join('')}<option value="x">Senza fase</option></select></div>
     <div class="phead"><span>Cliente</span><span class="c2">Ultima visita</span><span class="c3">Prossimo controllo</span><span>Accesso</span></div>
     <div class="plist" id="plist"></div>
   </div>`;
   bindDemo();
   const draw = () => {
-    const q = $('#q').value.trim().toLowerCase(), box = $('#plist'); box.innerHTML = '';
-    const list = ps.filter(p => !q || p.full_name.toLowerCase().includes(q));
-    if (!list.length) box.innerHTML = `<p class="empty">${ps.length ? 'Nessun cliente con questo nome.' : 'Nessun cliente ancora: aggiungi il primo con "Nuovo cliente".'}</p>`;
+    const q = $('#q').value.trim().toLowerCase(), f = $('#qf').value, box = $('#plist'); box.innerHTML = '';
+    const list = ps.filter(p => (!q || p.full_name.toLowerCase().includes(q)) && (!f || (f === 'x' ? p.phase == null : String(p.phase) === f)));
+    if (!list.length) box.innerHTML = `<p class="empty">${ps.length ? 'Nessun cliente con questi criteri.' : 'Nessun cliente ancora: aggiungi il primo con "Nuovo cliente".'}</p>`;
     for (const p of list) {
       const nc = p.next_control;
       const late = nc && nc.date < t;
+      const rc = recallReason(p, t);
       const b = h(`<button class="prow" type="button">
-        <span><span class="n">${esc(p.full_name)}</span><small>${p.visits_count} ${p.visits_count === 1 ? 'visita' : 'visite'}${p.phone ? ' · ' + esc(p.phone) : ''}</small></span>
+        <span><span class="n">${esc(p.full_name)}</span> ${phasePill(p)}${rc && rc.level !== 'soft' ? ' <span class="pill late">da richiamare</span>' : ''}<small>${p.visits_count} ${p.visits_count === 1 ? 'visita' : 'visite'}${p.phone ? ' · ' + esc(p.phone) : ''}</small></span>
         <span class="c2 date">${itDate(p.last_visit)}</span>
         <span class="c3">${nc ? `<span class="date">${itDate(nc.date)}</span><small>${esc(nc.label)}</small>` : '<small>—</small>'}</span>
         <span>${p.user_id ? '<span class="pill ok">Attivo</span>' : '<span class="pill warn">Codice da usare</span>'}</span></button>`);
@@ -326,8 +396,10 @@ async function renderDashboard() {
       box.appendChild(b);
     }
   };
-  $('#q').addEventListener('input', draw); draw();
+  $('#q').addEventListener('input', draw); $('#qf').addEventListener('change', draw); draw();
   $('#btnNew').addEventListener('click', () => newPatientForm($('#newCard')));
+  $('#btnRecalls').addEventListener('click', () => go('#richiami'));
+  $('#statRecalls').addEventListener('click', () => go('#richiami'));
   const qUrl = new URL('../questionario/', location.href).href;
   $('#btnQWa').href = 'https://wa.me/?text=' + encodeURIComponent('Ciao! Prima del nostro primo incontro, se ti va, rispondi a queste domande: ' + qUrl);
   $('#btnQLink').addEventListener('click', async () => { try { await navigator.clipboard.writeText(qUrl); $('#btnQLink').textContent = 'Link copiato'; } catch (e) { window.prompt('Copia il link:', qUrl); } });
@@ -336,6 +408,74 @@ async function renderDashboard() {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' }));
     a.download = `backup-che-postura-${today()}.json`; a.click();
+  });
+}
+
+/* ---------------- studio: richiami ---------------- */
+// Chi rischia di perdersi: tagliandi scaduti in mantenimento, clienti fermi in una fase, valutazioni senza seguito.
+async function renderRecalls() {
+  const ps = await Api.listPatients(), t = today();
+  const rows = ps.map(p => ({ p, r: recallReason(p, t) })).filter(x => x.r);
+  const order = { hot: 0, warn: 1, soft: 2 };
+  rows.sort((a, b) => (order[a.r.level] - order[b.r.level]) || ((b.r.days || 0) - (a.r.days || 0)));
+  const groups = [
+    { key: 'hot', title: 'Da chiamare adesso', hint: 'Tagliandi scaduti in mantenimento e clienti che non sono ripartiti dopo la valutazione o lo sblocco.' },
+    { key: 'warn', title: 'Fermi nel percorso', hint: 'In ripristino o consolidamento, ma senza sedute da oltre tre settimane.' },
+    { key: 'soft', title: 'Fase da assegnare', hint: 'Hanno una valutazione ma nessuna fase: dalla scheda, imposta la fase e il profilo.' }
+  ];
+  app.innerHTML = `${demoBanner()}${msgEl()}
+  <button class="btn back" type="button" onclick="location.hash=''">← Tutti i clienti</button>
+  <div class="phero"><div><h1>Richiami</h1><p class="hint">Regole: mantenimento senza seduta con Davide da oltre 4 mesi (2 sul cronico); fase 2 o 3 senza sedute da oltre 3 settimane; fase 0 o 1 senza sedute da oltre 2 settimane. Oggi ${itDate(t)}.</p></div></div>
+  ${rows.length ? '' : '<div class="card"><p class="empty">Nessuno da richiamare: tutti i clienti con una fase sono dentro il loro ritmo.</p></div>'}
+  ${groups.map(g => {
+    const list = rows.filter(x => x.r.level === g.key);
+    if (!list.length) return '';
+    return `<div class="card"><div><h2>${g.title} <span class="pill">${list.length}</span></h2><p class="hint">${g.hint}</p></div><div class="vlist" id="rl-${g.key}"></div></div>`;
+  }).join('')}`;
+  bindDemo();
+  for (const { p, r } of rows) {
+    const first = (p.full_name || '').split(' ')[0];
+    const who = (S.name || '').split(' ')[0] || 'Davide';
+    const wa = waLink(p, `Ciao ${first}, sono ${who} di Kinesiologia Studio. È passato un po' dal nostro ultimo incontro: ti va di fissare il prossimo? Scrivimi quando sei libero/a.`);
+    const row = h(`<div class="rrow ${r.level}"><div><span class="n">${esc(p.full_name)}</span> ${phasePill(p)}${p.profile ? ` <span class="pill">${esc(PROFILES[p.profile] || p.profile)}</span>` : ''}
+      <p>${esc(r.text)}${r.since ? ` Ultimo contatto: <span class="date">${itDate(r.since)}</span>.` : ''}</p></div>
+      <div class="row"><button class="btn" type="button" data-a="open">Apri scheda</button>${wa ? `<a class="btn primary" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>` : '<span class="hint">senza telefono</span>'}</div></div>`);
+    row.querySelector('[data-a=open]').addEventListener('click', () => go('#p-' + p.id));
+    $('#rl-' + r.level).appendChild(row);
+  }
+}
+
+/* ---------------- scheda cliente: percorso in fasi ---------------- */
+function phaseCard(p) {
+  const ph = phaseOf(p), t = today();
+  const days = ph && p.phase_since ? daysBetween(p.phase_since, t) : null;
+  const info = ph
+    ? `<p style="margin:0"><b>Fase ${ph.n} · ${ph.name}</b>${p.phase_since ? ` da ${days} ${days === 1 ? 'giorno' : 'giorni'} (dal ${itDate(p.phase_since)})` : ''}${p.profile ? ` · profilo <b>${esc(PROFILES[p.profile] || p.profile)}</b>` : ' · profilo da scegliere'}</p><p class="hint">${esc(ph.rhythm)}</p>`
+    : '<p class="hint">Nessuna fase ancora. Con la prima valutazione il cliente entra nello sblocco; qui puoi impostarla a mano.</p>';
+  return `<div class="card" id="phaseCard"><div class="phero"><div><h2>Percorso</h2><p class="hint">Dove si trova nel percorso in cinque fasi e qual è il ritmo atteso.</p></div>
+    <div class="row">${ph && ph.n < 4 ? `<button class="btn primary" type="button" id="phNext">Passa a ${ph.n + 1} · ${PHASES[ph.n + 1].name}</button>` : ''}<button class="btn" type="button" id="phEdit">${ph ? 'Modifica' : 'Imposta la fase'}</button></div></div>
+    ${phaseBar(p)}${info}<div id="phForm" hidden></div></div>`;
+}
+function bindPhaseCard(p) {
+  const nxt = $('#phNext');
+  if (nxt) nxt.addEventListener('click', async () => {
+    await Api.updatePatient(p.id, { phase: p.phase + 1, phase_since: today() });
+    say(`${p.full_name} è in fase ${p.phase + 1} · ${PHASES[p.phase + 1].name} da oggi.`); route();
+  });
+  $('#phEdit').addEventListener('click', () => {
+    const f = $('#phForm'); f.hidden = false;
+    f.innerHTML = `<div class="grid2">
+      <div class="field"><label class="lbl" for="phSel">Fase</label><select id="phSel"><option value="">Nessuna</option>${PHASES.map(ph => `<option value="${ph.n}"${p.phase === ph.n ? ' selected' : ''}>${ph.n} · ${ph.name} · «${ph.ask}»</option>`).join('')}</select></div>
+      <div class="field"><label class="lbl" for="phDate">In questa fase dal</label><input id="phDate" type="date" value="${esc(p.phase_since || today())}"></div>
+      <div class="field"><label class="lbl" for="phProf">Profilo</label><select id="phProf"><option value="">Da scegliere</option>${Object.entries(PROFILES).map(([k, v]) => `<option value="${k}"${p.profile === k ? ' selected' : ''}>${v}</option>`).join('')}</select></div>
+    </div><p class="hint">Il profilo cambia le durate, non il ritmo. Sul cronico strutturale il tagliando in mantenimento è ogni 2 mesi invece di 3.</p>
+    <div class="row"><button class="btn primary" type="button" id="phSave">Salva</button><button class="btn" type="button" id="phCancel">Annulla</button></div>`;
+    $('#phCancel').addEventListener('click', () => { f.hidden = true; });
+    $('#phSave').addEventListener('click', async () => {
+      const v = $('#phSel').value;
+      await Api.updatePatient(p.id, { phase: v === '' ? null : Number(v), phase_since: v === '' ? null : ($('#phDate').value || today()), profile: $('#phProf').value || null });
+      say('Percorso aggiornato.'); route();
+    });
   });
 }
 
@@ -412,6 +552,7 @@ async function renderPatient(id) {
     <div class="row">${simple ? '' : '<button class="btn" type="button" id="bCode">Nuovo codice di accesso</button><button class="btn" type="button" id="bEdit">Modifica dati</button><button class="btn danger" type="button" id="bDel">Elimina cliente</button>'}<button class="btn" type="button" id="bView">${simple ? 'Vista completa' : 'Vista semplice'}</button></div>
     <div id="pExtra"></div>
   </div>
+  ${phaseCard(p)}
   <div id="pReport"></div>
   ${lastSessionCard(ss[0])}
   ${simple ? hintsCard(vs[0]) : `${trendCard(vs)}
@@ -420,6 +561,7 @@ async function renderPatient(id) {
     <div id="sessForm" hidden></div><div class="vlist" id="slist"></div></div>
   <div class="card"><h2>Note dello studio</h2><p class="hint">Visibili solo a Davide e Morena.</p><textarea id="pNotes">${esc(p.notes || '')}</textarea><div class="row"><button class="btn" type="button" id="bNotesMic">🎤 Detta</button><button class="btn" type="button" id="bNotes">Salva note</button><span class="hint" id="nOk"></span></div></div>`;
   bindDemo();
+  bindPhaseCard(p);
   $('#bView').addEventListener('click', () => { try { localStorage.setItem('cp-vista', simple ? 'completa' : 'semplice'); } catch (e) {} route(); });
   const s2 = $('#bSess2'); if (s2) s2.addEventListener('click', () => { sessionForm($('#sessForm'), p, vs[0]); $('#sessForm').scrollIntoView({ block: 'start', behavior: 'smooth' }); });
   if (simple) { drawSessions($('#slist'), ss, true, p); $('#bSess').addEventListener('click', () => sessionForm($('#sessForm'), p, vs[0])); dictation($('#bNotesMic'), $('#pNotes'), t => { $('#nOk').textContent = t; }); $('#bNotes').addEventListener('click', async () => { await Api.updatePatient(p.id, { notes: $('#pNotes').value }); $('#nOk').textContent = 'Salvate.'; }); return; }
@@ -748,6 +890,7 @@ async function renderMyArea() {
   const first = (p.full_name || '').split(' ')[0];
   app.innerHTML = `${demoBanner()}${msgEl()}
   <div><p class="hello">Ciao ${esc(first)}</p><p class="hint">Qui trovi le tue valutazioni posturali, i tuoi esercizi e i prossimi controlli.</p><p class="disc">Sono misure e indizi, non diagnosi: la diagnosi è di competenza medica.</p></div>
+  ${p.phase != null ? `<div class="card"><h2>Il tuo percorso</h2>${phaseBar(p)}<p style="margin:0">Sei nella fase <b>${p.phase} · ${PHASES[p.phase].name}</b>${p.phase_since ? ` dal ${itDate(p.phase_since)}` : ''}. ${esc(PHASES[p.phase].rhythm)}</p></div>` : ''}
   ${last ? `<div class="card"><div class="phero"><div><h2>La tua ultima valutazione</h2><p class="hint">${itDate(last.date)}</p></div>${last.pdf_path ? '<button class="btn primary" type="button" id="bLastPdf">Scarica il referto</button>' : ''}</div><div class="photos" id="ph"></div></div>${visitBody(last, false)}` : '<div class="card"><p class="empty">Non ci sono ancora valutazioni. Compariranno qui dopo la tua prima visita.</p></div>'}
   ${trendCard(vs)}
   ${vs.length > 1 ? '<div class="card"><h2>Tutte le visite</h2><div class="vlist" id="vlist"></div></div>' : ''}`;

@@ -5,7 +5,7 @@
   'use strict';
   const CFG = window.AREA_CONFIG || {};
   const ONLINE = !!(CFG.supabaseUrl && CFG.supabaseAnonKey);
-  const PCOLS = 'id,full_name,birth,phone,email,consent_date,notes,user_id,code_created_at,created_at,updated_at';
+  const PCOLS = 'id,full_name,birth,phone,email,consent_date,notes,user_id,code_created_at,created_at,updated_at,phase,phase_since,profile';
   const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
   const normCode = c => String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -21,14 +21,19 @@
   const today = () => new Date().toISOString().slice(0, 10);
   const err = m => { const e = new Error(m); e.userMessage = m; return e; };
 
-  // riassunto per l'elenco: ultima visita e prossimo controllo
-  function summarize(patients, visits) {
+  // riassunto per l'elenco: ultima visita, prossimo controllo, ultimi contatti (per i richiami)
+  function summarize(patients, visits, sessions) {
     const t = today();
+    const maxDate = arr => arr.reduce((m, x) => (x.date && x.date > m ? x.date : m), null);
     return patients.map(p => {
       const vs = visits.filter(v => v.patient_id === p.id).sort((a, b) => (a.date < b.date ? 1 : -1));
+      const ss = (sessions || []).filter(s => s.patient_id === p.id);
       const last = vs[0];
       const next = last && last.plan && Array.isArray(last.plan.next) ? (last.plan.next.find(n => n.date >= t) || null) : null;
-      return { ...p, visits_count: vs.length, last_visit: last ? last.date : null, next_control: next };
+      const lastVisit = last ? last.date : null;
+      const lastTreat = maxDate([{ date: lastVisit }, ...ss.filter(s => s.kind === 'trattamento')]);   // ultimo contatto con Davide
+      const lastAny = maxDate([{ date: lastVisit }, ...ss]);                                              // ultimo contatto con lo studio
+      return { ...p, visits_count: vs.length, last_visit: lastVisit, next_control: next, last_treatment: lastTreat, last_contact: lastAny, sessions_count: ss.length };
     });
   }
 
@@ -77,7 +82,8 @@
       async listPatients() {
         const ps = check(await sb.from('patients').select(PCOLS).order('full_name'));
         const vs = check(await sb.from('visits').select('patient_id,date,plan'));
-        return summarize(ps, vs);
+        const ss = check(await sb.from('sessions').select('patient_id,date,kind'));
+        return summarize(ps, vs, ss);
       },
       async getPatient(id) { return check(await sb.from('patients').select(PCOLS).eq('id', id).single()); },
       async createPatient(d) {
@@ -198,7 +204,7 @@
         d.session = { user: { id: p.user_id, email: p.email || '' }, role: 'patient', name: p.full_name, patientId: p.id };
         save(); return p.full_name;
       },
-      async listPatients() { const d = load(); return summarize(d.patients.slice().sort((a, b) => a.full_name.localeCompare(b.full_name)), d.visits); },
+      async listPatients() { const d = load(); return summarize(d.patients.slice().sort((a, b) => a.full_name.localeCompare(b.full_name)), d.visits, d.sessions || []); },
       async getPatient(id) { const p = load().patients.find(x => x.id === id); if (!p) throw err('Cliente non trovato.'); return p; },
       async createPatient(f) {
         const d = load(), code = newCode();
@@ -284,9 +290,9 @@
           exercises: [{ name: 'The Hundred', dose: '1×100', load: '', note: '' }, { name: 'Shoulder bridge', dose: '3×8 per lato', load: 'corpo libero', note: 'nuovo' }, { name: 'Clamshell', dose: '3×15 per lato', load: 'elastico medio', note: '' }] }
       ],
       patients: [
-        { id: 'p1', full_name: 'Maria Rossi', birth: '1988-04-12', phone: '333 000 0001', email: 'maria.rossi@esempio.it', consent_date: '2026-06-03', notes: 'Impiegata, molte ore al computer. Lombalgia saltuaria.', user_id: 'demo-maria', demo_code: null, code_created_at: null },
-        { id: 'p2', full_name: 'Luca Bianchi', birth: '1975-11-02', phone: '333 000 0002', email: '', consent_date: '2026-09-20', notes: '', user_id: null, demo_code: 'K7MP-Q4XZ', code_created_at: '2026-09-20T10:00:00Z' },
-        { id: 'p3', full_name: 'Giulia Verdi', birth: '1992-02-21', phone: '', email: 'giulia@esempio.it', consent_date: '2026-10-01', notes: 'Prima visita da fare.', user_id: null, demo_code: 'R2TD-8HWN', code_created_at: '2026-10-01T10:00:00Z' }
+        { id: 'p1', full_name: 'Maria Rossi', birth: '1988-04-12', phone: '333 000 0001', email: 'maria.rossi@esempio.it', consent_date: '2026-06-03', notes: 'Impiegata, molte ore al computer. Lombalgia saltuaria.', user_id: 'demo-maria', demo_code: null, code_created_at: null, phase: 2, phase_since: '2026-06-17', profile: 'moderato' },
+        { id: 'p2', full_name: 'Luca Bianchi', birth: '1975-11-02', phone: '333 000 0002', email: '', consent_date: '2026-09-20', notes: '', user_id: null, demo_code: 'K7MP-Q4XZ', code_created_at: '2026-09-20T10:00:00Z', phase: 1, phase_since: '2026-09-20', profile: 'cronico' },
+        { id: 'p3', full_name: 'Giulia Verdi', birth: '1992-02-21', phone: '', email: 'giulia@esempio.it', consent_date: '2026-10-01', notes: 'Prima visita da fare.', user_id: null, demo_code: 'R2TD-8HWN', code_created_at: '2026-10-01T10:00:00Z', phase: null, phase_since: null, profile: null }
       ],
       visits: [
         { id: 'v1', patient_id: 'p1', date: '2026-06-03', height: 165, notes: 'Dolore lombare 5/10.',

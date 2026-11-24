@@ -28,6 +28,10 @@ create table if not exists public.patients (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+-- Percorso in fasi: 0 ingresso, 1 sblocco, 2 ripristino, 3 consolidamento, 4 mantenimento
+alter table public.patients add column if not exists phase smallint check (phase between 0 and 4);
+alter table public.patients add column if not exists phase_since date;     -- da quando e' in questa fase
+alter table public.patients add column if not exists profile text;         -- acuto, semplice, moderato, cronico, ricorrente
 
 -- Visite: foto, analisi, problemi, esercizi, piano dei controlli
 create table if not exists public.visits (
@@ -116,7 +120,7 @@ create policy "sedute: quelle condivise" on public.sessions for select
 
 -- Il codice di accesso (cifrato) non si legge da nessuna pagina: si puo' solo scrivere
 revoke select on public.patients from anon, authenticated;
-grant select (id, full_name, birth, phone, email, consent_date, notes, user_id, code_created_at, created_at, updated_at)
+grant select (id, full_name, birth, phone, email, consent_date, notes, user_id, code_created_at, created_at, updated_at, phase, phase_since, profile)
   on public.patients to authenticated;
 
 -- Primo accesso del paziente: collega il suo account alla scheda con il codice dato dallo studio
