@@ -809,6 +809,7 @@
       <div class="eyebrow">Idee regalo</div>
       <h2>🎁 Il regalo che si sente addosso</h2>
       <p>Paghi online con carta, ricevi <strong>subito il voucher</strong> da stampare o inviare su WhatsApp. Chi lo riceve prenota quando vuole. Tocca un regalo per i dettagli.</p>
+      <a class="btn btn-accent" href="natale.html" style="margin-top:4px">🎄 Natale: i tre percorsi Che Postura!</a>
       <div id="gifts-list" style="margin-top:8px"></div>
     </div>
   </section>
@@ -2498,7 +2499,7 @@
      version.json e al nome della cache in sw.js. Se resta indietro, l'app
      continua a credere di essere vecchia e si ricarica senza fermarsi mai.
      Il controllo scripts/controlla-versione.mjs se ne accorge prima di noi. */
-  var APP_VERSION = 54;
+  var APP_VERSION = 55;
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -2918,6 +2919,9 @@
   ];
 
   var GIFTS = [
+    { n: '🎄 Primo passo', p: '269 €', d: 'Natale Che Postura!: valutazione posturale completa con trattamento con Davide e 3 sedute di movimento con Morena. Anziché 370 €. Tutti i dettagli nella pagina dei regali di Natale.', sumup: '' },
+    { n: '🎄 Percorso', p: '549 €', d: 'Natale Che Postura!: 2 trattamenti con Davide, 5 sedute con Morena, scheda personalizzata e iscrizione all\'app con i consigli quotidiani. Anziché 730 €.', sumup: '' },
+    { n: '🎄 Percorso completo', p: '999 €', d: 'Natale Che Postura!: 4 trattamenti con Davide + 1 in omaggio, 10 sedute con Morena + 1 in omaggio, scheda personalizzata, app e rivalutazione a tre mesi. Anziché 1.540 €.', sumup: '' },
     { n: 'Mezz\'ora per te', p: '47 €', d: 'Il regalo sicuro: 30 minuti di trattamento mirato. Costa come un mazzo di fiori, se lo ricordano per mesi.', sumup: 'https://pay.sumup.com/b2c/Q84C0NZ5' },
     { n: 'Un\'ora tutta sua', p: '90 €', d: 'Il trattamento completo: valutazione, test muscolari, trattamento ed esercizi personalizzati. Il regalo di compleanno che nessun altro fa.', sumup: 'https://pay.sumup.com/b2c/QQCVILTM' },
     { n: 'Kit Rinascita', p: '97 €', d: 'Trattamento completo da 60 minuti + il libro "Vestirsi di Sé" di Davide Scuderi: l\'esperienza in studio e qualcosa da scartare subito.', sumup: 'https://pay.sumup.com/b2c/Q5E5UIKK' },

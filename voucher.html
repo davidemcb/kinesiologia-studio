@@ -49,6 +49,11 @@
       margin-bottom: 4px;
     }
     .v-sub { text-align: center; font-size: 13px; color: #5C6B64; margin-bottom: 20px; }
+    .v-list { list-style: none; background: #E2ECE5; border-radius: 10px; padding: 12px 14px; margin: -8px 0 18px; display: grid; gap: 5px; font-size: 13.5px; }
+    .v-list li { padding-left: 18px; position: relative; }
+    .v-list li::before { content: '✓'; position: absolute; left: 0; color: #24493F; font-weight: 700; }
+    .v-list li.gift::before { content: '🎁'; left: -2px; }
+    [hidden] { display: none !important; }
     .v-field { margin-bottom: 14px; }
     .v-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5C6B64; margin-bottom: 4px; }
     .v-field input {
@@ -114,11 +119,12 @@
     <div class="voucher" id="voucher">
       <div class="v-head">
         <div class="small">Voucher Regalo</div>
-        <h2>Un'ora per il tuo corpo</h2>
+        <h2 id="v-title">Un'ora per il tuo corpo</h2>
       </div>
       <div class="v-body">
-        <div class="v-what">Trattamento di kinesiologia · 60 minuti</div>
-        <div class="v-sub">con il Dott. Davide Scuderi</div>
+        <div class="v-what" id="v-what">Trattamento di kinesiologia · 60 minuti</div>
+        <div class="v-sub" id="v-sub">con il Dott. Davide Scuderi</div>
+        <ul class="v-list" id="v-list" hidden></ul>
 
         <div class="v-field">
           <label for="v-to">Per</label>
@@ -156,6 +162,30 @@
 
   <script>
     (function () {
+      // Pacchetti Che Postura! (natale.html): ?p=base|percorso|completo. Senza parametro resta il voucher classico.
+      var PACKS = {
+        base: { title: 'Primo passo', what: 'Che Postura! · Primo passo', sub: 'con Davide Scuderi e Morena Anastasi', short: 'il percorso \u00abPrimo passo\u00bb di Che Postura!: valutazione posturale completa con trattamento con Davide e 3 sedute di movimento con Morena',
+          list: ['Valutazione posturale completa con trattamento massoterapico (Davide)', '3 sedute personalizzate di movimento (Morena)'] },
+        percorso: { title: 'Percorso', what: 'Che Postura! · Percorso', sub: 'con Davide Scuderi e Morena Anastasi', short: 'il \u00abPercorso\u00bb di Che Postura!: 2 trattamenti con Davide, 5 sedute di movimento con Morena, scheda personalizzata e app',
+          list: ['Valutazione posturale completa con trattamento e una seconda seduta con ritest (Davide)', '5 sedute personalizzate di movimento (Morena)', 'Scheda degli esercizi personalizzata', 'Iscrizione all\'app con i consigli quotidiani e area riservata'] },
+        completo: { title: 'Percorso completo', what: 'Che Postura! · Percorso completo', sub: 'con Davide Scuderi e Morena Anastasi', short: 'il \u00abPercorso completo\u00bb di Che Postura!: 4 trattamenti con Davide + 1 in omaggio, 10 sedute con Morena + 1 in omaggio, scheda personalizzata e app',
+          list: ['Valutazione posturale completa con trattamento e 3 sedute di trattamento con ritest (Davide)', { gift: true, t: '1 seduta in omaggio: il primo tagliando di mantenimento' }, '10 sedute personalizzate di movimento, individuali e in mini-gruppo (Morena)', { gift: true, t: '1 seduta in omaggio' }, 'Scheda degli esercizi personalizzata', 'Iscrizione all\'app con i consigli quotidiani e area riservata', 'Rivalutazione completa a tre mesi, prima e dopo'] }
+      };
+      var pack = PACKS[new URLSearchParams(location.search).get('p')] || null;
+      if (pack) {
+        document.title = 'Voucher ' + pack.title + ' \u2014 Che Postura!';
+        document.getElementById('v-title').textContent = pack.title;
+        document.getElementById('v-what').textContent = pack.what;
+        document.getElementById('v-sub').textContent = pack.sub;
+        var ul = document.getElementById('v-list');
+        pack.list.forEach(function (it) {
+          var li = document.createElement('li');
+          if (typeof it === 'object') { li.className = 'gift'; li.textContent = it.t; } else li.textContent = it;
+          ul.appendChild(li);
+        });
+        ul.hidden = false;
+      }
+
       // codice voucher leggibile: data + 4 caratteri casuali
       var d = new Date();
       var pad = function (n) { return (n < 10 ? '0' : '') + n; };
@@ -163,7 +193,7 @@
       var alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
       var rand = '';
       for (var i = 0; i < 4; i++) rand += alphabet[Math.floor(Math.random() * alphabet.length)];
-      var code = 'KS-' + stamp + '-' + rand;
+      var code = (pack ? 'CP-' : 'KS-') + stamp + '-' + rand;
 
       // se il link di pagamento passa un riferimento, lo agganciamo al codice
       var params = new URLSearchParams(location.search);
@@ -178,7 +208,8 @@
       function updateShare() {
         var to = document.getElementById('v-to').value.trim();
         var from = document.getElementById('v-from').value.trim();
-        var msg = '🎁 ' + (to ? to + ', questo' : 'Questo') + ' è per te: un trattamento di kinesiologia di 60 minuti con il Dott. Davide Scuderi (Kinesiologia Studio, Modena)' +
+        var what = pack ? pack.short + ' (Kinesiologia Studio, Modena)' : 'un trattamento di kinesiologia di 60 minuti con il Dott. Davide Scuderi (Kinesiologia Studio, Modena)';
+        var msg = '🎁 ' + (to ? to + ', questo' : 'Questo') + ' è per te: ' + what +
           (from ? ', da parte di ' + from : '') + '!\n\n' +
           'Codice voucher: ' + code + '\n' +
           'Prenota quando vuoi: https://calendly.com/infokinesiologia/consulenza\n' +

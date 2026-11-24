@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regali di Natale — Che Postura! · Kinesiologia Studio</title>
+  <meta name="description" content="Tre percorsi da regalare: valutazione posturale e trattamento con Davide, sedute di movimento con Morena. Voucher da stampare o inviare su WhatsApp.">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    /* Pagina dei regali di Natale: tre percorsi Che Postura!, stesso stile del voucher (tema chiaro, da leggere e stampare) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --bg: #E9EAE0; --surface: #FDFDFB; --ink: #22302B; --muted: #5C6B64; --line: #DDE0D2; --brand: #2F5D51; --brand-ink: #F2F7F3; --brand-soft: #E2ECE5; --accent: #C98632; --accent-ink: #26190A; --red: #B5443A; }
+    body { font-family: 'Instrument Sans', -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--ink); padding: 24px 16px 56px; line-height: 1.5; }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    .intro { text-align: center; margin-bottom: 22px; }
+    .intro .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    .intro h1 { font-family: 'Fraunces', Georgia, serif; font-size: 30px; font-weight: 700; margin-top: 6px; color: var(--brand); }
+    .intro p { font-size: 15px; color: var(--muted); margin-top: 8px; max-width: 54ch; margin-inline: auto; }
+    .packs { display: grid; gap: 16px; }
+    .pack { background: var(--surface); border: 2px solid var(--brand); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(34, 48, 43, .12); }
+    .pack.top { border-color: var(--accent); }
+    .p-head { background: var(--brand); color: var(--brand-ink); padding: 18px 22px; display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+    .pack.top .p-head { background: var(--accent); color: var(--accent-ink); }
+    .p-head .small { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+    .p-head h2 { font-family: 'Fraunces', Georgia, serif; font-size: 26px; font-weight: 700; margin-top: 4px; }
+    .p-price { text-align: right; }
+    .p-price .now { font-family: 'Fraunces', Georgia, serif; font-size: 30px; font-weight: 700; line-height: 1; }
+    .p-price .was { font-size: 13px; opacity: .85; text-decoration: line-through; }
+    .p-body { padding: 20px 22px; }
+    .p-for { font-size: 14.5px; color: var(--muted); margin-bottom: 14px; }
+    .p-for strong { color: var(--ink); }
+    .who { display: grid; gap: 10px; }
+    @media (min-width: 560px) { .who { grid-template-columns: 1fr 1fr; } }
+    .who .box { background: var(--brand-soft); border-radius: 12px; padding: 12px 14px; }
+    .who .box .lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--brand); margin-bottom: 6px; }
+    .who ul { list-style: none; display: grid; gap: 5px; font-size: 14.5px; }
+    .who li { padding-left: 18px; position: relative; }
+    .who li::before { content: '✓'; position: absolute; left: 0; color: var(--brand); font-weight: 700; }
+    .who li.gift::before { content: '🎁'; left: -2px; }
+    .extras { margin-top: 12px; font-size: 14px; color: var(--muted); }
+    .extras strong { color: var(--ink); }
+    .p-how { margin-top: 14px; font-size: 13.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+    .actions { margin-top: 16px; display: grid; gap: 8px; }
+    @media (min-width: 560px) { .actions { grid-template-columns: 1fr 1fr; } }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 15px; border: none; border-radius: 12px; cursor: pointer; padding: 14px 18px; width: 100%; text-decoration: none; text-align: center; font-family: 'Instrument Sans', sans-serif; }
+    .btn-primary { background: var(--brand); color: var(--brand-ink); }
+    .btn-accent { background: var(--accent); color: var(--accent-ink); }
+    .btn-ghost { background: transparent; color: var(--brand); border: 2px solid var(--brand); }
+    .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .info { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; margin-top: 20px; }
+    .info h3 { font-family: 'Fraunces', Georgia, serif; font-size: 19px; color: var(--brand); margin-bottom: 8px; }
+    .info ol { padding-left: 20px; display: grid; gap: 6px; font-size: 14.5px; }
+    .info p { font-size: 13.5px; color: var(--muted); margin-top: 10px; }
+    .deadline { text-align: center; font-size: 13.5px; color: var(--red); font-weight: 600; margin-top: 14px; }
+    .foot { text-align: center; font-size: 12.5px; color: var(--muted); margin-top: 24px; }
+    .foot a { color: var(--brand); }
+    @media print { body { background: #fff; padding: 0; } .actions, .deadline, .foot { display: none; } .pack { box-shadow: none; break-inside: avoid; margin-bottom: 12px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="intro">
+      <div class="eyebrow">Regali di Natale 2026</div>
+      <h1>Regala un percorso, non una seduta</h1>
+      <p>Tre pacchetti Che Postura! con il Dott. Davide Scuderi e la Dott.ssa Morena Anastasi. Chi lo riceve prenota quando vuole, e sa dal primo giorno dove sta andando.</p>
+    </div>
+
+    <div class="packs">
+
+      <!-- 1 · Primo passo -->
+      <div class="pack">
+        <div class="p-head">
+          <div><div class="small">Voucher 1 · per cominciare</div><h2>Primo passo</h2></div>
+          <div class="p-price"><div class="now">269 €</div><div class="was">anziché 370 €</div></div>
+        </div>
+        <div class="p-body">
+          <p class="p-for"><strong>Per chi</strong> si trascina un fastidio e non ha mai capito da dove viene. Si parte dalla valutazione e si comincia subito a muoversi.</p>
+          <div class="who">
+            <div class="box"><div class="lbl">Con Davide</div><ul>
+              <li>Valutazione posturale completa: foto, test muscolari, analisi del movimento</li>
+              <li>Trattamento massoterapico completo, miotendineo e articolare</li>
+            </ul></div>
+            <div class="box"><div class="lbl">Con Morena</div><ul>
+              <li>3 sedute personalizzate di movimento nella sala accanto allo studio</li>
+            </ul></div>
+          </div>
+          <p class="p-how">Durata indicativa: un mese. Valutazione e trattamento nello stesso incontro, poi le tre sedute con Morena una a settimana.</p>
+          <div class="actions">
+            <a class="btn btn-accent" href="https://wa.me/393481514382?text=Ciao%20Davide!%20Vorrei%20regalare%20il%20voucher%20di%20Natale%20%C2%ABPrimo%20passo%C2%BB%20(269%20%E2%82%AC).%20Come%20procediamo%3F" target="_blank" rel="noopener">🎁 Regala — scrivi a Davide</a>
+            <a class="btn btn-ghost" href="voucher.html?p=base">Hai già pagato? Crea il voucher</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 · Percorso -->
+      <div class="pack">
+        <div class="p-head">
+          <div><div class="small">Voucher 2 · il più scelto</div><h2>Percorso</h2></div>
+          <div class="p-price"><div class="now">549 €</div><div class="was">anziché 730 €</div></div>
+        </div>
+        <div class="p-body">
+          <p class="p-for"><strong>Per chi</strong> vuole risolvere, non solo capire. Due trattamenti per sbloccare, cinque sedute per ricostruire il movimento, e gli strumenti per continuare a casa.</p>
+          <div class="who">
+            <div class="box"><div class="lbl">Con Davide</div><ul>
+              <li>Valutazione posturale completa con trattamento</li>
+              <li>Seconda seduta di trattamento e ritest</li>
+            </ul></div>
+            <div class="box"><div class="lbl">Con Morena</div><ul>
+              <li>5 sedute personalizzate di movimento</li>
+              <li>Scheda degli esercizi personalizzata</li>
+            </ul></div>
+          </div>
+          <p class="extras"><strong>In più:</strong> iscrizione all’app Kinesiologia Studio con i consigli quotidiani per il benessere psicofisico e la propria area riservata con foto, test ed esercizi.</p>
+          <p class="p-how">Durata indicativa: due mesi. Prima lo sblocco con Davide, poi Morena una volta a settimana, con un ritorno da Davide a metà percorso.</p>
+          <div class="actions">
+            <a class="btn btn-accent" href="https://wa.me/393481514382?text=Ciao%20Davide!%20Vorrei%20regalare%20il%20voucher%20di%20Natale%20%C2%ABPercorso%C2%BB%20(549%20%E2%82%AC).%20Come%20procediamo%3F" target="_blank" rel="noopener">🎁 Regala — scrivi a Davide</a>
+            <a class="btn btn-ghost" href="voucher.html?p=percorso">Hai già pagato? Crea il voucher</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 · Completo -->
+      <div class="pack top">
+        <div class="p-head">
+          <div><div class="small">Voucher 3 · il regalo grande</div><h2>Percorso completo</h2></div>
+          <div class="p-price"><div class="now">999 €</div><div class="was">anziché 1.540 €</div></div>
+        </div>
+        <div class="p-body">
+          <p class="p-for"><strong>Per chi</strong> ha un problema di vecchia data, o per chi ami e vuoi vedere in piedi a lungo. Tutto il percorso, dallo sblocco al mantenimento, con due sedute in omaggio.</p>
+          <div class="who">
+            <div class="box"><div class="lbl">Con Davide</div><ul>
+              <li>Valutazione posturale completa con trattamento</li>
+              <li>3 sedute di trattamento e ritest lungo il percorso</li>
+              <li class="gift">1 seduta in omaggio: il primo tagliando di mantenimento</li>
+            </ul></div>
+            <div class="box"><div class="lbl">Con Morena</div><ul>
+              <li>10 sedute personalizzate di movimento, individuali e in mini-gruppo</li>
+              <li class="gift">1 seduta in omaggio</li>
+              <li>Scheda degli esercizi personalizzata</li>
+            </ul></div>
+          </div>
+          <p class="extras"><strong>In più:</strong> iscrizione all’app Kinesiologia Studio con i consigli quotidiani, area riservata con foto e test, rivalutazione completa a tre mesi con il confronto prima e dopo.</p>
+          <p class="p-how">Durata indicativa: quattro mesi. Davide ogni due settimane, poi ogni mese; Morena una volta a settimana, poi a scalare.</p>
+          <div class="actions">
+            <a class="btn btn-accent" href="https://wa.me/393481514382?text=Ciao%20Davide!%20Vorrei%20regalare%20il%20voucher%20di%20Natale%20%C2%ABPercorso%20completo%C2%BB%20(999%20%E2%82%AC).%20Come%20procediamo%3F" target="_blank" rel="noopener">🎁 Regala — scrivi a Davide</a>
+            <a class="btn btn-ghost" href="voucher.html?p=completo">Hai già pagato? Crea il voucher</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="deadline">Per averlo sotto l’albero: ordina entro il 22 dicembre. Il voucher arriva subito su WhatsApp, da stampare o inoltrare.</p>
+
+    <div class="info">
+      <h3>Come funziona</h3>
+      <ol>
+        <li>Scrivi a Davide su WhatsApp con il pacchetto scelto: ricevi il link per pagare con carta.</li>
+        <li>Dopo il pagamento crei il voucher con il nome di chi lo riceve: si stampa o si manda su WhatsApp.</li>
+        <li>Chi lo riceve prenota la valutazione su calendly.com/infokinesiologia o al 348 151 4382, e comunica il codice in studio.</li>
+      </ol>
+      <p>Il voucher vale 6 mesi dalla data di emissione e non è convertibile in denaro. Le sedute con Morena si svolgono nella sala accanto allo studio, Via Capilupi 21, Modena. Il percorso parte sempre dalla valutazione con Davide: è lì che si decide il ritmo giusto per la persona.</p>
+    </div>
+
+    <p class="foot">Kinesiologia Studio · Dott. Davide Scuderi e Dott.ssa Morena Anastasi · <a href="index.html">torna al sito</a></p>
+  </div>
+</body>
+</html>
